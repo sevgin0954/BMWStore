@@ -1,0 +1,17 @@
+﻿.color-blue {
+    color: #45ADDE;
+}
+.color-blue:hover, .color-blue:active {
+    color: #45ADDE;
+}
+
+.nav-link-item {
+    font-size: 25px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+.nav-link-item:active, .nav-link-item:hover {
+    text-shadow: 0px 0px 5px #45ADDE;
+    opacity: 1;
+    text-decoration: none;
+}
