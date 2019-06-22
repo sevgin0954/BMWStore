@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BMWStore.Web.Data.Migrations
+namespace BMWStore.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

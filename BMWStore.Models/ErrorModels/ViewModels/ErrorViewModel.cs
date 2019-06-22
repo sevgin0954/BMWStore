@@ -1,6 +1,6 @@
 using System;
 
-namespace BMWStore.Web.Models
+namespace BMWStore.Models.ErrorModels.ViewModels
 {
     public class ErrorViewModel
     {

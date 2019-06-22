@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BMWStore.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BMWStore.Data;
 
 namespace BMWStore.Web
 {
@@ -33,7 +33,15 @@ namespace BMWStore.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.Password = new PasswordOptions()
+                {
+                    RequireUppercase = false,
+                    RequiredUniqueChars = 3,
+                    RequireNonAlphanumeric = false
+                };
+            })
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
