@@ -20,13 +20,36 @@
     color: #45ADDE;
 }
 
+.text-shadow-blue-hover {
+}
+.text-shadow-blue-hover:hover {
+    text-shadow: 0px 0px 5px #45ADDE;
+}
+
 .nav-link-item {
     font-size: 25px;
     font-weight: 400;
     opacity: 0.8;
 }
 .nav-link-item:active, .nav-link-item:hover {
-    text-shadow: 0px 0px 5px #45ADDE;
     opacity: 1;
     text-decoration: none;
+}
+
+.btn-no-outline {
+    
+}
+.btn-no-outline:focus {
+    box-shadow: none !important;
+}
+
+.btn-blue-no-outline {
+    color: #45ADDE;
+}
+.btn-blue-no-outline:focus {
+    box-shadow: none !important;
+}
+
+.btn-no-padding {
+    padding: 0px;
 }
