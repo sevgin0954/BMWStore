@@ -1,4 +1,19 @@
-﻿.color-blue {
+﻿.navbar-brand {
+    max-width: 300px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.image-small {
+    max-width: 60px;
+    height: auto;
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+.color-blue {
     color: #45ADDE;
 }
 .color-blue:hover, .color-blue:active {

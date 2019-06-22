@@ -17,17 +17,43 @@
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/custom.css" />
+    <script src="https://kit.fontawesome.com/84f20bbafd.js"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
             <div class="navbar-brand">
-                <a href="#">
-                    <img width="13%" height="13%" src="~/images/image.png" alt="Bmw logo" />
+                <a class="nav-link-item" asp-controller="Home" asp-action="Index">
+                    <img class="image-small" src="~/images/image.png" alt="Bmw logo" />
                 </a>
             </div>
-            <div class="nav-item">
-                <a class="nav-link-item color-blue" href="#">text Here</a>
+            <div class="nav-item d-none d-lg-inline">
+                <a asp-controller="Home" asp-action="Index"><i class="fas fa-home fa-lg nav-link-item color-blue"></i></a>
+            </div>
+            <div class="nav-item mx-auto d-md-none">
+                <form action="/" method="get">
+                    <input class="form-control" type="search" placeholder="Search..." />
+                </form>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <div class="nav-item">
+                    <a class="nav-link-item color-blue" href="#">New invertory</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link-item color-blue" href="#">Pre-owned</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link-item color-blue" href="#">Contact us</a>
+                </div>
+                <div class="nav-item mr-auto d-none d-md-inline">
+                    <form action="/" method="get">
+                        <input class="form-control" type="search" placeholder="Search..." />
+                    </form>
+                </div>
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>
@@ -63,7 +89,6 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>
