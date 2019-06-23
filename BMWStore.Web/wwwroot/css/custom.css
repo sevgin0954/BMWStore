@@ -27,20 +27,14 @@
 }
 
 .nav-link-item {
-    font-size: 25px;
+    white-space: nowrap;
+    font-size: 20px;
     font-weight: 400;
     opacity: 0.8;
 }
 .nav-link-item:active, .nav-link-item:hover {
     opacity: 1;
     text-decoration: none;
-}
-
-.btn-no-outline {
-    
-}
-.btn-no-outline:focus {
-    box-shadow: none !important;
 }
 
 .btn-blue-no-outline {
@@ -52,4 +46,23 @@
 
 .btn-no-padding {
     padding: 0px;
+}
+
+.searchbar-container {
+    background-color: #ffffff;
+}
+
+.border-smooth {
+    border-radius: 5px;
+}
+
+.no-border {
+    border: none;
+}
+
+.no-outline {
+}
+.no-outline:focus, .no-outline:active {
+    outline: none !important;
+    box-shadow: none;
 }

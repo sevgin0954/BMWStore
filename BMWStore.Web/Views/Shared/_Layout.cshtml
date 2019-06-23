@@ -33,9 +33,7 @@
                 </a>
             </div>
             <div class="nav-item mx-auto d-md-none">
-                <form action="/" method="get">
-                    <input class="form-control" type="search" placeholder="Search..." />
-                </form>
+                <partial name="_SearchButtonPartial" />
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,13 +45,14 @@
                 <div class="nav-item">
                     <a class="nav-link-item text-shadow-blue-hover color-blue" href="#">Pre-owned</a>
                 </div>
+                <div class="nav-item mx-auto d-none d-lg-inline">
+                    <partial name="_SearchbarPatial" />
+                </div>
+                <div class="d-lg-none mx-auto">
+                    <partial name="_SearchButtonPartial" />
+                </div>
                 <div class="nav-item">
                     <a class="nav-link-item text-shadow-blue-hover color-blue" href="#">Contact us</a>
-                </div>
-                <div class="nav-item mr-auto d-none d-md-inline">
-                    <form action="/" method="get">
-                        <input class="form-control" type="search" placeholder="Search..." />
-                    </form>
                 </div>
                 <partial name="_LoginPartial" />
             </div>
