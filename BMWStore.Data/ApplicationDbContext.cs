@@ -21,6 +21,8 @@ namespace BMWStore.Data
         public DbSet<Series> Series { get; set; }
         public DbSet<Transmission> Transmissions { get; set; }
         public DbSet<UsedCar> UsedCars { get; set; }
+        public DbSet<UserBoughtCar> UsersBoughtCars { get; set; }
+        public new DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -47,6 +49,10 @@ namespace BMWStore.Data
                 car.HasOne(c => c.Series)
                     .WithMany(s => s.Cars)
                     .HasForeignKey(c => c.SeriesId);
+
+                car.HasMany(c => c.Buyers)
+                    .WithOne(b => b.Car)
+                    .HasForeignKey(uc => uc.CarId);
             });
 
             builder.Entity<Color>(color =>
@@ -126,6 +132,18 @@ namespace BMWStore.Data
 
                 transmissions.Property(t => t.Name)
                     .HasMaxLength(EntitiesConstants.TransmissionNameMaxLength);
+            });
+
+            builder.Entity<UserBoughtCar>(userBoughtCar =>
+            {
+                userBoughtCar.HasKey(uc => new { uc.CarId, uc.UserId });
+            });
+
+            builder.Entity<User>(user =>
+            {
+                user.HasMany(c => c.BoughtCars)
+                    .WithOne(bc => bc.User)
+                    .HasForeignKey(bc => bc.UserId);
             });
 
             base.OnModelCreating(builder);
