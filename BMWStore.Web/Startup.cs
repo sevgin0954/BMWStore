@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BMWStore.Data;
 using BMWStore.Entities;
+using System;
+using BMWStore.Services.Interfaces;
+using BMWStore.Services;
 
 namespace BMWStore.Web
 {
@@ -46,6 +49,8 @@ namespace BMWStore.Web
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            RegisterServiceLayer(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -82,6 +87,11 @@ namespace BMWStore.Web
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private void RegisterServiceLayer(IServiceCollection services)
+        {
+            services.AddTransient<ISeedDbService, SeedDbService>();
         }
     }
 }

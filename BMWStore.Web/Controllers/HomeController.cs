@@ -1,11 +1,19 @@
 ﻿using BMWStore.Models.ErrorModels.ViewModels;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using BMWStore.Data;
 
 namespace BMWStore.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext dbContext;
+
+        public HomeController(ApplicationDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         public IActionResult Index()
         {
             return View();

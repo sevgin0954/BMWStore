@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
+        public DbSet<BaseCar> BaseCars { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Engine> Engines { get; set; }
         public DbSet<Exterior> Exteriors { get; set; }
