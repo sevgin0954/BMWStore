@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
@@ -9,9 +10,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BMWStore.Data;
 using BMWStore.Entities;
-using System;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services;
+using System.IO;
+using BMWStore.Web.Mapping;
+using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using BMWStore.Common.Constants;
+using System.Runtime.CompilerServices;
+using BMWStore.Data.Repositories.Interfaces;
 
 namespace BMWStore.Web
 {
@@ -48,6 +57,8 @@ namespace BMWStore.Web
             })
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
             RegisterServiceLayer(services);
 
@@ -91,7 +102,48 @@ namespace BMWStore.Web
 
         private void RegisterServiceLayer(IServiceCollection services)
         {
-            services.AddTransient<ISeedDbService, SeedDbService>();
+            services.AddScoped<IBMWStoreUnitOfWork, BMWStoreUnitOfWork>();
+
+            var assembly = Assembly.GetAssembly(typeof(SeedDbService));
+            var allClassesTypes = this.GetTypesFromAssembly(assembly, type => type.IsClass);
+            this.AddScopedServices(services, allClassesTypes);
+        }
+
+        private IEnumerable<Type> GetTypesFromAssembly(Assembly assembly, Func<Type, bool> func)
+        {
+            var classesTypes = new List<Type>();
+
+            var servicesTypes = assembly.GetTypes();
+            foreach (var type in servicesTypes)
+            {
+                if (IsCompilerGenerated(type) == false && func(type))
+                {
+                    classesTypes.Add(type);
+                }
+            }
+
+            return classesTypes;
+        }
+
+        private bool IsCompilerGenerated(Type type)
+        {
+            return type.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
+        }
+
+        private void AddScopedServices(IServiceCollection services, IEnumerable<Type> allClassesTypes)
+        {
+            foreach (var classType in allClassesTypes)
+            {
+                var interfaceTypes = classType.GetInterfaces();
+
+                if (interfaceTypes.Length != 1)
+                {
+                    throw new Exception(ErrorConstants.IncorrectInterfacesCount);
+                }
+
+                var firstInterfaceType = interfaceTypes[0];
+                services.AddScoped(firstInterfaceType, classType);
+            }
         }
     }
 }

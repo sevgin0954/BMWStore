@@ -64,10 +64,9 @@ namespace BMWStore.Data.Migrations
                 newName: "IX_BaseCars_EngineId");
 
             migrationBuilder.AddColumn<string>(
-                name: "Discriminator",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: "");
+                name: "Year",
+                table: "BaseCars",
+                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_BaseCars",
@@ -186,8 +185,8 @@ namespace BMWStore.Data.Migrations
                 table: "BaseCars");
 
             migrationBuilder.DropColumn(
-                name: "Discriminator",
-                table: "AspNetUsers");
+                name: "Year",
+                table: "BaseCars");
 
             migrationBuilder.RenameTable(
                 name: "BaseCars",

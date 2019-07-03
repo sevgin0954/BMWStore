@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BMWStore.Data.Repositories;
 using BMWStore.Data.Repositories.Interfaces;
 
 namespace BMWStore.Data
@@ -10,7 +11,11 @@ namespace BMWStore.Data
         public BMWStoreUnitOfWork(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
+
+            this.NewCars = new NewCarRepository(this.dbContext);
         }
+
+        public NewCarRepository NewCars { get; private set; }
 
         public int Complete()
         {

@@ -84,5 +84,8 @@ namespace BMWStore.Entities
         [Range(EntitiesConstants.CarMinWeight, EntitiesConstants.CarMaxWeight)]
         [Required]
         public int Weight_Kg { get; set; }
+
+        [MinLength(4)]
+        public string Year { get; set; }
     }
 }
