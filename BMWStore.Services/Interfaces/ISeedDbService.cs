@@ -1,8 +1,10 @@
-﻿namespace BMWStore.Services.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace BMWStore.Services.Interfaces
 {
     public interface ISeedDbService
     {
-        void SeedAdmin(string password, string userName);
-        void SeedRoles(params string[] roles);
+        Task SeedAdminAsync(string password, string email);
+        Task SeedRolesAsync(params string[] roles);
     }
 }

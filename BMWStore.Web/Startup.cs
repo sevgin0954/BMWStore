@@ -10,14 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BMWStore.Data;
 using BMWStore.Entities;
-using BMWStore.Services.Interfaces;
 using BMWStore.Services;
-using System.IO;
 using BMWStore.Web.Mapping;
 using System.Reflection;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using BMWStore.Common.Constants;
 using System.Runtime.CompilerServices;
 using BMWStore.Data.Repositories.Interfaces;
@@ -46,7 +43,7 @@ namespace BMWStore.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<User>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password = new PasswordOptions()
                 {

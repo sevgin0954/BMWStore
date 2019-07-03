@@ -51,9 +51,18 @@
                 <div class="d-lg-none mx-auto">
                     <partial name="_SearchButtonPartial" />
                 </div>
-                <div class="nav-item">
-                    <a class="nav-link-item text-shadow-blue-hover color-blue" href="#">Contact us</a>
-                </div>
+                @if (User.IsInRole(UserRoleConstants.Admin))
+                {
+                    <div class="nav-item">
+                        <a class="nav-link-item text-shadow-blue-hover color-blue" asp-area="Admin">Admin</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="nav-item">
+                        <a class="nav-link-item text-shadow-blue-hover color-blue" href="#">Contact us</a>
+                    </div>
+                }
                 <partial name="_LoginPartial" />
             </div>
         </nav>

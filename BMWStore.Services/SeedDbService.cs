@@ -4,6 +4,7 @@ using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BMWStore.Services
 {
@@ -18,37 +19,48 @@ namespace BMWStore.Services
             this.userManager = userManager;
         }
 
-        public void SeedAdmin(string password, string email)
+        public async Task SeedAdminAsync(string password, string email)
         {
-            if (IsUserExist(email) == false)
-            {
-                var dbUser = this.AddNewUser(password, email);
-                this.userManager.AddToRoleAsync(dbUser, UserRoleConstants.Admin);
+            var dbUser = await this.CreateUser(password, email);
+            await this.AddRoleToUser(dbUser, UserRoleConstants.Admin);
 
-                this.dbContext.SaveChanges();
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        private async Task<User> CreateUser(string password, string email)
+        {
+            var dbUser = this.dbContext.Users
+                .Where(u => u.NormalizedEmail == email.ToUpper())
+                .FirstOrDefault();
+
+            if (dbUser == null)
+            {
+                dbUser = new User()
+                {
+                    UserName = email,
+                    Email = email
+                };
+                await this.AddNewUserAsync(dbUser, password);
             }
-        }
-
-        private bool IsUserExist(string email)
-        {
-            return this.dbContext.Users.Any(u => u.NormalizedEmail == email);
-        }
-
-        private User AddNewUser(string password, string email)
-        {
-            var dbUser = new User()
-            {
-                UserName = email,
-                Email = email
-            };
-            this.userManager.CreateAsync(dbUser, password).GetAwaiter().GetResult();
-
-            this.dbContext.SaveChanges();
 
             return dbUser;
         }
 
-        public void SeedRoles(params string[] roles)
+        private async Task AddRoleToUser(User user, string roleName)
+        {
+            if (await this.userManager.IsInRoleAsync(user, UserRoleConstants.Admin) == false)
+            {
+                await this.userManager.AddToRoleAsync(user, UserRoleConstants.Admin);
+            }
+        }
+
+        private async Task AddNewUserAsync(User user, string password)
+        {
+            await this.userManager.CreateAsync(user, password);
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task SeedRolesAsync(params string[] roles)
         {
             foreach (var role in roles)
             {
@@ -58,7 +70,7 @@ namespace BMWStore.Services
                 }
             }
 
-            this.dbContext.SaveChanges();
+            await this.dbContext.SaveChangesAsync();
         }
 
         private bool IsRoleExist(string roleName)
