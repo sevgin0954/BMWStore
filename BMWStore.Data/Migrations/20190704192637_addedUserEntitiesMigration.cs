@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BMWStore.Data.Migrations
 {
@@ -63,6 +64,34 @@ namespace BMWStore.Data.Migrations
                 table: "BaseCars",
                 newName: "IX_BaseCars_EngineId");
 
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "AspNetUserTokens",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserTokens",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ProviderKey",
+                table: "AspNetUserLogins",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserLogins",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
             migrationBuilder.AddColumn<string>(
                 name: "Year",
                 table: "BaseCars",
@@ -74,23 +103,24 @@ namespace BMWStore.Data.Migrations
                 column: "Id");
 
             migrationBuilder.CreateTable(
-                name: "UsersBoughtCars",
+                name: "UserOrderedCars",
                 columns: table => new
                 {
                     CarId = table.Column<string>(nullable: false),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    OrderDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2019, 7, 4, 19, 26, 36, 145, DateTimeKind.Utc).AddTicks(9657))
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UsersBoughtCars", x => new { x.CarId, x.UserId });
+                    table.PrimaryKey("PK_UserOrderedCars", x => new { x.CarId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_UsersBoughtCars_BaseCars_CarId",
+                        name: "FK_UserOrderedCars_BaseCars_CarId",
                         column: x => x.CarId,
                         principalTable: "BaseCars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UsersBoughtCars_AspNetUsers_UserId",
+                        name: "FK_UserOrderedCars_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -98,8 +128,8 @@ namespace BMWStore.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersBoughtCars_UserId",
-                table: "UsersBoughtCars",
+                name: "IX_UserOrderedCars_UserId",
+                table: "UserOrderedCars",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
@@ -178,7 +208,7 @@ namespace BMWStore.Data.Migrations
                 table: "Options");
 
             migrationBuilder.DropTable(
-                name: "UsersBoughtCars");
+                name: "UserOrderedCars");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_BaseCars",
@@ -216,6 +246,34 @@ namespace BMWStore.Data.Migrations
                 name: "IX_BaseCars_EngineId",
                 table: "BaseCar",
                 newName: "IX_BaseCar_EngineId");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "AspNetUserTokens",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserTokens",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ProviderKey",
+                table: "AspNetUserLogins",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserLogins",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_BaseCar",

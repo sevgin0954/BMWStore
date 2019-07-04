@@ -284,17 +284,21 @@ namespace BMWStore.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("BMWStore.Entities.UserBoughtCar", b =>
+            modelBuilder.Entity("BMWStore.Entities.UserOrderedCar", b =>
                 {
                     b.Property<string>("CarId");
 
                     b.Property<string>("UserId");
 
+                    b.Property<DateTime>("OrderDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 7, 4, 19, 26, 36, 145, DateTimeKind.Utc).AddTicks(9657));
+
                     b.HasKey("CarId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersBoughtCars");
+                    b.ToTable("UserOrderedCars");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -363,11 +367,9 @@ namespace BMWStore.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -398,11 +400,9 @@ namespace BMWStore.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -486,15 +486,15 @@ namespace BMWStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BMWStore.Entities.UserBoughtCar", b =>
+            modelBuilder.Entity("BMWStore.Entities.UserOrderedCar", b =>
                 {
                     b.HasOne("BMWStore.Entities.BaseCar", "Car")
-                        .WithMany("Buyers")
+                        .WithMany("Orders")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BMWStore.Entities.User", "User")
-                        .WithMany("BoughtCars")
+                        .WithMany("OrderedCars")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
