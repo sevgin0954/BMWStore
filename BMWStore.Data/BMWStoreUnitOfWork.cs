@@ -13,9 +13,18 @@ namespace BMWStore.Data
             this.dbContext = dbContext;
 
             this.NewCars = new NewCarRepository(this.dbContext);
+            this.Users = new UserRepository(this.dbContext);
+            this.UsedCars = new UsedCarRepository(this.dbContext);
+            this.UsersOrderedCars = new UserOrderedCarRepository(this.dbContext);
         }
 
         public NewCarRepository NewCars { get; private set; }
+
+        public UserRepository Users { get; private set; }
+
+        public UsedCarRepository UsedCars { get; set; }
+
+        public UserOrderedCarRepository UsersOrderedCars { get; set; }
 
         public int Complete()
         {

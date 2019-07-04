@@ -5,6 +5,6 @@ namespace BMWStore.Entities
 {
     public class User : IdentityUser
     {
-        public ICollection<UserBoughtCar> BoughtCars { get; set; } = new List<UserBoughtCar>();
+        public ICollection<UserOrderedCar> OrderedCars { get; set; } = new List<UserOrderedCar>();
     }
 }

@@ -2,6 +2,7 @@
 using BMWStore.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace BMWStore.Data
 {
@@ -22,7 +23,7 @@ namespace BMWStore.Data
         public DbSet<Series> Series { get; set; }
         public DbSet<Transmission> Transmissions { get; set; }
         public DbSet<UsedCar> UsedCars { get; set; }
-        public DbSet<UserBoughtCar> UsersBoughtCars { get; set; }
+        public DbSet<UserOrderedCar> UserOrderedCars { get; set; }
         public new DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -51,7 +52,7 @@ namespace BMWStore.Data
                     .WithMany(s => s.Cars)
                     .HasForeignKey(c => c.SeriesId);
 
-                car.HasMany(c => c.Buyers)
+                car.HasMany(c => c.Orders)
                     .WithOne(b => b.Car)
                     .HasForeignKey(uc => uc.CarId);
             });
@@ -61,7 +62,7 @@ namespace BMWStore.Data
                 color.HasKey(c => c.Id);
 
                 color.Property(c => c.Name)
-                .HasMaxLength(EntitiesConstants.ColorNameMaxLength);;
+                .HasMaxLength(EntitiesConstants.ColorNameMaxLength); ;
             });
 
             builder.Entity<Engine>(engine =>
@@ -135,14 +136,17 @@ namespace BMWStore.Data
                     .HasMaxLength(EntitiesConstants.TransmissionNameMaxLength);
             });
 
-            builder.Entity<UserBoughtCar>(userBoughtCar =>
+            builder.Entity<UserOrderedCar>(userOrderedCar =>
             {
-                userBoughtCar.HasKey(uc => new { uc.CarId, uc.UserId });
+                userOrderedCar.HasKey(uoc => new { uoc.CarId, uoc.UserId });
+
+                userOrderedCar.Property(uoc => uoc.OrderDate)
+                    .HasDefaultValue(DateTime.UtcNow);
             });
 
             builder.Entity<User>(user =>
             {
-                user.HasMany(c => c.BoughtCars)
+                user.HasMany(c => c.OrderedCars)
                     .WithOne(bc => bc.User)
                     .HasForeignKey(bc => bc.UserId);
             });

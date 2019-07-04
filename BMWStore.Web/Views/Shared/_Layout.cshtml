@@ -48,10 +48,15 @@
                 <div class="nav-item mx-auto d-none d-lg-inline">
                     <partial name="_SearchbarPatial" />
                 </div>
-                @if (User.IsInRole(UserRoleConstants.Admin))
+                @if (User.IsInRole(WebConstants.AdminRoleName))
                 {
                     <div class="nav-item">
-                        <a class="nav-link-item text-shadow-blue-hover color-blue" asp-area="Admin">Admin</a>
+                        <a class="nav-link-item text-shadow-blue-hover color-blue" 
+                           asp-area="Admin" 
+                           asp-controller="Dashboard"
+                           asp-action="Index">
+                            Admin
+                        </a>
                     </div>
                 }
                 else

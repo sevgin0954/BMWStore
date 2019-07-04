@@ -99,10 +99,10 @@ namespace BMWStore.Web
 
         private void RegisterServiceLayer(IServiceCollection services)
         {
-            services.AddScoped<IBMWStoreUnitOfWork, BMWStoreUnitOfWork>();
-
             var assembly = Assembly.GetAssembly(typeof(SeedDbService));
             var allClassesTypes = this.GetTypesFromAssembly(assembly, type => type.IsClass);
+
+            services.AddScoped<IBMWStoreUnitOfWork, BMWStoreUnitOfWork>();
             this.AddScopedServices(services, allClassesTypes);
         }
 

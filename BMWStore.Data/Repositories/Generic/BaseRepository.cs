@@ -10,9 +10,9 @@ namespace BMWStore.Data.Repositories.Generic
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly DbContext dbContext;
 
-        public BaseRepository(ApplicationDbContext dbContext)
+        public BaseRepository(DbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -25,6 +25,23 @@ namespace BMWStore.Data.Repositories.Generic
         public void AddRange(params TEntity[] entities)
         {
             this.dbContext.Set<TEntity>().AddRange(entities);
+        }
+
+        public async Task<int> CountAllAsync()
+        {
+            var count = await this.dbContext.Set<TEntity>()
+                .CountAsync();
+
+            return count;
+        }
+
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            var count = await this.dbContext.Set<TEntity>()
+                .Where(predicate)
+                .CountAsync();
+
+            return count;
         }
 
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
@@ -43,7 +60,7 @@ namespace BMWStore.Data.Repositories.Generic
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var result =  await this.dbContext.Set<TEntity>()
+            var result = await this.dbContext.Set<TEntity>()
                 .ToArrayAsync();
 
             return result;

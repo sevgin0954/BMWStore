@@ -9,6 +9,8 @@ namespace BMWStore.Data.Repositories.Generic.Interfaces
     {
         void Add(TEntity entity);
         void AddRange(params TEntity[] entities);
+        Task<int> CountAllAsync();
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         TEntity GetById(string id);
         Task<TEntity> GetByIdAsync(string id);

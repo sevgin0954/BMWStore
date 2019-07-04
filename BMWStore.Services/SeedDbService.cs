@@ -22,7 +22,7 @@ namespace BMWStore.Services
         public async Task SeedAdminAsync(string password, string email)
         {
             var dbUser = await this.CreateUser(password, email);
-            await this.AddRoleToUser(dbUser, UserRoleConstants.Admin);
+            await this.AddRoleToUser(dbUser, WebConstants.AdminRoleName);
 
             await this.dbContext.SaveChangesAsync();
         }
@@ -48,9 +48,9 @@ namespace BMWStore.Services
 
         private async Task AddRoleToUser(User user, string roleName)
         {
-            if (await this.userManager.IsInRoleAsync(user, UserRoleConstants.Admin) == false)
+            if (await this.userManager.IsInRoleAsync(user, WebConstants.AdminRoleName) == false)
             {
-                await this.userManager.AddToRoleAsync(user, UserRoleConstants.Admin);
+                await this.userManager.AddToRoleAsync(user, WebConstants.AdminRoleName);
             }
         }
 

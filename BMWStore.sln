@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Web", "BMWStore.Web\BMWStore.Web.csproj", "{A5F6E920-AC6B-4A74-8D78-99C9096618C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Web", "BMWStore.Web\BMWStore.Web.csproj", "{A5F6E920-AC6B-4A74-8D78-99C9096618C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Services", "BMWStore.Services\BMWStore.Services.csproj", "{CF7E009A-0696-4655-99FF-1149A9DD6CCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Services", "BMWStore.Services\BMWStore.Services.csproj", "{CF7E009A-0696-4655-99FF-1149A9DD6CCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Models", "BMWStore.Models\BMWStore.Models.csproj", "{12E8EDBB-B0C2-4A80-94B4-75BD1EA506C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Models", "BMWStore.Models\BMWStore.Models.csproj", "{12E8EDBB-B0C2-4A80-94B4-75BD1EA506C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Data", "BMWStore.Data\BMWStore.Data.csproj", "{E15FBB67-4D27-4FA6-86CD-D7865E7790DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Data", "BMWStore.Data\BMWStore.Data.csproj", "{E15FBB67-4D27-4FA6-86CD-D7865E7790DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Entities", "BMWStore.Entities\BMWStore.Entities.csproj", "{621C602B-812B-4333-B1DB-9174E230108B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Entities", "BMWStore.Entities\BMWStore.Entities.csproj", "{621C602B-812B-4333-B1DB-9174E230108B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Common", "BMWStore.Common\BMWStore.Common.csproj", "{E1F310E7-CEE3-4B09-8FAC-C51F9CA976B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Common", "BMWStore.Common\BMWStore.Common.csproj", "{E1F310E7-CEE3-4B09-8FAC-C51F9CA976B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
