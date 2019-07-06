@@ -1,10 +1,88 @@
-﻿.navbar-brand {
+﻿.border-blue {
+    border-color: #45ADDE;
+    box-shadow: 0 0 5px 1px #45ADDE;
+}
+
+.border-blue-onhover {
+    border-color: #45ADDE;
+}
+.border-blue-onhover:hover {
+    box-shadow: 0 0 5px 1px #45ADDE;
+    border-color: #45ADDE;
+}
+
+.border-no-radius {
+    border-radius: 0px;
+}
+
+.border-radius-smooth {
+    border-radius: 10px;
+}
+
+.border-radius-smooth-top-right {
+    border-top-right-radius: 10px;
+}
+
+.border-radius-smooth-bottom-right {
+    border-bottom-right-radius: 10px;
+}
+
+.border-grey {
+    border: 1px solid #ced4da;
+}
+
+.btn-light-blue {
+    background-color: #e4f1f9;
+}
+
+.btn-light-blue-hover {
+    
+}
+.btn-light-blue-hover:hover, .btn-light-blue-hover:active {
+    background-color: #e4f1f9;
+}
+
+.light-blue-container {
+    background-color: #e4f1f9;
+    padding: 15px;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 10px;
+}
+.list-group-item:first-child > a {
+    border-top-left-radius: 10px;
+}
+
+.container-item {
+    background-color: white;
+    margin: 10px;
+    margin-left: 20px;
+    padding: 20px;
+}
+
+.color-blue {
+    color: #45ADDE;
+}
+
+.color-blue-hover {
+
+}
+.color-blue-hover:hover, .color-blue-hover:active {
+    color: #45ADDE;
+}
+
+.main-container {
+    
+}
+
+.navbar-brand {
     max-width: 300px;
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
-.image-small {
+.navbar-brand-image {
     max-width: 60px;
     height: auto;
 }
@@ -13,47 +91,16 @@
     margin-right: 20px;
 }
 
-.color-blue {
-    color: #45ADDE;
-}
-.color-blue:hover, .color-blue:active {
-    color: #45ADDE;
-}
-
-.text-shadow-blue-hover {
-}
-.text-shadow-blue-hover:hover {
-    text-shadow: 0px 0px 5px #45ADDE;
-}
-
 .nav-link-item {
     white-space: nowrap;
     font-size: 20px;
     font-weight: 400;
     opacity: 0.8;
 }
+
 .nav-link-item:active, .nav-link-item:hover {
     opacity: 1;
     text-decoration: none;
-}
-
-.btn-blue-no-outline {
-    color: #45ADDE;
-}
-.btn-blue-no-outline:focus {
-    box-shadow: none !important;
-}
-
-.btn-no-padding {
-    padding: 0px;
-}
-
-.searchbar-container {
-    background-color: #ffffff;
-}
-
-.border-smooth {
-    border-radius: 5px;
 }
 
 .no-border {
@@ -62,7 +109,22 @@
 
 .no-outline {
 }
+
 .no-outline:focus, .no-outline:active {
     outline: none !important;
     box-shadow: none;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
+.searchbar-container {
+    background-color: #ffffff;
+}
+
+.text-shadow-blue-hover {
+}
+.text-shadow-blue-hover:hover {
+    text-shadow: 0px 0px 5px #45ADDE;
 }

@@ -5,22 +5,22 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="nav-item">
-        <a class="nav-link-item color-blue text-shadow-blue-hover" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+        <a class="nav-link-item color-blue color-blue-hover text-shadow-blue-hover" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
             Account
         </a>
     </div>
     <div class="nav-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="btn btn-no-padding nav-link-item color-blue text-shadow-blue-hover color-blue">Logout</button>
+            <button type="submit" class="btn no-padding nav-link-item color-blue color-blue-hover text-shadow-blue-hover color-blue">Logout</button>
         </form>
     </div>
 }
 else
 {
     <div class="nav-item">
-        <a class="nav-link-item text-shadow-blue-hover color-blue" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </div>
     <div class="nav-item">
-        <a class="nav-link-item text-shadow-blue-hover color-blue" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </div>
 }
