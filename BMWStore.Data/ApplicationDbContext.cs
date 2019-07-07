@@ -19,11 +19,11 @@ namespace BMWStore.Data
         public DbSet<ModelType> ModelTypes { get; set; }
         public DbSet<NewCar> NewCars { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Transmission> Transmissions { get; set; }
         public DbSet<UsedCar> UsedCars { get; set; }
-        public DbSet<UserOrderedCar> UserOrderedCars { get; set; }
         public new DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -107,6 +107,17 @@ namespace BMWStore.Data
                     .HasMaxLength(EntitiesConstants.OptionNameMaxLength);
             });
 
+            builder.Entity<Order>(order =>
+            {
+                order.HasKey(uoc => new { uoc.CarId, uoc.UserId });
+
+                order.Property(o => o.Address)
+                    .HasMaxLength(EntitiesConstants.OrderAddressMaxLength);
+
+                order.Property(uoc => uoc.OrderDate)
+                    .HasDefaultValue(DateTime.UtcNow);
+            });
+
             builder.Entity<Picture>(pictures =>
             {
                 pictures.HasKey(p => p.Id);
@@ -136,22 +147,11 @@ namespace BMWStore.Data
                     .HasMaxLength(EntitiesConstants.TransmissionNameMaxLength);
             });
 
-            builder.Entity<UserOrderedCar>(userOrderedCar =>
-            {
-                userOrderedCar.HasKey(uoc => new { uoc.CarId, uoc.UserId });
-
-                userOrderedCar.Property(uoc => uoc.OrderDate)
-                    .HasDefaultValue(DateTime.UtcNow);
-            });
-
             builder.Entity<User>(user =>
             {
-                user.HasMany(c => c.OrderedCars)
+                user.HasMany(c => c.Orders)
                     .WithOne(bc => bc.User)
                     .HasForeignKey(bc => bc.UserId);
-
-                user.Property(u => u.Address)
-                    .HasMaxLength(EntitiesConstants.UserAddressMaxLength);
 
                 user.Property(u => u.FirstName)
                     .HasMaxLength(EntitiesConstants.UserNameMaxLength);

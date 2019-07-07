@@ -26,7 +26,6 @@
         public const int CarMaxWeight = 10000;
         public const int CarMinWeight = 1000;
 
-
         public const string ColorMaxPrice = "2000";
         public const int ColorNameMaxLength = 25;
         public const int ColorNameMinLength = 3;
@@ -47,6 +46,9 @@
         public const string OptionNameMaxPrice = "100000";
         public const int OptionNameMinLength = 3;
 
+        public const int OrderAddressMaxLength = 300;
+        public const int OrderAddressMinLength = 10;
+
         public const int SeriesNameMaxLength = 15;
         public const int SeriesNameMinLength = 2;
 
@@ -57,8 +59,6 @@
         public const int UsedCarMaxMileage = int.MaxValue;
         public const int UsedCarMinMileage = 100;
 
-        public const int UserAddressMaxLength = 300;
-        public const int UserAddressMinLength = 10;
         public const int UserNameMaxLength = 40;
         public const int UserNameMinLength = 3;
     }

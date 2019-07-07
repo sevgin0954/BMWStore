@@ -7,7 +7,7 @@ namespace BMWStore.Data.Repositories.Interfaces
         NewCarRepository NewCars { get; }
         UserRepository Users { get; }
         UsedCarRepository UsedCars { get; }
-        UserOrderedCarRepository UsersOrderedCars { get; }
+        OrderRepository Orders { get; }
 
         int Complete();
         Task<int> CompleteAsync();

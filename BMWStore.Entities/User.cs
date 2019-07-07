@@ -7,10 +7,6 @@ namespace BMWStore.Entities
 {
     public class User : IdentityUser
     {
-        [MinLength(EntitiesConstants.UserAddressMinLength)]
-        [Required]
-        public string Address { get; set; }
-
         [MinLength(EntitiesConstants.UserNameMinLength)]
         [Required]
         public string FirstName { get; set; }
@@ -19,6 +15,6 @@ namespace BMWStore.Entities
         [Required]
         public string LastName { get; set; }
 
-        public ICollection<UserOrderedCar> OrderedCars { get; set; } = new List<UserOrderedCar>();
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
