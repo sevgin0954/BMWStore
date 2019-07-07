@@ -56,5 +56,10 @@
 
         public const int UsedCarMaxMileage = int.MaxValue;
         public const int UsedCarMinMileage = 100;
+
+        public const int UserAddressMaxLength = 300;
+        public const int UserAddressMinLength = 10;
+        public const int UserNameMaxLength = 40;
+        public const int UserNameMinLength = 3;
     }
 }

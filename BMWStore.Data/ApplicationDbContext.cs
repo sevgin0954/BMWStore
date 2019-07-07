@@ -149,6 +149,15 @@ namespace BMWStore.Data
                 user.HasMany(c => c.OrderedCars)
                     .WithOne(bc => bc.User)
                     .HasForeignKey(bc => bc.UserId);
+
+                user.Property(u => u.Address)
+                    .HasMaxLength(EntitiesConstants.UserAddressMaxLength);
+
+                user.Property(u => u.FirstName)
+                    .HasMaxLength(EntitiesConstants.UserNameMaxLength);
+
+                user.Property(u => u.LastName)
+                    .HasMaxLength(EntitiesConstants.UserNameMaxLength);
             });
 
             base.OnModelCreating(builder);

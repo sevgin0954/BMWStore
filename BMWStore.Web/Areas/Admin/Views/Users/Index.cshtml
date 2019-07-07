@@ -1,0 +1,33 @@
+﻿@model IEnumerable<UserAdminViewModel>
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="container-item border-grey border-radius-smooth">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Email</th>
+                <th scope="col">Full name</th>
+                <th scope="col">Orders</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <th scope="row">@user.Id</th>
+                    <td>@user.Email</td>
+                    <td>@user.FullName</td>
+                    <td><a href="#">Orders (@user.OrdersCount)</a></td>
+                    <td>
+                        <button>Ban</button>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

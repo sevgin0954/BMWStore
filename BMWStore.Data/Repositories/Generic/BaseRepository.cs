@@ -58,6 +58,11 @@ namespace BMWStore.Data.Repositories.Generic
             return this.dbContext.Set<TEntity>().ToArray();
         }
 
+        public IQueryable<TEntity> GetAllAsQueryable()
+        {
+            return this.dbContext.Set<TEntity>();
+        }
+
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             var result = await this.dbContext.Set<TEntity>()

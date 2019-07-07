@@ -1,7 +1,7 @@
 ﻿$(function () {
     var menuItems = $('#admin-menu>li>a');
     let currentActionName = getActionNameFromUrl();
-
+    
     for (let i = 0; i < menuItems.length; i++) {
         let currentMenuItem = $(menuItems[i]);
         let currentItemNameAttr = currentMenuItem.attr('data-name');
