@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th scope="col">Id</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Email</th>
                 <th scope="col">Full name</th>
                 <th scope="col">Orders</th>
@@ -18,13 +19,22 @@
             @foreach (var user in Model)
             {
                 <tr>
-                    <th scope="row">@user.Id</th>
+                    <td>@user.Id</td>
+                    <td>@user.PhoneNumber</td>
                     <td>@user.Email</td>
                     <td>@user.FullName</td>
                     <td><a href="#">Orders (@user.OrdersCount)</a></td>
                     <td>
-                        <button>Ban</button>
-                        <button>Delete</button>
+                        @if (user.IsBanned)
+                        {
+                            <button class="btn background-green-hover border-green pr-3 pl-3 mb-2 no-padding">Unban</button>
+                        }
+                        else
+                        {
+                            <button class="btn border-light-blue background-light-blue-hover pr-3 pl-3 mb-2 no-padding">Ban</button>
+                        }
+
+                        <button class="btn border-light-red pr-3 pl-3 mb-2 no-padding background-light-red-hover">Delete</button>
                     </td>
                 </tr>
             }

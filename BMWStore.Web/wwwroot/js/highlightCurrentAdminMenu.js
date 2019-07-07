@@ -7,10 +7,10 @@
         let currentItemNameAttr = currentMenuItem.attr('data-name');
 
         if (currentActionName === currentItemNameAttr) {
-            currentMenuItem.addClass('btn-light-blue');
+            currentMenuItem.addClass('background-light-blue');
         }
         else {
-            currentMenuItem.removeClass('btn-light-blue');
+            currentMenuItem.removeClass('background-light-blue');
         }
     }
 

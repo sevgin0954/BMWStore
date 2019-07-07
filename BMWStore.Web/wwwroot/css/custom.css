@@ -1,4 +1,23 @@
-﻿.border-blue {
+﻿.background-light-blue-hover {
+}
+.background-light-blue-hover:hover {
+    background-color: #e4f1f9;
+}
+
+.background-green-hover {
+}
+.background-green-hover:hover {
+    background-color: #B4CC14;
+}
+
+.background-light-red-hover {
+    
+}
+.background-light-red-hover:hover {
+    background-color: #FF8484;
+}
+
+.border-blue {
     border-color: #45ADDE;
     box-shadow: 0 0 5px 1px #45ADDE;
 }
@@ -9,6 +28,16 @@
 .border-blue-onhover:hover {
     box-shadow: 0 0 5px 1px #45ADDE;
     border-color: #45ADDE;
+}
+
+.border-green {
+    box-shadow: 0 0 5px 1px #B4CC14;
+    border-color: #B4CC14;
+}
+
+.border-light-blue {
+    border-color: #e4f1f9;
+    box-shadow: 0 0 5px 1px #e4f1f9;
 }
 
 .border-no-radius {
@@ -27,18 +56,15 @@
     border-bottom-right-radius: 10px;
 }
 
+.border-light-red {
+    box-shadow: 0 0 3px 2px #FF8484;
+}
+
 .border-grey {
     border: 1px solid #ced4da;
 }
 
-.btn-light-blue {
-    background-color: #e4f1f9;
-}
-
-.btn-light-blue-hover {
-    
-}
-.btn-light-blue-hover:hover, .btn-light-blue-hover:active {
+.background-light-blue {
     background-color: #e4f1f9;
 }
 

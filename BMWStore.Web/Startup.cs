@@ -52,6 +52,7 @@ namespace BMWStore.Web
                     RequireNonAlphanumeric = false
                 };
             })
+                .AddDefaultTokenProviders()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
