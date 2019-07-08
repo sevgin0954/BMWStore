@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20190707172539_addedNewUserColumsMigration.Designer.cs" />
     <Compile Remove="Migrations\20190707172644_addedUserPropertiesMigration.cs" />
     <Compile Remove="Migrations\20190707172644_addedUserPropertiesMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190707203835_addedRolesPropertiesToUserMigration.cs" />
+    <Compile Remove="Migrations\20190707203835_addedRolesPropertiesToUserMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,6 +5,12 @@
         public const string AdminAreaName = "Admin";
 
         public const string AdminRoleName = "Admin";
+        public const string UserRoleName = "User";
         public const string SupportRoleName = "Support";
+
+        public const string CookieAdminUsersSortDirectionKey = "___AdminUsersSortDirection___";
+        public const string CookieAdminUsersSortTypeKey = "___AdminUsersSortType___";
+
+        public const int UserBanDays = 356;
     }
 }

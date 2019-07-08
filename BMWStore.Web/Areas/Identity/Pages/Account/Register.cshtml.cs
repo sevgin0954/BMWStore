@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BMWStore.Common.Constants;
 
 namespace BMWStore.Web.Areas.Identity.Pages.Account
 {
@@ -80,10 +81,12 @@ namespace BMWStore.Web.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName
                 };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                var createUserResult = await _userManager.CreateAsync(user, Input.Password);
+                var addUserToRoleResult = await this._userManager.AddToRoleAsync(user, WebConstants.UserRoleName);
+                if (createUserResult.Succeeded && addUserToRoleResult.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
@@ -98,7 +101,7 @@ namespace BMWStore.Web.Areas.Identity.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
-                foreach (var error in result.Errors)
+                foreach (var error in createUserResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

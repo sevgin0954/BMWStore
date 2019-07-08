@@ -1,4 +1,8 @@
-﻿.background-light-blue-hover {
+﻿.background-light-blue {
+    background-color: #e4f1f9;
+}
+
+.background-light-blue-hover {
 }
 .background-light-blue-hover:hover {
     background-color: #e4f1f9;
@@ -22,10 +26,10 @@
     box-shadow: 0 0 5px 1px #45ADDE;
 }
 
-.border-blue-onhover {
-    border-color: #45ADDE;
+.border-blue-hover {
+    
 }
-.border-blue-onhover:hover {
+.border-blue-hover:hover, .border-blue-hover:focus {
     box-shadow: 0 0 5px 1px #45ADDE;
     border-color: #45ADDE;
 }
@@ -33,6 +37,18 @@
 .border-green {
     box-shadow: 0 0 5px 1px #B4CC14;
     border-color: #B4CC14;
+}
+
+.border-green-hover {
+
+}
+.border-green-hover:hover, .border-green-hover:active, .border-green-hover:focus {
+    box-shadow: 0 0 5px 1px #B4CC14;
+    border-color: #B4CC14;
+}
+
+.border-grey {
+    border: 1px solid #ced4da;
 }
 
 .border-light-blue {
@@ -60,12 +76,12 @@
     box-shadow: 0 0 3px 2px #FF8484;
 }
 
-.border-grey {
-    border: 1px solid #ced4da;
-}
-
-.background-light-blue {
-    background-color: #e4f1f9;
+.btn-wide {
+    padding: 1px;
+    padding-right: 20px;
+    padding-left: 20px;
+    margin-top:5px;
+    margin-bottom: 5px;
 }
 
 .light-blue-container {

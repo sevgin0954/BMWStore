@@ -28,6 +28,8 @@ namespace BMWStore.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.Entity<BaseCar>(car =>
             {
                 car.HasKey(c => c.Id);
@@ -158,9 +160,11 @@ namespace BMWStore.Data
 
                 user.Property(u => u.LastName)
                     .HasMaxLength(EntitiesConstants.UserNameMaxLength);
-            });
 
-            base.OnModelCreating(builder);
+                user.HasMany(u => u.Roles)
+                    .WithOne()
+                    .HasForeignKey(r => r.UserId);
+            });
         }
     }
 }

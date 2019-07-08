@@ -1,4 +1,5 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Enums;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,8 @@ namespace BMWStore.Web
                 try
                 {
                     var seedDbService = serviceProvider.GetRequiredService<ISeedDbService>();
-                    seedDbService.SeedRolesAsync(WebConstants.AdminRoleName, WebConstants.SupportRoleName)
+
+                    seedDbService.SeedRolesAsync(WebConstants.AdminRoleName, WebConstants.UserRoleName, WebConstants.SupportRoleName)
                         .GetAwaiter()
                         .GetResult();
                     seedDbService.SeedAdminAsync(IdentityConstants.AdminPassword, IdentityConstants.AdminEmail)

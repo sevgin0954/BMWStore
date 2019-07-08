@@ -1,7 +1,59 @@
-﻿@model IEnumerable<UserAdminViewModel>
+﻿@model AdminUsersViewModel
 @{
     ViewData["Title"] = "Users";
 }
+
+<div class="container-item no-padding border-grey border-radius-smooth d-flex">
+    <div class="dropdown ml-auto">
+        Order by
+        <button class="btn btn-wide border-blue-hover" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @{ var selectedStrategyType = @Model.SortStrategyType.ToString(); }
+            @Html.Raw(IconLinks.SortTypeIconLink[selectedStrategyType])
+            @selectedStrategyType
+        </button>
+        <div class="dropdown-menu border-blue" aria-labelledby="dropdownMenuButton">
+            @foreach (var strategyType in Enum.GetNames(typeof(UserSortStrategyType)))
+            {
+                if (strategyType != selectedStrategyType)
+                {
+                    <form method="post" 
+                          asp-controller="Users" 
+                          asp-action="ChangeSortType" 
+                          asp-route-sortStrategyType="@strategyType">
+                        <button type="submit" class="dropdown-item">
+                            @Html.Raw(IconLinks.SortTypeIconLink[strategyType])
+                            @strategyType
+                        </button>
+                    </form>
+                }
+            }
+        </div>
+    </div>
+    <div class="dropdown mr-auto">
+        <button class="btn btn-wide border-blue-hover" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @{ var selectedSortDirection = @Model.SortStrategyDirection.ToString(); }
+            @selectedSortDirection
+            @Html.Raw(IconLinks.SortTypeIconLink[selectedSortDirection])
+        </button>
+        <div class="dropdown-menu border-blue" aria-labelledby="dropdownMenuButton">
+            @foreach (var sortDirection in Enum.GetNames(typeof(SortStrategyDirection)))
+            {
+                if (sortDirection != selectedSortDirection)
+                {
+                    <form method="post" 
+                          asp-controller="Users" 
+                           asp-action="ChangeSortDirection" 
+                           asp-route-sortDirection="@sortDirection">
+                        <button type="submit" class="dropdown-item" >
+                            @sortDirection
+                            @Html.Raw(IconLinks.SortTypeIconLink[sortDirection])
+                        </button>
+                    </form>
+                }
+            }
+        </div>
+    </div>
+</div>
 
 <div class="container-item border-grey border-radius-smooth">
     <table class="table">
@@ -16,7 +68,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model)
+            @foreach (var user in Model.Users)
             {
                 <tr>
                     <td>@user.Id</td>
@@ -27,14 +79,14 @@
                     <td>
                         @if (user.IsBanned)
                         {
-                            <button class="btn background-green-hover border-green pr-3 pl-3 mb-2 no-padding">Unban</button>
+                            <button class="btn btn-wide background-green-hover border-green">Unban</button>
                         }
                         else
                         {
-                            <button class="btn border-light-blue background-light-blue-hover pr-3 pl-3 mb-2 no-padding">Ban</button>
+                            <button class="btn btn-wide border-light-blue background-light-blue-hover">Ban</button>
                         }
 
-                        <button class="btn border-light-red pr-3 pl-3 mb-2 no-padding background-light-red-hover">Delete</button>
+                        <button class="btn btn-wide border-light-red background-light-red-hover">Delete</button>
                     </td>
                 </tr>
             }

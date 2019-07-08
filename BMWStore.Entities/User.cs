@@ -16,5 +16,7 @@ namespace BMWStore.Entities
         public string LastName { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        public ICollection<IdentityUserRole<string>> Roles { get; set; } = new List<IdentityUserRole<string>>();
     }
 }
