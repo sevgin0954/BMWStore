@@ -22,6 +22,15 @@ namespace BMWStore.Data.Repositories
             return await filteredUsers.CountAsync();
         }
 
+        public async Task<User> GetByEmailOrDefault(string email)
+        {
+            var user = await this.GetAllAsQueryable()
+                .Where(u => u.NormalizedEmail == email.ToUpper())
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
+
         // TODO: Refactor - method does two things
         public async Task<IEnumerable<User>> GetSortedWithRoleAsync(
             IUserSortStrategy sortStrategy,

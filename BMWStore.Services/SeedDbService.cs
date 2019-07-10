@@ -10,12 +10,12 @@ namespace BMWStore.Services
 {
     public class SeedDbService : ISeedDbService
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly BMWStoreUnitOfWork unitOfWork;
         private readonly UserManager<User> userManager;
 
-        public SeedDbService(ApplicationDbContext dbContext, UserManager<User> userManager)
+        public SeedDbService(BMWStoreUnitOfWork unitOfWork, UserManager<User> userManager)
         {
-            this.dbContext = dbContext;
+            this.unitOfWork = unitOfWork;
             this.userManager = userManager;
         }
 
@@ -24,14 +24,12 @@ namespace BMWStore.Services
             var dbUser = await this.CreateUser(password, email);
             await this.AddRoleToUser(dbUser, WebConstants.AdminRoleName);
 
-            await this.dbContext.SaveChangesAsync();
+            await this.unitOfWork.CompleteAsync();
         }
 
         private async Task<User> CreateUser(string password, string email)
         {
-            var dbUser = this.dbContext.Users
-                .Where(u => u.NormalizedEmail == email.ToUpper())
-                .FirstOrDefault();
+            var dbUser = await this.unitOfWork.Users.GetByEmailOrDefault(email);
 
             if (dbUser == null)
             {
@@ -57,7 +55,7 @@ namespace BMWStore.Services
         private async Task AddNewUserAsync(User user, string password)
         {
             await this.userManager.CreateAsync(user, password);
-            await this.dbContext.SaveChangesAsync();
+            await this.unitOfWork.CompleteAsync();
         }
 
         public async Task SeedRolesAsync(params string[] roles)
@@ -70,12 +68,12 @@ namespace BMWStore.Services
                 }
             }
 
-            await this.dbContext.SaveChangesAsync();
+            await this.unitOfWork.CompleteAsync();
         }
 
         private bool IsRoleExist(string roleName)
         {
-            return dbContext.Roles.Any(r => r.NormalizedName == roleName.ToUpper());
+            return unitOfWork.Roles.GetAllAsQueryable().Any(r => r.NormalizedName == roleName.ToUpper());
         }
 
         private void AddNewRole(string roleName)
@@ -85,7 +83,7 @@ namespace BMWStore.Services
                 Name = roleName,
                 NormalizedName = roleName.ToUpper()
             };
-            this.dbContext.Roles.Add(dbRole);
+            this.unitOfWork.Roles.Add(dbRole);
         }
     }
 }
