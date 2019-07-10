@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
+using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
+using BMWStore.Entities;
 using BMWStore.Models.UserModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using System;
@@ -32,15 +34,60 @@ namespace BMWStore.Services
             return models;
         }
 
-        public async Task ChangeUserLockoutStateAsync(string userId)
+        public async Task BanUserAsync(string userId)
         {
             var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
-            if (dbUser == null)
+            DataValidator.NotNullValidator(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+
+            if (this.IsUserBanned(dbUser))
             {
-                throw new ArgumentException(ErrorConstants.IncorrectId);
+                throw new ArgumentException(ErrorConstants.UserIsAlreadyBanned);
             }
 
-            
+            dbUser.LockoutEnd = DateTimeOffset.UtcNow.AddDays(WebConstants.UserBanDays);
+
+            await this.CompleteUnitOfWork();
+        }
+
+        public async Task UnbanUserAsync(string userId)
+        {
+            var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
+            DataValidator.NotNullValidator(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+
+            if (this.IsUserBanned(dbUser) == false)
+            {
+                throw new ArgumentException(ErrorConstants.UserIsNotBanned);
+            }
+
+            dbUser.LockoutEnd = null;
+
+            await this.CompleteUnitOfWork();
+        }
+
+        private bool IsUserBanned(User user)
+        {
+            if (user.LockoutEnd > DateTimeOffset.UtcNow)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task DeleteUserAsync(string userId)
+        {
+            var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
+            DataValidator.NotNullValidator(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+
+            this.unitOfWork.Users.Remove(dbUser);
+
+            await this.CompleteUnitOfWork();
+        }
+
+        private async Task CompleteUnitOfWork()
+        {
+            var rowsAffected = await unitOfWork.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
     }
 }

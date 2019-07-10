@@ -35,6 +35,30 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Delete(string userId)
+        {
+            await this.adminUsersService.DeleteUserAsync(userId);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Ban(string userId)
+        {
+            await this.adminUsersService.BanUserAsync(userId);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Unban(string userId)
+        {
+            await this.adminUsersService.UnbanUserAsync(userId);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         public IActionResult ChangeSortType(UserSortStrategyType sortStrategyType)
         {
             this.cookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType);

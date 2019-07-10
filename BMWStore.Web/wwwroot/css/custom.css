@@ -2,16 +2,16 @@
     background-color: #e4f1f9;
 }
 
-.background-light-blue-hover {
-}
-.background-light-blue-hover:hover {
-    background-color: #e4f1f9;
-}
-
 .background-green-hover {
 }
 .background-green-hover:hover {
     background-color: #B4CC14;
+}
+
+.background-light-blue-hover {
+}
+.background-light-blue-hover:hover {
+    background-color: #e4f1f9;
 }
 
 .background-light-red-hover {
@@ -25,11 +25,15 @@
     border-color: #45ADDE;
     box-shadow: 0 0 5px 1px #45ADDE;
 }
+.border-blue:active {
+    border-color: #45ADDE;
+    box-shadow: 0 0 5px 1px #45ADDE;
+}
 
 .border-blue-hover {
     
 }
-.border-blue-hover:hover, .border-blue-hover:focus {
+.border-blue-hover:hover {
     box-shadow: 0 0 5px 1px #45ADDE;
     border-color: #45ADDE;
 }
@@ -38,11 +42,15 @@
     box-shadow: 0 0 5px 1px #B4CC14;
     border-color: #B4CC14;
 }
+.border-green:focus {
+    box-shadow: 0 0 5px 1px #B4CC14;
+    border-color: #B4CC14;
+}
 
 .border-green-hover {
 
 }
-.border-green-hover:hover, .border-green-hover:active, .border-green-hover:focus {
+.border-green-hover:hover {
     box-shadow: 0 0 5px 1px #B4CC14;
     border-color: #B4CC14;
 }
@@ -52,6 +60,10 @@
 }
 
 .border-light-blue {
+    border-color: #e4f1f9;
+    box-shadow: 0 0 5px 1px #e4f1f9;
+}
+.border-light-blue:focus {
     border-color: #e4f1f9;
     box-shadow: 0 0 5px 1px #e4f1f9;
 }
@@ -73,6 +85,9 @@
 }
 
 .border-light-red {
+    box-shadow: 0 0 3px 2px #FF8484;
+}
+.border-light-red:focus {
     box-shadow: 0 0 3px 2px #FF8484;
 }
 
@@ -110,7 +125,7 @@
 .color-blue-hover {
 
 }
-.color-blue-hover:hover, .color-blue-hover:active {
+.color-blue-hover:hover {
     color: #45ADDE;
 }
 

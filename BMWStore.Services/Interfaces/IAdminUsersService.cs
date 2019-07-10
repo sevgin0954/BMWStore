@@ -8,5 +8,8 @@ namespace BMWStore.Services.Interfaces
     public interface IAdminUsersService
     {
         Task<IEnumerable<UserAdminViewModel>> GetAllUsersAsync(IUserSortStrategy sortStrategy);
+        Task BanUserAsync(string userId);
+        Task UnbanUserAsync(string userId);
+        Task DeleteUserAsync(string userId);
     }
 }
