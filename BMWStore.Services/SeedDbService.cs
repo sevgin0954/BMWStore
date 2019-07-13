@@ -1,5 +1,5 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Data;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +10,10 @@ namespace BMWStore.Services
 {
     public class SeedDbService : ISeedDbService
     {
-        private readonly BMWStoreUnitOfWork unitOfWork;
+        private readonly IBMWStoreUnitOfWork unitOfWork;
         private readonly UserManager<User> userManager;
 
-        public SeedDbService(BMWStoreUnitOfWork unitOfWork, UserManager<User> userManager)
+        public SeedDbService(IBMWStoreUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             this.unitOfWork = unitOfWork;
             this.userManager = userManager;
