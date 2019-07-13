@@ -17,7 +17,9 @@ using System;
 using System.Collections.Generic;
 using BMWStore.Common.Constants;
 using System.Runtime.CompilerServices;
-using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Data.Interfaces;
+using ServiceLayerRegistrar.Interfaces;
+using ServiceLayerRegistrar;
 
 namespace BMWStore.Web
 {
@@ -100,48 +102,10 @@ namespace BMWStore.Web
 
         private void RegisterServiceLayer(IServiceCollection services)
         {
-            var assembly = Assembly.GetAssembly(typeof(SeedDbService));
-            var allClassesTypes = this.GetTypesFromAssembly(assembly, type => type.IsClass);
-
             services.AddScoped<IBMWStoreUnitOfWork, BMWStoreUnitOfWork>();
-            this.AddScopedServices(services, allClassesTypes);
-        }
 
-        private IEnumerable<Type> GetTypesFromAssembly(Assembly assembly, Func<Type, bool> func)
-        {
-            var classesTypes = new List<Type>();
-
-            var servicesTypes = assembly.GetTypes();
-            foreach (var type in servicesTypes)
-            {
-                if (IsCompilerGenerated(type) == false && func(type))
-                {
-                    classesTypes.Add(type);
-                }
-            }
-
-            return classesTypes;
-        }
-
-        private bool IsCompilerGenerated(Type type)
-        {
-            return type.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
-        }
-
-        private void AddScopedServices(IServiceCollection services, IEnumerable<Type> allClassesTypes)
-        {
-            foreach (var classType in allClassesTypes)
-            {
-                var interfaceTypes = classType.GetInterfaces();
-
-                if (interfaceTypes.Length != 1)
-                {
-                    throw new Exception(ErrorConstants.IncorrectInterfacesCount);
-                }
-
-                var firstInterfaceType = interfaceTypes[0];
-                services.AddScoped(firstInterfaceType, classType);
-            }
+            var serviceRegistrar = new ServiceCollectionRegistrar(services);
+            serviceRegistrar.AddScopedServices(typeof(SeedDbService));
         }
     }
 }

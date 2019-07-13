@@ -1,5 +1,5 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;

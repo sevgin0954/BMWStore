@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using BMWStore.Data.Repositories;
+using System.Threading.Tasks;
 
-namespace BMWStore.Data.Repositories.Interfaces
+namespace BMWStore.Data.Interfaces
 {
     public interface IBMWStoreUnitOfWork
     {

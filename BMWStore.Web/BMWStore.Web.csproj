@@ -20,6 +20,7 @@
     <ProjectReference Include="..\BMWStore.Data\BMWStore.Data.csproj" />
     <ProjectReference Include="..\BMWStore.Models\BMWStore.Models.csproj" />
     <ProjectReference Include="..\BMWStore.Services\BMWStore.Services.csproj" />
+    <ProjectReference Include="..\ServiceLayerRegistrar\ServiceLayerRegistrar.csproj" />
   </ItemGroup>
 
 </Project>

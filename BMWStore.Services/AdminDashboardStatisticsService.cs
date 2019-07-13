@@ -1,12 +1,10 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Data;
-using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services

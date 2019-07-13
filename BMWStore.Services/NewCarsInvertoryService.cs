@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Data.Interfaces;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using System.Collections.Generic;

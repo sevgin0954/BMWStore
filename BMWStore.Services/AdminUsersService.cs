@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
-using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Data.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.UserModels.ViewModels;
