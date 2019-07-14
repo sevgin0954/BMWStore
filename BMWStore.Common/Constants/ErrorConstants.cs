@@ -2,6 +2,9 @@
 {
     public class ErrorConstants
     {
+        public const string EmptyEnumException = "Enum wa empty";
+        public const string IncorrectEnumValue = "Value dont exist in the enum";
+
         public const string IncorrectId = "Incorrect id";
 
         public const string UserIsAlreadyBanned = "User is already banned";

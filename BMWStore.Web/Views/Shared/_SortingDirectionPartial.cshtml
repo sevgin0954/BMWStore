@@ -1,0 +1,24 @@
+﻿<div class="dropdown">
+    <button class="btn btn-wide border-blue-hover" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        @{ var selectedSortDirection = @Model.SortStrategyDirection.ToString(); }
+        @selectedSortDirection
+        @Html.Raw(IconLinks.SortTypeIconLink[selectedSortDirection])
+    </button>
+    <div class="dropdown-menu border-blue" aria-labelledby="dropdownMenuButton">
+        @foreach (var sortDirection in Enum.GetNames(typeof(SortStrategyDirection)))
+        {
+            if (sortDirection != selectedSortDirection)
+            {
+                <form method="post"
+                      asp-controller="Users"
+                      asp-action="ChangeSortDirection"
+                      asp-route-sortDirection="@sortDirection">
+                    <button type="submit" class="dropdown-item">
+                        @sortDirection
+                        @Html.Raw(IconLinks.SortTypeIconLink[sortDirection])
+                    </button>
+                </form>
+            }
+        }
+    </div>
+</div>

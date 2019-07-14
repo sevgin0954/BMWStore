@@ -7,7 +7,9 @@ namespace BMWStore.Services.Interfaces
     {
         void ChangeSortDirectionCookie(IResponseCookies responseCookies, SortStrategyDirection sortDirection);
         void ChangeSortTypeCookie(IResponseCookies responseCookies, UserSortStrategyType sortStrategyName);
-        SortStrategyDirection GetSortStrategyDirectionOrDefault(IRequestCookieCollection requestCookies);
-        UserSortStrategyType GetSortStrategyTypeOrDefault(IRequestCookieCollection requestCookies);
+        SortStrategyDirection GetSortStrategyDirectionOrDefault(IRequestCookieCollection requestCookies, string sortDirectionKey);
+        TStrategyType GetSortStrategyTypeOrDefault<TStrategyType>(
+            IRequestCookieCollection requestCookies,
+            string sortTypeKey) where TStrategyType : struct;
     }
 }

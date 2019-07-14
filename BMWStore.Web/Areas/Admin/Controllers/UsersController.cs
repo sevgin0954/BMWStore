@@ -1,4 +1,5 @@
-﻿using BMWStore.Common.Enums;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.Interfaces;
@@ -21,9 +22,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var sortStrategyName = this.cookieService.GetSortStrategyTypeOrDefault(this.HttpContext.Request.Cookies);
-            var sortDirection = this.cookieService.GetSortStrategyDirectionOrDefault(this.HttpContext.Request.Cookies);
-            var sortStrategy = UserSortStrategyFactory.GetStrategy(sortStrategyName, sortDirection);
+            var cookies = this.HttpContext.Request.Cookies;
+            var sortStrategyName = this.cookieService
+                .GetSortStrategyTypeOrDefault<UserSortStrategyType>(cookies, WebConstants.CookieAdminUsersSortTypeKey);
+            var sortDirection = this.cookieService
+                .GetSortStrategyDirectionOrDefault(this.HttpContext.Request.Cookies, WebConstants.CookieAdminUsersSortDirectionKey);
+            var sortStrategy = UserSortStrategyFactory
+                .GetStrategy(sortStrategyName, sortDirection);
             var model = new AdminUsersViewModel()
             {
                 Users = await this.adminUsersService.GetAllUsersAsync(sortStrategy),

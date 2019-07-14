@@ -37,7 +37,7 @@ namespace BMWStore.Services
         public async Task BanUserAsync(string userId)
         {
             var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
-            DataValidator.NotNullValidator(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
 
             if (this.IsUserBanned(dbUser))
             {
@@ -52,7 +52,7 @@ namespace BMWStore.Services
         public async Task UnbanUserAsync(string userId)
         {
             var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
-            DataValidator.NotNullValidator(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
 
             if (this.IsUserBanned(dbUser) == false)
             {
@@ -77,7 +77,7 @@ namespace BMWStore.Services
         public async Task DeleteUserAsync(string userId)
         {
             var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
-            DataValidator.NotNullValidator(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
 
             this.unitOfWork.Users.Remove(dbUser);
 

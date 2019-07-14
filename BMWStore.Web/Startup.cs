@@ -12,13 +12,7 @@ using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Services;
 using BMWStore.Web.Mapping;
-using System.Reflection;
-using System;
-using System.Collections.Generic;
-using BMWStore.Common.Constants;
-using System.Runtime.CompilerServices;
 using BMWStore.Data.Interfaces;
-using ServiceLayerRegistrar.Interfaces;
 using ServiceLayerRegistrar;
 
 namespace BMWStore.Web

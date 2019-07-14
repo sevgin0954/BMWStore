@@ -1,0 +1,27 @@
+﻿@model AdminCarsViewModel
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<div class="container-item d-flex">
+    <a class="btn border-blue-hover" href="#">
+        Add new
+        <i class="fas fa-plus"></i>
+    </a>
+    <div class="d-flex mx-auto">
+        @await Component.InvokeAsync("SortType", new
+            {
+                enumTypeName = typeof(CarSortStrategyType).AssemblyQualifiedName,
+                selectedEnumName = @Model.SortStrategyType.ToString()
+            })
+        <partial name="_SortingDirectionPartial" />
+    </div>
+</div>
+
+@foreach (var car in Model.Cars)
+{
+    <div class="container-item">
+        Name
+    </div>
+}
+

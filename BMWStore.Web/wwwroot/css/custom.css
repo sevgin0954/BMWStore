@@ -33,7 +33,7 @@
 .border-blue-hover {
     
 }
-.border-blue-hover:hover {
+.border-blue-hover:hover, .border-blue-hover:focus {
     box-shadow: 0 0 5px 1px #45ADDE;
     border-color: #45ADDE;
 }

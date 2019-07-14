@@ -5,6 +5,7 @@ namespace BMWStore.Data.Interfaces
 {
     public interface IBMWStoreUnitOfWork
     {
+        CarRepository AllCars { get; }
         NewCarRepository NewCars { get; }
         UserRepository Users { get; }
         UsedCarRepository UsedCars { get; }

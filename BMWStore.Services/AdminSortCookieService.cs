@@ -1,6 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
-using BMWStore.Data;
+using BMWStore.Common.Validation;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -23,9 +23,10 @@ namespace BMWStore.Services
             responseCookies.Append(sortTypeKey, sortTypeValue);
         }
 
-        public SortStrategyDirection GetSortStrategyDirectionOrDefault(IRequestCookieCollection requestCookies)
+        public SortStrategyDirection GetSortStrategyDirectionOrDefault(
+            IRequestCookieCollection requestCookies, 
+            string sortDirectionKey)
         {
-            var sortDirectionKey = WebConstants.CookieAdminUsersSortDirectionKey;
             var sortDirectionValue = requestCookies[sortDirectionKey];
 
             var sortDirection = SortStrategyDirection.Ascending;
@@ -37,15 +38,21 @@ namespace BMWStore.Services
             return sortDirection;
         }
 
-        public UserSortStrategyType GetSortStrategyTypeOrDefault(IRequestCookieCollection requestCookies)
+        public TStrategyType GetSortStrategyTypeOrDefault<TStrategyType>(
+            IRequestCookieCollection requestCookies, 
+            string sortTypeKey) where TStrategyType : struct
         {
-            var sortTypeKey = WebConstants.CookieAdminUsersSortTypeKey;
-            var sortTypeValue = requestCookies[sortTypeKey];
+            var enumValues = Enum.GetValues(typeof(TStrategyType));
+            DataValidator.ValidateNotEmptyCollection(enumValues, ErrorConstants.EmptyEnumException);
 
-            var sortType = UserSortStrategyType.Name;
+            var defaultSortType = (TStrategyType)enumValues.GetValue(0);
+
+            var sortType = defaultSortType;
+
+            var sortTypeValue = requestCookies[sortTypeKey];
             if (Enum.TryParse(sortTypeValue, out sortType) == false)
             {
-                sortType = UserSortStrategyType.Name;
+                sortType = defaultSortType;
             }
 
             return sortType;

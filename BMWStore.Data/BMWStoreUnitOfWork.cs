@@ -12,6 +12,7 @@ namespace BMWStore.Data
         {
             this.dbContext = dbContext;
 
+            this.AllCars = new CarRepository(this.dbContext);
             this.NewCars = new NewCarRepository(this.dbContext);
             this.Users = new UserRepository(this.dbContext);
             this.UsedCars = new UsedCarRepository(this.dbContext);
@@ -19,6 +20,8 @@ namespace BMWStore.Data
             this.Orders = new OrderRepository(this.dbContext);
             this.Roles = new RoleRepository(this.dbContext);
         }
+
+        public CarRepository AllCars { get; private set; }
 
         public NewCarRepository NewCars { get; private set; }
 

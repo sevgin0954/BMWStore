@@ -5,53 +5,14 @@
 
 <div class="container-item no-padding border-grey border-radius-smooth d-flex">
     <div class="dropdown ml-auto">
-        Order by
-        <button class="btn btn-wide border-blue-hover" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @{ var selectedStrategyType = @Model.SortStrategyType.ToString(); }
-            @Html.Raw(IconLinks.SortTypeIconLink[selectedStrategyType])
-            @selectedStrategyType
-        </button>
-        <div class="dropdown-menu border-blue" aria-labelledby="dropdownMenuButton">
-            @foreach (var strategyType in Enum.GetNames(typeof(UserSortStrategyType)))
-            {
-                if (strategyType != selectedStrategyType)
-                {
-                    <form method="post" 
-                          asp-controller="Users" 
-                          asp-action="ChangeSortType" 
-                          asp-route-sortStrategyType="@strategyType">
-                        <button type="submit" class="dropdown-item">
-                            @Html.Raw(IconLinks.SortTypeIconLink[strategyType])
-                            @strategyType
-                        </button>
-                    </form>
-                }
-            }
-        </div>
+        @await Component.InvokeAsync("SortType", new
+           {
+               enumTypeName = typeof(UserSortStrategyType).AssemblyQualifiedName,
+               selectedEnumName = @Model.SortStrategyType.ToString()
+           })
     </div>
-    <div class="dropdown mr-auto">
-        <button class="btn btn-wide border-blue-hover" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @{ var selectedSortDirection = @Model.SortStrategyDirection.ToString(); }
-            @selectedSortDirection
-            @Html.Raw(IconLinks.SortTypeIconLink[selectedSortDirection])
-        </button>
-        <div class="dropdown-menu border-blue" aria-labelledby="dropdownMenuButton">
-            @foreach (var sortDirection in Enum.GetNames(typeof(SortStrategyDirection)))
-            {
-                if (sortDirection != selectedSortDirection)
-                {
-                    <form method="post" 
-                          asp-controller="Users" 
-                           asp-action="ChangeSortDirection" 
-                           asp-route-sortDirection="@sortDirection">
-                        <button type="submit" class="dropdown-item" >
-                            @sortDirection
-                            @Html.Raw(IconLinks.SortTypeIconLink[sortDirection])
-                        </button>
-                    </form>
-                }
-            }
-        </div>
+    <div class="mr-auto">
+        <partial name="_SortingDirectionPartial" />
     </div>
 </div>
 
