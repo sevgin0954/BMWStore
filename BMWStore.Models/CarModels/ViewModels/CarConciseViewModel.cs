@@ -1,6 +1,9 @@
-﻿namespace BMWStore.Models.CarModels.ViewModels
+﻿using BMWStore.Entities;
+using MappingRegistrar.Interfaces;
+
+namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class CarConciseViewModel
+    public class CarConciseViewModel : IMapFrom<UsedCar>, IMapFrom<NewCar>
     {
         public string Id { get; set; }
 

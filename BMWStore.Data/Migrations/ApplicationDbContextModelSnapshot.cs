@@ -28,6 +28,9 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<int>("CO2Emissions");
 
+                    b.Property<string>("ColorName")
+                        .IsRequired();
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
@@ -36,9 +39,6 @@ namespace BMWStore.Data.Migrations
                     b.Property<int>("DoorsCount");
 
                     b.Property<string>("EngineId")
-                        .IsRequired();
-
-                    b.Property<string>("ExteriorId")
                         .IsRequired();
 
                     b.Property<double>("FuelConsumation_City_Litres_100Km");
@@ -54,7 +54,8 @@ namespace BMWStore.Data.Migrations
                         .IsRequired();
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Price");
 
@@ -64,7 +65,8 @@ namespace BMWStore.Data.Migrations
                     b.Property<decimal>("Torque");
 
                     b.Property<string>("Vin")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(17);
 
                     b.Property<int>("WarrantyMonthsLeft");
 
@@ -75,8 +77,6 @@ namespace BMWStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EngineId");
-
-                    b.HasIndex("ExteriorId");
 
                     b.HasIndex("FuelTypeId");
 
@@ -89,55 +89,30 @@ namespace BMWStore.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("BaseCar");
                 });
 
-            modelBuilder.Entity("BMWStore.Entities.Color", b =>
+            modelBuilder.Entity("BMWStore.Entities.Engine", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25);
-
-                    b.Property<decimal>("Price");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Colors");
-                });
-
-            modelBuilder.Entity("BMWStore.Entities.Engine", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Price");
 
                     b.Property<string>("TransmissionId")
                         .IsRequired();
 
-                    b.Property<string>("Weight_Kg")
-                        .IsRequired();
+                    b.Property<int>("Weight_Kg");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("TransmissionId");
 
                     b.ToTable("Engines");
-                });
-
-            modelBuilder.Entity("BMWStore.Entities.Exterior", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ColorId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ColorId");
-
-                    b.ToTable("Exteriors");
                 });
 
             modelBuilder.Entity("BMWStore.Entities.FuelType", b =>
@@ -147,9 +122,12 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(3);
+                        .HasMaxLength(15);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("FuelTypes");
                 });
@@ -164,6 +142,9 @@ namespace BMWStore.Data.Migrations
                         .HasMaxLength(15);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("ModelTypes");
                 });
@@ -202,7 +183,7 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2019, 7, 7, 21, 23, 58, 802, DateTimeKind.Utc).AddTicks(1325));
+                        .HasDefaultValue(new DateTime(2019, 7, 16, 20, 4, 40, 521, DateTimeKind.Utc).AddTicks(8770));
 
                     b.HasKey("CarId", "UserId");
 
@@ -216,12 +197,14 @@ namespace BMWStore.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ExteriorId")
+                    b.Property<string>("BaseCarId");
+
+                    b.Property<byte[]>("Data")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExteriorId");
+                    b.HasIndex("BaseCarId");
 
                     b.ToTable("Pictures");
                 });
@@ -236,6 +219,9 @@ namespace BMWStore.Data.Migrations
                         .HasMaxLength(15);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Series");
                 });
@@ -403,13 +389,9 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<string>("RoleId");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -452,11 +434,6 @@ namespace BMWStore.Data.Migrations
                         .HasForeignKey("EngineId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BMWStore.Entities.Exterior", "Exterior")
-                        .WithMany("Cars")
-                        .HasForeignKey("ExteriorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("BMWStore.Entities.FuelType", "FuelType")
                         .WithMany("Cars")
                         .HasForeignKey("FuelTypeId")
@@ -478,14 +455,6 @@ namespace BMWStore.Data.Migrations
                     b.HasOne("BMWStore.Entities.Transmission", "Transmission")
                         .WithMany("Engines")
                         .HasForeignKey("TransmissionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("BMWStore.Entities.Exterior", b =>
-                {
-                    b.HasOne("BMWStore.Entities.Color", "Color")
-                        .WithMany("Exteriors")
-                        .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -511,10 +480,9 @@ namespace BMWStore.Data.Migrations
 
             modelBuilder.Entity("BMWStore.Entities.Picture", b =>
                 {
-                    b.HasOne("BMWStore.Entities.Exterior", "Exterior")
+                    b.HasOne("BMWStore.Entities.BaseCar")
                         .WithMany("Pictures")
-                        .HasForeignKey("ExteriorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BaseCarId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -549,13 +517,9 @@ namespace BMWStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BMWStore.Entities.User")
-                        .WithMany()
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BMWStore.Entities.User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

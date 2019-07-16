@@ -16,6 +16,8 @@ namespace BMWStore.Entities
         [Required]
         public int CO2Emissions { get; set; }
 
+        [Required]
+        public string ColorName { get; set; }
 
         [Range(EntitiesConstants.CarMinDisplacement, EntitiesConstants.CarMaxDisplacement)]
         [Required]
@@ -28,10 +30,6 @@ namespace BMWStore.Entities
         [Required]
         public string EngineId { get; set; }
         public Engine Engine { get; set; }
-
-        [Required]
-        public string ExteriorId { get; set; }
-        public Exterior Exterior { get; set; }
 
         [Range(EntitiesConstants.CarMinFuelConsumation, EntitiesConstants.CarMaxFuelConsumation_City_Litres_100Km)]
         [Required]
@@ -53,11 +51,14 @@ namespace BMWStore.Entities
         public string ModelTypeId { get; set; }
         public ModelType ModelType { get; set; }
 
-        [Range(EntitiesConstants.CarNameMinLength, EntitiesConstants.CarNameMaxLength)]
+        [MaxLength(EntitiesConstants.CarNameMaxLength)]
+        [MinLength(EntitiesConstants.CarNameMinLength)]
         [Required]
         public string Name { get; set; }
 
         public ICollection<Option> Options { get; set; } = new List<Option>();
+
+        public ICollection<Picture> Pictures { get; set; } = new List<Picture>();
 
         [Range(typeof(decimal), EntitiesConstants.MinPrice, EntitiesConstants.CarMaxPrice)]
         [Required]
@@ -67,13 +68,14 @@ namespace BMWStore.Entities
         public string SeriesId { get; set; }
         public Series Series { get; set; }
 
-        [Range(EntitiesConstants.CarMaxTorque, EntitiesConstants.CarMinTorque)]
+        [Range(EntitiesConstants.CarMinTorque, EntitiesConstants.CarMaxTorque)]
         [Required]
         public decimal Torque { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 
-        [Range(EntitiesConstants.CarVinLength, EntitiesConstants.CarVinLength)]
+        [MaxLength(EntitiesConstants.CarVinLength)]
+        [MinLength(EntitiesConstants.CarVinLength)]
         [Required]
         public string Vin { get; set; }
 

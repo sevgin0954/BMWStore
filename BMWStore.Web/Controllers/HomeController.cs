@@ -1,4 +1,4 @@
-﻿using BMWStore.Models.ErrorModels.ViewModels;
+﻿using BMWStore.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BMWStore.Data;

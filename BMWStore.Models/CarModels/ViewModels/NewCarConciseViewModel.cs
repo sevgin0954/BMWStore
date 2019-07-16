@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using BMWStore.Entities;
+using MappingRegistrar.Interfaces;
+using System.Collections.Generic;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class NewCarConciseViewModel
+    public class NewCarConciseViewModel : IMapFrom<NewCar>
     {
         public string EngineName { get; set; }
 

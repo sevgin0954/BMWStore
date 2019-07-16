@@ -1,6 +1,9 @@
-﻿namespace BMWStore.Models.UserModels.ViewModels
+﻿using BMWStore.Entities;
+using MappingRegistrar.Interfaces;
+
+namespace BMWStore.Models.UserModels.ViewModels
 {
-    public class UserAdminViewModel
+    public class UserAdminViewModel : IMapFrom<User>
     {
         public string Email { get; set; }
 

@@ -8,6 +8,10 @@
         public const string UserRoleName = "User";
         public const string SupportRoleName = "Support";
 
+        public const string AdminCarsUrl = "/Admin/Cars";
+        public const string AdminCreateNewCarUrl = "/Admin/Cars/AddNew";
+        public const string AdminCreateNewEngineUrl = "/Admin/Engine/AddNew";
+
         public const string CookieAdminCarsSortDirectionKey = "___AdminCarsSortDirection___";
         public const string CookieAdminCarsSortTypeKey = "___AdminCarsSortType___";
 

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
@@ -11,9 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Services;
-using BMWStore.Web.Mapping;
 using BMWStore.Data.Interfaces;
 using ServiceLayerRegistrar;
+using MappingRegistrar;
+using System.Reflection;
+using BMWStore.Models;
 
 namespace BMWStore.Web
 {
@@ -51,9 +52,7 @@ namespace BMWStore.Web
                 .AddDefaultTokenProviders()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddAutoMapper(typeof(AutoMapperProfile));
-
+            // TODO: ADD ANTI FORGERY FILTER
             RegisterServiceLayer(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -62,6 +61,10 @@ namespace BMWStore.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            RegisterAutoMapperMappings.RegisterMappings(
+                typeof(ErrorViewModel).GetTypeInfo().Assembly,
+                typeof(User).GetTypeInfo().Assembly);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

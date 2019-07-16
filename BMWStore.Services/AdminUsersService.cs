@@ -15,12 +15,10 @@ namespace BMWStore.Services
     public class AdminUsersService : IAdminUsersService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
 
-        public AdminUsersService(IBMWStoreUnitOfWork unitOfWork, IMapper mapper)
+        public AdminUsersService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<UserAdminViewModel>> GetAllUsersAsync(IUserSortStrategy sortStrategy)
@@ -29,7 +27,7 @@ namespace BMWStore.Services
                 .GetIdByNameAsync(WebConstants.UserRoleName);
             var dbUsers = await this.unitOfWork.Users
                 .GetSortedWithRoleAsync(sortStrategy, dbUserRoleId);
-            var models = this.mapper.Map<IEnumerable<UserAdminViewModel>>(dbUsers);
+            var models = Mapper.Map<IEnumerable<UserAdminViewModel>>(dbUsers);
 
             return models;
         }

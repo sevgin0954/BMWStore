@@ -1,0 +1,28 @@
+﻿@model AdminTransmissionsCreateBindingModel
+@{
+    ViewData["Title"] = "Add New Transmission";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<div class="container-item border-radius-smooth border-grey">
+    <form class="form-group" method="post">
+        <div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+
+        <div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <label asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+
+        <partial name="_FormEndButtonsPartial" model="@(new string[] { "Engine","AddNew" })" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

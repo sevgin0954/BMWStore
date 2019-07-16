@@ -18,7 +18,7 @@
         public const int CarNameMaxLength = 50;
         public const int CarNameMinLength = 5;
         public const string CarMaxPrice = "15000000";
-        public const double CarMaxTorque = 30;
+        public const double CarMaxTorque = 1000;
         public const double CarMinTorque = 5;
         public const int CarVinLength = 17;
         public const int CarMaxWarrantyMonthsLeft = 100;
@@ -30,17 +30,20 @@
         public const int ColorNameMaxLength = 25;
         public const int ColorNameMinLength = 3;
 
+        public const int EngineeNameMaxLength = 50;
+        public const int EngineNameMinLength = 5;
+
         public const string MinPrice = "0";
 
         public const int ModelTypeNameMinLength = 3;
         public const int ModelTypeNameMaxLength = 15;
 
         public const string EngineMaxPrice = "500000";
-        public const string EngineMaxWeight_Kg = "400";
-        public const string EngineMinWeight_Kg = "40";
+        public const int EngineMaxWeight_Kg = 400;
+        public const int EngineMinWeight_Kg = 40;
 
-        public const int FuelTypeNameMaxLength = 3;
-        public const int FuelTypeNameMinLength = 15;
+        public const int FuelTypeNameMaxLength = 15;
+        public const int FuelTypeNameMinLength = 3;
 
         public const int OptionNameMaxLength = 25;
         public const string OptionNameMaxPrice = "100000";

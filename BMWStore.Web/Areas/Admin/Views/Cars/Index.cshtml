@@ -3,8 +3,10 @@
     ViewData["Title"] = "Cars";
 }
 
-<div class="container-item d-flex">
-    <a class="btn border-blue-hover" href="#">
+<div class="container-item border-radius-smooth border-grey d-flex">
+    <a class="btn border-blue-hover" 
+       asp-controller="Cars"
+       asp-action="AddNew">
         Add new
         <i class="fas fa-plus"></i>
     </a>

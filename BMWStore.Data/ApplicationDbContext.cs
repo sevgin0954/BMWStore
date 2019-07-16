@@ -12,9 +12,7 @@ namespace BMWStore.Data
             : base(options) { }
 
         public DbSet<BaseCar> BaseCars { get; set; }
-        public DbSet<Color> Colors { get; set; }
         public DbSet<Engine> Engines { get; set; }
-        public DbSet<Exterior> Exteriors { get; set; }
         public DbSet<FuelType> FuelTypes { get; set; }
         public DbSet<ModelType> ModelTypes { get; set; }
         public DbSet<NewCar> NewCars { get; set; }
@@ -38,10 +36,6 @@ namespace BMWStore.Data
                     .WithMany(e => e.Cars)
                     .HasForeignKey(c => c.EngineId);
 
-                car.HasOne(c => c.Exterior)
-                    .WithMany(e => e.Cars)
-                    .HasForeignKey(c => c.ExteriorId);
-
                 car.HasOne(c => c.FuelType)
                     .WithMany(ft => ft.Cars)
                     .HasForeignKey(c => c.FuelTypeId);
@@ -59,35 +53,27 @@ namespace BMWStore.Data
                     .HasForeignKey(uc => uc.CarId);
             });
 
-            builder.Entity<Color>(color =>
-            {
-                color.HasKey(c => c.Id);
-
-                color.Property(c => c.Name)
-                .HasMaxLength(EntitiesConstants.ColorNameMaxLength); ;
-            });
-
             builder.Entity<Engine>(engine =>
             {
                 engine.HasKey(e => e.Id);
+
+                engine.HasIndex(e => e.Name)
+                    .IsUnique();
+
+                engine.Property(e => e.Name)
+                    .HasMaxLength(EntitiesConstants.EngineeNameMaxLength);
 
                 engine.HasOne(e => e.Transmission)
                     .WithMany(t => t.Engines)
                     .HasForeignKey(e => e.TransmissionId);
             });
 
-            builder.Entity<Exterior>(exterior =>
-            {
-                exterior.HasKey(e => e.Id);
-
-                exterior.HasOne(e => e.Color)
-                    .WithMany(c => c.Exteriors)
-                    .HasForeignKey(e => e.ColorId);
-            });
-
             builder.Entity<FuelType>(fuelType =>
             {
                 fuelType.HasKey(ft => ft.Id);
+
+                fuelType.HasIndex(ft => ft.Name)
+                    .IsUnique();
 
                 fuelType.Property(ft => ft.Name)
                     .HasMaxLength(EntitiesConstants.FuelTypeNameMaxLength);
@@ -96,6 +82,9 @@ namespace BMWStore.Data
             builder.Entity<ModelType>(modelType =>
             {
                 modelType.HasKey(mt => mt.Id);
+
+                modelType.HasIndex(mt => mt.Name)
+                    .IsUnique();
 
                 modelType.Property(mt => mt.Name)
                     .HasMaxLength(EntitiesConstants.ModelTypeNameMaxLength);
@@ -123,15 +112,14 @@ namespace BMWStore.Data
             builder.Entity<Picture>(pictures =>
             {
                 pictures.HasKey(p => p.Id);
-
-                pictures.HasOne(p => p.Exterior)
-                    .WithMany(e => e.Pictures)
-                    .HasForeignKey(p => p.ExteriorId);
             });
 
             builder.Entity<Series>(series =>
             {
                 series.HasKey(s => s.Id);
+
+                series.HasIndex(s => s.Name)
+                    .IsUnique();
 
                 series.Property(s => s.Name)
                     .HasMaxLength(EntitiesConstants.SeriesNameMaxLength);

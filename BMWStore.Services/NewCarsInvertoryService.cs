@@ -9,12 +9,10 @@ namespace BMWStore.Services
 {
     public class NewCarsInvertoryService : INewCarsInvertoryService
     {
-        private readonly IMapper mapper;
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public NewCarsInvertoryService(IBMWStoreUnitOfWork unitOfWork, IMapper mapper)
+        public NewCarsInvertoryService(IBMWStoreUnitOfWork unitOfWork)
         {
-            this.mapper = mapper;
             this.unitOfWork = unitOfWork;
         }
 
@@ -23,7 +21,7 @@ namespace BMWStore.Services
             var dbCars = await this.unitOfWork.NewCars
                 .GetAllAsync();
 
-            var carModels = this.mapper.Map<IEnumerable<NewCarConciseViewModel>>(dbCars);
+            var carModels = Mapper.Map<IEnumerable<NewCarConciseViewModel>>(dbCars);
 
             return carModels;
         }
