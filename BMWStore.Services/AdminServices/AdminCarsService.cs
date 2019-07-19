@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BMWStore.Common.Helpers;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
@@ -9,6 +9,7 @@ using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,20 +18,21 @@ namespace BMWStore.Services.AdminServices
     public class AdminCarsService : IAdminCarsService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
-        private readonly IPicturesService picturesService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public AdminCarsService(IBMWStoreUnitOfWork unitOfWork, IPicturesService picturesService)
+        public AdminCarsService(
+            IBMWStoreUnitOfWork unitOfWork, 
+            ICloudinaryService cloudinaryService)
         {
             this.unitOfWork = unitOfWork;
-            this.picturesService = picturesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task CreateNewCar(AdminCarCreateBindingModel model)
+        public async Task CreateNewCar(AdminNewCarCreateBindingModel model)
         {
             var dbNewCar = Mapper.Map<NewCar>(model);
-            var picturesByteData = await FileHelper.IFormFilesToByteAsync(model.Pictures);
-            var pictures = this.picturesService.GetPicturesFromByteData(picturesByteData);
-            dbNewCar.Pictures = pictures;
+            var pictureUrls = await this.cloudinaryService.UploadPicturesAsync(model.Pictures);
+            dbNewCar.Pictures = Mapper.Map<ICollection<Picture>>(pictureUrls);
 
             this.unitOfWork.NewCars.Add(dbNewCar);
 
@@ -44,10 +46,12 @@ namespace BMWStore.Services.AdminServices
 
             var usedCarsModels = await this.unitOfWork.UsedCars
                 .GetAllAsQueryable()
+                .Include(uc => uc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();
             var newCarsModels = await this.unitOfWork.NewCars
                 .GetAllAsQueryable()
+                .Include(nc => nc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();
 
@@ -55,6 +59,17 @@ namespace BMWStore.Services.AdminServices
             models.AddRange(newCarsModels);
 
             return models;
+        }
+
+        public async Task DeleteCarAsync(string carId)
+        {
+            var dbCar = await this.unitOfWork.AllCars.GetByIdAsync(carId);
+            DataValidator.ValidateNotNull(dbCar, new ArgumentException(ErrorConstants.IncorrectId));
+
+            this.unitOfWork.AllCars.Remove(dbCar);
+
+            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
     }
 }

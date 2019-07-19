@@ -56,6 +56,11 @@ namespace BMWStore.Data
                 car.HasMany(c => c.Options)
                     .WithOne(o => o.Car)
                     .HasForeignKey(o => o.CarId);
+
+                car.HasMany(c => c.Pictures)
+                    .WithOne(p => p.Car)
+                    .HasForeignKey(p => p.CarId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<CarOption>(carOption =>

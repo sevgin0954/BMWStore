@@ -4,14 +4,16 @@ using BMWStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BMWStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190719190010_removePicturesFromDatabaseMigration")]
+    partial class removePicturesFromDatabaseMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,7 +194,7 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2019, 7, 19, 21, 14, 36, 324, DateTimeKind.Utc).AddTicks(4878));
+                        .HasDefaultValue(new DateTime(2019, 7, 19, 19, 0, 9, 316, DateTimeKind.Utc).AddTicks(6217));
 
                     b.HasKey("CarId", "UserId");
 
@@ -206,15 +208,14 @@ namespace BMWStore.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CarId")
-                        .IsRequired();
+                    b.Property<string>("BaseCarId");
 
                     b.Property<string>("Url")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
+                    b.HasIndex("BaseCarId");
 
                     b.ToTable("Pictures");
                 });
@@ -496,10 +497,9 @@ namespace BMWStore.Data.Migrations
 
             modelBuilder.Entity("BMWStore.Entities.Picture", b =>
                 {
-                    b.HasOne("BMWStore.Entities.BaseCar", "Car")
+                    b.HasOne("BMWStore.Entities.BaseCar")
                         .WithMany("Pictures")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BaseCarId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

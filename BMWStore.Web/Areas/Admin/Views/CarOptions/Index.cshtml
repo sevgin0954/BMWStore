@@ -46,11 +46,11 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/removeTrFromTable.js"></script>
+    <script src="~/js/removeElementOnButtonClick.js"></script>
     <script src="~/js/makePostRequest.js"></script>
     <script>
         $(function () {
-            removeTrFromTable('[delete]', 'data-optionId', '/Admin/CarOptions/Delete');
+            removeElementOnButtonClick('[delete]', 'data-optionId', '/Admin/CarOptions/Delete');
         })
     </script>
 }

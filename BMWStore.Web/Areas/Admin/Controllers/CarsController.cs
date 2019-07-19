@@ -64,7 +64,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var modelTypes = await this.adminModelTypesService.GetAllAsSelectListItemsAsync();
             var series = await this.adminSeriesService.GetAllAsSelectListItemsAsync();
             var options = await this.adminCarOptionsService.GetAllAsSelectListItemsAsync();
-            var model = new AdminCarCreateBindingModel()
+            var model = new AdminNewCarCreateBindingModel()
             {
                 Engines = engines,
                 FuelTypes = fuelTypes,
@@ -77,9 +77,17 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminCarCreateBindingModel model)
+        public async Task<IActionResult> AddNew(AdminNewCarCreateBindingModel model)
         {
             await this.adminCarsService.CreateNewCar(model);
+
+            return Redirect(WebConstants.AdminCarsUrl);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.adminCarsService.DeleteCarAsync(id);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }

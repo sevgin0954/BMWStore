@@ -7,7 +7,8 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminCarsService
     {
-        Task CreateNewCar(AdminCarCreateBindingModel model);
+        Task CreateNewCar(AdminNewCarCreateBindingModel model);
         Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync();
+        Task DeleteCarAsync(string carId);
     }
 }

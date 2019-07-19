@@ -15,6 +15,7 @@ using ServiceLayerRegistrar;
 using MappingRegistrar;
 using System.Reflection;
 using BMWStore.Models;
+using CloudinaryDotNet;
 
 namespace BMWStore.Web
 {
@@ -54,6 +55,12 @@ namespace BMWStore.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             // TODO: ADD ANTI FORGERY FILTER
             RegisterServiceLayer(services);
+
+            var cloudinaryAccount = new Account(
+                this.Configuration["Cloudinary:CloudName"],
+                this.Configuration["Cloudinary:ApiKey"],
+                this.Configuration["Cloudinary:ApiSecret"]);
+            services.AddCloudinary(cloudinaryAccount, ServiceLifetime.Singleton);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

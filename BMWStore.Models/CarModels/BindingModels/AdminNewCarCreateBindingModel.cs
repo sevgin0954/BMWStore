@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.BindingModels
 {
-    public class AdminCarCreateBindingModel : IMapTo<NewCar>, IHaveCustomMappings
+    public class AdminNewCarCreateBindingModel : IMapTo<NewCar>, IHaveCustomMappings
     {
         public CarCondition CarCondition { get; set; }
 
@@ -104,7 +104,7 @@ namespace BMWStore.Models.CarModels.BindingModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<AdminCarCreateBindingModel, NewCar>()
+            configuration.CreateMap<AdminNewCarCreateBindingModel, NewCar>()
                 .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
                 .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
                 .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))

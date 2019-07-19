@@ -23,11 +23,11 @@
 
 .border-blue {
     border-color: #45ADDE;
-    box-shadow: 0 0 5px 1px #45ADDE;
+    box-shadow: 0 0 5px 2px #45ADDE;
 }
 .border-blue:active {
     border-color: #45ADDE;
-    box-shadow: 0 0 5px 1px #45ADDE;
+    box-shadow: 0 0 5px 2px #45ADDE;
 }
 
 .border-blue-hover {
@@ -39,11 +39,11 @@
 }
 
 .border-green {
-    box-shadow: 0 0 5px 1px #B4CC14;
+    box-shadow: 0 0 5px 2px #B4CC14;
     border-color: #B4CC14;
 }
 .border-green:focus {
-    box-shadow: 0 0 5px 1px #B4CC14;
+    box-shadow: 0 0 5px 2px #B4CC14;
     border-color: #B4CC14;
 }
 
@@ -51,7 +51,7 @@
 
 }
 .border-green-hover:hover {
-    box-shadow: 0 0 5px 1px #B4CC14;
+    box-shadow: 0 0 5px 2px #B4CC14;
     border-color: #B4CC14;
 }
 
@@ -61,11 +61,11 @@
 
 .border-light-blue {
     border-color: #e4f1f9;
-    box-shadow: 0 0 5px 1px #e4f1f9;
+    box-shadow: 0 0 5px 2px #e4f1f9;
 }
 .border-light-blue:focus {
     border-color: #e4f1f9;
-    box-shadow: 0 0 5px 1px #e4f1f9;
+    box-shadow: 0 0 5px 2px #e4f1f9;
 }
 
 .border-no-radius {
@@ -85,10 +85,10 @@
 }
 
 .border-light-red {
-    box-shadow: 0 0 3px 2px #FF8484;
+    box-shadow: 0 0 5px 2px #FF8484;
 }
 .border-light-red:focus {
-    box-shadow: 0 0 3px 2px #FF8484;
+    box-shadow: 0 0 5px 2px #FF8484;
 }
 
 .btn-wide {
@@ -97,6 +97,11 @@
     padding-left: 20px;
     margin-top:5px;
     margin-bottom: 5px;
+}
+
+.img-small {
+    width: 130px;
+    height: 130px;
 }
 
 .light-blue-container {
