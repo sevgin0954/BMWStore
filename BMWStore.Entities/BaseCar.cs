@@ -56,8 +56,9 @@ namespace BMWStore.Entities
         [Required]
         public string Name { get; set; }
 
-        public ICollection<Option> Options { get; set; } = new List<Option>();
+        public ICollection<CarOption> Options { get; set; } = new List<CarOption>();
 
+        // TODO: SAVE FILE LOCAL
         public ICollection<Picture> Pictures { get; set; } = new List<Picture>();
 
         [Range(typeof(decimal), EntitiesConstants.MinPrice, EntitiesConstants.CarMaxPrice)]

@@ -2,12 +2,12 @@
 using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
 using BMWStore.Entities;
-using BMWStore.Models.OptionModels.ViewModels;
 using MappingRegistrar.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace BMWStore.Models.CarModels.BindingModels
 {
@@ -68,8 +68,9 @@ namespace BMWStore.Models.CarModels.BindingModels
         [Required]
         public string Name { get; set; }
 
-        public IEnumerable<OptionViewModel> AvailableOptions { get; set; } = new List<OptionViewModel>();
+        public IEnumerable<SelectListItem> CarOptions { get; set; } = new List<SelectListItem>();
 
+        [Required]
         public IEnumerable<IFormFile> Pictures { get; set; }
 
         [Range(typeof(decimal), EntitiesConstants.MinPrice, EntitiesConstants.CarMaxPrice)]
@@ -108,7 +109,9 @@ namespace BMWStore.Models.CarModels.BindingModels
                 .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
                 .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
                 .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId))
-                .ForMember(dest => dest.Series, opt => opt.Ignore());
+                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(co => co.Selected)))
+                .ForMember(dest => dest.Series, opt => opt.Ignore())
+                .ForMember(dest => dest.Pictures, opt => opt.Ignore());
         }
     }
 }

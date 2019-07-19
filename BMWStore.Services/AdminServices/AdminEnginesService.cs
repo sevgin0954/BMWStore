@@ -3,18 +3,20 @@ using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.EngineModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
-    public class EnginesService : IEnginesService
+    public class AdminEnginesService : IAdminEnginesService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public EnginesService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminEnginesService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
@@ -30,9 +32,10 @@ namespace BMWStore.Services
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            // Use automapper with queriable
-            var dbEngines = await this.unitOfWork.Engines.GetAllAsync();
-            var selectListItems = Mapper.Map<IEnumerable<SelectListItem>>(dbEngines);
+            var selectListItems = await this.unitOfWork.Engines
+                .GetAllAsQueryable()
+                .To<SelectListItem>()
+                .ToArrayAsync();
 
             return selectListItems;
         }

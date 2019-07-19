@@ -3,11 +3,11 @@ using BMWStore.Data;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
     public class AdminDashboardStatisticsService : IAdminDashboardStatisticsService
     {

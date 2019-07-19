@@ -2,7 +2,7 @@
 using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -40,25 +40,25 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string userId)
+        public async Task<IActionResult> Delete(string id)
         {
-            await this.adminUsersService.DeleteUserAsync(userId);
+            await this.adminUsersService.DeleteUserAsync(id);
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Ban(string userId)
+        public async Task<IActionResult> Ban(string id)
         {
-            await this.adminUsersService.BanUserAsync(userId);
+            await this.adminUsersService.BanUserAsync(id);
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Unban(string userId)
+        public async Task<IActionResult> Unban(string id)
         {
-            await this.adminUsersService.UnbanUserAsync(userId);
+            await this.adminUsersService.UnbanUserAsync(id);
 
             return RedirectToAction("Index");
         }

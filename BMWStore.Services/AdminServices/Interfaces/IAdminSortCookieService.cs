@@ -1,7 +1,7 @@
 ﻿using BMWStore.Common.Enums;
 using Microsoft.AspNetCore.Http;
 
-namespace BMWStore.Services.Interfaces
+namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminSortCookieService
     {

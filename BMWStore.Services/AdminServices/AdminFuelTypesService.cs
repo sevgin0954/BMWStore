@@ -3,18 +3,20 @@ using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.FuelTypeModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
-    public class FuelTypesService : IFuelTypesService
+    public class AdminFuelTypesService : IAdminFuelTypesService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public FuelTypesService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminFuelTypesService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
@@ -29,8 +31,10 @@ namespace BMWStore.Services
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            var dbFuelTypes = await this.unitOfWork.FuelTypes.GetAllAsync();
-            var selectListItems = Mapper.Map<IEnumerable<SelectListItem>>(dbFuelTypes);
+            var selectListItems = await this.unitOfWork.FuelTypes
+                .GetAllAsQueryable()
+                .To<SelectListItem>()
+                .ToArrayAsync();
 
             return selectListItems;
         }

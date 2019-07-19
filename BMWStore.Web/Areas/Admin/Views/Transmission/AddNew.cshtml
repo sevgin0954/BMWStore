@@ -19,7 +19,7 @@
         <label asp-for="Price"></label>
         <input class="form-control" asp-for="Price" />
 
-        <partial name="_FormEndButtonsPartial" model="@(new string[] { "Engine","AddNew" })" />
+        <form-buttons controller-name="Engine" action-name="AddNew"></form-buttons>
     </form>
 </div>
 

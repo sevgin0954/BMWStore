@@ -1,4 +1,4 @@
-﻿using BMWStore.Services.Interfaces;
+﻿using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

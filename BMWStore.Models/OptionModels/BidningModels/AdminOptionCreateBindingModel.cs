@@ -1,12 +1,12 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Entities;
+using MappingRegistrar.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.OptionModels.BidningModels
 {
-    class AdminCreateOptionBindingModel
+    public class AdminOptionCreateBindingModel : IMapTo<Option>
     {
-        public string Id { get; set; }
-
         [MaxLength(EntitiesConstants.OptionNameMaxLength)]
         [MinLength(EntitiesConstants.OptionNameMinLength)]
         [Required]

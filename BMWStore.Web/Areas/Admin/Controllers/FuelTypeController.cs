@@ -1,6 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Models.FuelTypeModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,9 +8,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class FuelTypeController : BaseAdminController
     {
-        private readonly IFuelTypesService fuelTypesService;
+        private readonly IAdminFuelTypesService fuelTypesService;
 
-        public FuelTypeController(IFuelTypesService fuelTypesService)
+        public FuelTypeController(IAdminFuelTypesService fuelTypesService)
         {
             this.fuelTypesService = fuelTypesService;
         }
@@ -28,7 +28,6 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             await this.fuelTypesService.CreateNewFuelTypeAsync(model);
 
-            // TODO: Move to constant
             return Redirect(WebConstants.AdminCreateNewCarUrl);
         }
     }

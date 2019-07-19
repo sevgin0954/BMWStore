@@ -1,6 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Models.ModelTypeModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,9 +8,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class ModelTypeController : BaseAdminController
     {
-        private readonly IModelTypesService modelTypesService;
+        private readonly IAdminModelTypesService modelTypesService;
 
-        public ModelTypeController(IModelTypesService modelTypesService)
+        public ModelTypeController(IAdminModelTypesService modelTypesService)
         {
             this.modelTypesService = modelTypesService;
         }

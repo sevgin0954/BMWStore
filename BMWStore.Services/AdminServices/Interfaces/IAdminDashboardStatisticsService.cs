@@ -1,7 +1,7 @@
 ﻿using BMWStore.Models.AdminModels.ViewModels;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services.Interfaces
+namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminDashboardStatisticsService
     {

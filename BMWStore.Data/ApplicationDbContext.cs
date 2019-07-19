@@ -12,6 +12,7 @@ namespace BMWStore.Data
             : base(options) { }
 
         public DbSet<BaseCar> BaseCars { get; set; }
+        public DbSet<CarOption> CarsOptions { get; set; }
         public DbSet<Engine> Engines { get; set; }
         public DbSet<FuelType> FuelTypes { get; set; }
         public DbSet<ModelType> ModelTypes { get; set; }
@@ -51,6 +52,23 @@ namespace BMWStore.Data
                 car.HasMany(c => c.Orders)
                     .WithOne(b => b.Car)
                     .HasForeignKey(uc => uc.CarId);
+
+                car.HasMany(c => c.Options)
+                    .WithOne(o => o.Car)
+                    .HasForeignKey(o => o.CarId);
+            });
+
+            builder.Entity<CarOption>(carOption =>
+            {
+                carOption.HasKey(co => new { co.CarId, co.OptionId });
+
+                carOption.HasOne(co => co.Car)
+                    .WithMany(c => c.Options)
+                    .HasForeignKey(co => co.CarId);
+
+                carOption.HasOne(co => co.Option)
+                    .WithMany(o => o.Cars)
+                    .HasForeignKey(co => co.OptionId);
             });
 
             builder.Entity<Engine>(engine =>
@@ -96,6 +114,10 @@ namespace BMWStore.Data
 
                 option.Property(o => o.Name)
                     .HasMaxLength(EntitiesConstants.OptionNameMaxLength);
+
+                option.HasMany(o => o.Cars)
+                    .WithOne(c => c.Option)
+                    .HasForeignKey(c => c.OptionId);
             });
 
             builder.Entity<Order>(order =>

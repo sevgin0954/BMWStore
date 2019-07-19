@@ -1,6 +1,6 @@
-﻿@model AdminSeriesCreateBindingModel
+﻿@model AdminOptionCreateBindingModel
 @{
-    ViewData["Title"] = "Add New Series";
+    ViewData["Title"] = "Add New Car Option";
 }
 
 <h5>@ViewData["Title"]</h5>
@@ -12,8 +12,13 @@
         </div>
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
-
-        <form-buttons controller-name="Engine" action-name="AddNew"></form-buttons>
+        <div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <label asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+        
+        <form-buttons controller-name="CarOptions" action-name="Index"></form-buttons>
     </form>
 </div>
 

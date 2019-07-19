@@ -1,6 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Models.SeriesModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,9 +8,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class SeriesController : BaseAdminController
     {
-        private readonly ISeriesService seriesService;
+        private readonly IAdminSeriesService seriesService;
 
-        public SeriesController(ISeriesService seriesService)
+        public SeriesController(IAdminSeriesService seriesService)
         {
             this.seriesService = seriesService;
         }

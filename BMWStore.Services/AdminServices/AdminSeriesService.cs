@@ -3,18 +3,20 @@ using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.SeriesModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
-    public class SeriesService : ISeriesService
+    public class AdminSeriesService : IAdminSeriesService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public SeriesService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminSeriesService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
@@ -30,8 +32,10 @@ namespace BMWStore.Services
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            var dbSeries = await this.unitOfWork.Series.GetAllAsync();
-            var selectListItems = Mapper.Map<IEnumerable<SelectListItem>>(dbSeries);
+            var selectListItems = await this.unitOfWork.Series
+                .GetAllAsQueryable()
+                .To<SelectListItem>()
+                .ToArrayAsync();
 
             return selectListItems;
         }

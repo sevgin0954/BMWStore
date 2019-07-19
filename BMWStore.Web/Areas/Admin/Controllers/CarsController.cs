@@ -2,7 +2,7 @@
 using BMWStore.Common.Enums;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,25 +12,28 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminCarsService adminCarsService;
         private readonly IAdminSortCookieService adminSortCookieService;
-        private readonly IEnginesService enginesService;
-        private readonly IFuelTypesService fuelTypesService;
-        private readonly IModelTypesService modelTypesService;
-        private readonly ISeriesService seriesService;
+        private readonly IAdminEnginesService adminEnginesService;
+        private readonly IAdminFuelTypesService adminFuelTypesService;
+        private readonly IAdminModelTypesService adminModelTypesService;
+        private readonly IAdminSeriesService adminSeriesService;
+        private readonly IAdminCarOptionsService adminCarOptionsService;
 
         public CarsController(
             IAdminCarsService adminCarsService, 
             IAdminSortCookieService adminSortCookieService, 
-            IEnginesService enginesService,
-            IFuelTypesService fuelTypesService,
-            IModelTypesService modelTypesService,
-            ISeriesService seriesService)
+            IAdminEnginesService enginesService,
+            IAdminFuelTypesService fuelTypesService,
+            IAdminModelTypesService modelTypesService,
+            IAdminSeriesService seriesService,
+            IAdminCarOptionsService adminCarOptionsService)
         {
             this.adminCarsService = adminCarsService;
             this.adminSortCookieService = adminSortCookieService;
-            this.enginesService = enginesService;
-            this.fuelTypesService = fuelTypesService;
-            this.modelTypesService = modelTypesService;
-            this.seriesService = seriesService;
+            this.adminEnginesService = enginesService;
+            this.adminFuelTypesService = fuelTypesService;
+            this.adminModelTypesService = modelTypesService;
+            this.adminSeriesService = seriesService;
+            this.adminCarOptionsService = adminCarOptionsService;
         }
 
         [HttpGet]
@@ -56,16 +59,18 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var engines = await this.enginesService.GetAllAsSelectListItemsAsync();
-            var fuelTypes = await this.fuelTypesService.GetAllAsSelectListItemsAsync();
-            var modelTypes = await this.modelTypesService.GetAllAsSelectListItemsAsync();
-            var series = await this.seriesService.GetAllAsSelectListItemsAsync();
+            var engines = await this.adminEnginesService.GetAllAsSelectListItemsAsync();
+            var fuelTypes = await this.adminFuelTypesService.GetAllAsSelectListItemsAsync();
+            var modelTypes = await this.adminModelTypesService.GetAllAsSelectListItemsAsync();
+            var series = await this.adminSeriesService.GetAllAsSelectListItemsAsync();
+            var options = await this.adminCarOptionsService.GetAllAsSelectListItemsAsync();
             var model = new AdminCarCreateBindingModel()
             {
                 Engines = engines,
                 FuelTypes = fuelTypes,
                 ModelTypes = modelTypes,
-                Series = series
+                Series = series,
+                CarOptions = options
             };
 
             return View(model);

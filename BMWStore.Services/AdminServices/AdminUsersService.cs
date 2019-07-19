@@ -5,12 +5,12 @@ using BMWStore.Data.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.UserModels.ViewModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
     public class AdminUsersService : IAdminUsersService
     {
@@ -27,6 +27,7 @@ namespace BMWStore.Services
                 .GetIdByNameAsync(WebConstants.UserRoleName);
             var dbUsers = await this.unitOfWork.Users
                 .GetSortedWithRoleAsync(sortStrategy, dbUserRoleId);
+            // TODO: Make use of automapper ProjectTo
             var models = Mapper.Map<IEnumerable<UserAdminViewModel>>(dbUsers);
 
             return models;

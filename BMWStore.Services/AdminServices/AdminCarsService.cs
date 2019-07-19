@@ -5,11 +5,14 @@ using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
+using MappingRegistrar;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
     public class AdminCarsService : IAdminCarsService
     {
@@ -39,11 +42,17 @@ namespace BMWStore.Services
         {
             var models = new List<CarConciseViewModel>();
 
-            var usedCars = await this.unitOfWork.UsedCars.GetAllAsync();
-            var newCars = await this.unitOfWork.NewCars.GetAllAsync();
+            var usedCarsModels = await this.unitOfWork.UsedCars
+                .GetAllAsQueryable()
+                .To<CarConciseViewModel>()
+                .ToArrayAsync();
+            var newCarsModels = await this.unitOfWork.NewCars
+                .GetAllAsQueryable()
+                .To<CarConciseViewModel>()
+                .ToArrayAsync();
 
-            Mapper.Map(usedCars, models);
-            Mapper.Map(newCars, models);
+            models.AddRange(usedCarsModels);
+            models.AddRange(newCarsModels);
 
             return models;
         }

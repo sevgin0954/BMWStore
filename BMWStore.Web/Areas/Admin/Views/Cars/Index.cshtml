@@ -22,8 +22,74 @@
 
 @foreach (var car in Model.Cars)
 {
-    <div class="container-item">
-        Name
+    <div class="container-item border-radius-smooth border-grey row">
+        <div class="border-right col">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <i>Name:</i>
+                    </div>
+                    <div>
+                        <i>Price:</i>
+                    </div>
+                    <div>
+                        <i>Mileage:</i>
+                    </div>
+                    <div>
+                        <i>Model Type:</i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        @car.Name
+                    </div>
+                    <div>
+                        @car.Price
+                    </div>
+                    <div>
+                        @car.Mileage
+                    </div>
+                    <div>
+                        @car.ModelTypeName
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <i>Series:</i>
+                    </div>
+                    <div>
+                        <i>Vin:</i>
+                    </div>
+                    <div>
+                        <i>Warranty:</i>
+                    </div>
+                    <div>
+                        <i>Year:</i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        @car.SeriesName
+                    </div>
+                    <div>
+                        @car.Vin
+                    </div>
+                    <div>
+                        @car.WarrantyMonthsLeft
+                    </div>
+                    <div>
+                        @car.Year
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
     </div>
 }
 

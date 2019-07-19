@@ -3,27 +3,30 @@ using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.TransmissionsModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services
+namespace BMWStore.Services.AdminServices
 {
-    public class TransmissionsService : ITransmissionsService
+    public class AdminTransmissionsService : IAdminTransmissionsService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public TransmissionsService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminTransmissionsService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            var dbTransmissions = await this.unitOfWork.Transmissions.GetAllAsync();
-
-            var selectListItems = Mapper.Map<IEnumerable<SelectListItem>>(dbTransmissions);
+            var selectListItems = await this.unitOfWork.Transmissions
+                .GetAllAsQueryable()
+                .To<SelectListItem>()
+                .ToArrayAsync();
 
             return selectListItems;
         }

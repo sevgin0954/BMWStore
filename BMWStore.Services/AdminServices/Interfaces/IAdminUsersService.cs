@@ -3,7 +3,7 @@ using BMWStore.Models.UserModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services.Interfaces
+namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminUsersService
     {

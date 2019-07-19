@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services.Interfaces
+namespace BMWStore.Services.AdminServices.Interfaces
 {
-    public interface ISeriesService
+    public interface IAdminSeriesService
     {
         Task CreateNewSeriesAsync(AdminSeriesCreateBindingModel model);
         Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync();

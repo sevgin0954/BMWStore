@@ -1,6 +1,9 @@
-﻿namespace BMWStore.Models.OptionModels.ViewModels
+﻿using BMWStore.Entities;
+using MappingRegistrar.Interfaces;
+
+namespace BMWStore.Models.OptionModels.ViewModels
 {
-    public class OptionViewModel
+    public class OptionViewModel : IMapFrom<Option>
     {
         public string Id { get; set; }
 

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services.Interfaces
+namespace BMWStore.Services.AdminServices.Interfaces
 {
-    public interface IModelTypesService
+    public interface IAdminModelTypesService
     {
         Task CreateNewModelType(AdminModelTypeCreateBidningModel model);
         Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync();

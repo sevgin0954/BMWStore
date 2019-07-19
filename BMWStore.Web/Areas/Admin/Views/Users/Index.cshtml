@@ -68,11 +68,18 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/removeTrFromTable.js"></script>
+    <script src="~/js/makePostRequest.js"></script>
     <script>
-        $(function(){
+        $(function () {
+            removeTrFromTable('[delete]', 'data-userId', '/Admin/Users/Delete');
+        })
+    </script>
+    <script>
+        // TODO: Move to js file
+        $(function () {
             const banBtns = $('[ban]');
             const unbanBtns = $('[unban]');
-            const deleteBtns = $('[delete]');
 
             banBtns.on('click', function (e) {
                 const banBtn = $(e.currentTarget);
@@ -95,15 +102,6 @@
 
                     banBtn.removeAttr('hidden');
                     unbanBtn.attr('hidden', 'hidden');
-                });
-            });
-
-            deleteBtns.on('click', function (e) {
-                const deleteBtn = $(e.currentTarget);
-                const userId = deleteBtn.attr('data-userId');
-                
-                makePostRequest('Delete', userId, function () {
-                    $(`tr[data-userId*='${userId}']`).remove();
                 });
             });
 

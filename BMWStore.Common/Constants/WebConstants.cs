@@ -12,6 +12,8 @@
         public const string AdminCreateNewCarUrl = "/Admin/Cars/AddNew";
         public const string AdminCreateNewEngineUrl = "/Admin/Engine/AddNew";
 
+        public const string FormButtonsCancelLinkText = "Cancel";
+
         public const string CookieAdminCarsSortDirectionKey = "___AdminCarsSortDirection___";
         public const string CookieAdminCarsSortTypeKey = "___AdminCarsSortType___";
 

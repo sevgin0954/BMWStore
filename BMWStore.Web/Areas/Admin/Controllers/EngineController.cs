@@ -1,6 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Models.EngineModels.BindingModels;
-using BMWStore.Services.Interfaces;
+using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,10 +8,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class EngineController : BaseAdminController
     {
-        private readonly ITransmissionsService transmissionsService;
-        private readonly IEnginesService enginesService;
+        private readonly IAdminTransmissionsService transmissionsService;
+        private readonly IAdminEnginesService enginesService;
 
-        public EngineController(ITransmissionsService transmissionsService, IEnginesService enginesService)
+        public EngineController(IAdminTransmissionsService transmissionsService, IAdminEnginesService enginesService)
         {
             this.transmissionsService = transmissionsService;
             this.enginesService = enginesService;

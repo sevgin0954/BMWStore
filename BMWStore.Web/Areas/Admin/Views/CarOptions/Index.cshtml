@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OptionViewModel>
+@{
+    ViewData["Title"] = "Car Options";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<div class="container-item border-radius-smooth border-grey d-flex">
+    <div class="mx-auto">
+        <a class="btn border-blue-hover"
+           asp-area="Admin"
+           asp-controller="CarOptions"
+           asp-action="AddNew">
+            Add new
+            <i class="fas fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+<div class="container-item border-radius-smooth border-grey">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var option in Model)
+            {
+                <tr data-optionId="@option.Id">
+                    <td>@option.Id</td>
+                    <td>@option.Name</td>
+                    <td>@option.Price</td>
+                    <td>
+                        <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/removeTrFromTable.js"></script>
+    <script src="~/js/makePostRequest.js"></script>
+    <script>
+        $(function () {
+            removeTrFromTable('[delete]', 'data-optionId', '/Admin/CarOptions/Delete');
+        })
+    </script>
+}
