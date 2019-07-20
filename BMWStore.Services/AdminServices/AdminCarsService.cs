@@ -8,6 +8,7 @@ using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,13 +32,30 @@ namespace BMWStore.Services.AdminServices
         public async Task CreateNewCar(AdminNewCarCreateBindingModel model)
         {
             var dbNewCar = Mapper.Map<NewCar>(model);
-            var pictureUrls = await this.cloudinaryService.UploadPicturesAsync(model.Pictures);
-            dbNewCar.Pictures = Mapper.Map<ICollection<Picture>>(pictureUrls);
+            await this.AddPicturesToCar(dbNewCar, model.Pictures);
 
             this.unitOfWork.NewCars.Add(dbNewCar);
 
             var rowsAffected = await this.unitOfWork.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        public async Task CreateUsedCar(AdminNewCarCreateBindingModel model)
+        {
+            var dbUsedCar = Mapper.Map<NewCar>(model);
+            await this.AddPicturesToCar(dbUsedCar, model.Pictures);
+
+            this.unitOfWork.NewCars.Add(dbUsedCar);
+
+            // TODO: Repeating code
+            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        private async Task AddPicturesToCar(BaseCar car, IEnumerable<IFormFile> pictures)
+        {
+            var pictureUrls = await this.cloudinaryService.UploadPicturesAsync(pictures);
+            car.Pictures = Mapper.Map<ICollection<Picture>>(pictureUrls);
         }
 
         public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync()
@@ -70,6 +88,11 @@ namespace BMWStore.Services.AdminServices
 
             var rowsAffected = await this.unitOfWork.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        public Task GetEditBindingModel(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

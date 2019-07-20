@@ -128,8 +128,24 @@
                 <input class="form-control" asp-for="ColorName" />
             </div>
             <div class="col-6">
+                <div>
+                    <span asp-validation-for="Mileage" class="text-danger"></span>
+                </div>
+                <label asp-for="Mileage"></label>
+                <input class="form-control" asp-for="Mileage" />
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="flex-column col-10">
                 <label asp-for="Pictures"></label>
-                <input class="form-control" type="file" asp-for="Pictures" multiple>
+                <input picturesInput hidden type="file" asp-for="Pictures" multiple>
+                <input displayInput class="form-control" value="Upload files" />
+            </div>
+            <div class="mt-auto">
+                <button picturesAddBtn class="btn border-green background-green-hover" type="button">
+                    Add
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
         <div class="input-group">
@@ -213,7 +229,23 @@
             </div>
         </div>
         <div class="input-group">
-            <div asp-checklistbox="@Model.CarOptions" asp-modelname="CarOptions"></div>
+            <div class="col-10">
+                <div>
+                    <label asp-for="CarOptions"></label>
+                </div>
+                <div class="form-control" style="height: auto">
+                    <div asp-checklistbox="@Model.CarOptions" asp-modelname="CarOptions"></div>
+                </div>
+            </div>
+            <div class="mt-auto">
+                <a class="btn border-green background-green-hover"
+                   asp-area="Admin"
+                   asp-controller="CarOptions"
+                   asp-action="AddNew">
+                    Add
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
         </div>
 
         <form-buttons controller-name="Cars" action-name="Index"></form-buttons>
@@ -222,4 +254,26 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    @* TODO: MOVE TO SCRIPT FILE *@
+    <script>
+        const addBtn = $('[picturesAddBtn]');
+        addBtn.on('click', function () {
+            const input = $('[picturesInput]');
+            let isInputChanged = false;
+
+            input.click();
+
+            input.on('change', function () {
+                if (isInputChanged == false) {
+                    const displayInput = $('[displayInput]');
+
+                    const inputFiles = input[0].files;
+                    const inputValue = Array.from(inputFiles).map(f => f.name + ' ');
+                    $(displayInput).val(inputValue);
+
+                    isInputChanged = true;
+                }
+            });
+        });
+    </script>
 }

@@ -26,6 +26,7 @@ namespace BMWStore.Web.TagHelpers
                 html += $@"<input type=""hidden"" id=""{ModelName}_{i}__Text"" name=""{ModelName}[{i}].Text"" value=""{item.Text}"">";
 
                 output.Content.AppendHtml(html);
+                output.Content.AppendHtml("&nbsp;");
 
                 i++;
             }

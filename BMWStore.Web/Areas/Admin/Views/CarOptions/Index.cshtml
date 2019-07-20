@@ -35,9 +35,20 @@
                     <td>@option.Name</td>
                     <td>@option.Price</td>
                     <td>
-                        <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
-                            Delete
-                        </button>
+                        <div>
+                            <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                                Delete
+                            </button>
+                        </div>
+                        <div>
+                            <a class="btn btn-wide border-green background-green-hover"
+                                    asp-route-id="@option.Id"
+                                    asp-area="Admin"
+                                    asp-controller="CarOptions"
+                                    asp-action="Edit">
+                                Edit
+                            </a>
+                        </div>
                     </td>
                 </tr>
             }

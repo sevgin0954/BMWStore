@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.IO;
+using System.Text.Encodings.Web;
 
 namespace BMWStore.Web.TagHelpers
 {
@@ -64,7 +65,7 @@ namespace BMWStore.Web.TagHelpers
         {
             using (var writer = new StringWriter())
             {
-                tagBuilder.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+                tagBuilder.WriteTo(writer, HtmlEncoder.Default);
                 var htmlOutput = writer.ToString();
 
                 return htmlOutput;

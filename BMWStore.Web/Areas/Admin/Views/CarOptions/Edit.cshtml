@@ -1,0 +1,18 @@
+﻿@model AdminCarOptionEditBindingModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<div class="container-item border-grey border-radius-smooth">
+    <form class="form-group" method="post">
+        <input hidden asp-for="Id" />
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <label asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+
+        <form-buttons controller-name="CarOptions" action-name="Index"></form-buttons>
+    </form>
+</div>

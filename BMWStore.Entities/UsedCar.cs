@@ -5,7 +5,7 @@ namespace BMWStore.Entities
 {
     public class UsedCar : BaseCar
     {
-        [Range(EntitiesConstants.UsedCarMinMileage, EntitiesConstants.UsedCarMaxMileage)]
+        [Range(EntitiesConstants.CarMinMileage, EntitiesConstants.CarMaxMileage)]
         [Required]
         public double Mileage { get; set; }
     }

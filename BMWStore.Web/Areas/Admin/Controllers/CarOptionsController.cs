@@ -7,9 +7,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class CarOptionsController : BaseAdminController
     {
-        private readonly IAdminCarOptionsService adminCarOptionsService;
+        private readonly IAdminOptionsService adminCarOptionsService;
 
-        public CarOptionsController(IAdminCarOptionsService adminCarOptionsService)
+        public CarOptionsController(IAdminOptionsService adminCarOptionsService)
         {
             this.adminCarOptionsService = adminCarOptionsService;
         }
@@ -33,7 +33,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNew(AdminOptionCreateBindingModel model)
         {
-            await this.adminCarOptionsService.CreateNewCarOptionAsync(model);
+            await this.adminCarOptionsService.CreateNewOptionAsync(model);
 
             return RedirectToAction("Index");
         }
@@ -41,7 +41,23 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.adminCarOptionsService.DeleteCarOptionAsync(id);
+            await this.adminCarOptionsService.DeleteOptionAsync(id);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await this.adminCarOptionsService.GetEditBindingModelAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AdminCarOptionEditBindingModel model)
+        {
+            await this.adminCarOptionsService.EditOption(model);
 
             return RedirectToAction("Index");
         }

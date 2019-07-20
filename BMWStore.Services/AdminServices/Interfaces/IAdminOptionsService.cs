@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices.Interfaces
 {
-    public interface IAdminCarOptionsService
+    public interface IAdminOptionsService
     {
-        Task CreateNewCarOptionAsync(AdminOptionCreateBindingModel model);
+        Task CreateNewOptionAsync(AdminOptionCreateBindingModel model);
         Task<IEnumerable<OptionViewModel>> GetAllOptionsAsync();
         Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync();
-        Task DeleteCarOptionAsync(string carOptionId);
+        Task DeleteOptionAsync(string carOptionId);
+        Task<AdminCarOptionEditBindingModel> GetEditBindingModelAsync(string carOptionId);
+        Task EditOption(AdminCarOptionEditBindingModel model);
     }
 }

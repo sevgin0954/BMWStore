@@ -14,6 +14,8 @@
         public const double CarMaxFuelConsumation_City_Litres_100Km = 100;
         public const double CarMaxFuelConsumation_Highway_Litres_100Km = 80;
         public const int CarMaxHoursePower = 1500;
+        public const int CarMaxMileage = int.MaxValue;
+        public const int CarMinMileage = 0;
         public const int CarMinHoursePower = 80;
         public const int CarNameMaxLength = 50;
         public const int CarNameMinLength = 5;
@@ -58,9 +60,6 @@
         public const string TransmissionMaxPrice = "300000";
         public const int TransmissionNameMaxLength = 40;
         public const int TransmissionNameMinLength = 5;
-
-        public const int UsedCarMaxMileage = int.MaxValue;
-        public const int UsedCarMinMileage = 100;
 
         public const int UserNameMaxLength = 40;
         public const int UserNameMinLength = 3;

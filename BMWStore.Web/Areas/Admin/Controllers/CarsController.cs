@@ -16,7 +16,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         private readonly IAdminFuelTypesService adminFuelTypesService;
         private readonly IAdminModelTypesService adminModelTypesService;
         private readonly IAdminSeriesService adminSeriesService;
-        private readonly IAdminCarOptionsService adminCarOptionsService;
+        private readonly IAdminOptionsService adminCarOptionsService;
 
         public CarsController(
             IAdminCarsService adminCarsService, 
@@ -25,7 +25,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             IAdminFuelTypesService fuelTypesService,
             IAdminModelTypesService modelTypesService,
             IAdminSeriesService seriesService,
-            IAdminCarOptionsService adminCarOptionsService)
+            IAdminOptionsService adminCarOptionsService)
         {
             this.adminCarsService = adminCarsService;
             this.adminSortCookieService = adminSortCookieService;
@@ -79,7 +79,14 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNew(AdminNewCarCreateBindingModel model)
         {
-            await this.adminCarsService.CreateNewCar(model);
+            if (model.Mileage > 0)
+            {
+                await this.adminCarsService.CreateUsedCar(model);
+            }
+            else
+            {
+                await this.adminCarsService.CreateNewCar(model);
+            }
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -90,6 +97,22 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             await this.adminCarsService.DeleteCarAsync(id);
 
             return Redirect(WebConstants.AdminCarsUrl);
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(string id)
+        //{
+        //    var model = await this.adminCarsService.GetEditBindingModel(id);
+
+        //    return View(model);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Edit()
+        {
+
+
+            return RedirectToAction("Index");
         }
     }
 }

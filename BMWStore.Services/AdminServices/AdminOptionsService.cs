@@ -15,16 +15,16 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
 {
-    public class AdminCarOptionsService : IAdminCarOptionsService
+    public class AdminOptionsService : IAdminOptionsService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public AdminCarOptionsService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminOptionsService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task CreateNewCarOptionAsync(AdminOptionCreateBindingModel model)
+        public async Task CreateNewOptionAsync(AdminOptionCreateBindingModel model)
         {
             var dbOption = Mapper.Map<Option>(model);
             this.unitOfWork.Options.Add(dbOption);
@@ -53,14 +53,39 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task DeleteCarOptionAsync(string carOptionId)
+        public async Task DeleteOptionAsync(string optionId)
         {
-            var dbOption = await this.unitOfWork.Options.GetByIdAsync(carOptionId);
-            DataValidator.ValidateNotNull(dbOption, new ArgumentException(ErrorConstants.IncorrectId));
+            var dbOption = await this.GetOptionAsync(optionId);
 
             this.unitOfWork.Options.Remove(dbOption);
             var rowsAffected = await this.unitOfWork.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        public async Task<AdminCarOptionEditBindingModel> GetEditBindingModelAsync(string optionId)
+        {
+            var dbOption = await this.GetOptionAsync(optionId);
+
+            var model = Mapper.Map<AdminCarOptionEditBindingModel>(dbOption);
+
+            return model;
+        }
+
+        public async Task EditOption(AdminCarOptionEditBindingModel model)
+        {
+            var dbOption = await this.GetOptionAsync(model.Id);
+            Mapper.Map(model, dbOption);
+
+            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        private async Task<Option> GetOptionAsync(string optionId)
+        {
+            var dbOption = await this.unitOfWork.Options.GetByIdAsync(optionId);
+            DataValidator.ValidateNotNull(dbOption, new ArgumentException(ErrorConstants.IncorrectId));
+
+            return dbOption;
         }
     }
 }
