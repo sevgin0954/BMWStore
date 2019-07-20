@@ -15,7 +15,7 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public string Name { get; set; }
 
-        public string PictureUrl { get; set; }
+        public string PicturePublicId { get; set; }
 
         public decimal Price { get; set; }
 
@@ -30,10 +30,10 @@ namespace BMWStore.Models.CarModels.ViewModels
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<NewCar, CarConciseViewModel>()
-                .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(src => src.Pictures.First().Url));
+                .ForMember(dest => dest.PicturePublicId, opt => opt.MapFrom(src => src.Pictures.First().PublicId));
 
             configuration.CreateMap<UsedCar, CarConciseViewModel>()
-                .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(src => src.Pictures.First().Url));
+                .ForMember(dest => dest.PicturePublicId, opt => opt.MapFrom(src => src.Pictures.First().PublicId));
         }
     }
 }

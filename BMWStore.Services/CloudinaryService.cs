@@ -54,8 +54,8 @@ namespace BMWStore.Services
 
                 uploadResult = await this.cloudinaryUtility.UploadAsync(uploadParams);
             }
-
-            return uploadResult?.SecureUri.AbsoluteUri;
+            
+            return uploadResult?.PublicId;
         }
     }
 }

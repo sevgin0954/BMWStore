@@ -13,12 +13,12 @@ namespace BMWStore.Entities
         public BaseCar Car { get; set; }
 
         [Required]
-        public string Url { get; set; }
+        public string PublicId { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<string, Picture>()
-                .ForMember(dest => dest.Url, opt => opt.MapFrom(src => src));
+                .ForMember(dest => dest.PublicId, opt => opt.MapFrom(src => src));
         }
     }
 }

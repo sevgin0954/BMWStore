@@ -84,6 +84,10 @@
     border-bottom-right-radius: 10px;
 }
 
+.border-radius-smooth-bottom-left {
+    border-bottom-left-radius: 10px !important;
+}
+
 .border-light-red {
     box-shadow: 0 0 5px 2px #FF8484;
 }

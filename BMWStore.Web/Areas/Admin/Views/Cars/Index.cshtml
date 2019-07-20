@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Cars";
 }
+@using CloudinaryDotNet
+@inject CloudinaryDotNet.Cloudinary cloudinary;
 
 <div class="container-item border-radius-smooth border-grey d-flex">
     <a class="btn border-blue-hover"
@@ -25,74 +27,77 @@
     <div data-carId="@car.Id" class="container-item border-radius-smooth border-grey">
         <div class="row">
             <div class="border-right col">
-            <div class="row">
-                <div class="col">
-                    <div>
-                        <i>Name:</i>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <i>Name:</i>
+                        </div>
+                        <div>
+                            <i>Price:</i>
+                        </div>
+                        <div>
+                            <i>Mileage:</i>
+                        </div>
+                        <div>
+                            <i>Model Type:</i>
+                        </div>
                     </div>
-                    <div>
-                        <i>Price:</i>
-                    </div>
-                    <div>
-                        <i>Mileage:</i>
-                    </div>
-                    <div>
-                        <i>Model Type:</i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        @car.Name
-                    </div>
-                    <div>
-                        @car.Price
-                    </div>
-                    <div>
-                        @car.Mileage
-                    </div>
-                    <div>
-                        @car.ModelTypeName
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="border-right col">
-            <div class="row">
-                <div class="col">
-                    <div>
-                        <i>Series:</i>
-                    </div>
-                    <div>
-                        <i>Vin:</i>
-                    </div>
-                    <div>
-                        <i>Warranty:</i>
-                    </div>
-                    <div>
-                        <i>Year:</i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        @car.SeriesName
-                    </div>
-                    <div>
-                        @car.Vin
-                    </div>
-                    <div>
-                        @car.WarrantyMonthsLeft
-                    </div>
-                    <div>
-                        @car.Year
+                    <div class="col">
+                        <div>
+                            @car.Name
+                        </div>
+                        <div>
+                            @car.Price
+                        </div>
+                        <div>
+                            @car.Mileage
+                        </div>
+                        <div>
+                            @car.ModelTypeName
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col d-flex">
-            <div class="row mx-auto">
-                <img class="img-small" src="@car.PictureUrl" alt="@car.Name" />
+            <div class="border-right col">
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <i>Series:</i>
+                        </div>
+                        <div>
+                            <i>Vin:</i>
+                        </div>
+                        <div>
+                            <i>Warranty:</i>
+                        </div>
+                        <div>
+                            <i>Year:</i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            @car.SeriesName
+                        </div>
+                        <div>
+                            @car.Vin
+                        </div>
+                        <div>
+                            @car.WarrantyMonthsLeft
+                        </div>
+                        <div>
+                            @car.Year
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="col d-flex">
+                <div class="row mx-auto">
+                    @cloudinary.Api.UrlImgUp.Secure(true).Transform(
+                        new Transformation().Quality("auto").Width(250).Crop("scale")
+                    ).BuildImageTag(car.PicturePublicId)
+                    @*<img class="img-small" src="@car.PictureUrl" alt="@car.Name" />*@
+                </div>
+            </div>
         </div>
         <div class="row d-flex">
             <div class="mx-auto">
