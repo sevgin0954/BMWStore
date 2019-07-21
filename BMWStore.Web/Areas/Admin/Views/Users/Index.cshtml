@@ -8,7 +8,9 @@
         @await Component.InvokeAsync("SortType", new
            {
                enumTypeName = typeof(UserSortStrategyType).AssemblyQualifiedName,
-               selectedEnumName = @Model.SortStrategyType.ToString()
+               selectedEnumName = @Model.SortStrategyType.ToString(),
+               controllerName = "Users",
+               actionName = "ChangeSortType"
            })
     </div>
     <div class="mr-auto">

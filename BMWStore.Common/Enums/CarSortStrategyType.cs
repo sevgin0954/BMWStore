@@ -2,6 +2,6 @@
 {
     public enum CarSortStrategyType
     {
-        Name, Condition, Mileage, Price, Warranty, Year
+        Name, Condition, Price, Year
     }
 }

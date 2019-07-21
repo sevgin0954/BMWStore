@@ -16,7 +16,9 @@
         @await Component.InvokeAsync("SortType", new
             {
                 enumTypeName = typeof(CarSortStrategyType).AssemblyQualifiedName,
-                selectedEnumName = @Model.SortStrategyType.ToString()
+                selectedEnumName = @Model.SortStrategyType.ToString(),
+                controllerName = "Cars",
+                actionName = "ChangeSortType"
             })
         <partial name="_SortingDirectionPartial" />
     </div>

@@ -9,16 +9,20 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminSortCookieService : IAdminSortCookieService
     {
-        public void ChangeSortDirectionCookie(IResponseCookies responseCookies, SortStrategyDirection sortDirection)
+        public void ChangeSortDirectionCookie(
+            IResponseCookies responseCookies, 
+            SortStrategyDirection sortDirection, 
+            string sortDirectionKey)
         {
-            var sortDirectionKey = WebConstants.CookieAdminUsersSortDirectionKey;
             var sortDirectionValue = sortDirection.ToString();
             responseCookies.Append(sortDirectionKey, sortDirectionValue);
         }
 
-        public void ChangeSortTypeCookie(IResponseCookies responseCookies, UserSortStrategyType sortStrategyName)
+        public void ChangeSortTypeCookie<TStrategyType>(
+            IResponseCookies responseCookies, 
+            TStrategyType sortStrategyName,
+            string sortTypeKey)
         {
-            var sortTypeKey = WebConstants.CookieAdminUsersSortTypeKey;
             var sortTypeValue = sortStrategyName.ToString();
             responseCookies.Append(sortTypeKey, sortTypeValue);
         }

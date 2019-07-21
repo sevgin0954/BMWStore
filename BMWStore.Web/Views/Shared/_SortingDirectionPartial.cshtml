@@ -10,7 +10,6 @@
             if (sortDirection != selectedSortDirection)
             {
                 <form method="post"
-                      asp-controller="Users"
                       asp-action="ChangeSortDirection"
                       asp-route-sortDirection="@sortDirection">
                     <button type="submit" class="dropdown-item">

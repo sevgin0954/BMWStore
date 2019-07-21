@@ -8,7 +8,11 @@ namespace BMWStore.Web.Views.Shared.Components
 {
     public class SortTypeViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(string enumTypeName, string selectedEnumName)
+        public IViewComponentResult Invoke(
+            string enumTypeName, 
+            string selectedEnumName, 
+            string controllerName, 
+            string actionName)
         {
             var enumType = Type.GetType(enumTypeName);
             var enumData = Enum.GetNames(enumType);
@@ -19,7 +23,9 @@ namespace BMWStore.Web.Views.Shared.Components
             var model = new SortTypeViewModel()
             {
                 SelectedSortName = selectedEnumName,
-                SortNames = enumData
+                SortNames = enumData,
+                ControllerName = controllerName,
+                ActionName = actionName
             };
 
             return View(model);

@@ -66,7 +66,8 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult ChangeSortType(UserSortStrategyType sortStrategyType)
         {
-            this.cookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType);
+            var sortTypeKey = WebConstants.CookieAdminUsersSortTypeKey;
+            this.cookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);
 
             return RedirectToAction("Index");
         }
@@ -74,7 +75,8 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection)
         {
-            this.cookieService.ChangeSortDirectionCookie(this.HttpContext.Response.Cookies, sortDirection);
+            var sortDirectionKey = WebConstants.CookieAdminUsersSortDirectionKey;
+            this.cookieService.ChangeSortDirectionCookie(this.HttpContext.Response.Cookies, sortDirection, sortDirectionKey);
 
             return RedirectToAction("Index");
         }

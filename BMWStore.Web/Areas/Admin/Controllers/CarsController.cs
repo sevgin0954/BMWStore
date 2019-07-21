@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
+using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -10,47 +11,51 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class CarsController : BaseAdminController
     {
-        private readonly IAdminCarsService adminCarsService;
-        private readonly IAdminSortCookieService adminSortCookieService;
-        private readonly IAdminEnginesService adminEnginesService;
-        private readonly IAdminFuelTypesService adminFuelTypesService;
-        private readonly IAdminModelTypesService adminModelTypesService;
-        private readonly IAdminSeriesService adminSeriesService;
-        private readonly IAdminOptionsService adminCarOptionsService;
+        private readonly IAdminCarsService carsService;
+        private readonly IAdminSortCookieService sortCookieService;
+        private readonly IAdminEnginesService enginesService;
+        private readonly IAdminFuelTypesService fuelTypesService;
+        private readonly IAdminModelTypesService modelTypesService;
+        private readonly IAdminSeriesService seriesService;
+        private readonly IAdminOptionsService carOptionsService;
 
         public CarsController(
-            IAdminCarsService adminCarsService, 
-            IAdminSortCookieService adminSortCookieService, 
+            IAdminCarsService carsService, 
+            IAdminSortCookieService sortCookieService, 
             IAdminEnginesService enginesService,
             IAdminFuelTypesService fuelTypesService,
             IAdminModelTypesService modelTypesService,
             IAdminSeriesService seriesService,
             IAdminOptionsService adminCarOptionsService)
         {
-            this.adminCarsService = adminCarsService;
-            this.adminSortCookieService = adminSortCookieService;
-            this.adminEnginesService = enginesService;
-            this.adminFuelTypesService = fuelTypesService;
-            this.adminModelTypesService = modelTypesService;
-            this.adminSeriesService = seriesService;
-            this.adminCarOptionsService = adminCarOptionsService;
+            this.carsService = carsService;
+            this.sortCookieService = sortCookieService;
+            this.enginesService = enginesService;
+            this.fuelTypesService = fuelTypesService;
+            this.modelTypesService = modelTypesService;
+            this.seriesService = seriesService;
+            this.carOptionsService = adminCarOptionsService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var cars = await this.adminCarsService.GetAllCarsAsync();
             var cookies = this.HttpContext.Request.Cookies;
+
             var sortDirectionKey = WebConstants.CookieAdminCarsSortDirectionKey;
+            var sortDirection = this.sortCookieService.GetSortStrategyDirectionOrDefault(cookies, sortDirectionKey);
+
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
-            var sortStrategyType = this.adminSortCookieService
-                .GetSortStrategyTypeOrDefault<CarSortStrategyType>(cookies, sortTypeKey);
+            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<CarSortStrategyType>(cookies, sortTypeKey);
+
+            var sortStrategy = CarSortStrategyFactory.GetStrategy(sortType, sortDirection);
+            var cars = await this.carsService.GetAllCarsAsync(sortStrategy);
             var model = new AdminCarsViewModel()
             {
                 Cars = cars,
-                SortStrategyDirection = this.adminSortCookieService
+                SortStrategyDirection = this.sortCookieService
                     .GetSortStrategyDirectionOrDefault(cookies, sortDirectionKey),
-                SortStrategyType = sortStrategyType
+                SortStrategyType = sortType
             };
 
             return View(model);
@@ -59,11 +64,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var engines = await this.adminEnginesService.GetAllAsSelectListItemsAsync();
-            var fuelTypes = await this.adminFuelTypesService.GetAllAsSelectListItemsAsync();
-            var modelTypes = await this.adminModelTypesService.GetAllAsSelectListItemsAsync();
-            var series = await this.adminSeriesService.GetAllAsSelectListItemsAsync();
-            var options = await this.adminCarOptionsService.GetAllAsSelectListItemsAsync();
+            var engines = await this.enginesService.GetAllAsSelectListItemsAsync();
+            var fuelTypes = await this.fuelTypesService.GetAllAsSelectListItemsAsync();
+            var modelTypes = await this.modelTypesService.GetAllAsSelectListItemsAsync();
+            var series = await this.seriesService.GetAllAsSelectListItemsAsync();
+            var options = await this.carOptionsService.GetAllAsSelectListItemsAsync();
             var model = new AdminNewCarCreateBindingModel()
             {
                 Engines = engines,
@@ -81,11 +86,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             if (model.Mileage > 0)
             {
-                await this.adminCarsService.CreateUsedCar(model);
+                await this.carsService.CreateUsedCar(model);
             }
             else
             {
-                await this.adminCarsService.CreateNewCar(model);
+                await this.carsService.CreateNewCar(model);
             }
 
             return Redirect(WebConstants.AdminCarsUrl);
@@ -94,7 +99,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.adminCarsService.DeleteCarAsync(id);
+            await this.carsService.DeleteCarAsync(id);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -102,11 +107,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var engines = await this.adminEnginesService.GetAllAsSelectListItemsAsync();
-            var fuelTypes = await this.adminFuelTypesService.GetAllAsSelectListItemsAsync();
-            var modelTypes = await this.adminModelTypesService.GetAllAsSelectListItemsAsync();
-            var series = await this.adminSeriesService.GetAllAsSelectListItemsAsync();
-            var options = await this.adminCarOptionsService.GetAllAsSelectListItemsAsync();
+            var engines = await this.enginesService.GetAllAsSelectListItemsAsync();
+            var fuelTypes = await this.fuelTypesService.GetAllAsSelectListItemsAsync();
+            var modelTypes = await this.modelTypesService.GetAllAsSelectListItemsAsync();
+            var series = await this.seriesService.GetAllAsSelectListItemsAsync();
+            var options = await this.carOptionsService.GetAllAsSelectListItemsAsync();
             var model = new AdminCarEditBindingModel()
             {
                 Id = id,
@@ -116,7 +121,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
                 Series = series,
                 CarOptions = options
             };
-            await this.adminCarsService.SetEditBindingModelPropertiesAsync(model);
+            await this.carsService.SetEditBindingModelPropertiesAsync(model);
 
             return View(model);
         }
@@ -126,12 +131,30 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             if (model.IsNew)
             {
-                await this.adminCarsService.EditNewCarAsync(model);
+                await this.carsService.EditNewCarAsync(model);
             }
             else
             {
-                await this.adminCarsService.EditUsedCarAsync(model);
+                await this.carsService.EditUsedCarAsync(model);
             }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSortType(CarSortStrategyType sortStrategyType)
+        {
+            var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
+            this.sortCookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection)
+        {
+            var sortDirectionKey = WebConstants.CookieAdminCarsSortDirectionKey;
+            this.sortCookieService.ChangeSortDirectionCookie(this.HttpContext.Response.Cookies, sortDirection, sortDirectionKey);
 
             return RedirectToAction("Index");
         }

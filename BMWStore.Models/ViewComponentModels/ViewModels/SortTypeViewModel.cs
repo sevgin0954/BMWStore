@@ -8,5 +8,9 @@ namespace BMWStore.Models.ViewComponentModels.ViewModels
         public IEnumerable<string> SortNames { get; set; }
 
         public string SelectedSortName { get; set; }
+
+        public string ControllerName { get; set; }
+
+        public string ActionName { get; set; }
     }
 }

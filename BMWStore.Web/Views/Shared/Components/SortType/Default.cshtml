@@ -12,8 +12,8 @@
             if (strategyTypeName != Model.SelectedSortName)
             {
                 <form method="post"
-                        asp-controller="Users"
-                        asp-action="ChangeSortType"
+                        asp-controller="@Model.ControllerName"
+                        asp-action="@Model.ActionName"
                         asp-route-sortStrategyType="@strategyTypeName">
                     <button type="submit" class="dropdown-item">
                         @Html.Raw(IconLinks.SortTypeIconLink[strategyTypeName])

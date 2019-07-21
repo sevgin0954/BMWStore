@@ -2,6 +2,7 @@
 using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
+using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Models.CarModels.ViewModels;
@@ -55,17 +56,17 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync()
+        public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(ICarSortStrategy sortStrategy)
         {
             var models = new List<CarConciseViewModel>();
 
             var usedCarsModels = await this.unitOfWork.UsedCars
-                .GetAll()
+                .GetSorted(sortStrategy)
                 .Include(uc => uc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();
             var newCarsModels = await this.unitOfWork.NewCars
-                .GetAll()
+                .GetSorted(sortStrategy)
                 .Include(nc => nc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();

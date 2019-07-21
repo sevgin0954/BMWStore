@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories
 {
-    public class CarRepository : BaseRepository<BaseCar>
+    public class CarRepository : BaseCarRepository<BaseCar>
     {
         public CarRepository(DbContext dbContext)
             : base(dbContext) { }

@@ -116,25 +116,18 @@ namespace BMWStore.Models.CarModels.BindingModels
                 .ForMember(dest => dest.Pictures, opt => opt.Ignore())
                 .ForMember(dest => dest.CarOptions, opt => opt.Ignore());
 
-            configuration.CreateMap<AdminCarEditBindingModel, NewCar>()
+            configuration.CreateMap<AdminCarEditBindingModel, BaseCar>()
                 .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(o => o.Selected)))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Series, opt => opt.Ignore())
                 .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
                 .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
                 .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
-                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId));
+                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId))
+                .ForMember(dest => dest.Pictures, opt => opt.Ignore())
+                .IncludeAllDerived();
 
-            configuration.CreateMap<AdminCarEditBindingModel, UsedCar>()
-                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(o => o.Selected)))
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Series, opt => opt.Ignore())
-                .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
-                .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
-                .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
-                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId));
-
-            configuration.CreateMap<UsedCar, AdminCarEditBindingModel>()
+            configuration.CreateMap<BaseCar, AdminCarEditBindingModel>()
                 .ForMember(dest => dest.SelectedEngineId, opt => opt.MapFrom(src => src.EngineId))
                 .ForMember(dest => dest.SelectedFuelTypeId, opt => opt.MapFrom(src => src.FuelTypeId))
                 .ForMember(dest => dest.SelectedModelTypeId, opt => opt.MapFrom(src => src.ModelTypeId))
@@ -145,20 +138,8 @@ namespace BMWStore.Models.CarModels.BindingModels
                 .ForMember(dest => dest.Engines, opt => opt.Ignore())
                 .ForMember(dest => dest.FuelTypes, opt => opt.Ignore())
                 .ForMember(dest => dest.ModelTypes, opt => opt.Ignore())
-                .ForMember(dest => dest.Series, opt => opt.Ignore());
-
-            configuration.CreateMap<NewCar, AdminCarEditBindingModel>()
-                .ForMember(dest => dest.SelectedEngineId, opt => opt.MapFrom(src => src.EngineId))
-                .ForMember(dest => dest.SelectedFuelTypeId, opt => opt.MapFrom(src => src.FuelTypeId))
-                .ForMember(dest => dest.SelectedModelTypeId, opt => opt.MapFrom(src => src.ModelTypeId))
-                .ForMember(dest => dest.SelectedSeriesId, opt => opt.MapFrom(src => src.SeriesId))
-                .ForMember(dest => dest.CarOptions, opt => opt.MapFrom(src => src.Options.Select(o => new SelectListItem()
-                { Value = o.OptionId, Text = o.Option.Name, Selected = true })))
-                .ForMember(dest => dest.Pictures, opt => opt.Ignore())
-                .ForMember(dest => dest.Engines, opt => opt.Ignore())
-                .ForMember(dest => dest.FuelTypes, opt => opt.Ignore())
-                .ForMember(dest => dest.ModelTypes, opt => opt.Ignore())
-                .ForMember(dest => dest.Series, opt => opt.Ignore());
+                .ForMember(dest => dest.Series, opt => opt.Ignore())
+                .IncludeAllDerived();
         }
     }
 }

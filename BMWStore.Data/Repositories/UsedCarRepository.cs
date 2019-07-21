@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data.Repositories
 {
-    public class UsedCarRepository : BaseRepository<UsedCar>
+    public class UsedCarRepository : BaseCarRepository<UsedCar>
     {
         public UsedCarRepository(DbContext dbContext)
             : base(dbContext) { }
