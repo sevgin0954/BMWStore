@@ -5,7 +5,7 @@
 
 <h5>Total</h5>
 <div class="container-item border-grey border-radius-smooth">
-    Total orders: @Model.TotalOrdersCount
+    Total orders: <strong>@Model.TotalOrdersCount</strong>
 </div>
 
 <h5>Cars</h5>
@@ -13,20 +13,20 @@
     <h6>New</h6>
     <div class="ml-3">
         <div>
-            Total: @Model.NewCarsOrdersCount
+            Total orders: <strong>@Model.NewCarsOrdersCount</strong>
         </div>
         <div>
-            Orders from past 24 hours: @Model.NewCarsOrderedFromPast24HoursCount
+            Orders from past 24 hours: <strong>@Model.NewCarsOrderedFromPast24HoursCount</strong>
         </div>
     </div>
 
     <h6>Used</h6>
     <div class="ml-3">
         <div>
-            Total: @Model.UsedCarsOrdersCount
+            Total orders: <strong>@Model.UsedCarsOrdersCount</strong>
         </div>
         <div>
-            Orders from past 24 hours: @Model.UsedCarsOrderedFromPast24HoursCount
+            Orders from past 24 hours: <strong>@Model.UsedCarsOrderedFromPast24HoursCount</strong>
         </div>
     </div>
 </div>
@@ -35,6 +35,6 @@
 <div class="container-item border-grey border-radius-smooth">
     Total
     <div class="ml-3">
-        Total users count: @Model.TotalUsersCount
+        Total users count: <strong>@Model.TotalUsersCount</strong>
     </div>
 </div>

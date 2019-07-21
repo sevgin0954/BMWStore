@@ -22,8 +22,8 @@ namespace BMWStore.Services.AdminServices
 
         public async Task<AdminDashboardStatisticsViewModel> GetStatisticsAsync()
         {
-            var newCarsOrderedCount = await this.unitOfWork.NewCars
-                .CountAllAsync();
+            var newCarsOrderedCount = await this.unitOfWork.Orders
+                .CountAsync(o => o.Car is NewCar);
             var newCarsOrderedFromPast24HoursCount = await this.unitOfWork.Orders
                 .CountAsync(uc => IsOrderedInLast24Hours(uc) && uc.Car is NewCar);
             var orderesFromPast24Hours = await this.unitOfWork.Orders
@@ -36,8 +36,8 @@ namespace BMWStore.Services.AdminServices
 
             var totalOrdersCount = await this.unitOfWork.Orders
                 .CountAllAsync();
-            var usedCarsOrderesCount = await this.unitOfWork.UsedCars
-                .CountAllAsync();
+            var usedCarsOrderesCount = await this.unitOfWork.Orders
+                .CountAsync(o => o.Car is UsedCar);
             var UsedCarsOrderedFromPast24HoursCount = await this.unitOfWork.Orders
                 .CountAsync(uc => IsOrderedInLast24Hours(uc) && uc.Car is UsedCar);
 
