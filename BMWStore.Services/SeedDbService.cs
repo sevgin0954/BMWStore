@@ -73,7 +73,7 @@ namespace BMWStore.Services
 
         private bool IsRoleExist(string roleName)
         {
-            return unitOfWork.Roles.GetAllAsQueryable().Any(r => r.NormalizedName == roleName.ToUpper());
+            return unitOfWork.Roles.GetAll().Any(r => r.NormalizedName == roleName.ToUpper());
         }
 
         private void AddNewRole(string roleName)

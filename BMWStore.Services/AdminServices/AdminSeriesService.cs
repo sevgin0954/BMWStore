@@ -33,7 +33,7 @@ namespace BMWStore.Services.AdminServices
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
             var selectListItems = await this.unitOfWork.Series
-                .GetAllAsQueryable()
+                .GetAll()
                 .To<SelectListItem>()
                 .ToArrayAsync();
 

@@ -1,12 +1,14 @@
-﻿@model AdminNewCarCreateBindingModel
+﻿@model AdminCarEditBindingModel
 @{
-    ViewData["Title"] = "Add New Car";
+    ViewData["Title"] = "Edit Car";
 }
 
 <h5>@ViewData["Title"]</h5>
 
 <div class="container-item border-radius-smooth border-grey">
     <form class="form-group" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" hidden />
+        <input asp-for="IsNew" hidden/>
         <div class="input-group">
             <div class="col-6">
                 <div>
@@ -128,11 +130,20 @@
                 <input class="form-control" asp-for="ColorName" />
             </div>
             <div class="col-6">
-                <div>
-                    <span asp-validation-for="Mileage" class="text-danger"></span>
-                </div>
                 <label asp-for="Mileage"></label>
-                <input class="form-control" asp-for="Mileage" />
+                @if (Model.IsNew)
+                {
+                    <div>
+                        <input class="form-control" disabled placeholder="The car is new" />
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <span asp-validation-for="Mileage" class="text-danger"></span>
+                    </div>
+                    <input class="form-control" asp-for="Mileage" />
+                }
             </div>
         </div>
         <div class="input-group">
@@ -155,7 +166,6 @@
                 </div>
                 <label asp-for="Engines"></label>
                 <select class="form-control" asp-for="SelectedEngineId" asp-items="Model.Engines">
-                    <option selected disabled>Select Engine</option>
                 </select>
             </div>
             <div class="mt-auto">
@@ -175,7 +185,6 @@
                 </div>
                 <label asp-for="FuelTypes"></label>
                 <select class="form-control" asp-for="SelectedFuelTypeId" asp-items="Model.FuelTypes">
-                    <option selected disabled>Select Fule Type</option>
                 </select>
             </div>
             <div class="mt-auto">
@@ -195,7 +204,6 @@
                 </div>
                 <label asp-for="ModelTypes"></label>
                 <select class="form-control" asp-for="SelectedModelTypeId" asp-items="Model.ModelTypes">
-                    <option selected disabled>Select Model Type</option>
                 </select>
             </div>
             <div class="mt-auto">
@@ -215,7 +223,6 @@
                 </div>
                 <label asp-for="Series"></label>
                 <select class="form-control" asp-for="SelectedSeriesId" asp-items="Model.Series">
-                    <option selected disabled>Select Series</option>
                 </select>
             </div>
             <div class="mt-auto">
@@ -256,8 +263,6 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/pictureInput.js"></script>
     <script>
-        $(function () {
-            addEventForAddingPictures('[picturesAddBtn]', '[picturesInput]', '[displayInput]');
-        })
+        addEventForAddingPictures('[picturesAddBtn]', '[picturesInput]', '[displayInput]');
     </script>
 }

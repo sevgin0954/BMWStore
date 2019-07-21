@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -12,12 +11,9 @@ namespace BMWStore.Data.Repositories.Generic.Interfaces
         void AddRange(params TEntity[] entities);
         Task<int> CountAllAsync();
         Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
-        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
         TEntity GetById(string id);
-        Task<TEntity> GetByIdAsync(string id);
-        IEnumerable<TEntity> GetAll();
-        IQueryable<TEntity> GetAllAsQueryable();
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        IQueryable<TEntity> GetAll();
         void Remove(TEntity entity);
         void RemoveRange(params TEntity[] entities);
     }

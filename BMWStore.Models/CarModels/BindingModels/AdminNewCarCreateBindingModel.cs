@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.BindingModels
 {
-    public class AdminNewCarCreateBindingModel : IMapTo<NewCar>, IHaveCustomMappings
+    public class AdminNewCarCreateBindingModel : IMapTo<UsedCar>, IMapTo<NewCar>, IHaveCustomMappings
     {
         [Range(EntitiesConstants.CarMinMileage, EntitiesConstants.CarMaxMileage)]
         [Required]
@@ -104,6 +104,15 @@ namespace BMWStore.Models.CarModels.BindingModels
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<AdminNewCarCreateBindingModel, NewCar>()
+                .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
+                .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
+                .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
+                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId))
+                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(co => co.Selected)))
+                .ForMember(dest => dest.Series, opt => opt.Ignore())
+                .ForMember(dest => dest.Pictures, opt => opt.Ignore());
+
+            configuration.CreateMap<AdminNewCarCreateBindingModel, UsedCar>()
                 .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
                 .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
                 .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))

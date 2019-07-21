@@ -25,8 +25,8 @@ namespace BMWStore.Services.AdminServices
         {
             var dbUserRoleId = await this.unitOfWork.Roles
                 .GetIdByNameAsync(WebConstants.UserRoleName);
-            var dbUsers = await this.unitOfWork.Users
-                .GetSortedWithRoleAsync(sortStrategy, dbUserRoleId);
+            var dbUsers = this.unitOfWork.Users
+                .GetSortedWithRole(sortStrategy, dbUserRoleId);
             // TODO: Make use of automapper ProjectTo
             var models = Mapper.Map<IEnumerable<UserAdminViewModel>>(dbUsers);
 

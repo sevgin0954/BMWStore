@@ -2,6 +2,7 @@
 using BMWStore.Data.Interfaces;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +20,8 @@ namespace BMWStore.Services
         public async Task<IEnumerable<NewCarConciseViewModel>> GetAllAsync()
         {
             var dbCars = await this.unitOfWork.NewCars
-                .GetAllAsync();
+                .GetAll()
+                .ToArrayAsync();
 
             var carModels = Mapper.Map<IEnumerable<NewCarConciseViewModel>>(dbCars);
 

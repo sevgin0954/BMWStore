@@ -11,6 +11,8 @@ namespace BMWStore.Services.AdminServices.Interfaces
         Task CreateUsedCar(AdminNewCarCreateBindingModel model);
         Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync();
         Task DeleteCarAsync(string carId);
-        Task GetEditBindingModel(string id);
+        Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model);
+        Task EditNewCarAsync(AdminCarEditBindingModel model);
+        Task EditUsedCarAsync(AdminCarEditBindingModel model);
     }
 }

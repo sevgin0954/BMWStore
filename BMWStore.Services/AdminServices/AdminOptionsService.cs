@@ -36,7 +36,7 @@ namespace BMWStore.Services.AdminServices
         public async Task<IEnumerable<OptionViewModel>> GetAllOptionsAsync()
         {
             var models = await this.unitOfWork.Options
-                .GetAllAsQueryable()
+                .GetAll()
                 .To<OptionViewModel>()
                 .ToArrayAsync();
 
@@ -46,7 +46,7 @@ namespace BMWStore.Services.AdminServices
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
             var models = await this.unitOfWork.Options
-                .GetAllAsQueryable()
+                .GetAll()
                 .To<SelectListItem>()
                 .ToArrayAsync();
 

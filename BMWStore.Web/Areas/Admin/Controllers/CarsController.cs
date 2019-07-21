@@ -99,18 +99,39 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             return Redirect(WebConstants.AdminCarsUrl);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(string id)
-        //{
-        //    var model = await this.adminCarsService.GetEditBindingModel(id);
-
-        //    return View(model);
-        //}
-
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(string id)
         {
+            var engines = await this.adminEnginesService.GetAllAsSelectListItemsAsync();
+            var fuelTypes = await this.adminFuelTypesService.GetAllAsSelectListItemsAsync();
+            var modelTypes = await this.adminModelTypesService.GetAllAsSelectListItemsAsync();
+            var series = await this.adminSeriesService.GetAllAsSelectListItemsAsync();
+            var options = await this.adminCarOptionsService.GetAllAsSelectListItemsAsync();
+            var model = new AdminCarEditBindingModel()
+            {
+                Id = id,
+                Engines = engines,
+                FuelTypes = fuelTypes,
+                ModelTypes = modelTypes,
+                Series = series,
+                CarOptions = options
+            };
+            await this.adminCarsService.SetEditBindingModelPropertiesAsync(model);
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AdminCarEditBindingModel model)
+        {
+            if (model.IsNew)
+            {
+                await this.adminCarsService.EditNewCarAsync(model);
+            }
+            else
+            {
+                await this.adminCarsService.EditUsedCarAsync(model);
+            }
 
             return RedirectToAction("Index");
         }

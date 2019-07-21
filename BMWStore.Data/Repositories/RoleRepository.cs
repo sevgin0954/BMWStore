@@ -13,7 +13,7 @@ namespace BMWStore.Data.Repositories
 
         public async Task<string> GetIdByNameAsync(string name)
         {
-            var dbRole = await this.GetAllAsQueryable()
+            var dbRole = await this.GetAll()
                 .Where(r => r.NormalizedName == name.ToUpper())
                 .Select(r => new { r.Id })
                 .FirstAsync();

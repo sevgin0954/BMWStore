@@ -13,6 +13,7 @@ namespace BMWStore.Data
             this.dbContext = dbContext;
 
             this.AllCars = new CarRepository(this.dbContext);
+            this.CarsOptions = new CarOptionRepository(this.dbContext);
             this.Engines = new EngineRepository(this.dbContext);
             this.FuelTypes = new FuelTypeRepository(this.dbContext);
             this.ModelTypes = new ModelTypeRepository(this.dbContext);
@@ -24,11 +25,13 @@ namespace BMWStore.Data
             this.Orders = new OrderRepository(this.dbContext);
             this.Roles = new RoleRepository(this.dbContext);
             this.Series = new SeriesRepository(this.dbContext);
+            this.Pictures = new PictureRepository(this.dbContext);
             this.Transmissions = new TransmissionRepository(this.dbContext);
         }
 
         public CarRepository AllCars { get; private set; }
 
+        public CarOptionRepository CarsOptions { get; private set; }
         public EngineRepository Engines { get; private set; }
 
         public FuelTypeRepository FuelTypes { get; private set; }
@@ -50,6 +53,8 @@ namespace BMWStore.Data
         public RoleRepository Roles { get; private set; }
 
         public SeriesRepository Series { get; private set; }
+
+        public PictureRepository Pictures { get; private set; }
 
         public TransmissionRepository Transmissions { get; private set; }
 

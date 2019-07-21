@@ -6,6 +6,7 @@ namespace BMWStore.Data.Interfaces
     public interface IBMWStoreUnitOfWork
     {
         CarRepository AllCars { get; }
+        CarOptionRepository CarsOptions { get; }
         EngineRepository Engines { get; }
         FuelTypeRepository FuelTypes { get; }
         ModelTypeRepository ModelTypes { get; }
@@ -17,6 +18,7 @@ namespace BMWStore.Data.Interfaces
         OrderRepository Orders { get; }
         RoleRepository Roles { get; }
         SeriesRepository Series { get; }
+        PictureRepository Pictures { get; }
         TransmissionRepository Transmissions { get; }
 
         int Complete();

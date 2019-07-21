@@ -2,7 +2,6 @@
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +14,7 @@ namespace BMWStore.Data.Repositories
 
         public async Task<int> CountByRole(string roleId)
         {
-            var filteredUsers = this.GetAllAsQueryable()
+            var filteredUsers = this.GetAll()
                 .Include(u => u.Roles)
                 .Where(u => u.Roles.Any(r => r.RoleId == roleId));
 
@@ -24,7 +23,7 @@ namespace BMWStore.Data.Repositories
 
         public async Task<User> GetByEmailOrDefault(string email)
         {
-            var user = await this.GetAllAsQueryable()
+            var user = await this.GetAll()
                 .Where(u => u.NormalizedEmail == email.ToUpper())
                 .FirstOrDefaultAsync();
 
@@ -32,16 +31,16 @@ namespace BMWStore.Data.Repositories
         }
 
         // TODO: Refactor - method does two things
-        public async Task<IEnumerable<User>> GetSortedWithRoleAsync(
+        public IQueryable<User> GetSortedWithRole(
             IUserSortStrategy sortStrategy,
             string roleId)
         {
-            var filteredUsers = this.GetAllAsQueryable()
+            var filteredUsers = this.GetAll()
                 .Include(u => u.Roles)
                 .Where(u => u.Roles.Any(r => r.RoleId == roleId));
             var sortedUsers = sortStrategy
                 .Sort(filteredUsers);
-            return await sortedUsers.ToArrayAsync();
+            return sortedUsers;
         }
     }
 }

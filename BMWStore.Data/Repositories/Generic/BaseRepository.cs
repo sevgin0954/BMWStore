@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -44,31 +43,17 @@ namespace BMWStore.Data.Repositories.Generic
             return count;
         }
 
-        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            var result = await this.dbContext.Set<TEntity>()
-                .Where(predicate)
-                .ToArrayAsync();
+            var result = this.dbContext.Set<TEntity>()
+                .Where(predicate);
 
             return result;
         }
 
-        public IEnumerable<TEntity> GetAll()
-        {
-            return this.dbContext.Set<TEntity>().ToArray();
-        }
-
-        public IQueryable<TEntity> GetAllAsQueryable()
+        public IQueryable<TEntity> GetAll()
         {
             return this.dbContext.Set<TEntity>();
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            var result = await this.dbContext.Set<TEntity>()
-                .ToArrayAsync();
-
-            return result;
         }
 
         public TEntity GetById(string id)
