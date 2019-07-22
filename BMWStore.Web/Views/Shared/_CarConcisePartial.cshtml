@@ -2,7 +2,7 @@
 @inject CloudinaryDotNet.Cloudinary cloudinary;
 
 <div class="row">
-    <div class="border-right col">
+    <div class="col-lg-4 col-12 no-wrap">
         <div class="row">
             <div class="col">
                 <div>
@@ -41,7 +41,10 @@
             </div>
         </div>
     </div>
-    <div class="border-right col">
+
+    <span class="border-right d-none d-lg-inline"></span>
+
+    <div class="col-lg-4 col-12">
         <div class="row">
             <div class="col">
                 <div>
@@ -73,8 +76,11 @@
             </div>
         </div>
     </div>
+
+    <span class="border-right d-none d-lg-inline"></span>
+
     <div class="col d-flex">
-        <div class="row mx-auto">
+        <div class="mx-auto">
             @cloudinary.Api.UrlImgUp.Secure(true).Transform(
                 new Transformation().Quality("auto").Width(250).Height(150).Crop("fill")
             ).BuildImageTag(Model.PicturePublicId)

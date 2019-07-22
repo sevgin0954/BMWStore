@@ -1,4 +1,14 @@
-﻿.background-light-blue {
+﻿.background-blue {
+    background-color: #45ADDE;
+}
+
+.background-blue-hover {
+}
+.background-blue-hover:hover {
+    background-color: #45ADDE;
+}
+
+.background-light-blue {
     background-color: #e4f1f9;
 }
 
@@ -184,6 +194,10 @@
 
 .no-padding {
     padding: 0px;
+}
+
+.no-wrap {
+    white-space: nowrap;
 }
 
 .searchbar-container {
