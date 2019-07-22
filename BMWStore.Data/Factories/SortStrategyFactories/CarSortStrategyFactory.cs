@@ -27,6 +27,10 @@ namespace BMWStore.Data.Factories.SortStrategyFactories
                     return new SortCarsByYearStrategy();
                 case CarSortStrategyType.Year when sortDirection == SortStrategyDirection.Descending:
                     return new SortCarsByYearDescStrategy();
+                case CarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Ascending:
+                    return new SortCarsByYearStrategy();
+                case CarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Descending:
+                    return new SortCarsByYearDescStrategy();
                 default:
                     throw new InvalidEnumArgumentException();
             }
