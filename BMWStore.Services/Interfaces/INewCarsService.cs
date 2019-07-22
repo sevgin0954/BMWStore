@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.Interfaces
 {
-    public interface INewCarsInvertoryService
+    public interface INewCarsService
     {
         Task<IEnumerable<NewCarConciseViewModel>> GetAllAsync();
     }

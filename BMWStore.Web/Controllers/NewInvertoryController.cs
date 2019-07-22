@@ -6,17 +6,17 @@ namespace BMWStore.Web.Controllers
 {
     public class NewInvertoryController : Controller
     {
-        private readonly INewCarsInvertoryService newCarsInvertoryService;
+        private readonly INewCarsService newCarsService;
 
-        public NewInvertoryController(INewCarsInvertoryService newCarsInvertoryService)
+        public NewInvertoryController(INewCarsService newCarsService)
         {
-            this.newCarsInvertoryService = newCarsInvertoryService;
+            this.newCarsService = newCarsService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var models = await this.newCarsInvertoryService.GetAllAsync();
+            var models = await this.newCarsService.GetAllAsync();
 
             return View(models);
         }

@@ -1,0 +1,76 @@
+﻿@using CloudinaryDotNet;
+@inject CloudinaryDotNet.Cloudinary cloudinary;
+
+<div class="row">
+    <div class="border-right col">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <i>Name:</i>
+                </div>
+                <div>
+                    <i>Price:</i>
+                </div>
+                <div>
+                    <i>Mileage:</i>
+                </div>
+                <div>
+                    <i>Model Type:</i>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    @Model.Name
+                </div>
+                <div>
+                    @Model.Price
+                </div>
+                <div>
+                    @Model.Mileage
+                </div>
+                <div>
+                    @Model.ModelTypeName
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="border-right col">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <i>Series:</i>
+                </div>
+                <div>
+                    <i>Vin:</i>
+                </div>
+                <div>
+                    <i>Warranty:</i>
+                </div>
+                <div>
+                    <i>Year:</i>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    @Model.SeriesName
+                </div>
+                <div>
+                    @Model.Vin
+                </div>
+                <div>
+                    @Model.WarrantyMonthsLeft
+                </div>
+                <div>
+                    @Model.Year
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col d-flex">
+        <div class="row mx-auto">
+            @cloudinary.Api.UrlImgUp.Secure(true).Transform(
+                new Transformation().Quality("auto").Width(250).Crop("scale")
+            ).BuildImageTag(Model.PicturePublicId)
+        </div>
+    </div>
+</div>

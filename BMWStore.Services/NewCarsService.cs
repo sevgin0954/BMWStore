@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services
 {
-    public class NewCarsInvertoryService : INewCarsInvertoryService
+    public class NewCarsService : INewCarsService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
-        public NewCarsInvertoryService(IBMWStoreUnitOfWork unitOfWork)
+        public NewCarsService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
