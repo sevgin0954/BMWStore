@@ -1,9 +1,9 @@
 ﻿using BMWStore.Common.Enums;
 using Microsoft.AspNetCore.Http;
 
-namespace BMWStore.Services.AdminServices.Interfaces
+namespace BMWStore.Services.Interfaces
 {
-    public interface IAdminSortCookieService
+    public interface ISortCookieService
     {
         void ChangeSortDirectionCookie(IResponseCookies responseCookies, SortStrategyDirection sortDirection, string sortDirectionKey);
         void ChangeSortTypeCookie<TStrategyType>(IResponseCookies responseCookies, TStrategyType sortStrategyName, string sortTypeKey);

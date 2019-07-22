@@ -17,6 +17,9 @@
         public const string CookieAdminCarsSortDirectionKey = "___AdminCarsSortDirection___";
         public const string CookieAdminCarsSortTypeKey = "___AdminCarsSortType___";
 
+        public const string CookieUserCarsSortDirectionKey = "___UserCarsSortDirection___";
+        public const string CookieUserCarsSortTypeKey = "___UserCarsSortType___";
+
         public const string CookieAdminUsersSortDirectionKey = "___AdminUsersSortDirection___";
         public const string CookieAdminUsersSortTypeKey = "___AdminUsersSortType___";
 

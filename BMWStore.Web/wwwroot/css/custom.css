@@ -103,24 +103,12 @@
     margin-bottom: 5px;
 }
 
-.img-small {
-    width: 130px;
-    height: 130px;
-}
-
-.light-blue-container {
+.container-light-blue {
     background-color: #e4f1f9;
     padding: 15px;
 }
 
-.list-group-item:first-child {
-    border-top-left-radius: 10px;
-}
-.list-group-item:first-child > a {
-    border-top-left-radius: 10px;
-}
-
-.container-item {
+.container-item-white {
     background-color: white;
     margin: 10px;
     margin-left: 20px;
@@ -137,6 +125,19 @@
 .color-blue-hover:hover {
     color: #45ADDE;
 }
+
+.img-small {
+    width: 130px;
+    height: 130px;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 10px;
+}
+
+    .list-group-item:first-child > a {
+        border-top-left-radius: 10px;
+    }
 
 .main-container {
     

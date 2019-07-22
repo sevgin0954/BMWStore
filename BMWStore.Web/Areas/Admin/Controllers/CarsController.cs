@@ -4,6 +4,7 @@ using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class CarsController : BaseAdminController
     {
         private readonly IAdminCarsService carsService;
-        private readonly IAdminSortCookieService sortCookieService;
+        private readonly ISortCookieService sortCookieService;
         private readonly IAdminEnginesService enginesService;
         private readonly IAdminFuelTypesService fuelTypesService;
         private readonly IAdminModelTypesService modelTypesService;
@@ -21,7 +22,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
         public CarsController(
             IAdminCarsService carsService, 
-            IAdminSortCookieService sortCookieService, 
+            ISortCookieService sortCookieService, 
             IAdminEnginesService enginesService,
             IAdminFuelTypesService fuelTypesService,
             IAdminModelTypesService modelTypesService,

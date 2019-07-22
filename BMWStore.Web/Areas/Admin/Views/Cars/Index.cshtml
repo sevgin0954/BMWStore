@@ -3,7 +3,7 @@
     ViewData["Title"] = "Cars";
 }
 
-<div class="container-item border-radius-smooth border-grey d-flex">
+<div class="container-item-white border-radius-smooth border-grey d-flex">
     <a class="btn border-blue-hover"
        asp-controller="Cars"
        asp-action="AddNew">
@@ -24,7 +24,7 @@
 
 @foreach (var car in Model.Cars)
 {
-    <div data-carId="@car.Id" class="container-item border-radius-smooth border-grey">
+    <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
         <partial name="_CarConcisePartial" model="@car" />
 
         <div class="row d-flex">

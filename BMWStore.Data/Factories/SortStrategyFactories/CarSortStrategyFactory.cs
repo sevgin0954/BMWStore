@@ -14,7 +14,7 @@ namespace BMWStore.Data.Factories.SortStrategyFactories
                 case CarSortStrategyType.Condition when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByConditionStrategy();
                 case CarSortStrategyType.Condition when sortDirection == SortStrategyDirection.Descending:
-                    return new SortCarsByConditionStrategy();
+                    return new SortCarsByConditionDescStrategy();
                 case CarSortStrategyType.Name when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByNameStrategy();
                 case CarSortStrategyType.Name when sortDirection == SortStrategyDirection.Descending:

@@ -134,6 +134,8 @@ namespace BMWStore.Models.CarModels.BindingModels
                 .ForMember(dest => dest.SelectedSeriesId, opt => opt.MapFrom(src => src.SeriesId))
                 .ForMember(dest => dest.CarOptions, opt => opt.MapFrom(src => src.Options.Select(o => new SelectListItem()
                 { Value = o.OptionId, Text = o.Option.Name, Selected = true })))
+                .ForMember(dest => dest.IsNew, opt => opt.MapFrom(src => src is NewCar))
+                .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src is UsedCar ? (src as UsedCar).Mileage : 0))
                 .ForMember(dest => dest.Pictures, opt => opt.Ignore())
                 .ForMember(dest => dest.Engines, opt => opt.Ignore())
                 .ForMember(dest => dest.FuelTypes, opt => opt.Ignore())

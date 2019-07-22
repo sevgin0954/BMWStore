@@ -46,7 +46,7 @@ namespace BMWStore.Services.AdminServices
 
         public async Task CreateUsedCar(AdminNewCarCreateBindingModel model)
         {
-            var dbUsedCar = Mapper.Map<NewCar>(model);
+            var dbUsedCar = Mapper.Map<UsedCar>(model);
             await this.adminPicturesService.UpdateCarPicturesAsync(dbUsedCar, model.Pictures);
 
             this.unitOfWork.NewCars.Add(dbUsedCar);
@@ -58,21 +58,11 @@ namespace BMWStore.Services.AdminServices
 
         public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(ICarSortStrategy sortStrategy)
         {
-            var models = new List<CarConciseViewModel>();
-
-            var usedCarsModels = await this.unitOfWork.UsedCars
-                .GetSorted(sortStrategy)
+            var models = await this.unitOfWork.AllCars
+                .GetAllSorted(sortStrategy)
                 .Include(uc => uc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();
-            var newCarsModels = await this.unitOfWork.NewCars
-                .GetSorted(sortStrategy)
-                .Include(nc => nc.Pictures)
-                .To<CarConciseViewModel>()
-                .ToArrayAsync();
-
-            models.AddRange(usedCarsModels);
-            models.AddRange(newCarsModels);
 
             return models;
         }
@@ -91,27 +81,12 @@ namespace BMWStore.Services.AdminServices
         public async Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model)
         {
             var allOptions = model.CarOptions;
-            // TODO: REAPEATING CODE AND THIS IS USING TWO QUERIES FOR ONE THING
             var carId = model.Id;
-            var carModel = new AdminCarEditBindingModel();
-            if (await this.IsNewCar(carId))
-            {
-                carModel = await this.unitOfWork.NewCars
+            var carModel = await this.unitOfWork.AllCars
                     .GetAll()
                     .Where(c => c.Id == carId)
                     .To<AdminCarEditBindingModel>()
                     .FirstAsync();
-                carModel.IsNew = true;
-            }
-            else
-            {
-                carModel = await this.unitOfWork.UsedCars
-                    .GetAll()
-                    .Where(c => c.Id == carId)
-                    .To<AdminCarEditBindingModel>()
-                    .FirstAsync();
-                carModel.IsNew = false;
-            }
 
             Mapper.Map(carModel, model);
             var selectedOptions = carModel.CarOptions;
@@ -124,13 +99,6 @@ namespace BMWStore.Services.AdminServices
 
             model.CarOptions = allOptions;
         }
-
-        private async Task<bool> IsNewCar(string carId)
-        {
-            var isNewCar = await this.unitOfWork.AllCars.IsType(typeof(NewCar), carId);
-
-            return isNewCar;
-        } 
 
         public async Task EditNewCarAsync(AdminCarEditBindingModel model)
         {

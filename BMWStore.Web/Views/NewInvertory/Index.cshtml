@@ -1,5 +1,67 @@
-﻿@model IEnumerable<NewCarConciseViewModel>
+﻿@model NewCarsInvertoryViewModel
 @{
     ViewData["Title"] = "New BMW Invertory";
 }
 
+<div class="mt-3">
+    <h4>@ViewData["Title"]</h4>
+</div>
+
+<div class="mt-3">
+    <img height="80" src="~/images/theBMWStore.webp" alt="The bmw store" />
+</div>
+
+<div class="mt-3">
+    <h6>
+        The majority of our new BMW inventory is kept with factory protective wrapping on the exterior of the vehicle
+        to shield the elements until time of purchase.
+    </h6>
+</div>
+
+<div class="row">
+    <div class="col-2 mt-4 mr-3 no-padding">
+        <div>
+            <h5>Show Only</h5>
+        </div>
+        <div class="container-light-blue border-grey border-radius-smooth">
+
+        </div>
+    </div>
+    <div class="mt-4 col no-padding">
+        <div>
+            <h5>@Model.Cars.Count() Vehicles matching</h5>
+        </div>
+        <div class="container-light-blue border-grey border-radius-smooth">
+            <div class="d-flex">
+                @await Component.InvokeAsync("SortType", new
+                    {
+                        enumTypeName = typeof(CarSortStrategyType).AssemblyQualifiedName,
+                        selectedEnumName = @Model.SortStrategyType.ToString(),
+                        controllerName = "NewInvertory",
+                        actionName = "ChangeSortType"
+                    })
+                <partial name="_SortingDirectionPartial" />
+            </div>
+        </div>
+        <div class="container-light-blue border-grey border-radius-smooth mt-4">
+            @foreach (var car in Model.Cars)
+            {
+                <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
+                    <partial name="_CarConcisePartial" model="@car" />
+
+                    <div class="row d-flex">
+                        <div class="mx-auto">
+                            <a class="btn border-green background-green-hover ml-2"
+                               asp-route-id="@car.Id"
+                               asp-area="Admin"
+                               asp-controller="Cars"
+                               asp-action="Edit">
+                                Buy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

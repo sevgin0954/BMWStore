@@ -1,13 +1,13 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
 using BMWStore.Common.Validation;
-using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace BMWStore.Services.AdminServices
+namespace BMWStore.Services
 {
-    public class AdminSortCookieService : IAdminSortCookieService
+    public class SortCookieService : ISortCookieService
     {
         public void ChangeSortDirectionCookie(
             IResponseCookies responseCookies, 

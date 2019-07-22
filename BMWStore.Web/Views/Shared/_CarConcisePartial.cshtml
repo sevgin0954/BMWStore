@@ -26,7 +26,14 @@
                     @Model.Price
                 </div>
                 <div>
-                    @Model.Mileage
+                    @if (Model.IsNew)
+                    {
+                        @:The car is new
+                    }
+                    else
+                    {
+                        @Model.Mileage
+                    }
                 </div>
                 <div>
                     @Model.ModelTypeName
@@ -69,7 +76,7 @@
     <div class="col d-flex">
         <div class="row mx-auto">
             @cloudinary.Api.UrlImgUp.Secure(true).Transform(
-                new Transformation().Quality("auto").Width(250).Crop("scale")
+                new Transformation().Quality("auto").Width(250).Height(150).Crop("fill")
             ).BuildImageTag(Model.PicturePublicId)
         </div>
     </div>

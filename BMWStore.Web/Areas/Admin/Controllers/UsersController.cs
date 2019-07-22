@@ -3,6 +3,7 @@ using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -11,9 +12,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class UsersController : BaseAdminController
     {
         private readonly IAdminUsersService adminUsersService;
-        private readonly IAdminSortCookieService cookieService;
+        private readonly ISortCookieService cookieService;
 
-        public UsersController(IAdminUsersService usersService, IAdminSortCookieService cookieService)
+        public UsersController(IAdminUsersService usersService, ISortCookieService cookieService)
         {
             this.adminUsersService = usersService;
             this.cookieService = cookieService;
