@@ -7,29 +7,29 @@ namespace BMWStore.Data.Factories.SortStrategyFactories
 {
     public class CarSortStrategyFactory
     {
-        public static ICarSortStrategy GetStrategy(CarSortStrategyType sortType, SortStrategyDirection sortDirection)
+        public static ICarSortStrategy GetStrategy(BaseCarSortStrategyType sortType, SortStrategyDirection sortDirection)
         {
             switch (sortType)
             {
-                case CarSortStrategyType.Condition when sortDirection == SortStrategyDirection.Ascending:
+                case BaseCarSortStrategyType.Condition when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByConditionStrategy();
-                case CarSortStrategyType.Condition when sortDirection == SortStrategyDirection.Descending:
+                case BaseCarSortStrategyType.Condition when sortDirection == SortStrategyDirection.Descending:
                     return new SortCarsByConditionDescStrategy();
-                case CarSortStrategyType.Name when sortDirection == SortStrategyDirection.Ascending:
+                case BaseCarSortStrategyType.Name when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByNameStrategy();
-                case CarSortStrategyType.Name when sortDirection == SortStrategyDirection.Descending:
+                case BaseCarSortStrategyType.Name when sortDirection == SortStrategyDirection.Descending:
                     return new SortCarsByNameDescStrategy();
-                case CarSortStrategyType.Price when sortDirection == SortStrategyDirection.Ascending:
+                case BaseCarSortStrategyType.Price when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByPriceStrategy();
-                case CarSortStrategyType.Price when sortDirection == SortStrategyDirection.Descending:
+                case BaseCarSortStrategyType.Price when sortDirection == SortStrategyDirection.Descending:
                     return new SortCarsByPriceDescStrategy();
-                case CarSortStrategyType.Year when sortDirection == SortStrategyDirection.Ascending:
+                case BaseCarSortStrategyType.Year when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByYearStrategy();
-                case CarSortStrategyType.Year when sortDirection == SortStrategyDirection.Descending:
+                case BaseCarSortStrategyType.Year when sortDirection == SortStrategyDirection.Descending:
                     return new SortCarsByYearDescStrategy();
-                case CarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Ascending:
+                case BaseCarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Ascending:
                     return new SortCarsByYearStrategy();
-                case CarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Descending:
+                case BaseCarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Descending:
                     return new SortCarsByYearDescStrategy();
                 default:
                     throw new InvalidEnumArgumentException();

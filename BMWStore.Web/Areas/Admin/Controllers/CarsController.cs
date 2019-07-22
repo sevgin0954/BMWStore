@@ -47,7 +47,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortDirection = this.sortCookieService.GetSortStrategyDirectionOrDefault(cookies, sortDirectionKey);
 
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
-            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<CarSortStrategyType>(cookies, sortTypeKey);
+            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<BaseCarSortStrategyType>(cookies, sortTypeKey);
 
             var sortStrategy = CarSortStrategyFactory.GetStrategy(sortType, sortDirection);
             var cars = await this.carsService.GetAllCarsAsync(sortStrategy);
@@ -143,7 +143,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeSortType(CarSortStrategyType sortStrategyType)
+        public IActionResult ChangeSortType(BaseCarSortStrategyType sortStrategyType)
         {
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
             this.sortCookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);

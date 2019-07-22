@@ -1,6 +1,6 @@
 ﻿namespace BMWStore.Common.Enums
 {
-    public enum NewCarSortStrategyType
+    public enum NewBaseCarSortStrategyType
     {
         Price, Year, Warranty
     }

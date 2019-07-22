@@ -196,6 +196,10 @@
     padding: 0px;
 }
 
+.no-padding-left {
+    padding-left: 0px;
+}
+
 .no-wrap {
     white-space: nowrap;
 }

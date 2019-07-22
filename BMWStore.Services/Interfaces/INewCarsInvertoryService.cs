@@ -7,6 +7,6 @@ namespace BMWStore.Services.Interfaces
 {
     public interface INewCarsInvertoryService
     {
-        Task<IEnumerable<CarViewModel>> GetAllAsync(ICarSortStrategy sortStrategy);
+        Task<IEnumerable<CarConciseViewModel>> GetAllAsync(ICarSortStrategy sortStrategy);
     }
 }

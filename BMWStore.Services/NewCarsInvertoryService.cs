@@ -18,11 +18,11 @@ namespace BMWStore.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<CarViewModel>> GetAllAsync(ICarSortStrategy sortStrategy)
+        public async Task<IEnumerable<CarConciseViewModel>> GetAllAsync(ICarSortStrategy sortStrategy)
         {
             var carModels = await this.unitOfWork.NewCars
                 .GetAllSorted(sortStrategy)
-                .To<CarViewModel>()
+                .To<CarConciseViewModel>()
                 .ToArrayAsync();
 
             return carModels;

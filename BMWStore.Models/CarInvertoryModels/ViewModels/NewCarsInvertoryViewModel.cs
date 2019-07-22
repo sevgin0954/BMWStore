@@ -6,10 +6,10 @@ namespace BMWStore.Models.CarInvertoryModels.ViewModels
 {
     public class NewCarsInvertoryViewModel
     {
-        public NewCarSortStrategyType SortStrategyType { get; set; }
+        public NewBaseCarSortStrategyType SortStrategyType { get; set; }
 
         public SortStrategyDirection SortStrategyDirection { get; set; }
 
-        public IEnumerable<CarViewModel> Cars { get; set; }
+        public IEnumerable<CarConciseViewModel> Cars { get; set; }
     }
 }

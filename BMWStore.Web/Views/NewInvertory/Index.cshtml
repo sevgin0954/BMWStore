@@ -35,7 +35,7 @@
             <div class="d-flex">
                 @await Component.InvokeAsync("SortType", new
                     {
-                        enumTypeName = typeof(NewCarSortStrategyType).AssemblyQualifiedName,
+                        enumTypeName = typeof(NewBaseCarSortStrategyType).AssemblyQualifiedName,
                         selectedEnumName = @Model.SortStrategyType.ToString(),
                         controllerName = "NewInvertory",
                         actionName = "ChangeSortType"
