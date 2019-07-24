@@ -2,8 +2,10 @@
 using BMWStore.Data.Interfaces;
 using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
+using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
+using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq;
@@ -26,9 +28,13 @@ namespace BMWStore.Services
             ICarSortStrategy sortStrategy, 
             params ICarFilterStrategy[] filterStrategies)
         {
-            var carModels = await this.carsService.GetAllNewCarsAsync(sortStrategy, filterStrategies);
+            var filteredCars = this.unitOfWork.NewCars
+                .GetFiltered(filterStrategies);
+            var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
-            var yearModels = await this.unitOfWork.NewCars.GetAll()
+            var carModels = await sortedAndFilteredCars.To<CarConciseViewModel>().ToArrayAsync();
+
+            var yearModels = await sortedAndFilteredCars
                 .GroupBy(c => c.Year)
                 .Select(c => new FilterTypeBindingModel()
                 {
@@ -38,7 +44,7 @@ namespace BMWStore.Services
                 })
                 .ToArrayAsync();
 
-            var seriesModels = await this.unitOfWork.NewCars.GetAll()
+            var seriesModels = await sortedAndFilteredCars
                 .GroupBy(c => new { Value = c.Series.Id, Text = c.Series.Name })
                 .Select(c => new FilterTypeBindingModel()
                 {
@@ -48,7 +54,7 @@ namespace BMWStore.Services
                 })
                 .ToArrayAsync();
 
-            var modelTypeModels = await this.unitOfWork.NewCars.GetAll()
+            var modelTypeModels = await sortedAndFilteredCars
                 .GroupBy(c => new { Value = c.ModelType.Id, Text = c.ModelType.Name })
                 .Select(c => new FilterTypeBindingModel()
                 {
