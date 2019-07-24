@@ -1,12 +1,14 @@
-﻿using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
-using BMWStore.Models.CarModels.ViewModels;
-using System.Collections.Generic;
+﻿using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
+using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
+using BMWStore.Models.CarInvertoryModels.ViewModels;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.Interfaces
 {
     public interface INewCarsInvertoryService
     {
-        Task<IEnumerable<CarConciseViewModel>> GetAllAsync(ICarSortStrategy sortStrategy);
+        Task<NewCarsInvertoryViewModel> GetInvertoryBindingModel(
+            ICarSortStrategy sortStrategy, 
+            params ICarFilterStrategy[] filterStrategiesparams);
     }
 }

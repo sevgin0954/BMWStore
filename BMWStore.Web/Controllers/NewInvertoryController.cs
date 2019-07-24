@@ -1,26 +1,34 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
+using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
-using BMWStore.Models.CarInvertoryModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
 {
     public class NewInvertoryController : Controller
     {
-        private readonly INewCarsInvertoryService newCarsService;
+        private readonly INewCarsInvertoryService newCarsInvertoryService;
         private readonly ISortCookieService sortCookieService;
 
-        public NewInvertoryController(INewCarsInvertoryService newCarsService, ISortCookieService sortCookieService)
+        public NewInvertoryController(INewCarsInvertoryService newCarsInvertoryService, ISortCookieService sortCookieService)
         {
-            this.newCarsService = newCarsService;
+            this.newCarsInvertoryService = newCarsInvertoryService;
             this.sortCookieService = sortCookieService;
         }
 
+        // TODO: REFACTOR
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            int? startYear, 
+            string priceRange,
+            string series,
+            IEnumerable<string> modelTypes)
         {
             var cookie = this.HttpContext.Request.Cookies;
 
@@ -29,17 +37,28 @@ namespace BMWStore.Web.Controllers
 
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
             var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<NewBaseCarSortStrategyType>(cookie, sortTypeKey);
-
             var sortStrategy = NewCarSortStrategyFactory.GetStrategy(sortType, sortDirection);
-            var cars = await this.newCarsService.GetAllAsync(sortStrategy);
-            var model = new NewCarsInvertoryViewModel()
-            {
-                Cars = cars,
-                SortStrategyType = sortType,
-                SortStrategyDirection = sortDirection
-            };
+
+            decimal?[] priceRanges = this.ParsePriceRange(priceRange);
+            var filterStrategy = CarFilterStrategyFactory.GetStrategies(startYear, priceRanges[0], priceRanges[1], series, modelTypes);
+
+            var model = await this.newCarsInvertoryService.GetInvertoryBindingModel(sortStrategy, filterStrategy.ToArray());
 
             return View(model);
+        }
+
+        private decimal?[] ParsePriceRange(string priceRange)
+        {
+            var priceRanges = new decimal?[] { null, null };
+
+            if (priceRange != null)
+            {
+                var priceParts = priceRange.Split(" -".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                priceRanges[0] = decimal.Parse(priceParts[0]);
+                priceRanges[1] = decimal.Parse(priceParts[1]);
+            }
+
+            return priceRanges;
         }
 
         [HttpPost]

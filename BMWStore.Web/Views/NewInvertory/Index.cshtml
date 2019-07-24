@@ -24,7 +24,67 @@
             <h5>Show Only</h5>
         </div>
         <div class="container-light-blue border-grey border-radius-smooth">
+            <div class="d-flex flex-column">
+                <div>
+                    <form method="get">
+                        <div>
+                            <div>
+                                YEAR
+                            </div>
+                            @foreach (var modelType in Model.Years)
+                            {
+                                <div>
+                                    <input name="startYear" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
+                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                </div>
+                            }
+                        </div>
 
+                        <div>
+                            <div>
+                                SERIES
+                            </div>
+                            @foreach (var modelType in Model.Series)
+                            {
+                                <div>
+                                    <input name="series" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
+                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div>
+                            <div>
+                                MODEL
+                            </div>
+                            @foreach (var modelType in Model.ModelTypes)
+                            {
+                                <div>
+                                    <input name="modelTypes.Value" value="@modelType.Value" type="checkbox" selected="@modelType.IsSelected" />
+                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div>
+                            <div>
+                                PRICE
+                            </div>
+                            @foreach (var modelType in Model.Prices)
+                            {
+                                <div>
+                                    <input name="priceRange" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
+                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                </div>
+                            }
+                        </div>
+
+                        <button type="submit">
+                            Filter
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div class="mt-4 col no-padding">

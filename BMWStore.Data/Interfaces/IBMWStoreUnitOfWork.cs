@@ -1,4 +1,5 @@
 ﻿using BMWStore.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace BMWStore.Data.Interfaces
@@ -23,5 +24,6 @@ namespace BMWStore.Data.Interfaces
 
         int Complete();
         Task<int> CompleteAsync();
+        DbQuery<TModel> Query<TModel>() where TModel : class;
     }
 }

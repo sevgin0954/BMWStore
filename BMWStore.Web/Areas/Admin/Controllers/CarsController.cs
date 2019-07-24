@@ -12,30 +12,33 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class CarsController : BaseAdminController
     {
-        private readonly IAdminCarsService carsService;
+        private readonly IAdminCarsService adminCarsService;
         private readonly ISortCookieService sortCookieService;
         private readonly IAdminEnginesService enginesService;
         private readonly IAdminFuelTypesService fuelTypesService;
         private readonly IAdminModelTypesService modelTypesService;
         private readonly IAdminSeriesService seriesService;
         private readonly IAdminOptionsService carOptionsService;
+        private readonly ICarsService carsService;
 
         public CarsController(
-            IAdminCarsService carsService, 
+            IAdminCarsService adminCarsService, 
             ISortCookieService sortCookieService, 
             IAdminEnginesService enginesService,
             IAdminFuelTypesService fuelTypesService,
             IAdminModelTypesService modelTypesService,
             IAdminSeriesService seriesService,
-            IAdminOptionsService adminCarOptionsService)
+            IAdminOptionsService adminCarOptionsService,
+            ICarsService carsService)
         {
-            this.carsService = carsService;
+            this.adminCarsService = adminCarsService;
             this.sortCookieService = sortCookieService;
             this.enginesService = enginesService;
             this.fuelTypesService = fuelTypesService;
             this.modelTypesService = modelTypesService;
             this.seriesService = seriesService;
             this.carOptionsService = adminCarOptionsService;
+            this.carsService = carsService;
         }
 
         [HttpGet]
@@ -87,11 +90,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             if (model.Mileage > 0)
             {
-                await this.carsService.CreateUsedCar(model);
+                await this.adminCarsService.CreateUsedCar(model);
             }
             else
             {
-                await this.carsService.CreateNewCar(model);
+                await this.adminCarsService.CreateNewCar(model);
             }
 
             return Redirect(WebConstants.AdminCarsUrl);
@@ -100,7 +103,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.carsService.DeleteCarAsync(id);
+            await this.adminCarsService.DeleteCarAsync(id);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -122,7 +125,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
                 Series = series,
                 CarOptions = options
             };
-            await this.carsService.SetEditBindingModelPropertiesAsync(model);
+            await this.adminCarsService.SetEditBindingModelPropertiesAsync(model);
 
             return View(model);
         }
@@ -132,11 +135,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             if (model.IsNew)
             {
-                await this.carsService.EditNewCarAsync(model);
+                await this.adminCarsService.EditNewCarAsync(model);
             }
             else
             {
-                await this.carsService.EditUsedCarAsync(model);
+                await this.adminCarsService.EditUsedCarAsync(model);
             }
 
             return RedirectToAction("Index");

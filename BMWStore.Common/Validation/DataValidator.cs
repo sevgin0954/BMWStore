@@ -2,11 +2,13 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace BMWStore.Common.Validation
 {
     public class DataValidator
     {
+        // TODO: Inconsistent parameters
         public static void ValidateNotNull(object obj, Exception exception)
         {
             if (obj == null)
@@ -15,6 +17,7 @@ namespace BMWStore.Common.Validation
             }
         }
 
+        // TODO: Inconsistent parameters
         public static void ValidateNotEmptyCollection(IEnumerable enumerable, string exceptionMessage)
         {
             if (enumerable.GetEnumerator().MoveNext() == false)
@@ -35,6 +38,28 @@ namespace BMWStore.Common.Validation
             if (Enum.TryParse(enumType, enumValue, out result) == false)
             {
                 throw new InvalidEnumArgumentException(ErrorConstants.IncorrectEnumValue);
+            }
+        }
+
+        public static void ValidateYearString(string year)
+        {
+            var result = DateTime.UtcNow;
+            var isSuccessful = DateTime.ParseExact(year, "yyyy", CultureInfo.InvariantCulture);
+        }
+
+        public static void ValidateMinPrice(decimal price, string minPrice)
+        {
+            if (price < decimal.Parse(minPrice))
+            {
+                throw new Exception(ErrorConstants.IncorrectPriceRange);
+            }
+        }
+
+        public static void ValidateMaxPrice(decimal price, string maxPrice)
+        {
+            if (price > decimal.Parse(maxPrice))
+            {
+                throw new Exception(ErrorConstants.IncorrectPriceRange);
             }
         }
     }

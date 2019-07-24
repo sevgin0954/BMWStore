@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BMWStore.Data.Repositories;
 using BMWStore.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data
 {
@@ -66,6 +67,11 @@ namespace BMWStore.Data
         public async Task<int> CompleteAsync()
         {
             return await this.dbContext.SaveChangesAsync();
+        }
+
+        public DbQuery<TModel> Query<TModel>() where TModel : class
+        {
+            return this.dbContext.Query<TModel>();
         }
     }
 }

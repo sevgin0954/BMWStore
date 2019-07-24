@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories
 {
+    // TODO: Replace with BaseCar
     public class CarRepository : BaseCarRepository<BaseCar>
     {
         public CarRepository(DbContext dbContext)

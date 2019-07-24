@@ -1,7 +1,4 @@
-﻿using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
-using BMWStore.Models.CarModels.BindingModels;
-using BMWStore.Models.CarModels.ViewModels;
-using System.Collections.Generic;
+﻿using BMWStore.Models.CarModels.BindingModels;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices.Interfaces
@@ -10,7 +7,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
     {
         Task CreateNewCar(AdminNewCarCreateBindingModel model);
         Task CreateUsedCar(AdminNewCarCreateBindingModel model);
-        Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(ICarSortStrategy sortStrategy);
         Task DeleteCarAsync(string carId);
         Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model);
         Task EditNewCarAsync(AdminCarEditBindingModel model);
