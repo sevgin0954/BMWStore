@@ -98,7 +98,12 @@
                             }
                         </div>
 
-                        <button id="filterSubmit" type="submit" class="btn btn-wide border-blue-hover"></button>
+                        <a class="btn btn-wide border-blue-hover" asp-controller="NewInvertory" asp-action="Index">
+                            <i class="far fa-trash-alt"></i>
+                            Clear filters
+                        </a>
+
+                        <button id="filterSubmit" type="submit" hidden></button>
                     </form>
                 </div>
             </div>
