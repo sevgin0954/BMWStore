@@ -17,7 +17,7 @@ namespace BMWStore.Data.FilterStrategies.CarStrategies
 
         public IQueryable<BaseCar> Filter(IQueryable<BaseCar> cars)
         {
-            var filteredCars = cars.Where(c => int.Parse(c.Year) >= this.startYear);
+            var filteredCars = cars.Where(c => int.Parse(c.Year) == this.startYear);
 
             return filteredCars;
         }

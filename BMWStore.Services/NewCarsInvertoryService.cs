@@ -17,12 +17,10 @@ namespace BMWStore.Services
     public class NewCarsInvertoryService : INewCarsInvertoryService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
-        private readonly ICarsService carsService;
 
-        public NewCarsInvertoryService(IBMWStoreUnitOfWork unitOfWork, ICarsService carsService)
+        public NewCarsInvertoryService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.carsService = carsService;
         }
 
         public async Task<NewCarsInvertoryViewModel> GetInvertoryBindingModel(
@@ -54,7 +52,7 @@ namespace BMWStore.Services
                     Text = c.Key.Text
                 })
                 .ToArrayAsync();
-            // TODO: Concider combine in one stored proc
+
             var modelTypeModels = await sortedAndFilteredCars
                 .GroupBy(c => new { Value = c.ModelType.Id, Text = c.ModelType.Name })
                 .Select(c => new FilterTypeBindingModel()

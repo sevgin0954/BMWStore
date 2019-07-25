@@ -25,7 +25,7 @@ namespace BMWStore.Web.Controllers
         // TODO: REFACTOR
         [HttpGet]
         public async Task<IActionResult> Index(
-            int? startYear, 
+            int? year, 
             string priceRange,
             string series,
             IEnumerable<string> modelTypes)
@@ -40,7 +40,7 @@ namespace BMWStore.Web.Controllers
             var sortStrategy = NewCarSortStrategyFactory.GetStrategy(sortType, sortDirection);
 
             decimal?[] priceRanges = this.ParsePriceRange(priceRange);
-            var filterStrategy = CarFilterStrategyFactory.GetStrategies(startYear, priceRanges[0], priceRanges[1], series, modelTypes);
+            var filterStrategy = CarFilterStrategyFactory.GetStrategies(year, priceRanges[0], priceRanges[1], series, modelTypes);
 
             var model = await this.newCarsInvertoryService.GetInvertoryBindingModel(sortStrategy, filterStrategy.ToArray());
 

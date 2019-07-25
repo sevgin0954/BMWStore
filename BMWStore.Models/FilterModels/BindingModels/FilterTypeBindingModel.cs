@@ -2,6 +2,7 @@
 
 namespace BMWStore.Models.FilterModels.BindingModels
 {
+    // TODO: Change to select list item
     public class FilterTypeBindingModel
     {
         [NotMapped]

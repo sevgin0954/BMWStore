@@ -10,7 +10,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
     public class CarFilterStrategyFactory
     {
         public static IEnumerable<ICarFilterStrategy> GetStrategies(
-            int? startYear,
+            int? year,
             decimal? minPrice,
             decimal? maxPrice,
             string series,
@@ -18,9 +18,9 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
         {
             var strategies = new List<ICarFilterStrategy>();
 
-            if (startYear != null)
+            if (year != null)
             {
-                var yearStrategy = CreateYearStrategy((int)startYear);
+                var yearStrategy = CreateYearStrategy((int)year);
                 strategies.Add(yearStrategy);
             }
 

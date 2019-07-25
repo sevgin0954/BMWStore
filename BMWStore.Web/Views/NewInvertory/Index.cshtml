@@ -34,7 +34,7 @@
                             @foreach (var modelType in Model.Years)
                             {
                                 <div>
-                                    <input name="startYear" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
+                                    <input name="year" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
                                     <span>@modelType.Text (@modelType.CarsCount)</span>
                                 </div>
                             }
