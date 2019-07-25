@@ -6,6 +6,8 @@ using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.UserModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using MappingRegistrar;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,10 +27,10 @@ namespace BMWStore.Services.AdminServices
         {
             var dbUserRoleId = await this.unitOfWork.Roles
                 .GetIdByNameAsync(WebConstants.UserRoleName);
-            var dbUsers = this.unitOfWork.Users
-                .GetSortedWithRole(sortStrategy, dbUserRoleId);
-            // TODO: Make use of automapper ProjectTo
-            var models = Mapper.Map<IEnumerable<UserAdminViewModel>>(dbUsers);
+            var models = await this.unitOfWork.Users
+                .GetSortedWithRole(sortStrategy, dbUserRoleId)
+                .To<UserAdminViewModel>()
+                .ToArrayAsync();
 
             return models;
         }

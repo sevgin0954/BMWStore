@@ -27,7 +27,7 @@ namespace BMWStore.Services
         }
 
         public async Task<NewCarsInvertoryViewModel> GetInvertoryBindingModel(
-            ICarSortStrategy sortStrategy, 
+            ICarSortStrategy sortStrategy,
             params ICarFilterStrategy[] filterStrategies)
         {
             var filteredCars = this.unitOfWork.NewCars
