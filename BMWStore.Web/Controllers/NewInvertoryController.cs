@@ -48,6 +48,8 @@ namespace BMWStore.Web.Controllers
                 .GetStrategies(parsedYear, priceRanges[0], priceRanges[1], parsedSeries, modelTypes);
 
             var model = await this.newCarsInvertoryService.GetInvertoryBindingModel(sortStrategy, filterStrategy.ToArray());
+            model.SortStrategyType = sortType;
+            model.SortStrategyDirection = sortDirection;
             this.SelectModelFilterItems(model, year?.ToString(), priceRange, series, modelTypes);
 
             return View(model);
