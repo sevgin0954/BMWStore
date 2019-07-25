@@ -34,8 +34,13 @@
                             @foreach (var modelType in Model.Years)
                             {
                                 <div>
-                                    <input name="year" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
-                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                    <input 
+                                           onclick="clickBtn()"
+                                           name="year" 
+                                           value="@modelType.Value" 
+                                           type="radio" 
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
                                 </div>
                             }
                         </div>
@@ -47,8 +52,13 @@
                             @foreach (var modelType in Model.Series)
                             {
                                 <div>
-                                    <input name="series" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
-                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                    <input 
+                                           onclick="clickBtn()"
+                                           name="series" 
+                                           value="@modelType.Value" 
+                                           type="radio" 
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
                                 </div>
                             }
                         </div>
@@ -60,8 +70,13 @@
                             @foreach (var modelType in Model.ModelTypes)
                             {
                                 <div>
-                                    <input name="modelTypes.Value" value="@modelType.Value" type="checkbox" selected="@modelType.IsSelected" />
-                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                    <input 
+                                           onclick="clickBtn()"
+                                           name="modelTypes" 
+                                           value="@modelType.Value" 
+                                           type="checkbox" 
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
                                 </div>
                             }
                         </div>
@@ -73,15 +88,17 @@
                             @foreach (var modelType in Model.Prices)
                             {
                                 <div>
-                                    <input name="priceRange" value="@modelType.Value" type="radio" selected="@modelType.IsSelected" />
-                                    <span>@modelType.Text (@modelType.CarsCount)</span>
+                                    <input onclick="clickBtn()"
+                                           name="priceRange"
+                                           value="@modelType.Value"
+                                           type="radio"
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
                                 </div>
                             }
                         </div>
 
-                        <button type="submit" class="btn btn-wide background-blue-hover border-blue">
-                            Filter
-                        </button>
+                        <button id="filterSubmit" type="submit" class="btn btn-wide border-blue-hover"></button>
                     </form>
                 </div>
             </div>
@@ -89,7 +106,7 @@
     </div>
     <div class="mt-4 col no-padding">
         <div>
-            <h5>@Model.Cars.Count() Vehicles matching</h5>
+            <h5>@Model.Cars.Count Vehicles matching</h5>
         </div>
         <div class="container-light-blue border-grey border-radius-smooth">
             <div class="d-flex">
@@ -125,3 +142,12 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function clickBtn() {
+            const submitBtn = $('#filterSubmit');
+            submitBtn.click();
+        }
+    </script>
+}

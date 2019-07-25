@@ -11,14 +11,14 @@ namespace BMWStore.Models.CarInvertoryModels.ViewModels
 
         public SortStrategyDirection SortStrategyDirection { get; set; }
 
-        public IEnumerable<FilterTypeBindingModel> Years { get; set; }
+        public List<FilterTypeBindingModel> Years { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<FilterTypeBindingModel> Series { get; set; }
+        public List<FilterTypeBindingModel> Series { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<FilterTypeBindingModel> ModelTypes { get; set; }
+        public List<FilterTypeBindingModel> ModelTypes { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<FilterTypeBindingModel> Prices { get; set; }
+        public List<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<CarConciseViewModel> Cars { get; set; }
+        public ICollection<CarConciseViewModel> Cars { get; set; }
     }
 }
