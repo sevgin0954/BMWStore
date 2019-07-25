@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetCarPriceRangesCount]
-	@carType nvarchar(10)
+	@cars BaseCars READONLY
 AS
 SELECT Range AS Value, COUNT(*) AS CarsCount, Range AS Text FROM (
-	SELECT *,
+	SELECT
 		CASE 
 			WHEN Price >= 10.000 AND Price <= 39.999 THEN '10.000 - 39.999'
 			WHEN Price >= 40.000 AND Price <= 49.999 THEN '40.000 - 49.999'
@@ -12,8 +12,7 @@ SELECT Range AS Value, COUNT(*) AS CarsCount, Range AS Text FROM (
 			WHEN Price >= 80.000 AND Price <= 89.999 THEN '80.000 - 89.999' 
 			WHEN Price >= 100.000 AND Price <= 149.999 THEN '100.000 - 149.999' 
 		END AS Range
-	FROM BaseCars
-	WHERE Discriminator = @carType
+	FROM @cars
 ) AS t
 GROUP BY Range
 RETURN 0
