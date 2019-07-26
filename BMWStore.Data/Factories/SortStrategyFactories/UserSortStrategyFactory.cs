@@ -17,9 +17,9 @@ namespace BMWStore.Data.Factories.SortStrategyFactories
                 case UserSortStrategyType.Name when sortDirection == SortStrategyDirection.Descending:
                     return new SortUsersByNamesDescStrategy();
                 case UserSortStrategyType.Orders when sortDirection == SortStrategyDirection.Ascending:
-                    return new SortUsersByOrdersCountStrategy();
+                    return new SortUsersByTestDrivesCountStrategy();
                 case UserSortStrategyType.Orders when sortDirection == SortStrategyDirection.Descending:
-                    return new SortUsersByOrdersCountDescStrategy();
+                    return new SortUsersByTestDrivesCountDescStrategy();
                 case UserSortStrategyType.LockoutStatus when sortDirection == SortStrategyDirection.Ascending:
                     return new SortUsersByLockoutStatusStrategy();
                 case UserSortStrategyType.LockoutStatus when sortDirection == SortStrategyDirection.Descending:

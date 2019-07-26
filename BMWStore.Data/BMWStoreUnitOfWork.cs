@@ -23,7 +23,7 @@ namespace BMWStore.Data
             this.UsedCars = new UsedCarRepository(this.dbContext);
             this.UsersRoles = new UserRoleRepository(this.dbContext);
             this.Options = new OptionRepository(this.dbContext);
-            this.Orders = new OrderRepository(this.dbContext);
+            this.TestDrives = new TestDriveRepository(this.dbContext);
             this.Roles = new RoleRepository(this.dbContext);
             this.Series = new SeriesRepository(this.dbContext);
             this.Pictures = new PictureRepository(this.dbContext);
@@ -49,7 +49,7 @@ namespace BMWStore.Data
 
         public OptionRepository Options { get; private set; }
 
-        public OrderRepository Orders { get; private set; }
+        public TestDriveRepository TestDrives { get; private set; }
 
         public RoleRepository Roles { get; private set; }
 

@@ -72,7 +72,7 @@ namespace BMWStore.Entities
         [Required]
         public decimal Torque { get; set; }
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<TestDrive> TestDrives { get; set; } = new List<TestDrive>();
 
         [MaxLength(EntitiesConstants.CarVinLength)]
         [MinLength(EntitiesConstants.CarVinLength)]

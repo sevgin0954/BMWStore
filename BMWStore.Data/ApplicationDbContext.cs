@@ -19,7 +19,7 @@ namespace BMWStore.Data
         public DbSet<ModelType> ModelTypes { get; set; }
         public DbSet<NewCar> NewCars { get; set; }
         public DbSet<Option> Options { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<TestDrive> TestDrives { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Transmission> Transmissions { get; set; }
@@ -51,7 +51,7 @@ namespace BMWStore.Data
                     .WithMany(s => s.Cars)
                     .HasForeignKey(c => c.SeriesId);
 
-                car.HasMany(c => c.Orders)
+                car.HasMany(c => c.TestDrives)
                     .WithOne(b => b.Car)
                     .HasForeignKey(uc => uc.CarId);
 
@@ -127,14 +127,11 @@ namespace BMWStore.Data
                     .HasForeignKey(c => c.OptionId);
             });
 
-            builder.Entity<Order>(order =>
+            builder.Entity<TestDrive>(testDrive =>
             {
-                order.HasKey(uoc => new { uoc.CarId, uoc.UserId });
+                testDrive.HasKey(uoc => new { uoc.UserId, uoc.CarId });
 
-                order.Property(o => o.Address)
-                    .HasMaxLength(EntitiesConstants.OrderAddressMaxLength);
-
-                order.Property(uoc => uoc.OrderDate)
+                testDrive.Property(uoc => uoc.ScheduleDate)
                     .HasDefaultValue(DateTime.UtcNow);
             });
 
@@ -150,6 +147,7 @@ namespace BMWStore.Data
                 series.HasIndex(s => s.Name)
                     .IsUnique();
 
+                // TODO: Use attribute
                 series.Property(s => s.Name)
                     .HasMaxLength(EntitiesConstants.SeriesNameMaxLength);
             });
@@ -168,7 +166,7 @@ namespace BMWStore.Data
 
             builder.Entity<User>(user =>
             {
-                user.HasMany(c => c.Orders)
+                user.HasMany(c => c.TestDrives)
                     .WithOne(bc => bc.User)
                     .HasForeignKey(bc => bc.UserId);
 

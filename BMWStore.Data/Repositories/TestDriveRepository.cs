@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data.Repositories
 {
-    public class OrderRepository : BaseRepository<Order>
+    public class TestDriveRepository : BaseRepository<TestDrive>
     {
-        public OrderRepository(DbContext dbContext)
+        public TestDriveRepository(DbContext dbContext)
             : base(dbContext) { }
     }
 }

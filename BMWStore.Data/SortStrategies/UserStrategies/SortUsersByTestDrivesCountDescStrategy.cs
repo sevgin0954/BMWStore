@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace BMWStore.Data.SortStrategies.UserStrategies
 {
-    class SortUsersByOrdersCountDescStrategy : IUserSortStrategy
+    class SortUsersByTestDrivesCountDescStrategy : IUserSortStrategy
     {
         public IQueryable<User> Sort(IQueryable<User> users)
         {
             var sortedUsers = users
-                .Include(u => u.Orders)
-                .OrderByDescending(u => u.Orders.Count);
+                .Include(u => u.TestDrives)
+                .OrderByDescending(u => u.TestDrives.Count);
 
             return sortedUsers;
         }

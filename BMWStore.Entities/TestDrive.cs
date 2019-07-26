@@ -4,14 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class Order
+    public class TestDrive
     {
-        public string Id { get; set; }
-
-        [MinLength(EntitiesConstants.OrderAddressMinLength)]
-        [Required]
-        public string Address { get; set; }
-
         public string CarId { get; set; }
         public BaseCar Car { get; set; }
 
@@ -19,6 +13,10 @@ namespace BMWStore.Entities
         public User User { get; set; }
 
         [Required]
-        public DateTime OrderDate { get; set; }
+        public DateTime ScheduleDate { get; set; }
+
+        [MinLength(EntitiesConstants.CommentCommentMinLength)]
+        [MaxLength(EntitiesConstants.CommentCommentMaxLength)]
+        public string Comment { get; set; }
     }
 }

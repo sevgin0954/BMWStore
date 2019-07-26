@@ -2,10 +2,37 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
-
-<h5>Total</h5>
+<h5>Test Drives</h5>
 <div class="container-item-white border-grey border-radius-smooth">
-    Total orders: <strong>@Model.TotalOrdersCount</strong>
+    <h6>New Cars</h6>
+    <div class="ml-3">
+        <div>
+            Total: <strong>@Model.TotalNewCarsTestDrivesCount</strong>
+        </div>
+        <div>
+            From past 24 hours: <strong>@Model.NewCarsTestDrivesFromPast24HoursCount</strong>
+        </div>
+    </div>
+
+    <h6>Used Cars</h6>
+    <div class="ml-3">
+        <div>
+            Total: <strong>@Model.TotalUsedCarsTestDrivesCount</strong>
+        </div>
+        <div>
+            From past 24 hours: <strong>@Model.UsedCarsOrderedFromPast24HoursCount</strong>
+        </div>
+    </div>
+
+    <h6>All</h6>
+    <div class="ml-3">
+        <div>
+            Total: <strong>@(Model.TotalNewCarsTestDrivesCount + Model.TotalUsedCarsTestDrivesCount)</strong>
+        </div>
+        <div>
+            From past 24 hours: <strong>@Model.TotalTestDrivesFromPast24HoursCount</strong>
+        </div>
+    </div>
 </div>
 
 <h5>Cars</h5>
@@ -13,27 +40,21 @@
     <h6>New</h6>
     <div class="ml-3">
         <div>
-            Total orders: <strong>@Model.NewCarsOrdersCount</strong>
-        </div>
-        <div>
-            Orders from past 24 hours: <strong>@Model.NewCarsOrderedFromPast24HoursCount</strong>
+            Total: <strong>@Model.NewCarsCount</strong>
         </div>
     </div>
 
     <h6>Used</h6>
     <div class="ml-3">
         <div>
-            Total orders: <strong>@Model.UsedCarsOrdersCount</strong>
-        </div>
-        <div>
-            Orders from past 24 hours: <strong>@Model.UsedCarsOrderedFromPast24HoursCount</strong>
+            Total: <strong>@Model.UsedCarsCount</strong>
         </div>
     </div>
 </div>
 
 <h5>Users</h5>
 <div class="container-item-white border-grey border-radius-smooth">
-    Total
+    <h6>Total</h6>
     <div class="ml-3">
         Total users count: <strong>@Model.TotalUsersCount</strong>
     </div>

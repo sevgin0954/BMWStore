@@ -16,7 +16,7 @@ namespace BMWStore.Data.Interfaces
         UsedCarRepository UsedCars { get; }
         UserRoleRepository UsersRoles { get; }
         OptionRepository Options { get; }
-        OrderRepository Orders { get; }
+        TestDriveRepository TestDrives { get; }
         RoleRepository Roles { get; }
         SeriesRepository Series { get; }
         PictureRepository Pictures { get; }

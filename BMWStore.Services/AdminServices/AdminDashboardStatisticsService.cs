@@ -1,5 +1,4 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Data;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
@@ -12,52 +11,47 @@ namespace BMWStore.Services.AdminServices
     public class AdminDashboardStatisticsService : IAdminDashboardStatisticsService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
-        private readonly ApplicationDbContext dbContext;
 
-        public AdminDashboardStatisticsService(IBMWStoreUnitOfWork unitOfWork, ApplicationDbContext dbContext)
+        public AdminDashboardStatisticsService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.dbContext = dbContext;
         }
 
         public async Task<AdminDashboardStatisticsViewModel> GetStatisticsAsync()
         {
-            var newCarsOrderedCount = await this.unitOfWork.Orders
+            var totalNewCarsTestDrivesCount = await this.unitOfWork.TestDrives
                 .CountAsync(o => o.Car is NewCar);
-            var newCarsOrderedFromPast24HoursCount = await this.unitOfWork.Orders
-                .CountAsync(uc => IsOrderedInLast24Hours(uc) && uc.Car is NewCar);
-            var orderesFromPast24Hours = await this.unitOfWork.Orders
-                .CountAsync(uc => IsOrderedInLast24Hours(uc));
+            var newCarsTestDrivesFromPast24HoursCount = await this.unitOfWork.TestDrives
+                .CountAsync(uc => IsScheduledInLast24Hours(uc) && uc.Car is NewCar);
+            var totalTestDrivesFromPast24Hours = await this.unitOfWork.TestDrives
+                .CountAsync(uc => IsScheduledInLast24Hours(uc));
 
             var dbUserRoleId = await this.unitOfWork.Roles
                 .GetIdByNameAsync(WebConstants.UserRoleName);
             var totalUsersCount = await this.unitOfWork.Users
                 .CountByRole(dbUserRoleId);
 
-            var totalOrdersCount = await this.unitOfWork.Orders
-                .CountAllAsync();
-            var usedCarsOrderesCount = await this.unitOfWork.Orders
+            var usedCarsOrderesCount = await this.unitOfWork.TestDrives
                 .CountAsync(o => o.Car is UsedCar);
-            var UsedCarsOrderedFromPast24HoursCount = await this.unitOfWork.Orders
-                .CountAsync(uc => IsOrderedInLast24Hours(uc) && uc.Car is UsedCar);
+            var UsedCarsOrderedFromPast24HoursCount = await this.unitOfWork.TestDrives
+                .CountAsync(uc => IsScheduledInLast24Hours(uc) && uc.Car is UsedCar);
 
             var model = new AdminDashboardStatisticsViewModel()
             {
-                NewCarsOrdersCount = newCarsOrderedCount,
-                NewCarsOrderedFromPast24HoursCount = newCarsOrderedFromPast24HoursCount,
-                OrdersFromPast24HoursCount = orderesFromPast24Hours,
+                TotalNewCarsTestDrivesCount = totalNewCarsTestDrivesCount,
+                NewCarsTestDrivesFromPast24HoursCount = newCarsTestDrivesFromPast24HoursCount,
+                TotalTestDrivesFromPast24HoursCount = totalTestDrivesFromPast24Hours,
                 TotalUsersCount = totalUsersCount,
-                TotalOrdersCount = totalOrdersCount,
-                UsedCarsOrdersCount = usedCarsOrderesCount,
+                TotalUsedCarsTestDrivesCount = usedCarsOrderesCount,
                 UsedCarsOrderedFromPast24HoursCount = UsedCarsOrderedFromPast24HoursCount
             };
 
             return model;
         }
 
-        private bool IsOrderedInLast24Hours(Order order)
+        private bool IsScheduledInLast24Hours(TestDrive testDrive)
         {
-            return (order.OrderDate - DateTime.UtcNow).Hours <= 24;
+            return (testDrive.ScheduleDate - DateTime.UtcNow).Hours <= 24;
         }
     }
 }

@@ -28,6 +28,9 @@
         public const int CarMaxWeight = 10000;
         public const int CarMinWeight = 1000;
 
+        public const int CommentCommentMaxLength = 300;
+        public const int CommentCommentMinLength = 0;
+
         public const string ColorMaxPrice = "2000";
         public const int ColorNameMaxLength = 25;
         public const int ColorNameMinLength = 3;
@@ -50,9 +53,6 @@
         public const int OptionNameMaxLength = 25;
         public const string OptionNameMaxPrice = "100000";
         public const int OptionNameMinLength = 3;
-
-        public const int OrderAddressMaxLength = 300;
-        public const int OrderAddressMinLength = 10;
 
         public const int SeriesNameMaxLength = 15;
         public const int SeriesNameMinLength = 2;

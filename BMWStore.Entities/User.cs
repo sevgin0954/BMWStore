@@ -15,7 +15,7 @@ namespace BMWStore.Entities
         [Required]
         public string LastName { get; set; }
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<TestDrive> TestDrives { get; set; } = new List<TestDrive>();
 
         public ICollection<IdentityUserRole<string>> Roles { get; set; } = new List<IdentityUserRole<string>>();
     }
