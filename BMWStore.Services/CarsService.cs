@@ -1,5 +1,6 @@
 ﻿using BMWStore.Data.Interfaces;
 using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
+using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
@@ -18,7 +19,7 @@ namespace BMWStore.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(ICarSortStrategy sortStrategy)
+        public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(ICarSortStrategy<BaseCar> sortStrategy)
         {
             var models = await this.unitOfWork.AllCars
                 .GetAllSorted(sortStrategy)

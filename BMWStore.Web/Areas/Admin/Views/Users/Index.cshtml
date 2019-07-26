@@ -5,16 +5,25 @@
 
 <div class="container-item-white no-padding border-grey border-radius-smooth d-flex">
     <div class="dropdown ml-auto">
-        @await Component.InvokeAsync("SortType", new
-           {
-               enumTypeName = typeof(UserSortStrategyType).AssemblyQualifiedName,
-               selectedEnumName = @Model.SortStrategyType.ToString(),
-               controllerName = "Users",
-               actionName = "ChangeSortType"
-           })
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(UserSortStrategyType).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortStrategyType.ToString(),
+            controllerName = "Users",
+            actionName = "ChangeSortType",
+            routeParamName = "sortStrategyType",
+            prependText = "Order by"
+        })
     </div>
     <div class="mr-auto">
-        <partial name="_SortingDirectionPartial" />
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(SortStrategyDirection).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortStrategyDirection.ToString(),
+            controllerName = "Users",
+            actionName = "ChangeSortDirection",
+            routeParamName = "sortDirection"
+        })
     </div>
 </div>
 

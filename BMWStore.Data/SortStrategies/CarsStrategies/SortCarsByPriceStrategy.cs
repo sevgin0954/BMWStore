@@ -4,9 +4,9 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.SortStrategies.CarsStrategies
 {
-    public class SortCarsByPriceStrategy : ICarSortStrategy
+    public class SortCarsByPriceStrategy<TCar> : ICarSortStrategy<TCar> where TCar : BaseCar
     {
-        public IQueryable<BaseCar> Sort(IQueryable<BaseCar> cars)
+        public IQueryable<TCar> Sort(IQueryable<TCar> cars)
         {
             var sortedCars = cars.OrderBy(c => c.Price);
 

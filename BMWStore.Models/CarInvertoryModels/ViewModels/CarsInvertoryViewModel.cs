@@ -1,13 +1,14 @@
 ﻿using BMWStore.Common.Enums;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
+using System;
 using System.Collections.Generic;
 
 namespace BMWStore.Models.CarInvertoryModels.ViewModels
 {
-    public class NewCarsInvertoryViewModel
+    public class CarsInvertoryViewModel
     {
-        public NewBaseCarSortStrategyType SortStrategyType { get; set; }
+        public Enum SortStrategyType { get; set; }
 
         public SortStrategyDirection SortStrategyDirection { get; set; }
 

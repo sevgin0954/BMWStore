@@ -16,7 +16,7 @@ namespace BMWStore.Data.Repositories.Generic
             this.dbContext = dbContext;
         }
 
-        public IQueryable<TCar> GetAllSorted(ICarSortStrategy sortStrategy)
+        public IQueryable<TCar> GetAllSorted(ICarSortStrategy<BaseCar> sortStrategy)
         {
             var cars = dbContext.Set<TCar>().AsQueryable();
             var sortedCars = sortStrategy.Sort((IQueryable<BaseCar>)cars).OfType<TCar>();

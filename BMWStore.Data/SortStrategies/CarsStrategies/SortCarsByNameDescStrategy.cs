@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace BMWStore.Data.SortStrategies.CarsStrategies
 {
-    public class SortCarsByNameDescStrategy : ICarSortStrategy
+    public class SortCarsByNameDescStrategy<TCar> : ICarSortStrategy<TCar> where TCar : BaseCar
     {
-        public IQueryable<BaseCar> Sort(IQueryable<BaseCar> cars)
+        public IQueryable<TCar> Sort(IQueryable<TCar> cars)
         {
             var sortedCars = cars.OrderByDescending(c => c.Name);
 

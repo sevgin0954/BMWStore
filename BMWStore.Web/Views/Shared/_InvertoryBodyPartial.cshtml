@@ -1,0 +1,137 @@
+﻿@model CarsInvertoryViewModel
+<div class="row">
+    <div class="col-2 mt-4 mr-3 no-padding">
+        <div>
+            <h5>Show Only</h5>
+        </div>
+        <div class="container-light-blue border-grey border-radius-smooth">
+            <div class="d-flex flex-column">
+                <div>
+                    <form method="get">
+                        <div class="mb-4">
+                            <div>
+                                YEAR
+                            </div>
+                            @foreach (var modelType in Model.Years)
+                            {
+                                <div>
+                                    <input onclick="clickBtn()"
+                                           name="year"
+                                           value="@modelType.Value"
+                                           type="radio"
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-4">
+                            <div>
+                                SERIES
+                            </div>
+                            @foreach (var modelType in Model.Series)
+                            {
+                                <div>
+                                    <input onclick="clickBtn()"
+                                           name="series"
+                                           value="@modelType.Value"
+                                           type="radio"
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-4">
+                            <div>
+                                MODEL
+                            </div>
+                            @foreach (var modelType in Model.ModelTypes)
+                            {
+                                <div>
+                                    <input onclick="clickBtn()"
+                                           name="modelTypes"
+                                           value="@modelType.Value"
+                                           type="checkbox"
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-4">
+                            <div>
+                                PRICE
+                            </div>
+                            @foreach (var modelType in Model.Prices)
+                            {
+                                <div>
+                                    <input onclick="clickBtn()"
+                                           name="priceRange"
+                                           value="@modelType.Value"
+                                           type="radio"
+                                           checked="@modelType.IsSelected" />
+                                    <span>@modelType.Text</span>
+                                </div>
+                            }
+                        </div>
+
+                        <a class="btn border-blue-hover" asp-controller="NewInvertory" asp-action="Index">
+                            <i class="far fa-trash-alt"></i>
+                            Clear
+                        </a>
+
+                        <button id="filterSubmit" type="submit" hidden></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 col no-padding">
+        <div>
+            <h5>@Model.Cars.Count Vehicles matching</h5>
+        </div>
+        <div class="container-light-blue border-grey border-radius-smooth">
+            <div class="d-flex">
+                @await Component.InvokeAsync("Dropdown", new
+                {
+                    enumTypeName = typeof(NewCarSortStrategyType).AssemblyQualifiedName,
+                    selectedEnumName = @Model.SortStrategyType.ToString(),
+                    controllerName = "NewInvertory",
+                    actionName = "ChangeSortType",
+                    routeParamName = "sortStrategyType",
+                    prependText = "Order by"
+                })
+
+                @await Component.InvokeAsync("Dropdown", new
+                {
+                    enumTypeName = typeof(SortStrategyDirection).AssemblyQualifiedName,
+                    selectedEnumName = @Model.SortStrategyDirection.ToString(),
+                    controllerName = "NewInvertory",
+                    actionName = "ChangeSortDirection",
+                    routeParamName = "sortDirection"
+                })
+            </div>
+        </div>
+        <div class="container-light-blue border-grey border-radius-smooth mt-4">
+            @foreach (var car in Model.Cars)
+            {
+                <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
+                    <partial name="_CarConcisePartial" model="@car" />
+
+                    <div class="row d-flex">
+                        <div class="mx-auto">
+                            <a class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                               asp-route-id="@car.Id"
+                               asp-area="Admin"
+                               asp-controller="Cars"
+                               asp-action="Edit">
+                                Buy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

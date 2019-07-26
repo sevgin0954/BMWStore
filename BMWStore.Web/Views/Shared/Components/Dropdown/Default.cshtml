@@ -1,20 +1,29 @@
-﻿@model SortTypeViewModel
+﻿@model DropdownViewModel
 
 <div>
-    Order by
+    @Model.PrependText
     <button class="btn btn-wide border-blue-hover" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @Html.Raw(IconLinks.SortTypeIconLink[Model.SelectedSortName])
         @Model.SelectedSortName
     </button>
     <div class="dropdown-menu border-blue" aria-labelledby="dropdownMenuButton">
+        @{
+            var parms = new Dictionary<string, string>
+            {
+                { Model.ParameterName, "" }
+            };
+        }
+
         @foreach (var strategyTypeName in Model.SortNames)
         {
             if (strategyTypeName != Model.SelectedSortName)
             {
+                parms[Model.ParameterName] = strategyTypeName;
                 <form method="post"
-                        asp-controller="@Model.ControllerName"
-                        asp-action="@Model.ActionName"
-                        asp-route-sortStrategyType="@strategyTypeName">
+                      asp-controller="@Model.ControllerName"
+                      asp-action="@Model.ActionName"
+                      asp-all-route-data="@parms">
+                    <input asp-for="ReturnUrl" hidden />
                     <button type="submit" class="dropdown-item">
                         @Html.Raw(IconLinks.SortTypeIconLink[strategyTypeName])
                         @strategyTypeName

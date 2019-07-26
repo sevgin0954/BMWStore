@@ -13,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
 {
-    public class NewInvertoryController : Controller
+    public class UsedInvertoryController : Controller
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
         private readonly ICarsInvertoryService carsInvertoryService;
         private readonly ISortCookieService sortCookieService;
 
-        public NewInvertoryController(
-            IBMWStoreUnitOfWork unitOfWork,
-            ICarsInvertoryService carsInvertoryService, 
+        public UsedInvertoryController(IBMWStoreUnitOfWork unitOfWork,
+            ICarsInvertoryService carsInvertoryService,
             ISortCookieService sortCookieService)
         {
             this.unitOfWork = unitOfWork;
@@ -38,15 +37,15 @@ namespace BMWStore.Web.Controllers
             var sortDirection = this.sortCookieService.GetSortStrategyDirectionOrDefault(cookie, sortDirectionKey);
 
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
-            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<NewCarSortStrategyType>(cookie, sortTypeKey);
+            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<UsedCarSortStrategyType>(cookie, sortTypeKey);
 
-            var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
+            var sortStrategy = UsedCarSortStrategyFactory.GetStrategy<UsedCar>(sortType, sortDirection);
 
             var priceRanges = this.ParsePriceRange(model.PriceRange);
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series, model.ModelTypes);
 
-            var filteredCars = this.unitOfWork.NewCars
+            var filteredCars = this.unitOfWork.UsedCars
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
             var viewModel = await this.carsInvertoryService.GetInvertoryBindingModel(sortedAndFilteredCars, sortType, sortDirection);
@@ -74,7 +73,7 @@ namespace BMWStore.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeSortType(NewCarSortStrategyType sortStrategyType, string returnUrl)
+        public IActionResult ChangeSortType(UsedCarSortStrategyType sortStrategyType, string returnUrl)
         {
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
             this.sortCookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);

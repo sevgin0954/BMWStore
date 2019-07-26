@@ -18,7 +18,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
         {
             var strategies = new List<ICarFilterStrategy>();
 
-            if (year != null)
+            if (year != WebConstants.AllFilterTypeModelValue)
             {
                 var yearStrategy = CreateYearStrategy(int.Parse(year));
                 strategies.Add(yearStrategy);
@@ -30,13 +30,13 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
                 strategies.Add(priceStrategy);
             }
 
-            if (series != null)
+            if (series != WebConstants.AllFilterTypeModelValue)
             {
                 var seriesStrategy = CreateSeriesStrategy(series);
                 strategies.Add(seriesStrategy);
             }
 
-            if (modelTypes != null && modelTypes.Count() > 0)
+            if (modelTypes.Count() > 0)
             {
                 var modelTypeStrategy = CreateModelTypeStrategy(modelTypes.ToArray());
                 strategies.Add(modelTypeStrategy);

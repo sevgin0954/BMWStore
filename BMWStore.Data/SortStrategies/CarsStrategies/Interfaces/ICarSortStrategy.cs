@@ -3,8 +3,8 @@ using System.Linq;
 
 namespace BMWStore.Data.SortStrategies.CarsStrategies.Interfaces
 {
-    public interface ICarSortStrategy
+    public interface ICarSortStrategy<TCar> where TCar : class
     {
-        IQueryable<BaseCar> Sort(IQueryable<BaseCar> cars);
+        IQueryable<TCar> Sort(IQueryable<TCar> cars);
     }
 }

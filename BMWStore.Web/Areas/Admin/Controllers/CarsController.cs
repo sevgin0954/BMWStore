@@ -1,6 +1,7 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -50,9 +51,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortDirection = this.sortCookieService.GetSortStrategyDirectionOrDefault(cookies, sortDirectionKey);
 
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
-            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<BaseCarSortStrategyType>(cookies, sortTypeKey);
+            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<AdminBaseCarSortStrategyType>(cookies, sortTypeKey);
 
-            var sortStrategy = CarSortStrategyFactory.GetStrategy(sortType, sortDirection);
+            var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
             var cars = await this.carsService.GetAllCarsAsync(sortStrategy);
             var model = new AdminCarsViewModel()
             {
@@ -146,7 +147,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeSortType(BaseCarSortStrategyType sortStrategyType)
+        public IActionResult ChangeSortType(AdminBaseCarSortStrategyType sortStrategyType)
         {
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
             this.sortCookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);

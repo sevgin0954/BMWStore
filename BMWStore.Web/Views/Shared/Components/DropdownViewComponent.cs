@@ -6,13 +6,16 @@ using System;
 
 namespace BMWStore.Web.Views.Shared.Components
 {
-    public class SortTypeViewComponent : ViewComponent
+    public class DropdownViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke(
             string enumTypeName, 
             string selectedEnumName, 
             string controllerName, 
-            string actionName)
+            string actionName,
+            string routeParamName,
+            string returnUrl,
+            string prependText = "")
         {
             var enumType = Type.GetType(enumTypeName);
             var enumData = Enum.GetNames(enumType);
@@ -20,12 +23,21 @@ namespace BMWStore.Web.Views.Shared.Components
             DataValidator.ValidateEnumValue(selectedEnumName, enumType);
             DataValidator.ValidateNotEmptyEnum(enumType, ErrorConstants.EmptyEnumException);
 
-            var model = new SortTypeViewModel()
+            if (returnUrl == null)
+            {
+                var fullPath = this.ViewContext.HttpContext.Request.Path + this.ViewContext.HttpContext.Request.QueryString;
+                returnUrl = fullPath;
+            }
+
+            var model = new DropdownViewModel()
             {
                 SelectedSortName = selectedEnumName,
                 SortNames = enumData,
                 ControllerName = controllerName,
-                ActionName = actionName
+                ActionName = actionName,
+                ReturnUrl = returnUrl,
+                ParameterName = routeParamName,
+                PrependText = prependText
             };
 
             return View(model);

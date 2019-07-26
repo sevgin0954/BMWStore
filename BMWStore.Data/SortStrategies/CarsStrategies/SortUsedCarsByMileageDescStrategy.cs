@@ -4,11 +4,11 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.SortStrategies.CarsStrategies
 {
-    public class SortCarsByConditionDescStrategy<TCar> : ICarSortStrategy<TCar> where TCar : BaseCar
+    public class SortUsedCarsByMileageDescStrategy<TCar> : ICarSortStrategy<TCar> where TCar : UsedCar
     {
         public IQueryable<TCar> Sort(IQueryable<TCar> cars)
         {
-            var sortedCars = cars.OrderBy(c => c is NewCar ? 1 : 0);
+            var sortedCars = cars.OrderByDescending(c => c.Mileage);
 
             return sortedCars;
         }
