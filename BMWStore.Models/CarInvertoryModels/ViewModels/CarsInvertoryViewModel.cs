@@ -1,6 +1,7 @@
 ﻿using BMWStore.Common.Enums;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
+using BMWStore.Models.TestDriveModels.BindingModels;
 using System;
 using System.Collections.Generic;
 
@@ -21,5 +22,9 @@ namespace BMWStore.Models.CarInvertoryModels.ViewModels
         public List<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
 
         public ICollection<CarConciseViewModel> Cars { get; set; }
+
+        public IEnumerable<string> ScheduledTestDrivesIds { get; set; } = new List<string>();
+
+        public ScheduleTestDriveBindingModel TestDriveModel { get; set; }
     }
 }

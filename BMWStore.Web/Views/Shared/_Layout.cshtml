@@ -17,6 +17,7 @@
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/custom.css" />
+    <link rel="stylesheet" href="~/jquery-ui-1.12.1/jquery-ui.min.css"/>
     <script src="https://kit.fontawesome.com/84f20bbafd.js"></script>
 </head>
 <body class="main-container">
@@ -40,17 +41,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <div class="nav-item">
-                    <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover" 
+                    <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover"
                        asp-controller="NewInvertory"
                        asp-action="Index">
                         New invertory
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover" 
+                    <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover"
                        asp-controller="UsedInvertory"
                        asp-action="Index">
-                    Pre-owned
+                        Pre-owned
                     </a>
                 </div>
                 <div class="nav-item mx-auto d-none d-lg-inline">
@@ -59,8 +60,8 @@
                 @if (User.IsInRole(WebConstants.AdminRoleName))
                 {
                     <div class="nav-item">
-                        <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover" 
-                           asp-area="Admin" 
+                        <a class="nav-link-item text-shadow-blue-hover color-blue color-blue-hover"
+                           asp-area="Admin"
                            asp-controller="Dashboard"
                            asp-action="Index">
                             Admin
@@ -112,6 +113,7 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

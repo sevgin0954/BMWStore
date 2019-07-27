@@ -1,0 +1,77 @@
+﻿@model TestDriveViewModel
+@using CloudinaryDotNet;
+@inject CloudinaryDotNet.Cloudinary cloudinary;
+
+@{
+    ViewData["Title"] = "Test Drive";
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<div class="container-light-blue border-radius-smooth border-grey">
+    <div class="container-item-white border-radius-smooth border-grey row">
+        <div class="col-4 d-flex flex-column">
+            <div class="mx-auto">
+                <a class="">
+                    @Model.Comment
+                </a>
+            </div>
+            <div class="border-grey border-radius-smooth btn mt-auto">
+                <a class="mx-auto">
+                    @Model.ScheduleDate.ToLongDateString()
+                </a>
+            </div>
+        </div>
+
+        <span class="border-right d-none d-lg-inline"></span>
+
+        <div class="col d-flex flex-row flex-wrap">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        Name
+                    </div>
+                    <div>
+                        Price
+                    </div>
+                    <div>
+                        Warranty
+                    </div>
+                    <div>
+                        Year
+                    </div>
+                    <div>
+                        Vin
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="no-wrap">
+                        @Model.Car.Name
+                    </div>
+                    <div>
+                        @Model.Car.Price
+                    </div>
+                    <div>
+                        @Model.Car.WarrantyMonthsLeft
+                    </div>
+                    <div>
+                        @Model.Car.Year
+                    </div>
+                    <div>
+                        @Model.Car.Vin
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-auto">
+                <a href="#">
+                    <div class="">
+                        @cloudinary.Api.UrlImgUp.Secure(true).Transform(
+                            new Transformation().Quality("auto").Width(250).Height(150).Crop("fill")
+                        ).BuildImageTag(Model.Car.PicturePublicId)
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

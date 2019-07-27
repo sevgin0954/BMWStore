@@ -116,21 +116,74 @@
         <div class="container-light-blue border-grey border-radius-smooth mt-4">
             @foreach (var car in Model.Cars)
             {
-                <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
-                    <partial name="_CarConcisePartial" model="@car" />
+            <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
+                <partial name="_CarConcisePartial" model="@car" />
 
+                @if (Model.ScheduledTestDrivesIds.Contains(car.Id))
+                {
                     <div class="row d-flex">
                         <div class="mx-auto">
                             <a class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
-                               asp-route-id="@car.Id"
-                               asp-area="Admin"
-                               asp-controller="Cars"
-                               asp-action="Edit">
-                                Schedule A Test Drive
+                               asp-controller="TestDrives"
+                               asp-action="Index"
+                               asp-route-id="@car.Id">
+                                Scheduled
+                                <i class="far fa-calendar-check"></i>
                             </a>
                         </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="row d-flex">
+                        <div class="mx-auto">
+                            <button type="button" class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                                    data-toggle="modal"
+                                    data-target="#myModal">
+                                Schedule A Test Drive
+                            </button>
+
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <form method="post" asp-controller="TestDrives" asp-action="Schedule">
+                                                <input name="CarId" value="@car.Id" hidden />
+                                                <div class="form-group">
+                                                    <div>
+                                                        <span asp-validation-for="TestDriveModel.ScheduleDate"
+                                                              class="text-danger"></span>
+                                                    </div>
+                                                    <label asp-for="TestDriveModel.ScheduleDate" type="text"></label>
+                                                    <input class="form-control datepicker"
+                                                           data-provide="datepicker"
+                                                           name="ScheduleDate" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <div>
+                                                        <span asp-validation-for="TestDriveModel.Comment"
+                                                              class="text-danger"></span>
+                                                    </div>
+                                                    <label asp-for="TestDriveModel.Comment"></label>
+                                                    <textarea class="form-control"
+                                                              name="Comment"
+                                                              asp-for="TestDriveModel.Comment"
+                                                              type="text"></textarea>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn border-blue background-blue-hover mx-auto mt-3" type="submit">
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
             }
         </div>
     </div>

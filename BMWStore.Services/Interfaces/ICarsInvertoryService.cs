@@ -4,6 +4,7 @@ using BMWStore.Models.CarInvertoryModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.Interfaces
@@ -13,7 +14,8 @@ namespace BMWStore.Services.Interfaces
         Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
             IQueryable<BaseCar> cars,
             Enum sortStrategy,
-            SortStrategyDirection sortDirection);
+            SortStrategyDirection sortDirection,
+            ClaimsPrincipal user);
         void SelectModelFilterItems(CarsInvertoryViewModel model,
             string year,
             string priceRange,

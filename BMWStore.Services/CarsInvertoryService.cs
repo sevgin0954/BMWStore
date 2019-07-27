@@ -6,10 +6,12 @@ using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services
@@ -21,25 +23,32 @@ namespace BMWStore.Services
         private readonly ICarModelTypeService carModelTypeService;
         private readonly ICarPriceService carPriceService;
         private readonly IFilterTypesService filterTypesService;
+        private readonly ITestDriveService testDriveService;
+        private readonly SignInManager<User> signInManager;
 
         public CarsInvertoryService(
             ICarYearService carYearService,
             ICarSeriesService carSeriesService,
             ICarModelTypeService carModelTypeService,
             ICarPriceService carPriceService,
-            IFilterTypesService filterTypesService)
+            IFilterTypesService filterTypesService,
+            ITestDriveService testDriveService,
+            SignInManager<User> signInManager)
         {
             this.carYearService = carYearService;
             this.carSeriesService = carSeriesService;
             this.carModelTypeService = carModelTypeService;
             this.carPriceService = carPriceService;
             this.filterTypesService = filterTypesService;
+            this.testDriveService = testDriveService;
+            this.signInManager = signInManager;
         }
 
         public async Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
             IQueryable<BaseCar> cars,
             Enum sortStrategy,
-            SortStrategyDirection sortDirection)
+            SortStrategyDirection sortDirection,
+            ClaimsPrincipal user)
         {
             var carModels = await cars.To<CarConciseViewModel>().ToArrayAsync();
 
@@ -65,6 +74,11 @@ namespace BMWStore.Services
 
             model.SortStrategyType = sortStrategy;
             model.SortStrategyDirection = sortDirection;
+
+            if (this.signInManager.IsSignedIn(user))
+            {
+                model.ScheduledTestDrivesIds = await this.testDriveService.GetAllTestDrivesCarIdsAsync(user);
+            }
 
             return model;
         }

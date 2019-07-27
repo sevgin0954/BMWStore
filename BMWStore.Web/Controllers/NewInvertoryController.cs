@@ -49,7 +49,8 @@ namespace BMWStore.Web.Controllers
             var filteredCars = this.unitOfWork.NewCars
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
-            var viewModel = await this.carsInvertoryService.GetInvertoryBindingModel(sortedAndFilteredCars, sortType, sortDirection);
+            var viewModel = await this.carsInvertoryService
+                .GetInvertoryBindingModel(sortedAndFilteredCars, sortType, sortDirection, this.User);
             this.carsInvertoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             return View(viewModel);
