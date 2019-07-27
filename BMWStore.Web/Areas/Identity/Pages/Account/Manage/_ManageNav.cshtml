@@ -1,0 +1,54 @@
+﻿@inject SignInManager<User> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<li class="list-group-item no-padding">
+    <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius w-100"
+       data-name="Manage"
+       asp-area="Identity"
+       asp-page="/Account/Manage/Index">
+        Profile
+    </a>
+</li>
+<li class="list-group-item no-padding">
+    <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius w-100"
+       data-name="TestDrives"
+       asp-controller="TestDrives" asp-action="Index">
+        Test Drives
+    </a>
+</li>
+<li class="list-group-item no-padding">
+    <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius w-100"
+       data-name="ChangePassword"
+       asp-area="Identity"
+       asp-page="/Account/Manage/ChangePassword">
+        Password
+    </a>
+</li>
+@if (hasExternalLogins)
+{
+    <li class="list-group-item no-padding">
+        <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius w-100"
+           data-name="ExternalLogins"
+           asp-area="Identity"
+           asp-page="/Account/Manage/ExternalLogins">
+            External logins
+        </a>
+    </li>
+}
+<li class="list-group-item no-padding">
+    <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius w-100"
+       data-name="TwoFactorAuthentication"
+       asp-area="Identity"
+       asp-page="/Account/Manage/TwoFactorAuthentication">
+        Two-factor authentication
+    </a>
+</li>
+<li class="list-group-item no-padding border-radius-smooth-bottom-left">
+    <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius w-100"
+       data-name="PersonalData"
+       asp-area="Identity"
+       asp-page="/Account/Manage/PersonalData">
+        Personal data
+    </a>
+</li>

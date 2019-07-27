@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="border-grey border-radius-smooth mt-3 d-flex">
+    <ul id="admin-menu" class="list-group list-group-flush">
+        @await Html.PartialAsync("/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml");
+    </ul>
+    <div class="w-100 container-light-blue border-radius-smooth-top-right border-radius-smooth-bottom-right">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/highlightCurrentAdminMenu.js"></script>
+}
