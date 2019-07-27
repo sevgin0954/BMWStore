@@ -1,0 +1,34 @@
+﻿@model TestDriveViewModel
+
+<div class="container-item-white border-radius-smooth border-grey">
+    <partial name="_TestDrivePartial" />
+
+    <div class="d-flex">
+        @if (Model.Status.Name == BMWStore.Common.Enums.TestDriveStatus.Canceled)
+        {
+            <button class="btn border-light-red background-light-red-hover" disabled>
+                Canceled
+                <i class="fas fa-times"></i>
+            </button>
+        }
+        else if (Model.Status.Name == BMWStore.Common.Enums.TestDriveStatus.Passed)
+        {
+            <button class="btn border-green background-green-hover mr-2" disabled>
+                Passed
+                <i class="fas fa-check"></i>
+            </button>
+        }
+        else if (Model.Status.Name == BMWStore.Common.Enums.TestDriveStatus.Upcoming)
+        {
+            <form class="mx-auto" method="post">
+                <button class="btn border-light-red background-light-red-hover" type="submit"
+                        asp-controller="TestDrives"
+                        asp-action="Cancel"
+                        asp-route-testDriveId="@Model.Id">
+                    Cancel
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </form>
+        }
+    </div>
+</div>

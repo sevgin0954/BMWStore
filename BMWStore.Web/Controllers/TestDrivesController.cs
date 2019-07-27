@@ -16,10 +16,17 @@ namespace BMWStore.Web.Controllers
             this.testDriveService = testDriveService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index(string id)
+        public async Task<IActionResult> Index()
         {
-            var model = await this.testDriveService.GetTestDriveViewModelAsync(id);
+            var models = await this.testDriveService.GetAllTestDrivesAsync(this.User);
+
+            return View(models);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Drive(string testDriveId)
+        {
+            var model = await this.testDriveService.GetTestDriveAsync(testDriveId, this.User);
 
             return View(model);
         }
@@ -27,9 +34,17 @@ namespace BMWStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Schedule(ScheduleTestDriveBindingModel model)
         {
-            await this.testDriveService.ScheduleTestDriveAsync(model, this.User);
+            var testDriveId = await this.testDriveService.ScheduleTestDriveAsync(model, this.User);
 
-            return RedirectToAction("Index", new { id = model.CarId });
+            return RedirectToAction("Drive", new { testDriveId = testDriveId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Cancel(string testDriveId)
+        {
+            await this.testDriveService.CancelTestDriveAsync(testDriveId, this.User);
+
+            return RedirectToAction("Index");
         }
     }
 }

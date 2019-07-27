@@ -20,6 +20,7 @@ namespace BMWStore.Data
         public DbSet<NewCar> NewCars { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<TestDrive> TestDrives { get; set; }
+        public DbSet<Status> Statuses { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Transmission> Transmissions { get; set; }
@@ -129,10 +130,23 @@ namespace BMWStore.Data
 
             builder.Entity<TestDrive>(testDrive =>
             {
-                testDrive.HasKey(uoc => new { uoc.UserId, uoc.CarId });
+                testDrive.HasKey(td => td.Id);
 
-                testDrive.Property(uoc => uoc.ScheduleDate)
+                testDrive.Property(td => td.ScheduleDate)
                     .HasDefaultValue(DateTime.UtcNow);
+
+                testDrive.HasOne(td => td.Status)
+                    .WithMany(s => s.TestDrives)
+                    .HasForeignKey(td => td.StatusId);
+            });
+
+            builder.Entity<Status>(status =>
+            {
+                status.HasKey(s => s.Id);
+
+                status.HasMany(s => s.TestDrives)
+                    .WithOne(s => s.Status)
+                    .HasForeignKey(s => s.StatusId);
             });
 
             builder.Entity<Picture>(pictures =>

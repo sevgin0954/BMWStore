@@ -29,7 +29,7 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public string Year { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
+        public virtual void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<BaseCar, CarConciseViewModel>()
                 .ForMember(dest => dest.PicturePublicId, opt => opt.MapFrom(src => src.Pictures.First().PublicId))

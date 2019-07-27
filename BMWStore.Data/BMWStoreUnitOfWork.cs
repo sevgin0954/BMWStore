@@ -28,6 +28,7 @@ namespace BMWStore.Data
             this.Series = new SeriesRepository(this.dbContext);
             this.Pictures = new PictureRepository(this.dbContext);
             this.Transmissions = new TransmissionRepository(this.dbContext);
+            this.Statuses = new StatusRepository(this.dbContext);
         }
 
         public CarRepository AllCars { get; private set; }
@@ -58,6 +59,8 @@ namespace BMWStore.Data
         public PictureRepository Pictures { get; private set; }
 
         public TransmissionRepository Transmissions { get; private set; }
+
+        public StatusRepository Statuses { get; private set; }
 
         public int Complete()
         {

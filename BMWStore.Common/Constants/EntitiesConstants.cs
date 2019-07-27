@@ -43,6 +43,9 @@
         public const int ModelTypeNameMinLength = 3;
         public const int ModelTypeNameMaxLength = 15;
 
+        public const int TestDriveNameMaxLength = 15;
+        public const int TestDriveNameMinLength = 4;
+
         public const string EngineMaxPrice = "500000";
         public const int EngineMaxWeight_Kg = 400;
         public const int EngineMinWeight_Kg = 40;
@@ -56,6 +59,8 @@
 
         public const int SeriesNameMaxLength = 15;
         public const int SeriesNameMinLength = 2;
+
+        public const string TestDriveDefaultStatusId = "d53f130a-9548-4a4d-af08-a98cce96ac6e";
 
         public const string TransmissionMaxPrice = "300000";
         public const int TransmissionNameMaxLength = 40;

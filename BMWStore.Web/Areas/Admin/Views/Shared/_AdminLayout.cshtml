@@ -19,7 +19,13 @@
             </a>
         </li>
         <li class="list-group-item no-padding">
-            <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius text-left w-100" href="#">Test drives</a>
+            <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius text-left w-100"
+               data-name="TestDrives"
+               asp-area="Admin"
+               asp-controller="TestDrives"
+               asp-action="Index">
+                Test drives
+            </a>
         </li>
         <li class="list-group-item no-padding">
             <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius text-left w-100" 
@@ -30,9 +36,12 @@
         </li>
         <li class="list-group-item no-padding border-radius-smooth-bottom-left">
             <a class="btn btn-lg no-outline background-light-blue-hover border-no-radius text-left w-100" 
+               data-name="CarOptions"
                asp-area="Admin"
                asp-controller="CarOptions"
-               asp-action="Index">Car options</a>
+               asp-action="Index">
+                Car options
+            </a>
         </li>
     </ul>
     <div class="w-100 container-light-blue border-radius-smooth-top-right border-radius-smooth-bottom-right">

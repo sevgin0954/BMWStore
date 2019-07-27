@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TestDriveViewModel>
+@{
+    ViewData["Title"] = "All Test Drives";
+}
+
+
+
+@foreach (var testDrive in Model)
+{
+    <div class="container-item-white border-radius-smooth border-grey">
+        <partial name="_TestDrivePartial" model="@testDrive" />
+
+        <div class="mt-4 d-flex justify-content-center">
+            <div class="mr-auto"></div>
+            <div>
+                @if (testDrive.Status.Name == TestDriveStatus.Canceled)
+                {
+                    <button class="btn border-light-red background-light-red-hover" disabled>
+                        Canceled
+                        <i class="fas fa-times"></i>
+                    </button>
+                }
+                else if (testDrive.Status.Name == TestDriveStatus.Passed)
+                {
+                    <button class="btn border-green background-green-hover mr-2" disabled>
+                        Passed
+                        <i class="fas fa-check"></i>
+                    </button>
+                }
+                else if (testDrive.Status.Name == TestDriveStatus.Upcoming)
+                {
+                    <button class="btn border-green background-green-hover mr-2">
+                        Check
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="btn border-light-red background-light-red-hover">
+                        Cancel
+                        <i class="fas fa-times"></i>
+                    </button>
+                }
+            </div>
+
+            <div class="ml-auto">
+                <button class="btn border-light-red-hover">
+                    Delete
+                    <i class="far fa-trash-alt" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+}

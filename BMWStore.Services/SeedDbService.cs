@@ -1,8 +1,10 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Validation;
 using BMWStore.Data.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -84,6 +86,29 @@ namespace BMWStore.Services
                 NormalizedName = roleName.ToUpper()
             };
             this.unitOfWork.Roles.Add(dbRole);
+        }
+
+        public async Task SeedTestDriveStatuses(params string[] statusNames)
+        {
+            foreach (var statusName in statusNames)
+            {
+                if (await this.IsStatusExistAsync(statusName) == false)
+                {
+                    var dbStatus = new Status()
+                    {
+                        Name = statusName
+                    };
+                    this.unitOfWork.Statuses.Add(dbStatus);
+                }
+            }
+
+            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        private async Task<bool> IsStatusExistAsync(string statusName)
+        {
+            return await this.unitOfWork.Statuses.AnyAsync(tds => tds.Name == statusName);
         }
     }
 }

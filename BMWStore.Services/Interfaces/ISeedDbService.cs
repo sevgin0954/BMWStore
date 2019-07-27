@@ -6,5 +6,6 @@ namespace BMWStore.Services.Interfaces
     {
         Task SeedAdminAsync(string password, string email);
         Task SeedRolesAsync(params string[] roles);
+        Task SeedTestDriveStatuses(params string[] statusNames);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -25,6 +24,11 @@ namespace BMWStore.Data.Repositories.Generic
         public void AddRange(params TEntity[] entities)
         {
             this.dbContext.Set<TEntity>().AddRange(entities);
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await this.dbContext.Set<TEntity>().AnyAsync(predicate);
         }
 
         public async Task<int> CountAllAsync()
@@ -65,6 +69,11 @@ namespace BMWStore.Data.Repositories.Generic
         public async Task<TEntity> GetByIdAsync(string id)
         {
             return await this.dbContext.Set<TEntity>().FindAsync(id);
+        }
+
+        public async Task<TEntity> GetByIdAsync(params object[] keyValues)
+        {
+            return await this.dbContext.Set<TEntity>().FindAsync(keyValues);
         }
 
         public void Remove(TEntity entity)

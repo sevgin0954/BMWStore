@@ -21,6 +21,7 @@ namespace BMWStore.Data.Interfaces
         SeriesRepository Series { get; }
         PictureRepository Pictures { get; }
         TransmissionRepository Transmissions { get; }
+        StatusRepository Statuses { get; }
 
         int Complete();
         Task<int> CompleteAsync();

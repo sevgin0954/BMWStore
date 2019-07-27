@@ -32,10 +32,16 @@ namespace BMWStore.Web
                 {
                     var seedDbService = serviceProvider.GetRequiredService<ISeedDbService>();
 
-                    seedDbService.SeedRolesAsync(WebConstants.AdminRoleName, WebConstants.UserRoleName, WebConstants.SupportRoleName)
+                    seedDbService
+                        .SeedRolesAsync(WebConstants.AdminRoleName, WebConstants.UserRoleName, WebConstants.SupportRoleName)
                         .GetAwaiter()
                         .GetResult();
-                    seedDbService.SeedAdminAsync(IdentityConstants.AdminPassword, IdentityConstants.AdminEmail)
+                    seedDbService
+                        .SeedAdminAsync(IdentityConstants.AdminPassword, IdentityConstants.AdminEmail)
+                        .GetAwaiter()
+                        .GetResult();
+                    seedDbService
+                        .SeedTestDriveStatuses(Enum.GetNames(typeof(TestDriveStatus)))
                         .GetAwaiter()
                         .GetResult();
                 }

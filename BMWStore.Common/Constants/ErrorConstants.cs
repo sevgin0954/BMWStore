@@ -15,5 +15,7 @@
         public const string UnitOfWorkNoRowsAffected = "No rows affected in unit of work complete";
 
         public const string IncorrectPriceRange = "Incorrect price range";
+
+        public const string IncorrectParameterValue = "Incorrect parameter value";
     }
 }

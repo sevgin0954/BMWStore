@@ -53,6 +53,11 @@ namespace BMWStore.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [Phone]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -79,7 +84,8 @@ namespace BMWStore.Web.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    PhoneNumber = Input.PhoneNumber
                 };
                 var createUserResult = await _userManager.CreateAsync(user, Input.Password);
                 var addUserToRoleResult = await this._userManager.AddToRoleAsync(user, WebConstants.UserRoleName);

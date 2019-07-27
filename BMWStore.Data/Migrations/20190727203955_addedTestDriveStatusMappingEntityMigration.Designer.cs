@@ -4,14 +4,16 @@ using BMWStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BMWStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190727203955_addedTestDriveStatusMappingEntityMigration")]
+    partial class addedTestDriveStatusMappingEntityMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,23 +242,37 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<DateTime>("ScheduleDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2019, 7, 27, 21, 24, 59, 177, DateTimeKind.Utc).AddTicks(6578));
-
-                    b.Property<string>("StatusId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                        .HasDefaultValue(new DateTime(2019, 7, 27, 20, 39, 54, 320, DateTimeKind.Utc).AddTicks(2640));
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
+                    b.ToTable("TestDrives");
+                });
+
+            modelBuilder.Entity("BMWStore.Entities.TestDriveStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("StatusId")
+                        .IsRequired();
+
+                    b.Property<string>("TestDriveId")
+                        .IsRequired();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("TestDriveId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TestDrives");
+                    b.ToTable("TestDrivesStatuses");
                 });
 
             modelBuilder.Entity("BMWStore.Entities.Transmission", b =>
@@ -518,16 +534,23 @@ namespace BMWStore.Data.Migrations
                         .WithMany("TestDrives")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
 
+            modelBuilder.Entity("BMWStore.Entities.TestDriveStatus", b =>
+                {
                     b.HasOne("BMWStore.Entities.Status", "Status")
-                        .WithMany("TestDrives")
+                        .WithMany("TestDriveStatuses")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BMWStore.Entities.User", "User")
-                        .WithMany("TestDrives")
-                        .HasForeignKey("UserId")
+                    b.HasOne("BMWStore.Entities.TestDrive", "TestDrive")
+                        .WithMany("TestDriveStatuses")
+                        .HasForeignKey("TestDriveId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BMWStore.Entities.User", "User")
+                        .WithMany("TestDriveStatuses")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,5 +1,5 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Common.Enums;
+using Enums = BMWStore.Common.Enums;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
 using BMWStore.Models.CarModels.ViewModels;
@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BMWStore.Data.Interfaces;
 
 namespace BMWStore.Services
 {
@@ -25,6 +26,8 @@ namespace BMWStore.Services
         private readonly IFilterTypesService filterTypesService;
         private readonly ITestDriveService testDriveService;
         private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly IBMWStoreUnitOfWork unitOfWork;
 
         public CarsInvertoryService(
             ICarYearService carYearService,
@@ -33,7 +36,8 @@ namespace BMWStore.Services
             ICarPriceService carPriceService,
             IFilterTypesService filterTypesService,
             ITestDriveService testDriveService,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            UserManager<User> userManager)
         {
             this.carYearService = carYearService;
             this.carSeriesService = carSeriesService;
@@ -42,12 +46,13 @@ namespace BMWStore.Services
             this.filterTypesService = filterTypesService;
             this.testDriveService = testDriveService;
             this.signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         public async Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
             IQueryable<BaseCar> cars,
             Enum sortStrategy,
-            SortStrategyDirection sortDirection,
+            Enums.SortStrategyDirection sortDirection,
             ClaimsPrincipal user)
         {
             var carModels = await cars.To<CarConciseViewModel>().ToArrayAsync();
@@ -77,7 +82,10 @@ namespace BMWStore.Services
 
             if (this.signInManager.IsSignedIn(user))
             {
-                model.ScheduledTestDrivesIds = await this.testDriveService.GetAllTestDrivesCarIdsAsync(user);
+                var userId = this.userManager.GetUserId(user);
+                var kvp = await this.testDriveService
+                    .GetCarIdTestDriveIdKvpAsync(userId, td => td.Status.Name == Enums.TestDriveStatus.Upcoming.ToString());
+                model.CarIdUpcomingTestDriveId = kvp;
             }
 
             return model;
