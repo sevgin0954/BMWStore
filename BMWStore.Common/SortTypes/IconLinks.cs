@@ -16,7 +16,10 @@ namespace BMWStore.Common.SortTypes
             { "Orders", "<i class=\"fas fa-donate\"></i>" },
             { "Price", "<i class=\"far fa-money-bill-alt\"></i>" },
             { "Warranty", "<i class=\"fas fa-wrench\"></i>" },
-            { "Year", "<i class=\"far fa-calendar-alt\"></i>" }
+            { "Year", "<i class=\"far fa-calendar-alt\"></i>" },
+            { "PassedCount", "<i class=\"fas fa-check\"></i>" },
+            { "Status", "<i class=\"fas fa-info-circle\"></i>" },
+            { "Date", "<i class=\"fas fa-calendar-minus\"></i>" }
         };
     }
 }

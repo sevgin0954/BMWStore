@@ -1,11 +1,33 @@
-﻿@model IEnumerable<TestDriveViewModel>
+﻿@model AdminTestDrivesViewModel
 @{
     ViewData["Title"] = "All Test Drives";
 }
 
+<div class="container-item-white border-radius-smooth border-grey d-flex">
+    <div class="ml-auto">
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(AdminTestDrivesSortStrategyType).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortStrategyType.ToString(),
+            controllerName = "TestDrives",
+            actionName = "ChangeSortType",
+            routeParamName = "sortStrategyType",
+            prependText = "Order by"
+        })
+    </div>
+    <div class="mr-auto">
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(SortStrategyDirection).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortDirection.ToString(),
+            controllerName = "TestDrives",
+            actionName = "ChangeSortDirection",
+            routeParamName = "sortDirection"
+        })
+    </div>
+</div>
 
-
-@foreach (var testDrive in Model)
+@foreach (var testDrive in Model.TestDrives)
 {
     <div class="container-item-white border-radius-smooth border-grey">
         <partial name="_TestDrivePartial" model="@testDrive" />

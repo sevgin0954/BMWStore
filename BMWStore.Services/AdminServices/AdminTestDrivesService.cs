@@ -10,6 +10,7 @@ using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Common.Enums;
 using System.Linq;
+using BMWStore.Data.SortStrategies.TestDriveStrategies.Interfaces;
 
 namespace BMWStore.Services.AdminServices
 {
@@ -22,10 +23,9 @@ namespace BMWStore.Services.AdminServices
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<TestDriveViewModel>> GetAllTestDrivesAsync()
+        public async Task<IEnumerable<TestDriveViewModel>> GetAllTestDrivesAsync(ITestDriveSortStrategy sortStrategy)
         {
-            var models = await this.unitOfWork.TestDrives
-                .GetAll()
+            var models = await sortStrategy.Sort(this.unitOfWork.TestDrives.GetAll())
                 .To<TestDriveViewModel>()
                 .ToArrayAsync();
 
