@@ -17,5 +17,7 @@
         public const string IncorrectPriceRange = "Incorrect price range";
 
         public const string IncorrectParameterValue = "Incorrect parameter value";
+
+        public const string StatusNotFound = "Status not found";
     }
 }

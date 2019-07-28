@@ -1,29 +1,25 @@
 ﻿using BMWStore.Data.Interfaces;
-using Enums = BMWStore.Common.Enums;
 using BMWStore.Models.TestDriveModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
-using Microsoft.AspNetCore.Identity;
-using BMWStore.Entities;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
+using BMWStore.Common.Enums;
+using System.Linq;
 
 namespace BMWStore.Services.AdminServices
 {
     public class AdminTestDrivesService : IAdminTestDrivesService
     {
         private readonly IBMWStoreUnitOfWork unitOfWork;
-        private readonly UserManager<User> userManager;
 
-        public AdminTestDrivesService(IBMWStoreUnitOfWork unitOfWork, UserManager<User> userManager)
+        public AdminTestDrivesService(IBMWStoreUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.userManager = userManager;
         }
 
         public async Task<IEnumerable<TestDriveViewModel>> GetAllTestDrivesAsync()
@@ -36,26 +32,29 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task ChangeTestDriveStatusAsync(
-            Enums.TestDriveStatus newStatus, 
-            string testDriveId,
-            ClaimsPrincipal user)
+        public async Task CheckTestDriveStatusAsync(string testDriveId)
         {
-            var userId = this.userManager.GetUserId(user);
-            var dbTestDriveStatus = await this.unitOfWork.TestDrives
-                .GetByIdAsync(testDriveId);
+            var dbTestDrive = await this.unitOfWork.TestDrives.GetByIdAsync(testDriveId);
+            DataValidator.ValidateNotNull(dbTestDrive, new ArgumentException(ErrorConstants.IncorrectId));
 
-            // TODO: Create index for status.Name
-            var dbStatus = await this.unitOfWork.Statuses
-                .Find(tds => tds.Name == newStatus.ToString())
+            var dbPassedStatusId = await this.unitOfWork.Statuses
+                .Find(s => s.Name == TestDriveStatus.Passed.ToString())
+                .Select(s => s.Id)
                 .FirstAsync();
+            DataValidator.ValidateNotNull(dbPassedStatusId, new Exception(ErrorConstants.StatusNotFound));
 
-            if (dbTestDriveStatus.StatusId == dbStatus.Id)
-            {
-                throw new ArgumentException(ErrorConstants.IncorrectParameterValue);
-            }
+            dbTestDrive.StatusId = dbPassedStatusId;
 
-            dbTestDriveStatus.Status = dbStatus;
+            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        public async Task DeleteAsync(string testDriveId)
+        {
+            var dbTestDrive = await this.unitOfWork.TestDrives.GetByIdAsync(testDriveId);
+            DataValidator.ValidateNotNull(dbTestDrive, new ArgumentException(ErrorConstants.IncorrectId));
+
+            this.unitOfWork.TestDrives.Remove(dbTestDrive);
 
             var rowsAffected = await this.unitOfWork.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);

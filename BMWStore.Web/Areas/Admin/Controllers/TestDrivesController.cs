@@ -18,14 +18,23 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await this.adminTestDrivesService.GetAllTestDrivesAsync();
+            this.ViewData["returnUrl"] = "/Admin/TestDrives";
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeStatus(TestDriveStatus status, string id)
+        public async Task<IActionResult> Check(string testDriveId)
         {
-            await this.adminTestDrivesService.ChangeTestDriveStatusAsync(status, id, this.User);
+            await this.adminTestDrivesService.CheckTestDriveStatusAsync(testDriveId);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string testDriveId)
+        {
+            await this.adminTestDrivesService.DeleteAsync(testDriveId);
 
             return RedirectToAction("Index");
         }
