@@ -30,25 +30,13 @@ namespace BMWStore.Services.AdminServices
             this.selectListItemsService = selectListItemsService;
         }
 
-        public async Task CreateNewCar(AdminNewCarCreateBindingModel model)
+        public async Task CreateCarAsync<TCar>(AdminCarCreateBindingModel model) where TCar : BaseCar
         {
-            var dbNewCar = Mapper.Map<NewCar>(model);
-            await this.adminPicturesService.UpdateCarPicturesAsync(dbNewCar, model.Pictures);
+            var dbCar = Mapper.Map<TCar>(model);
+            await this.adminPicturesService.UpdateCarPicturesAsync(dbCar, model.Pictures);
 
-            this.unitOfWork.NewCars.Add(dbNewCar);
+            this.unitOfWork.AllCars.Add(dbCar);
 
-            var rowsAffected = await this.unitOfWork.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
-
-        public async Task CreateUsedCar(AdminNewCarCreateBindingModel model)
-        {
-            var dbUsedCar = Mapper.Map<UsedCar>(model);
-            await this.adminPicturesService.UpdateCarPicturesAsync(dbUsedCar, model.Pictures);
-
-            this.unitOfWork.UsedCars.Add(dbUsedCar);
-
-            // TODO: Repeating code
             var rowsAffected = await this.unitOfWork.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }

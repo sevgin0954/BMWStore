@@ -74,7 +74,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var modelTypes = await this.modelTypesService.GetAllAsSelectListItemsAsync();
             var series = await this.seriesService.GetAllAsSelectListItemsAsync();
             var options = await this.carOptionsService.GetAllAsSelectListItemsAsync();
-            var model = new AdminNewCarCreateBindingModel()
+            var model = new AdminCarCreateBindingModel()
             {
                 Engines = engines,
                 FuelTypes = fuelTypes,
@@ -87,15 +87,15 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminNewCarCreateBindingModel model)
+        public async Task<IActionResult> AddNew(AdminCarCreateBindingModel model)
         {
             if (model.Mileage > 0)
             {
-                await this.adminCarsService.CreateUsedCar(model);
+                await this.adminCarsService.CreateCarAsync<UsedCar>(model);
             }
             else
             {
-                await this.adminCarsService.CreateNewCar(model);
+                await this.adminCarsService.CreateCarAsync<NewCar>(model);
             }
 
             return Redirect(WebConstants.AdminCarsUrl);
