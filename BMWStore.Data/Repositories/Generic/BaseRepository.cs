@@ -85,5 +85,18 @@ namespace BMWStore.Data.Repositories.Generic
         {
             this.dbContext.Set<TEntity>().RemoveRange(entities);
         }
+
+        public async Task RemoveRangeWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            var filtered = await this.dbContext.Set<TEntity>()
+                .Where(predicate)
+                .ToArrayAsync();
+            this.dbContext.RemoveRange(filtered);
+        }
+
+        public async Task<int> CompleteAsync()
+        {
+            return await this.dbContext.SaveChangesAsync();
+        }
     }
 }

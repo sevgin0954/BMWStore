@@ -1,9 +1,10 @@
 ﻿using BMWStore.Data.Repositories.Generic;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 
 namespace BMWStore.Data.Repositories
 {
-    public class NewCarRepository : BaseCarRepository<NewCar>
+    public class NewCarRepository : BaseCarRepository<NewCar>, INewCarRepository
     {
         public NewCarRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }

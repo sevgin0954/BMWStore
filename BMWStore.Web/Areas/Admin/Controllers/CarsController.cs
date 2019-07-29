@@ -136,11 +136,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             if (model.IsNew)
             {
-                await this.adminCarsService.EditNewCarAsync(model);
+                await this.adminCarsService.EditCarAsync<NewCar>(model);
             }
             else
             {
-                await this.adminCarsService.EditUsedCarAsync(model);
+                await this.adminCarsService.EditCarAsync<UsedCar>(model);
             }
 
             return RedirectToAction("Index");

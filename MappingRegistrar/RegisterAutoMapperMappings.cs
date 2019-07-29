@@ -10,43 +10,50 @@ namespace MappingRegistrar
 {
     public static class RegisterAutoMapperMappings
     {
-        private static bool initialized;
+        private static bool isInitialized;
+        private static readonly object padlock = new object();
 
         public static void RegisterMappings(params Assembly[] assemblies)
         {
-            if (initialized)
+            if (isInitialized == false)
             {
-                return;
-            }
-
-            initialized = true;
-
-            var types = assemblies.SelectMany(a => a.GetExportedTypes()).ToList();
-
-            var config = new MapperConfigurationExpression();
-            config.CreateProfile(
-                "ReflectionProfile",
-                configuration =>
+                lock (padlock)
                 {
+                    if (isInitialized)
+                    {
+                        return;
+                    }
+
+                    var types = assemblies.SelectMany(a => a.GetExportedTypes()).ToList();
+
+                    var config = new MapperConfigurationExpression();
+                    config.CreateProfile(
+                    "ReflectionProfile",
+                    configuration =>
+                    {
                     // IMapFrom<>
                     foreach (var map in GetFromMaps(types))
-                    {
-                        configuration.CreateMap(map.Source, map.Destination);
-                    }
+                        {
+                            configuration.CreateMap(map.Source, map.Destination);
+                        }
 
                     // IMapTo<>
                     foreach (var map in GetToMaps(types))
-                    {
-                        configuration.CreateMap(map.Source, map.Destination);
-                    }
+                        {
+                            configuration.CreateMap(map.Source, map.Destination);
+                        }
 
                     // IHaveCustomMappings
                     foreach (var map in GetCustomMappings(types))
-                    {
-                        map.CreateMappings(configuration);
-                    }
-                });
-            Mapper.Initialize(config);
+                        {
+                            map.CreateMappings(configuration);
+                        }
+                    });
+
+                    Mapper.Initialize(config);
+                    isInitialized = true;
+                }
+            }
         }
 
         private static IEnumerable<TypesMap> GetFromMaps(IEnumerable<Type> types)

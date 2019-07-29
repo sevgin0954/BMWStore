@@ -18,5 +18,7 @@ namespace BMWStore.Data.Repositories.Generic.Interfaces
         IQueryable<TEntity> GetAll();
         void Remove(TEntity entity);
         void RemoveRange(params TEntity[] entities);
+        Task RemoveRangeWhereAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<int> CompleteAsync();
     }
 }

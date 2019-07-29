@@ -16,6 +16,10 @@ using MappingRegistrar;
 using System.Reflection;
 using BMWStore.Models;
 using CloudinaryDotNet;
+using BMWStore.Data.Repositories.Generic.Interfaces;
+using BMWStore.Data.Repositories.Generic;
+using BMWStore.Data.Repositories;
+using BMWStore.Data.Repositories.Interfaces;
 
 namespace BMWStore.Web
 {
@@ -110,6 +114,7 @@ namespace BMWStore.Web
 
             var serviceRegistrar = new ServiceCollectionRegistrar(services);
             serviceRegistrar.AddScopedServices(typeof(SeedDbService));
+            serviceRegistrar.AddScopedServices(typeof(CarRepository));
         }
     }
 }
