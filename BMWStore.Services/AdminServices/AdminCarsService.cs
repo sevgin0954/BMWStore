@@ -27,8 +27,8 @@ namespace BMWStore.Services.AdminServices
             IAdminPicturesService adminPicturesService,
             ISelectListItemsService selectListItemsService)
         {
-            this.carRepository = carsRepository;
-            this.carOptionRepository = carOptionsRepository;
+            this.carRepository = carRepository;
+            this.carOptionRepository = carOptionRepository;
             this.adminPicturesService = adminPicturesService;
             this.selectListItemsService = selectListItemsService;
         }

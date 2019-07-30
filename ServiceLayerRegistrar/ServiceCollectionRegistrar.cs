@@ -27,7 +27,8 @@ namespace ServiceLayerRegistrar
 
                 if (interfaceTypes.Length != 1)
                 {
-                    throw new Exception(ErrorConstants.IncorrectInterfacesCount);
+                    var exceptionMessage = ErrorConstants.IncorrectInterfacesCount + $" for ({classType})";
+                    throw new InvalidOperationException(exceptionMessage);
                 }
 
                 var firstInterfaceType = interfaceTypes[0];
@@ -37,8 +38,9 @@ namespace ServiceLayerRegistrar
 
         private IEnumerable<Type> GetClassesTypes(Type type)
         {
+            var nameSpace = type.Namespace;
             var assembly = Assembly.GetAssembly(type);
-            var allClassesTypes = this.GetTypesFromAssembly(assembly, t => t.IsClass);
+            var allClassesTypes = this.GetTypesFromAssembly(assembly, t => t.IsClass && t.Namespace.StartsWith(nameSpace));
 
             return allClassesTypes;
         }
