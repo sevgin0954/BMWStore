@@ -22,8 +22,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var model = this.GetCarCreateModel();
 
             await service.CreateCarAsync<NewCar>(model);
+            var dbCars = dbContext.BaseCars.ToList();
 
-            Assert.Single(dbContext.BaseCars.ToList());
+            Assert.Single(dbCars);
+            Assert.IsType<NewCar>(dbCars.First());
         }
 
         [Fact]
@@ -34,8 +36,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var model = this.GetCarCreateModel();
 
             await service.CreateCarAsync<UsedCar>(model);
+            var dbCars = dbContext.BaseCars.ToList();
 
-            Assert.Single(dbContext.BaseCars.ToList());
+            Assert.Single(dbCars);
+            Assert.IsType<UsedCar>(dbCars.First());
         }
 
         private AdminCarCreateBindingModel GetCarCreateModel()

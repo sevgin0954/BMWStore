@@ -1,4 +1,5 @@
 ﻿using BMWStore.Data.Repositories.Generic;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,19 +8,10 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories
 {
-    public class UserRepository : BaseRepository<User>
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(ApplicationDbContext dbContext)
+        public UserRepository(DbContext dbContext)
             : base(dbContext) { }
-
-        public async Task<int> CountByRole(string roleId)
-        {
-            var filteredUsers = this.GetAll()
-                .Include(u => u.Roles)
-                .Where(u => u.Roles.Any(r => r.RoleId == roleId));
-
-            return await filteredUsers.CountAsync();
-        }
 
         public async Task<User> GetByEmailOrDefault(string email)
         {

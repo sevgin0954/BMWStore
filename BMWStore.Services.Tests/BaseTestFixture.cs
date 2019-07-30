@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BMWStore.Data;
+﻿using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models;
 using MappingRegistrar;
@@ -9,7 +8,7 @@ using System.Reflection;
 
 namespace BMWStore.Services.Tests
 {
-    public class BaseTestFixture : IDisposable
+    public class BaseTestFixture
     {
         public BaseTestFixture()
         {
@@ -33,11 +32,6 @@ namespace BMWStore.Services.Tests
                 .Options;
 
             return options;
-        }
-
-        public void Dispose()
-        {
-            Mapper.Reset();
         }
     }
 }

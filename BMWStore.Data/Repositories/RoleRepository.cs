@@ -1,4 +1,5 @@
 ﻿using BMWStore.Data.Repositories.Generic;
+using BMWStore.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories
 {
-    public class RoleRepository : BaseRepository<IdentityRole>
+    public class RoleRepository : BaseRepository<IdentityRole>, IRoleRepository
     {
         public RoleRepository(DbContext dbContext)
             : base(dbContext) { }

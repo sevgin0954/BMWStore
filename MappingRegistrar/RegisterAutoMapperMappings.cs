@@ -31,20 +31,20 @@ namespace MappingRegistrar
                     "ReflectionProfile",
                     configuration =>
                     {
-                    // IMapFrom<>
-                    foreach (var map in GetFromMaps(types))
+                        // IMapFrom<>
+                        foreach (var map in GetFromMaps(types))
                         {
                             configuration.CreateMap(map.Source, map.Destination);
                         }
 
-                    // IMapTo<>
-                    foreach (var map in GetToMaps(types))
+                        // IMapTo<>
+                        foreach (var map in GetToMaps(types))
                         {
                             configuration.CreateMap(map.Source, map.Destination);
                         }
 
-                    // IHaveCustomMappings
-                    foreach (var map in GetCustomMappings(types))
+                        // IHaveCustomMappings
+                        foreach (var map in GetCustomMappings(types))
                         {
                             map.CreateMappings(configuration);
                         }

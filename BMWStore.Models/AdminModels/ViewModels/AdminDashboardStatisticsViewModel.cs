@@ -8,7 +8,7 @@
 
         public int TotalUsedCarsTestDrivesCount { get; set; }
 
-        public int UsedCarsOrderedFromPast24HoursCount { get; set; }
+        public int UsedCarsTestDrivesFromPast24HoursCount { get; set; }
 
         public int TotalTestDrivesFromPast24HoursCount { get; set; }
 

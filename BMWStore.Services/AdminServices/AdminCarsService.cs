@@ -16,19 +16,19 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminCarsService : IAdminCarsService
     {
-        private readonly ICarRepository carsRepository;
-        private readonly ICarOptionRepository carOptionsRepository;
+        private readonly ICarRepository carRepository;
+        private readonly ICarOptionRepository carOptionRepository;
         private readonly IAdminPicturesService adminPicturesService;
         private readonly ISelectListItemsService selectListItemsService;
 
         public AdminCarsService(
-            ICarRepository carsRepository,
-            ICarOptionRepository carOptionsRepository,
+            ICarRepository carRepository,
+            ICarOptionRepository carOptionRepository,
             IAdminPicturesService adminPicturesService,
             ISelectListItemsService selectListItemsService)
         {
-            this.carsRepository = carsRepository;
-            this.carOptionsRepository = carOptionsRepository;
+            this.carRepository = carsRepository;
+            this.carOptionRepository = carOptionsRepository;
             this.adminPicturesService = adminPicturesService;
             this.selectListItemsService = selectListItemsService;
         }
@@ -38,20 +38,20 @@ namespace BMWStore.Services.AdminServices
             var dbCar = Mapper.Map<TCar>(model);
             await this.adminPicturesService.UpdateCarPicturesAsync(dbCar, model.Pictures);
 
-            this.carsRepository.Add(dbCar);
+            this.carRepository.Add(dbCar);
 
-            var rowsAffected = await this.carsRepository.CompleteAsync();
+            var rowsAffected = await this.carRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         public async Task DeleteCarAsync(string carId)
         {
-            var dbCar = await this.carsRepository.GetByIdAsync(carId);
+            var dbCar = await this.carRepository.GetByIdAsync(carId);
             DataValidator.ValidateNotNull(dbCar, new ArgumentException(ErrorConstants.IncorrectId));
 
-            this.carsRepository.Remove(dbCar);
+            this.carRepository.Remove(dbCar);
 
-            var rowsAffected = await this.carsRepository.CompleteAsync();
+            var rowsAffected = await this.carRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
@@ -59,7 +59,7 @@ namespace BMWStore.Services.AdminServices
         {
             var allOptions = model.CarOptions;
             var carId = model.Id;
-            var carModel = await this.carsRepository
+            var carModel = await this.carRepository
                     .GetAll()
                     .Where(c => c.Id == carId)
                     .To<AdminCarEditBindingModel>()
@@ -79,7 +79,7 @@ namespace BMWStore.Services.AdminServices
 
         public async Task EditCarAsync<TCar>(AdminCarEditBindingModel model) where TCar : BaseCar
         {
-            var dbCar = await this.carsRepository.Set<TCar>().FindAsync(model.Id);
+            var dbCar = await this.carRepository.Set<TCar>().FindAsync(model.Id);
             DataValidator.ValidateNotNull(dbCar, new ArgumentException(ErrorConstants.IncorrectId));
 
             Mapper.Map(model, dbCar);
@@ -91,10 +91,10 @@ namespace BMWStore.Services.AdminServices
 
             if (model.CarOptions.Count() > 0)
             {
-                await this.carOptionsRepository.RemoveAllWithCarIdAsync(model.Id);
+                await this.carOptionRepository.RemoveAllWithCarIdAsync(model.Id);
             }
 
-            await this.carOptionsRepository.CompleteAsync();
+            await this.carOptionRepository.CompleteAsync();
         }
     }
 }

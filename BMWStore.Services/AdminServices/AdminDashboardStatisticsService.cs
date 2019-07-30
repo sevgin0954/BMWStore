@@ -1,39 +1,47 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
 {
     public class AdminDashboardStatisticsService : IAdminDashboardStatisticsService
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
+        private readonly ITestDriveRepository testDriveRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IRoleRepository roleRepository;
 
-        public AdminDashboardStatisticsService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminDashboardStatisticsService(
+            ITestDriveRepository testDriveRepository, 
+            IUserRepository userRepository,
+            IRoleRepository roleRepository)
         {
-            this.unitOfWork = unitOfWork;
+            this.testDriveRepository = testDriveRepository;
+            this.userRepository = userRepository;
+            this.roleRepository = roleRepository;
         }
 
         public async Task<AdminDashboardStatisticsViewModel> GetStatisticsAsync()
         {
-            var totalNewCarsTestDrivesCount = await this.unitOfWork.TestDrives
+            var totalNewCarsTestDrivesCount = await this.testDriveRepository
                 .CountAsync(o => o.Car is NewCar);
-            var newCarsTestDrivesFromPast24HoursCount = await this.unitOfWork.TestDrives
+            var newCarsTestDrivesFromPast24HoursCount = await this.testDriveRepository
                 .CountAsync(uc => IsScheduledInLast24Hours(uc) && uc.Car is NewCar);
-            var totalTestDrivesFromPast24Hours = await this.unitOfWork.TestDrives
+            var totalTestDrivesFromPast24Hours = await this.testDriveRepository
                 .CountAsync(uc => IsScheduledInLast24Hours(uc));
 
-            var dbUserRoleId = await this.unitOfWork.Roles
+            var dbUserRoleId = await this.roleRepository
                 .GetIdByNameAsync(WebConstants.UserRoleName);
-            var totalUsersCount = await this.unitOfWork.Users
-                .CountByRole(dbUserRoleId);
+            var totalUsersCount = await this.userRepository
+                .CountAsync(u => u.Roles.Any(r => r.RoleId == dbUserRoleId));
 
-            var usedCarsOrderesCount = await this.unitOfWork.TestDrives
+            var usedCarsOrderesCount = await this.testDriveRepository
                 .CountAsync(o => o.Car is UsedCar);
-            var UsedCarsOrderedFromPast24HoursCount = await this.unitOfWork.TestDrives
+            var UsedCarsOrderedFromPast24HoursCount = await this.testDriveRepository
                 .CountAsync(uc => IsScheduledInLast24Hours(uc) && uc.Car is UsedCar);
 
             var model = new AdminDashboardStatisticsViewModel()
@@ -43,7 +51,7 @@ namespace BMWStore.Services.AdminServices
                 TotalTestDrivesFromPast24HoursCount = totalTestDrivesFromPast24Hours,
                 TotalUsersCount = totalUsersCount,
                 TotalUsedCarsTestDrivesCount = usedCarsOrderesCount,
-                UsedCarsOrderedFromPast24HoursCount = UsedCarsOrderedFromPast24HoursCount
+                UsedCarsTestDrivesFromPast24HoursCount = UsedCarsOrderedFromPast24HoursCount
             };
 
             return model;
