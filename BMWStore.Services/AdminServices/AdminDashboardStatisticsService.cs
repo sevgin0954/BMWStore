@@ -14,15 +14,18 @@ namespace BMWStore.Services.AdminServices
         private readonly ITestDriveRepository testDriveRepository;
         private readonly IUserRepository userRepository;
         private readonly IRoleRepository roleRepository;
+        private readonly ICarRepository carRepository;
 
         public AdminDashboardStatisticsService(
             ITestDriveRepository testDriveRepository, 
             IUserRepository userRepository,
-            IRoleRepository roleRepository)
+            IRoleRepository roleRepository,
+            ICarRepository carRepository)
         {
             this.testDriveRepository = testDriveRepository;
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
+            this.carRepository = carRepository;
         }
 
         public async Task<AdminDashboardStatisticsViewModel> GetStatisticsAsync()
@@ -44,6 +47,11 @@ namespace BMWStore.Services.AdminServices
             var UsedCarsOrderedFromPast24HoursCount = await this.testDriveRepository
                 .CountAsync(uc => IsScheduledInLast24Hours(uc) && uc.Car is UsedCar);
 
+            var totalNewCarsCount = await this.carRepository
+                .CountAsync(c => c is NewCar);
+            var totalUsedCarsCount = await this.carRepository
+                .CountAsync(c => c is UsedCar);
+
             var model = new AdminDashboardStatisticsViewModel()
             {
                 TotalNewCarsTestDrivesCount = totalNewCarsTestDrivesCount,
@@ -51,7 +59,9 @@ namespace BMWStore.Services.AdminServices
                 TotalTestDrivesFromPast24HoursCount = totalTestDrivesFromPast24Hours,
                 TotalUsersCount = totalUsersCount,
                 TotalUsedCarsTestDrivesCount = usedCarsOrderesCount,
-                UsedCarsTestDrivesFromPast24HoursCount = UsedCarsOrderedFromPast24HoursCount
+                UsedCarsTestDrivesFromPast24HoursCount = UsedCarsOrderedFromPast24HoursCount,
+                NewCarsCount = totalNewCarsCount,
+                UsedCarsCount = totalUsedCarsCount
             };
 
             return model;
@@ -59,7 +69,7 @@ namespace BMWStore.Services.AdminServices
 
         private bool IsScheduledInLast24Hours(TestDrive testDrive)
         {
-            return (testDrive.ScheduleDate - DateTime.UtcNow).Hours <= 24;
+            return DateTime.UtcNow.AddDays(-1) <= testDrive.ScheduleDate;
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Data;
-using BMWStore.Data.Repositories;
 using BMWStore.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Linq;
 using Xunit;
@@ -39,36 +36,83 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         }
 
         [Fact]
-        public void WithNewAndUsedCarTestDrives_ShouldReturnModelWithCorrectTotalNewCarTestDrivesCount()
+        public async void WithNewAndUsedCarTestDrives_ShouldReturnModelWithCorrectTotalNewCarTestDrivesCount()
         {
             var dbContext = this.baseTest.GetDbContext();
             var service = this.GetService(dbContext);
 
-            
+            this.SeedTestDrivesWithCars(dbContext);
+
+            var model = await service.GetStatisticsAsync();
+
+            Assert.Equal(1, model.TotalNewCarsTestDrivesCount);
         }
 
         [Fact]
-        public void WithNewAndUsedCarTestDrives_ShouldReturnModelWithCorrectTotalUsedCarTestDrivesCount()
+        public async void WithNewAndUsedCarTestDrives_ShouldReturnModelWithCorrectTotalUsedCarTestDrivesCount()
         {
+            var dbContext = this.baseTest.GetDbContext();
+            var service = this.GetService(dbContext);
 
+            this.SeedTestDrivesWithCars(dbContext);
+
+            var model = await service.GetStatisticsAsync();
+
+            Assert.Equal(1, model.TotalUsedCarsTestDrivesCount);
         }
 
         [Fact]
-        public void WithTestDrives_ShouldReturnModelWithCorrectNewCarsTestDrivesFromPast24HoursCount()
+        public async void WithTestDrives_ShouldReturnModelWithCorrectNewCarsTestDrivesFromPast24HoursCount()
         {
+            var dbContext = this.baseTest.GetDbContext();
+            var service = this.GetService(dbContext);
 
+            var yeasterday = this.GetYearterdayTime();
+            var today = DateTime.UtcNow;
+            this.CreateTestDrivesWithCars(dbContext, today);
+            this.CreateTestDrive(new NewCar(), dbContext, yeasterday);
+            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            dbContext.SaveChanges();
+
+            var model = await service.GetStatisticsAsync();
+
+            Assert.Equal(1, model.NewCarsTestDrivesFromPast24HoursCount);
         }
 
         [Fact]
-        public void WithTestDrives_ShouldReturnModelWithCorrectUsedCarsTestDrivesFromPast24HoursCount()
+        public async void WithTestDrives_ShouldReturnModelWithCorrectUsedCarsTestDrivesFromPast24HoursCount()
         {
+            var dbContext = this.baseTest.GetDbContext();
+            var service = this.GetService(dbContext);
 
+            var yeasterday = this.GetYearterdayTime();
+            var today = DateTime.UtcNow;
+            this.CreateTestDrivesWithCars(dbContext, today);
+            this.CreateTestDrive(new UsedCar(), dbContext, yeasterday);
+            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            dbContext.SaveChanges();
+
+            var model = await service.GetStatisticsAsync();
+
+            Assert.Equal(1, model.UsedCarsTestDrivesFromPast24HoursCount);
         }
 
         [Fact]
-        public void WithTestDrives_ShouldReturnModelWithCorrectTestDrivesFromPast24HourCount()
+        public async void WithTestDrives_ShouldReturnModelWithCorrectTestTotalDrivesFromPast24HourCount()
         {
+            var dbContext = this.baseTest.GetDbContext();
+            var service = this.GetService(dbContext);
 
+            var yeasterday = this.GetYearterdayTime();
+            var today = DateTime.UtcNow;
+            this.CreateTestDrivesWithCars(dbContext, today);
+            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            dbContext.SaveChanges();
+
+            var model = await service.GetStatisticsAsync();
+
+            Assert.Equal(2, model.TotalTestDrivesFromPast24HoursCount);
         }
 
         [Fact]
@@ -77,8 +121,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
             var dbContext = this.baseTest.GetDbContext();
             var service = this.GetService(dbContext);
 
-            var admin = this.SeedUser(WebConstants.AdminRoleName, dbContext);
-            var user = this.SeedUser(WebConstants.UserRoleName, dbContext);
+            this.SeedUser(WebConstants.AdminRoleName, dbContext);
+            this.SeedUser(WebConstants.UserRoleName, dbContext);
 
             var model = await service.GetStatisticsAsync();
 
@@ -140,6 +184,56 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
             this.CreateCar<UsedCar>(dbContext);
 
             dbContext.SaveChanges();
+        }
+
+        private TestDrive CreateTestDrive(BaseCar newCar, ApplicationDbContext dbContext)
+        {
+            var testDrive = new TestDrive()
+            {
+                Car = newCar
+            };
+
+            dbContext.TestDrives.Add(testDrive);
+
+            return testDrive;
+        }
+
+        private void SeedTestDrivesWithCars(ApplicationDbContext dbContext)
+        {
+            var newCar = this.CreateCar<NewCar>(dbContext);
+            this.CreateTestDrive(newCar, dbContext);
+            var usedCar = this.CreateCar<UsedCar>(dbContext);
+            this.CreateTestDrive(usedCar, dbContext);
+
+            dbContext.SaveChanges();
+        }
+
+        private void CreateTestDrivesWithCars(ApplicationDbContext dbContext, DateTime scheduleDate)
+        {
+            var newCar = this.CreateCar<NewCar>(dbContext);
+            this.CreateTestDrive(newCar, dbContext, scheduleDate);
+            var usedCar = this.CreateCar<UsedCar>(dbContext);
+            this.CreateTestDrive(usedCar, dbContext, scheduleDate);
+        }
+
+        private TestDrive CreateTestDrive(BaseCar newCar, ApplicationDbContext dbContext, DateTime scheduleDate)
+        {
+            var testDrive = new TestDrive()
+            {
+                Car = newCar,
+                ScheduleDate = scheduleDate
+            };
+
+            dbContext.TestDrives.Add(testDrive);
+
+            return testDrive;
+        }
+
+        private DateTime GetYearterdayTime()
+        {
+            var yeasterday = DateTime.UtcNow.AddDays(-1).AddMinutes(-1);
+
+            return yeasterday;
         }
     }
 }

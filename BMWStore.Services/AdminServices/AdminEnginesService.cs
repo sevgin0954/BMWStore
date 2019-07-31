@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Validation;
-using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.EngineModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -14,25 +14,25 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminEnginesService : IAdminEnginesService
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
+        private readonly IEngineRepository engineRepository;
 
-        public AdminEnginesService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminEnginesService(IEngineRepository engineRepository)
         {
-            this.unitOfWork = unitOfWork;
+            this.engineRepository = engineRepository;
         }
 
         public async Task CreateNewEngineAsync(AdminEngineCreateBindingModel model)
         {
             var dbEngine = Mapper.Map<Engine>(model);
-            this.unitOfWork.Engines.Add(dbEngine);
+            this.engineRepository.Add(dbEngine);
 
-            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            var rowsAffected = await this.engineRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            var selectListItems = await this.unitOfWork.Engines
+            var selectListItems = await this.engineRepository
                 .GetAll()
                 .To<SelectListItem>()
                 .ToArrayAsync();

@@ -1,4 +1,5 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Data;
 using BMWStore.Data.Repositories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Services.AdminServices;
@@ -10,13 +11,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
 {
     public abstract class BaseAdminDashboardStatisticsServiceTest
     {
-        public IAdminDashboardStatisticsService GetService(DbContext dbContext)
+        public IAdminDashboardStatisticsService GetService(ApplicationDbContext dbContext)
         {
             var testDriveRepository = new TestDriveRepository(dbContext);
             var userRepository = new UserRepository(dbContext);
             var roleRepository = new RoleRepository(dbContext);
             this.SeedRoles(roleRepository, dbContext);
-            var service = new AdminDashboardStatisticsService(testDriveRepository, userRepository, roleRepository);
+            var carRepository = new CarRepository(dbContext);
+            var service = new AdminDashboardStatisticsService(testDriveRepository, userRepository, roleRepository, carRepository);
 
             return service;
         }
