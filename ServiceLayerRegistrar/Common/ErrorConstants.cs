@@ -1,7 +1,11 @@
-﻿namespace ServiceLayerRegistrar.Common
+﻿using System.Runtime.Serialization;
+
+namespace ServiceLayerRegistrar.Common
 {
     internal class ErrorConstants
     {
-        public const string IncorrectInterfacesCount = "Interfaces count was not 1";
+        public const string ZeroInterfaces = "Doesnt Have Interface To Register";
+
+        public const string MatchingInterfaceNotFound = "Matching Interface Not Found";
     }
 }

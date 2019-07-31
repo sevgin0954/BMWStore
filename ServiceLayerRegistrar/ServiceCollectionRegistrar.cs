@@ -24,15 +24,11 @@ namespace ServiceLayerRegistrar
             foreach (var classType in allClassesTypes)
             {
                 var interfaceTypes = classType.GetInterfaces();
+                this.ValidateInterfaces(interfaceTypes, classType.ToString());
+                
+                var interfaceToRegister = this.GetClassInterfaceTypeToRegister(classType, interfaceTypes);
 
-                if (interfaceTypes.Length != 1)
-                {
-                    var exceptionMessage = ErrorConstants.IncorrectInterfacesCount + $" for ({classType})";
-                    throw new InvalidOperationException(exceptionMessage);
-                }
-
-                var firstInterfaceType = interfaceTypes[0];
-                services.AddScoped(firstInterfaceType, classType);
+                services.AddScoped(interfaceToRegister, classType);
             }
         }
 
@@ -40,7 +36,7 @@ namespace ServiceLayerRegistrar
         {
             var nameSpace = type.Namespace;
             var assembly = Assembly.GetAssembly(type);
-            var allClassesTypes = this.GetTypesFromAssembly(assembly, t => t.IsClass && t.Namespace.StartsWith(nameSpace));
+            var allClassesTypes = this.GetTypesFromAssembly(assembly, t => t.IsClass && t.Namespace == nameSpace);
 
             return allClassesTypes;
         }
@@ -64,6 +60,33 @@ namespace ServiceLayerRegistrar
         private bool IsCompilerGenerated(Type type)
         {
             return type.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
+        }
+
+        private void ValidateInterfaces(Type[] interfaceTypes, string className)
+        {
+            if (interfaceTypes.Length < 1)
+            {
+                var exceptionMessage = ErrorConstants.ZeroInterfaces + $" for ({className})";
+                throw new InvalidOperationException(exceptionMessage);
+            }
+        }
+
+        // TODO: Make to detect only direct interfaces
+        private Type GetClassInterfaceTypeToRegister(Type classType, Type[] classInterfaces)
+        {
+            var classTypeInterfaceName = $"I{classType.Name}";
+            foreach (var classInterface in classInterfaces)
+            {
+                var interfaceName = classInterface.Name;
+
+                if (classTypeInterfaceName == interfaceName)
+                {
+                    return classInterface;
+                }
+            }
+
+            var exceptionMessage = ErrorConstants.MatchingInterfaceNotFound + $" for ({classType})";
+            throw new InvalidOperationException(exceptionMessage);
         }
     }
 }

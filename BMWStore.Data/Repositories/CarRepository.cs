@@ -11,7 +11,7 @@ namespace BMWStore.Data.Repositories
     {
         private readonly DbContext dbContext;
 
-        public CarRepository(DbContext dbContext)
+        public CarRepository(ApplicationDbContext dbContext)
             : base(dbContext)
         {
             this.dbContext = dbContext;

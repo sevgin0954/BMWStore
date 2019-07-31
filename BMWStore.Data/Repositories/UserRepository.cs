@@ -10,7 +10,7 @@ namespace BMWStore.Data.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(DbContext dbContext)
+        public UserRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }
 
         public async Task<User> GetByEmailOrDefault(string email)

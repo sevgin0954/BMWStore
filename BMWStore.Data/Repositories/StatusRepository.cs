@@ -1,12 +1,12 @@
 ﻿using BMWStore.Data.Repositories.Generic;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data.Repositories
 {
-    public class StatusRepository : BaseRepository<Status>
+    public class StatusRepository : BaseRepository<Status>, IStatusRepository
     {
-        public StatusRepository(DbContext dbContext)
+        public StatusRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }
     }
 }

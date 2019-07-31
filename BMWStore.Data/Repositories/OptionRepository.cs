@@ -1,14 +1,13 @@
 ﻿using BMWStore.Data.Repositories.Generic;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories
 {
-    public class OptionRepository : BaseRepository<Option>
+    public class OptionRepository : BaseRepository<Option>, IOptionRepository
     {
-        public OptionRepository(DbContext dbContext)
+        public OptionRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }
     }
 }

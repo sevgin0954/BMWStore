@@ -9,7 +9,7 @@ namespace BMWStore.Data.Repositories
 {
     public class RoleRepository : BaseRepository<IdentityRole>, IRoleRepository
     {
-        public RoleRepository(DbContext dbContext)
+        public RoleRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }
 
         public async Task<string> GetIdByNameAsync(string name)

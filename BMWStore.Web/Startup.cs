@@ -20,6 +20,7 @@ using BMWStore.Data.Repositories.Generic.Interfaces;
 using BMWStore.Data.Repositories.Generic;
 using BMWStore.Data.Repositories;
 using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Services.AdminServices;
 
 namespace BMWStore.Web
 {
@@ -115,6 +116,7 @@ namespace BMWStore.Web
             var serviceRegistrar = new ServiceCollectionRegistrar(services);
             serviceRegistrar.AddScopedServices(typeof(SeedDbService));
             serviceRegistrar.AddScopedServices(typeof(CarRepository));
+            serviceRegistrar.AddScopedServices(typeof(AdminCarsService));
         }
     }
 }

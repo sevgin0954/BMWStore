@@ -8,8 +8,7 @@ namespace BMWStore.Data.Repositories
 {
     public class CarOptionRepository : BaseRepository<CarOption>, ICarOptionRepository
     {
-        // TODO: Use interface for dbcontext
-        public CarOptionRepository(DbContext dbContext)
+        public CarOptionRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }
 
         public async Task RemoveAllWithCarIdAsync(string carId)
