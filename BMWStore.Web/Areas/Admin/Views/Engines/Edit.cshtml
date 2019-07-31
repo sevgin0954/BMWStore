@@ -1,12 +1,13 @@
-﻿@model AdminEngineCreateBindingModel
+﻿@model AdminEngineEditBindingModel
 @{
-    ViewData["Title"] = "Add New Engine";
+    ViewData["Title"] = "Edit";
 }
 
-<h5>@ViewData["Title"]</h5>
+<h5>Edit</h5>
 
 <div class="container-item-white border-radius-smooth border-grey">
-    <form class="form-group" method="post">
+    <form method="post">
+        <input asp-for="Id" hidden />
         <div>
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
@@ -43,10 +44,10 @@
             </div>
         </div>
 
-        <form-buttons controller-name="Cars" action-name="AddNew"></form-buttons>
+        <partial name="_FormButtonsPartial" />
     </form>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/returnBack.js"></script>
 }

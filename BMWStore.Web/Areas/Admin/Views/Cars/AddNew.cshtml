@@ -161,7 +161,7 @@
             <div class="mt-auto">
                 <a class="btn border-green background-green-hover"
                    asp-area="Admin"
-                   asp-controller="Engine"
+                   asp-controller="Engines"
                    asp-action="AddNew">
                     Add
                     <i class="fas fa-plus" aria-hidden="true"></i>
@@ -248,13 +248,14 @@
             </div>
         </div>
 
-        <form-buttons controller-name="Cars" action-name="Index"></form-buttons>
+        <partial name="_FormButtonsPartial" />
     </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/pictureInput.js"></script>
+    <script src="~/js/returnBack.js"></script>
     <script>
         $(function () {
             addEventForAddingPictures('[picturesAddBtn]', '[picturesInput]', '[displayInput]');

@@ -1,0 +1,53 @@
+﻿@model AdminEngineCreateBindingModel
+@{
+    ViewData["Title"] = "Add New Engine";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<div class="container-item-white border-radius-smooth border-grey">
+    <form class="form-group" method="post">
+        <div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <label asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+        <div>
+            <span asp-validation-for="Weight_Kg" class="text-danger"></span>
+        </div>
+        <label asp-for="Weight_Kg"></label>
+        <input class="form-control" asp-for="Weight_Kg" />
+        <div class="input-group">
+            <div class="col-10 no-padding">
+                <div>
+                    <span asp-validation-for="SelectedTransmissionId" class="text-danger"></span>
+                </div>
+                <label asp-for="Transmissions"></label>
+                <select class="form-control" asp-for="SelectedTransmissionId" asp-items="Model.Transmissions">
+                    <option disabled selected>Select Transmission</option>
+                </select>
+            </div>
+            <div class="mt-auto ml-auto">
+                <a class="btn border-green background-green-hover"
+                   asp-area="Admin"
+                   asp-controller="Transmission"
+                   asp-action="AddNew">
+                    Add new
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <partial name="_FormButtonsPartial" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/returnBack.js"></script>
+}

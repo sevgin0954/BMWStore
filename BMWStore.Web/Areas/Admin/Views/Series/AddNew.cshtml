@@ -13,10 +13,11 @@
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
 
-        <form-buttons controller-name="Engine" action-name="AddNew"></form-buttons>
+        <partial name="_FormButtonsPartial" />
     </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/returnBack.js"></script>
 }

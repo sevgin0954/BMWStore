@@ -18,10 +18,11 @@
         <label asp-for="Price"></label>
         <input class="form-control" asp-for="Price" />
         
-        <form-buttons controller-name="CarOptions" action-name="Index"></form-buttons>
+        <partial name="_FormButtonsPartial" />
     </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/returnBack.js"></script>
 }

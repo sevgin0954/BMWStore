@@ -1,4 +1,5 @@
-﻿using BMWStore.Data.Interfaces;
+﻿using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
+using BMWStore.Data.Interfaces;
 using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
@@ -19,10 +20,14 @@ namespace BMWStore.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(ICarSortStrategy<BaseCar> sortStrategy)
+        public async Task<IEnumerable<CarConciseViewModel>> GetAllCarsAsync(
+            ICarSortStrategy<BaseCar> sortStrategy,
+            ICarFilterStrategy filterStrategy)
         {
-            var models = await this.unitOfWork.AllCars
-                .GetAllSorted(sortStrategy)
+            var filteredCars = this.unitOfWork.AllCars.GetFiltered(filterStrategy);
+            var sortedCars = sortStrategy.Sort(filteredCars);
+
+            var models = await sortedCars
                 .Include(uc => uc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();

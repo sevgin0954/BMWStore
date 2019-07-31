@@ -1,6 +1,6 @@
-﻿@model IEnumerable<OptionViewModel>
+﻿@model IEnumerable<EngineViewModel>
 @{
-    ViewData["Title"] = "Car Options";
+    ViewData["Title"] = "Engines";
 }
 
 <h5>@ViewData["Title"]</h5>
@@ -12,37 +12,41 @@
         <thead>
             <tr>
                 <th scope="col">Name</th>
+                <th scope="col">TransmissionName</th>
                 <th scope="col">Price</th>
+                <th scope="col">Weight_Kg</th>
                 <th scope="col">Cars</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var option in Model)
+            @foreach (var engine in Model)
             {
-                <tr data-optionId="@option.Id">
-                    <td>@option.Name</td>
-                    <td>@option.Price</td>
+                <tr data-engineId="@engine.Id">
+                    <td>@engine.Name</td>
+                    <td>@engine.TransmissionName</td>
+                    <td>@engine.Price</td>
+                    <td>@engine.Weight_Kg</td>
                     <td>
-                        @if (option.CarsCount == 0)
+                        @if (engine.CarsCount == 0)
                         {
-                            <a href="#">Cars (@option.CarsCount)</a>
+                            <a href="#">Cars (@engine.CarsCount)</a>
                         }
                         else
                         {
                             <a asp-controller="Cars"
                                asp-action="Index"
-                               asp-route-id="@option.Id"
-                               asp-route-filter="@AdminBaseCarFilterStrategy.Option">
-                                Cars (@option.CarsCount)
+                               asp-route-id="@engine.Id"
+                               asp-route-filter="@AdminBaseCarFilterStrategy.Engine">
+                                Cars (@engine.CarsCount)
                             </a>
                         }
                     </td>
                     <td>
                         <div>
-                            @if (option.CarsCount == 0)
+                            @if (engine.CarsCount == 0)
                             {
-                                <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                                <button delete data-engineId="@engine.Id" class="btn btn-wide border-light-red background-light-red-hover">
                                     Delete
                                 </button>
                             }
@@ -55,10 +59,10 @@
                         </div>
                         <div>
                             <a class="btn btn-wide border-green background-green-hover"
-                                    asp-route-id="@option.Id"
-                                    asp-area="Admin"
-                                    asp-controller="CarOptions"
-                                    asp-action="Edit">
+                               asp-route-id="@engine.Id"
+                               asp-area="Admin"
+                               asp-controller="Engines"
+                               asp-action="Edit">
                                 Edit
                             </a>
                         </div>
@@ -73,7 +77,7 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('[delete]', 'data-optionId', '/Admin/CarOptions/Delete');
+            removeElementOnButtonClick('[delete]', 'data-engineId', '/Admin/Engines/Delete');
         })
     </script>
 }

@@ -29,6 +29,9 @@
         public const string CookieAdminUsersSortDirectionKey = "___AdminUsersSortDirection___";
         public const string CookieAdminUsersSortTypeKey = "___AdminUsersSortType___";
 
+        public const string ReturnControllerName = "returnController";
+        public const string ReturnActionName = "returnAction";
+
         public const int UserBanDays = 356;
     }
 }

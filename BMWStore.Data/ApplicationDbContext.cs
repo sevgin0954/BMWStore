@@ -38,27 +38,33 @@ namespace BMWStore.Data
 
                 car.HasOne(c => c.Engine)
                     .WithMany(e => e.Cars)
-                    .HasForeignKey(c => c.EngineId);
+                    .HasForeignKey(c => c.EngineId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 car.HasOne(c => c.FuelType)
                     .WithMany(ft => ft.Cars)
-                    .HasForeignKey(c => c.FuelTypeId);
+                    .HasForeignKey(c => c.FuelTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 car.HasOne(c => c.ModelType)
                     .WithMany(mt => mt.Cars)
-                    .HasForeignKey(c => c.ModelTypeId);
+                    .HasForeignKey(c => c.ModelTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 car.HasOne(c => c.Series)
                     .WithMany(s => s.Cars)
-                    .HasForeignKey(c => c.SeriesId);
+                    .HasForeignKey(c => c.SeriesId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 car.HasMany(c => c.TestDrives)
                     .WithOne(b => b.Car)
-                    .HasForeignKey(uc => uc.CarId);
+                    .HasForeignKey(uc => uc.CarId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 car.HasMany(c => c.Options)
                     .WithOne(o => o.Car)
-                    .HasForeignKey(o => o.CarId);
+                    .HasForeignKey(o => o.CarId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 car.HasMany(c => c.Pictures)
                     .WithOne(p => p.Car)
@@ -72,11 +78,13 @@ namespace BMWStore.Data
 
                 carOption.HasOne(co => co.Car)
                     .WithMany(c => c.Options)
-                    .HasForeignKey(co => co.CarId);
+                    .HasForeignKey(co => co.CarId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 carOption.HasOne(co => co.Option)
                     .WithMany(o => o.Cars)
-                    .HasForeignKey(co => co.OptionId);
+                    .HasForeignKey(co => co.OptionId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Engine>(engine =>
@@ -91,7 +99,8 @@ namespace BMWStore.Data
 
                 engine.HasOne(e => e.Transmission)
                     .WithMany(t => t.Engines)
-                    .HasForeignKey(e => e.TransmissionId);
+                    .HasForeignKey(e => e.TransmissionId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<FuelType>(fuelType =>
@@ -125,7 +134,8 @@ namespace BMWStore.Data
 
                 option.HasMany(o => o.Cars)
                     .WithOne(c => c.Option)
-                    .HasForeignKey(c => c.OptionId);
+                    .HasForeignKey(c => c.OptionId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<TestDrive>(testDrive =>
@@ -137,7 +147,8 @@ namespace BMWStore.Data
 
                 testDrive.HasOne(td => td.Status)
                     .WithMany(s => s.TestDrives)
-                    .HasForeignKey(td => td.StatusId);
+                    .HasForeignKey(td => td.StatusId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Status>(status =>
@@ -146,7 +157,8 @@ namespace BMWStore.Data
 
                 status.HasMany(s => s.TestDrives)
                     .WithOne(s => s.Status)
-                    .HasForeignKey(s => s.StatusId);
+                    .HasForeignKey(s => s.StatusId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Picture>(pictures =>
@@ -172,7 +184,8 @@ namespace BMWStore.Data
 
                 transmissions.HasMany(t => t.Engines)
                     .WithOne(e => e.Transmission)
-                    .HasForeignKey(t => t.TransmissionId);
+                    .HasForeignKey(t => t.TransmissionId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 transmissions.Property(t => t.Name)
                     .HasMaxLength(EntitiesConstants.TransmissionNameMaxLength);
@@ -182,7 +195,8 @@ namespace BMWStore.Data
             {
                 user.HasMany(c => c.TestDrives)
                     .WithOne(bc => bc.User)
-                    .HasForeignKey(bc => bc.UserId);
+                    .HasForeignKey(bc => bc.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 user.Property(u => u.FirstName)
                     .HasMaxLength(EntitiesConstants.UserNameMaxLength);
@@ -192,7 +206,8 @@ namespace BMWStore.Data
 
                 user.HasMany(u => u.Roles)
                     .WithOne()
-                    .HasForeignKey(r => r.UserId);
+                    .HasForeignKey(r => r.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

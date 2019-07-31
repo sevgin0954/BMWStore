@@ -4,14 +4,16 @@ using BMWStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BMWStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190731202758_changeCascadeDeleteOnBaseCarAndAddedStoredProcMigration")]
+    partial class changeCascadeDeleteOnBaseCarAndAddedStoredProcMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +242,7 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<DateTime>("ScheduleDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2019, 7, 31, 21, 41, 0, 75, DateTimeKind.Utc).AddTicks(2793));
+                        .HasDefaultValue(new DateTime(2019, 7, 31, 20, 27, 57, 924, DateTimeKind.Utc).AddTicks(5399));
 
                     b.Property<string>("StatusId")
                         .IsRequired();
@@ -493,7 +495,7 @@ namespace BMWStore.Data.Migrations
                     b.HasOne("BMWStore.Entities.Option", "Option")
                         .WithMany("Cars")
                         .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BMWStore.Entities.Engine", b =>
@@ -501,7 +503,7 @@ namespace BMWStore.Data.Migrations
                     b.HasOne("BMWStore.Entities.Transmission", "Transmission")
                         .WithMany("Engines")
                         .HasForeignKey("TransmissionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BMWStore.Entities.Picture", b =>
@@ -522,12 +524,12 @@ namespace BMWStore.Data.Migrations
                     b.HasOne("BMWStore.Entities.Status", "Status")
                         .WithMany("TestDrives")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BMWStore.Entities.User", "User")
                         .WithMany("TestDrives")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -564,7 +566,7 @@ namespace BMWStore.Data.Migrations
                     b.HasOne("BMWStore.Entities.User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

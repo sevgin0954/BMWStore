@@ -17,6 +17,10 @@
     <Compile Remove="Migrations\20190707203835_addedRolesPropertiesToUserMigration.Designer.cs" />
     <Compile Remove="Migrations\20190718224651_addedCarOptionMappingEntityMigration.cs" />
     <Compile Remove="Migrations\20190718224651_addedCarOptionMappingEntityMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190731200726_changeCascadeDeleteOnBaseCarMigration.cs" />
+    <Compile Remove="Migrations\20190731200726_changeCascadeDeleteOnBaseCarMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190731202501_changeCascadeDeleteOnBaseCarAndAddedStoredProcMigration.cs" />
+    <Compile Remove="Migrations\20190731202501_changeCascadeDeleteOnBaseCarAndAddedStoredProcMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
