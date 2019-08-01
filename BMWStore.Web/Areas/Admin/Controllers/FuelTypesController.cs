@@ -1,5 +1,4 @@
-﻿using BMWStore.Common.Constants;
-using BMWStore.Models.FuelTypeModels.BindingModels;
+﻿using BMWStore.Models.FuelTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

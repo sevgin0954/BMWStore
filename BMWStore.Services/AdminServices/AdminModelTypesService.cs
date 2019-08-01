@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Validation;
-using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.ModelTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -14,25 +14,25 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminModelTypesService : IAdminModelTypesService
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
+        private readonly IModelTypeRepository modelTypeRepository;
 
-        public AdminModelTypesService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminModelTypesService(IModelTypeRepository modelTypeRepository)
         {
-            this.unitOfWork = unitOfWork;
+            this.modelTypeRepository = modelTypeRepository;
         }
 
         public async Task CreateNewModelType(AdminModelTypeCreateBidningModel model)
         {
             var dbModelType = Mapper.Map<ModelType>(model);
-            this.unitOfWork.ModelTypes.Add(dbModelType);
+            this.modelTypeRepository.Add(dbModelType);
 
-            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            var rowsAffected = await this.modelTypeRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            var selectListItems = await this.unitOfWork.ModelTypes
+            var selectListItems = await this.modelTypeRepository
                 .GetAll()
                 .To<SelectListItem>()
                 .ToArrayAsync();
