@@ -1,0 +1,12 @@
+﻿@if (Model.CarsCount == 0)
+{
+    <button delete data-id="@Model.Id" class="btn btn-wide border-light-red background-light-red-hover">
+        Delete
+    </button>
+}
+else
+{
+    <button disabled class="btn btn-wide border-light-red background-light-red-hover">
+        Delete
+    </button>
+}

@@ -1,9 +1,9 @@
-﻿@model IEnumerable<EngineViewModel>
+﻿@model IEnumerable<FuelTypeViewModel>
 @{
-    ViewData["Title"] = "Engines";
+    ViewData["Title"] = "Index";
 }
 
-<h5>@ViewData["Title"]</h5>
+<h5>Index</h5>
 
 <partial name="_AddNewPartial" />
 
@@ -12,43 +12,39 @@
         <thead>
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">TransmissionName</th>
-                <th scope="col">Price</th>
-                <th scope="col">Weight_Kg</th>
                 <th scope="col">Cars</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var engine in Model)
+            @foreach (var fuelType in Model)
             {
-                <tr data-id="@engine.Id">
-                    <td>@engine.Name</td>
-                    <td>@engine.TransmissionName</td>
-                    <td>@engine.Price</td>
-                    <td>@engine.Weight_Kg</td>
+                <tr data-id="@fuelType.Id">
+                    <td>@fuelType.Name</td>
                     <td>
-                        @if (engine.CarsCount == 0)
+                        @if (fuelType.CarsCount == 0)
                         {
-                            <a href="#">Cars (@engine.CarsCount)</a>
+                            <a href="#">Cars (@fuelType.CarsCount)</a>
                         }
                         else
                         {
                             <a asp-controller="Cars"
                                asp-action="Index"
-                               asp-route-id="@engine.Id"
-                               asp-route-filter="@AdminBaseCarFilterStrategy.Engine">
-                                Cars (@engine.CarsCount)
+                               asp-route-id="@fuelType.Id"
+                               asp-route-filter="@AdminBaseCarFilterStrategy.FuelType">
+                                Cars (@fuelType.CarsCount)
                             </a>
                         }
                     </td>
                     <td>
+                    </td>
+                    <td>
                         <div>
-                            <partial name="_DeleteBtnPartial" model="@engine" />
+                            <partial name="_DeleteBtnPartial" model="@fuelType" />
                         </div>
                         <div>
                             <a class="btn btn-wide border-green background-green-hover"
-                               asp-route-id="@engine.Id"
+                               asp-route-id="@fuelType.Id"
                                asp-area="Admin"
                                asp-controller="Engines"
                                asp-action="Edit">
@@ -66,7 +62,7 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('[delete]', 'data-id', '/Admin/Engines/Delete');
+            removeElementOnButtonClick('[delete]', 'data-id', '/Admin/FuelTypes/Delete');
         })
     </script>
 }

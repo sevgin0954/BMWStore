@@ -1,6 +1,9 @@
-﻿namespace BMWStore.Data.Repositories.Interfaces
+﻿using BMWStore.Data.Repositories.Generic.Interfaces;
+using BMWStore.Entities;
+
+namespace BMWStore.Data.Repositories.Interfaces
 {
-    public interface IFuelTypeRepository
+    public interface IFuelTypeRepository : IRepository<FuelType>
     {
     }
 }

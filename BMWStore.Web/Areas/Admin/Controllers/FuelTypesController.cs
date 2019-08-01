@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
 {
-    public class FuelTypeController : BaseAdminController
+    public class FuelTypesController : BaseAdminController
     {
         private readonly IAdminFuelTypesService fuelTypesService;
 
-        public FuelTypeController(IAdminFuelTypesService fuelTypesService)
+        public FuelTypesController(IAdminFuelTypesService fuelTypesService)
         {
             this.fuelTypesService = fuelTypesService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var models = await this.fuelTypesService.GetAllAsync();
+
+            return View(models);
         }
 
         [HttpGet]
@@ -28,7 +36,15 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             await this.fuelTypesService.CreateNewFuelTypeAsync(model);
 
-            return Redirect(WebConstants.AdminCreateNewCarUrl);
+            return Redirect("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.fuelTypesService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BMWStore.Data.Interfaces;
 
 namespace BMWStore.Services
 {
@@ -27,7 +26,6 @@ namespace BMWStore.Services
         private readonly ITestDriveService testDriveService;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        private readonly IBMWStoreUnitOfWork unitOfWork;
 
         public CarsInvertoryService(
             ICarYearService carYearService,

@@ -2,6 +2,6 @@
 {
     public enum AdminBaseCarFilterStrategy
     {
-        Engine, Option, All
+        Engine, Option, FuelType, All
     }
 }

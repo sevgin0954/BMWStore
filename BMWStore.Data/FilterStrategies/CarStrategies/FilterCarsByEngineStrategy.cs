@@ -4,18 +4,18 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.FilterStrategies.CarStrategies
 {
-    public class FilterCarsByOptionsStrategy : ICarFilterStrategy
+    public class FilterCarsByEngineStrategy : ICarFilterStrategy
     {
-        private readonly string optionId;
+        private readonly string engineId;
 
-        public FilterCarsByOptionsStrategy(string optionId)
+        public FilterCarsByEngineStrategy(string engineId)
         {
-            this.optionId = optionId;
+            this.engineId = engineId;
         }
 
         public IQueryable<BaseCar> Filter(IQueryable<BaseCar> cars)
         {
-            var filteredCars = cars.Where(c => c.Options.Any(o => o.OptionId == this.optionId));
+            var filteredCars = cars.Where(c => c.EngineId == this.engineId);
 
             return filteredCars;
         }
