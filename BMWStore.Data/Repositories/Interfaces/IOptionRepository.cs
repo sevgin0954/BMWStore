@@ -1,6 +1,9 @@
-﻿namespace BMWStore.Data.Repositories.Interfaces
+﻿using BMWStore.Data.Repositories.Generic.Interfaces;
+using BMWStore.Entities;
+
+namespace BMWStore.Data.Repositories.Interfaces
 {
-    public interface IOptionRepository
+    public interface IOptionRepository : IRepository<Option>
     {
     }
 }

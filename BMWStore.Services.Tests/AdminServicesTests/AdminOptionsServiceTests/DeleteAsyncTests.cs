@@ -2,9 +2,9 @@
 using System;
 using Xunit;
 
-namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
+namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
 {
-    public class DeleteAsyncTests : BaseAdminModelTypesServiceTest, IClassFixture<BaseTestFixture>
+    public class DeleteAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<BaseTestFixture>
     {
         private readonly BaseTestFixture baseTest;
 
@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
         }
 
         [Fact]
-        public async void WithIncorrectId_ShouldTrowException()
+        public async void WithIncorrectId_ShouldThrowException()
         {
             var dbContext = this.baseTest.GetDbContext();
             var service = this.GetService(dbContext);
@@ -25,13 +25,13 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
         }
 
         [Fact]
-        public async void WithCorrectId_ShouldDeleteModelType()
+        public async void WithCorrectId_ShouldDeleteOption()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var dbFuelType = this.SeedModelType(dbContext);
+            var dbOption = this.SeedOption(dbContext);
             var service = this.GetService(dbContext);
 
-            await service.DeleteAsync(dbFuelType.Id);
+            await service.DeleteAsync(dbOption.Id);
 
             Assert.Empty(dbContext.FuelTypes);
         }

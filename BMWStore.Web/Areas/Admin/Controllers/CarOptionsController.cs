@@ -41,7 +41,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.adminCarOptionsService.DeleteOptionAsync(id);
+            await this.adminCarOptionsService.DeleteAsync(id);
 
             return RedirectToAction("Index");
         }
@@ -57,7 +57,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AdminCarOptionEditBindingModel model)
         {
-            await this.adminCarOptionsService.EditOption(model);
+            await this.adminCarOptionsService.EditOptionAsync(model);
 
             return RedirectToAction("Index");
         }

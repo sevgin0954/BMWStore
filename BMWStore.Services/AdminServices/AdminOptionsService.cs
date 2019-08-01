@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
-using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.OptionModels.BidningModels;
 using BMWStore.Models.OptionModels.ViewModels;
@@ -17,25 +17,25 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminOptionsService : IAdminOptionsService
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
+        private readonly IOptionRepository optionRepository;
 
-        public AdminOptionsService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminOptionsService(IOptionRepository optionRepository)
         {
-            this.unitOfWork = unitOfWork;
+            this.optionRepository = optionRepository;
         }
 
         public async Task CreateNewOptionAsync(AdminOptionCreateBindingModel model)
         {
             var dbOption = Mapper.Map<Option>(model);
-            this.unitOfWork.Options.Add(dbOption);
+            this.optionRepository.Add(dbOption);
 
-            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            var rowsAffected = await this.optionRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         public async Task<IEnumerable<OptionViewModel>> GetAllOptionsAsync()
         {
-            var models = await this.unitOfWork.Options
+            var models = await this.optionRepository
                 .GetAll()
                 .To<OptionViewModel>()
                 .ToArrayAsync();
@@ -45,7 +45,7 @@ namespace BMWStore.Services.AdminServices
 
         public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
         {
-            var models = await this.unitOfWork.Options
+            var models = await this.optionRepository
                 .GetAll()
                 .To<SelectListItem>()
                 .ToArrayAsync();
@@ -53,13 +53,13 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task DeleteOptionAsync(string optionId)
+        public async Task DeleteAsync(string optionId)
         {
             var dbOption = await this.GetOptionAsync(optionId);
 
-            this.unitOfWork.Options.Remove(dbOption);
+            this.optionRepository.Remove(dbOption);
 
-            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            var rowsAffected = await this.optionRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
@@ -72,18 +72,20 @@ namespace BMWStore.Services.AdminServices
             return model;
         }
 
-        public async Task EditOption(AdminCarOptionEditBindingModel model)
+        public async Task EditOptionAsync(AdminCarOptionEditBindingModel model)
         {
             var dbOption = await this.GetOptionAsync(model.Id);
+            DataValidator.ValidateNotNull(dbOption, new ArgumentException(ErrorConstants.IncorrectId));
+
             Mapper.Map(model, dbOption);
 
-            var rowsAffected = await this.unitOfWork.CompleteAsync();
+            var rowsAffected = await this.optionRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         private async Task<Option> GetOptionAsync(string optionId)
         {
-            var dbOption = await this.unitOfWork.Options.GetByIdAsync(optionId);
+            var dbOption = await this.optionRepository.GetByIdAsync(optionId);
             DataValidator.ValidateNotNull(dbOption, new ArgumentException(ErrorConstants.IncorrectId));
 
             return dbOption;
