@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
 {
-    public class ModelTypeController : BaseAdminController
+    public class ModelTypesController : BaseAdminController
     {
         private readonly IAdminModelTypesService modelTypesService;
 
-        public ModelTypeController(IAdminModelTypesService modelTypesService)
+        public ModelTypesController(IAdminModelTypesService modelTypesService)
         {
             this.modelTypesService = modelTypesService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var models = await this.modelTypesService.GetAllAsync();
+
+            return View(models);
         }
 
         [HttpGet]
@@ -28,7 +36,15 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             await this.modelTypesService.CreateNewModelType(model);
 
-            return Redirect(WebConstants.AdminCreateNewCarUrl);
+            return Redirect("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.modelTypesService.DeleteAsync(id);
+
+            return Redirect("Index");
         }
     }
 }

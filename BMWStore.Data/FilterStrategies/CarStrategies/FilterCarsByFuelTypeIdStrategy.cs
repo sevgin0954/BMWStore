@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace BMWStore.Data.FilterStrategies.CarStrategies
 {
-    class FilterCarsByFuelTypeStrategy : ICarFilterStrategy
+    class FilterCarsByFuelTypeIdStrategy : ICarFilterStrategy
     {
         private readonly string fuelTypeId;
 
-        public FilterCarsByFuelTypeStrategy(string fuelTypeId)
+        public FilterCarsByFuelTypeIdStrategy(string fuelTypeId)
         {
             this.fuelTypeId = fuelTypeId;
         }

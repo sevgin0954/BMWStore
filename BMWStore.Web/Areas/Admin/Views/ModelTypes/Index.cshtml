@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ModelTypeViewModel>
+@{
+    ViewData["Title"] = "Model Types";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<partial name="_AddNewPartial" />
+
+<div class="container-item-white border-radius-smooth border-grey">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Cars</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var modelType in Model)
+            {
+                <tr data-id="@modelType.Id">
+                    <td>@modelType.Name</td>
+                    <td>
+                        @if (modelType.CarsCount == 0)
+                        {
+                            <a href="#">Cars (@modelType.CarsCount)</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Cars"
+                               asp-action="Index"
+                               asp-route-id="@modelType.Id"
+                               asp-route-filter="@AdminBaseCarFilterStrategy.ModelType">
+                                Cars (@modelType.CarsCount)
+                            </a>
+                        }
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <div>
+                            <partial name="_DeleteBtnPartial" model="@modelType" />
+                        </div>
+                        <div>
+                            <a class="btn btn-wide border-green background-green-hover"
+                               asp-route-id="@modelType.Id"
+                               asp-area="Admin"
+                               asp-controller="ModelTypes"
+                               asp-action="Edit">
+                                Edit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/removeElementOnButtonClick.js"></script>
+    <script>
+        $(function () {
+            removeElementOnButtonClick('[delete]', 'data-id', '/Admin/ModelTypes/Delete');
+        })
+    </script>
+}

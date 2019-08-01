@@ -7,12 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data.FilterStrategies.CarStrategies
 {
-    // TODO: Rename to FilterBaseCar
-    public class FilterCarsByModelTypeStrategy : ICarFilterStrategy
+    public class FilterCarsByModelTypeNamesStrategy : ICarFilterStrategy
     {
         private readonly string[] modelTypes;
 
-        public FilterCarsByModelTypeStrategy(params string[] modelTypes)
+        public FilterCarsByModelTypeNamesStrategy(params string[] modelTypes)
         {
             DataValidator.ValidateNotEmptyCollection(modelTypes, ErrorConstants.EmptyCollection);
             this.modelTypes = modelTypes;

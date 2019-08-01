@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BMWStore.Data.FilterStrategies.CarStrategies
 {
-    public class FilterCarsBySeriesStrategy : ICarFilterStrategy
+    public class FilterCarsBySeriesIdStrategy : ICarFilterStrategy
     {
         private readonly string seriesId;
 
-        public FilterCarsBySeriesStrategy(string seriesId)
+        public FilterCarsBySeriesIdStrategy(string seriesId)
         {
             this.seriesId = seriesId;
         }

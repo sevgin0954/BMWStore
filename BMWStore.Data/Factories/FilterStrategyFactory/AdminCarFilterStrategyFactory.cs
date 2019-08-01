@@ -12,11 +12,13 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
             switch (filterStrategy)
             {
                 case AdminBaseCarFilterStrategy.Engine:
-                    return new FilterCarsByEngineStrategy(id);
+                    return new FilterCarsByEngineIdStrategy(id);
                 case AdminBaseCarFilterStrategy.Option:
-                    return new FilterCarsByOptionStrategy(id);
+                    return new FilterCarsByOptionIdStrategy(id);
                 case AdminBaseCarFilterStrategy.FuelType:
-                    return new FilterCarsByFuelTypeStrategy(id);
+                    return new FilterCarsByFuelTypeIdStrategy(id);
+                case AdminBaseCarFilterStrategy.ModelType:
+                    return new FilterCarsByModelTypeIdStrategy(id);
                 case AdminBaseCarFilterStrategy.All:
                     return new ReturnAllFilterStrategy();
                 default:

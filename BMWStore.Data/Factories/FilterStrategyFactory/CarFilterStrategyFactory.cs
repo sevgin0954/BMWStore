@@ -64,14 +64,14 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
 
         private static ICarFilterStrategy CreateSeriesStrategy(string series)
         {
-            var filterStrategy = new FilterCarsBySeriesStrategy(series);
+            var filterStrategy = new FilterCarsBySeriesIdStrategy(series);
 
             return filterStrategy;
         }
 
         private static ICarFilterStrategy CreateModelTypeStrategy(params string[] modelTypes)
         {
-            var modelTypeStrategy = new FilterCarsByModelTypeStrategy(modelTypes);
+            var modelTypeStrategy = new FilterCarsByModelTypeNamesStrategy(modelTypes);
 
             return modelTypeStrategy;
         }
