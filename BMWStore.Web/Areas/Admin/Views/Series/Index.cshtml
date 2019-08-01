@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SeriesViewModel>
+@{
+    ViewData["Title"] = "Series";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<partial name="_AddNewPartial" />
+
+<div class="container-item-white border-radius-smooth border-grey">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Cars</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var series in Model)
+            {
+                <tr data-id="@series.Id">
+                    <td>@series.Name</td>
+                    <td>
+                        @if (series.CarsCount == 0)
+                        {
+                            <a href="#">Cars (@series.CarsCount)</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Cars"
+                               asp-action="Index"
+                               asp-route-id="@series.Id"
+                               asp-route-filter="@AdminBaseCarFilterStrategy.Series">
+                                Cars (@series.CarsCount)
+                            </a>
+                        }
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <div>
+                            <partial name="_DeleteBtnPartial" model="@series" />
+                        </div>
+                        <div>
+                            <a class="btn btn-wide border-green background-green-hover"
+                               asp-route-id="@series.Id"
+                               asp-area="Admin"
+                               asp-controller="Engines"
+                               asp-action="Edit">
+                                Edit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/removeElementOnButtonClick.js"></script>
+    <script>
+        $(function () {
+            removeElementOnButtonClick('[delete]', 'data-id', '/Admin/Series/Delete');
+        })
+    </script>
+}

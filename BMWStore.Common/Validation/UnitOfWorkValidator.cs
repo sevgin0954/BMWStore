@@ -3,6 +3,7 @@ using System;
 
 namespace BMWStore.Common.Validation
 {
+    // TODO: Rename to entityvalidator
     public class UnitOfWorkValidator
     {
         public static void ValidateUnitOfWorkCompleteChanges(int rowsAffected)

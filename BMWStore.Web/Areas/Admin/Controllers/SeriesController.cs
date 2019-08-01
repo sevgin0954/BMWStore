@@ -1,5 +1,4 @@
-﻿using BMWStore.Common.Constants;
-using BMWStore.Models.SeriesModels.BindingModels;
+﻿using BMWStore.Models.SeriesModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,6 +15,14 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var models = await this.seriesService.GetAllAsync();
+
+            return View(models);
+        }
+
+        [HttpGet]
         public IActionResult AddNew()
         {
             var model = new AdminSeriesCreateBindingModel();
@@ -28,7 +35,15 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             await this.seriesService.CreateNewSeriesAsync(model);
 
-            return Redirect(WebConstants.AdminCreateNewCarUrl);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.seriesService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
         }
     }
 }
