@@ -43,7 +43,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNew(AdminEngineCreateBindingModel model)
         {
-            await this.enginesService.CreateNewEngineAsync(model);
+            await this.enginesService.CreateEngineAsync(model);
 
             return RedirectToAction("Index");
         }

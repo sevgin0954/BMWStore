@@ -17,7 +17,7 @@ namespace BMWStore.Models.OptionModels.ViewModels
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Option, OptionViewModel>()
-                .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(dest => dest.Cars.Count));
+                .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(dest => dest.CarsOptions.Count));
         }
     }
 }

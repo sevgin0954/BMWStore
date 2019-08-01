@@ -58,6 +58,7 @@ namespace BMWStore.Services.AdminServices
             var dbOption = await this.GetOptionAsync(optionId);
 
             this.unitOfWork.Options.Remove(dbOption);
+
             var rowsAffected = await this.unitOfWork.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }

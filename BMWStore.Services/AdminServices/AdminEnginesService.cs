@@ -28,7 +28,7 @@ namespace BMWStore.Services.AdminServices
             this.selectListItemsService = selectListItemsService;
         }
 
-        public async Task CreateNewEngineAsync(AdminEngineCreateBindingModel model)
+        public async Task CreateEngineAsync(AdminEngineCreateBindingModel model)
         {
             var dbEngine = Mapper.Map<Engine>(model);
             this.engineRepository.Add(dbEngine);

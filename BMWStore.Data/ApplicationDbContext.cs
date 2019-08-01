@@ -82,7 +82,7 @@ namespace BMWStore.Data
                     .OnDelete(DeleteBehavior.Restrict);
 
                 carOption.HasOne(co => co.Option)
-                    .WithMany(o => o.Cars)
+                    .WithMany(o => o.CarsOptions)
                     .HasForeignKey(co => co.OptionId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
@@ -132,10 +132,10 @@ namespace BMWStore.Data
                 option.Property(o => o.Name)
                     .HasMaxLength(EntitiesConstants.OptionNameMaxLength);
 
-                option.HasMany(o => o.Cars)
+                option.HasMany(o => o.CarsOptions)
                     .WithOne(c => c.Option)
                     .HasForeignKey(c => c.OptionId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<TestDrive>(testDrive =>

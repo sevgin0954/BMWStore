@@ -40,18 +40,9 @@
                     </td>
                     <td>
                         <div>
-                            @if (option.CarsCount == 0)
-                            {
-                                <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
-                                    Delete
-                                </button>
-                            }
-                            else
-                            {
-                                <button disabled class="btn btn-wide border-light-red background-light-red-hover">
-                                    Delete
-                                </button>
-                            }
+                            <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                                Delete
+                            </button>
                         </div>
                         <div>
                             <a class="btn btn-wide border-green background-green-hover"

@@ -11,7 +11,7 @@ namespace BMWStore.Entities
     {
         public string Id { get; set; }
 
-        public ICollection<CarOption> Cars { get; set; } = new List<CarOption>();
+        public ICollection<CarOption> CarsOptions { get; set; } = new List<CarOption>();
 
         [MinLength(EntitiesConstants.OptionNameMinLength)]
         [Required]
