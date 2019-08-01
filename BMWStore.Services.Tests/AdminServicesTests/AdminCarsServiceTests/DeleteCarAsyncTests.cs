@@ -1,5 +1,4 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Data;
 using BMWStore.Entities;
 using System;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         public async void WithCorrectIdForNewCar_ShouldDeleteCar()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var carId = this.AddCar<NewCar>(dbContext);
+            var carId = this.SeedCar<NewCar>(dbContext);
             var service = this.GetService(dbContext);
 
             await service.DeleteCarAsync(carId);
@@ -32,7 +31,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         public async void WithCorrectIdForUsedCar_ShouldDeleteCar()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var carId = this.AddCar<UsedCar>(dbContext);
+            var carId = this.SeedCar<UsedCar>(dbContext);
             var service = this.GetService(dbContext);
 
             await service.DeleteCarAsync(carId);
@@ -49,15 +48,6 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(() => service.DeleteCarAsync(carId));
             Assert.Equal(ErrorConstants.IncorrectId, exception.Message);
-        }
-
-        private string AddCar<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
-        {
-            var newCar = new TCar();
-            dbContext.BaseCars.Add(newCar);
-            dbContext.SaveChanges();
-
-            return newCar.Id;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -132,30 +131,6 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             };
 
             return model;
-        }
-
-        private NewCar SeedNewCar(ApplicationDbContext dbContext, ICollection<Picture> pictures)
-        {
-            var dbCar = new NewCar()
-            {
-                Pictures = pictures
-            };
-            dbContext.BaseCars.Add(dbCar);
-            dbContext.SaveChanges();
-
-            return dbCar;
-        }
-
-        private NewCar SeedNewCar(ApplicationDbContext dbContext, ICollection<CarOption> options)
-        {
-            var dbCar = new NewCar()
-            {
-                Options = options
-            };
-            dbContext.BaseCars.Add(dbCar);
-            dbContext.SaveChanges();
-
-            return dbCar;
         }
 
         private IFormFile CreateInputPicture()
