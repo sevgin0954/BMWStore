@@ -7,7 +7,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminTransmissionsService
     {
-        Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync();
         Task CreateNewTransmissionAsync(AdminTransmissionsCreateBindingModel model);
     }
 }

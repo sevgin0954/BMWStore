@@ -11,7 +11,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
         protected IAdminEnginesService GetService(ApplicationDbContext dbContext)
         {
             var engineRepository = new EngineRepository(dbContext);
-            var selectListItemsService = new SelectListItemsService();
+            var selectListItemsService = new SelectListItemsService(dbContext);
             var service = new AdminEnginesService(engineRepository, selectListItemsService);
 
             return service;

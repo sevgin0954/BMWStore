@@ -10,7 +10,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
     {
         Task CreateEngineAsync(AdminEngineCreateBindingModel model);
         Task<IEnumerable<EngineViewModel>> GetAllAsync();
-        Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync();
         Task EditAsync(AdminEngineEditBindingModel model);
         Task DeleteAsync(string engineId);
         Task SetEditBindingModelPropertiesAsync(AdminEngineEditBindingModel model);

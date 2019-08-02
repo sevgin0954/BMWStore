@@ -7,7 +7,6 @@ using BMWStore.Models.OptionModels.BidningModels;
 using BMWStore.Models.OptionModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using MappingRegistrar;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,16 +37,6 @@ namespace BMWStore.Services.AdminServices
             var models = await this.optionRepository
                 .GetAll()
                 .To<OptionViewModel>()
-                .ToArrayAsync();
-
-            return models;
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
-        {
-            var models = await this.optionRepository
-                .GetAll()
-                .To<SelectListItem>()
                 .ToArrayAsync();
 
             return models;

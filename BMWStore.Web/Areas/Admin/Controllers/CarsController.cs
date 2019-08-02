@@ -16,31 +16,19 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminCarsService adminCarsService;
         private readonly ISortCookieService sortCookieService;
-        private readonly IAdminEnginesService enginesService;
-        private readonly IAdminFuelTypesService fuelTypesService;
-        private readonly IAdminModelTypesService modelTypesService;
-        private readonly IAdminSeriesService seriesService;
-        private readonly IAdminOptionsService carOptionsService;
         private readonly ICarsService carsService;
+        private readonly ISelectListItemsService selectListItemsService;
 
         public CarsController(
             IAdminCarsService adminCarsService, 
-            ISortCookieService sortCookieService, 
-            IAdminEnginesService enginesService,
-            IAdminFuelTypesService fuelTypesService,
-            IAdminModelTypesService modelTypesService,
-            IAdminSeriesService seriesService,
-            IAdminOptionsService adminCarOptionsService,
-            ICarsService carsService)
+            ISortCookieService sortCookieService,
+            ICarsService carsService,
+            ISelectListItemsService selectListItemsService)
         {
             this.adminCarsService = adminCarsService;
             this.sortCookieService = sortCookieService;
-            this.enginesService = enginesService;
-            this.fuelTypesService = fuelTypesService;
-            this.modelTypesService = modelTypesService;
-            this.seriesService = seriesService;
-            this.carOptionsService = adminCarOptionsService;
             this.carsService = carsService;
+            this.selectListItemsService = selectListItemsService;
         }
 
         [HttpGet]
@@ -73,11 +61,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var engines = await this.enginesService.GetAllAsSelectListItemsAsync();
-            var fuelTypes = await this.fuelTypesService.GetAllAsSelectListItemsAsync();
-            var modelTypes = await this.modelTypesService.GetAllAsSelectListItemsAsync();
-            var series = await this.seriesService.GetAllAsSelectListItemsAsync();
-            var options = await this.carOptionsService.GetAllAsSelectListItemsAsync();
+            var engines = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Engine>();
+            var fuelTypes = await this.selectListItemsService.GetAllAsSelectListItemsAsync<FuelType>();
+            var modelTypes = await this.selectListItemsService.GetAllAsSelectListItemsAsync<ModelType>();
+            var series = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Series>();
+            var options = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Option>();
             var model = new AdminCarCreateBindingModel()
             {
                 Engines = engines,
@@ -116,11 +104,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var engines = await this.enginesService.GetAllAsSelectListItemsAsync();
-            var fuelTypes = await this.fuelTypesService.GetAllAsSelectListItemsAsync();
-            var modelTypes = await this.modelTypesService.GetAllAsSelectListItemsAsync();
-            var series = await this.seriesService.GetAllAsSelectListItemsAsync();
-            var options = await this.carOptionsService.GetAllAsSelectListItemsAsync();
+            var engines = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Engine>();
+            var fuelTypes = await this.selectListItemsService.GetAllAsSelectListItemsAsync<FuelType>();
+            var modelTypes = await this.selectListItemsService.GetAllAsSelectListItemsAsync<ModelType>();
+            var series = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Series>();
+            var options = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Option>();
             var model = new AdminCarEditBindingModel()
             {
                 Id = id,

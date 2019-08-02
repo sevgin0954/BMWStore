@@ -1,6 +1,8 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Entities;
 using BMWStore.Models.EngineModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,13 +10,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 {
     public class EnginesController : BaseAdminController
     {
-        private readonly IAdminTransmissionsService transmissionsService;
         private readonly IAdminEnginesService enginesService;
+        private readonly ISelectListItemsService selectListItemsService;
 
-        public EnginesController(IAdminTransmissionsService transmissionsService, IAdminEnginesService enginesService)
+        public EnginesController(IAdminEnginesService enginesService, ISelectListItemsService selectListItemsService)
         {
-            this.transmissionsService = transmissionsService;
             this.enginesService = enginesService;
+            this.selectListItemsService = selectListItemsService;
         }
 
         [HttpGet]
@@ -28,7 +30,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var transmissions = await this.transmissionsService.GetAllAsSelectListItemsAsync();
+            var transmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
             var model = new AdminEngineCreateBindingModel()
             {
                 Transmissions = transmissions
@@ -51,7 +53,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var transmissions = await this.transmissionsService.GetAllAsSelectListItemsAsync();
+            var transmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
             var model = new AdminEngineEditBindingModel()
             {
                 Id = id,

@@ -8,7 +8,6 @@ using BMWStore.Models.EngineModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,16 +44,6 @@ namespace BMWStore.Services.AdminServices
                 .ToArrayAsync();
 
             return models;
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
-        {
-            var selectListItems = await this.engineRepository
-                .GetAll()
-                .To<SelectListItem>()
-                .ToArrayAsync();
-
-            return selectListItems;
         }
 
         public async Task SetEditBindingModelPropertiesAsync(AdminEngineEditBindingModel model)

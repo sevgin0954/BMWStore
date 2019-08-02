@@ -7,7 +7,6 @@ using BMWStore.Models.ModelTypeModels.BindingModels;
 using BMWStore.Models.ModelTypeModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using MappingRegistrar;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -41,16 +40,6 @@ namespace BMWStore.Services.AdminServices
                 .ToArrayAsync();
 
             return models;
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItemsAsync()
-        {
-            var selectListItems = await this.modelTypeRepository
-                .GetAll()
-                .To<SelectListItem>()
-                .ToArrayAsync();
-
-            return selectListItems;
         }
 
         public async Task DeleteAsync(string modelTypeId)
