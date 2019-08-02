@@ -53,7 +53,6 @@ namespace BMWStore.Services.AdminServices
             return selectListItems;
         }
 
-        // TODO: Repeating code
         public async Task DeleteAsync(string seriesId)
         {
             var dbSeries = await this.seriesRepository.GetByIdAsync(seriesId);
