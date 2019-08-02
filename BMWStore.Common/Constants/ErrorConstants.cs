@@ -19,5 +19,6 @@
         public const string IncorrectParameterValue = "Incorrect parameter value";
 
         public const string StatusNotFound = "Status not found";
+        public const string StatusIsNotUpcoming = "You can check only test drives with upcoming status";
     }
 }

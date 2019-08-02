@@ -50,7 +50,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Check(string testDriveId)
         {
-            await this.adminTestDrivesService.CheckTestDriveStatusAsync(testDriveId);
+            await this.adminTestDrivesService.ChangeTestDriveStatusToPassedAsync(testDriveId);
 
             return RedirectToAction("Index");
         }

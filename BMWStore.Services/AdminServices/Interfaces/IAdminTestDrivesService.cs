@@ -8,7 +8,7 @@ namespace BMWStore.Services.AdminServices.Interfaces
     public interface IAdminTestDrivesService
     {
         Task<IEnumerable<TestDriveViewModel>> GetAllTestDrivesAsync(ITestDriveSortStrategy sortStrategy);
-        Task CheckTestDriveStatusAsync(string testDriveId);
+        Task ChangeTestDriveStatusToPassedAsync(string testDriveId);
         Task DeleteAsync(string testDriveId);
     }
 }
