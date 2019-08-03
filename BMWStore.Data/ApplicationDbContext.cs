@@ -207,7 +207,7 @@ namespace BMWStore.Data
                 user.HasMany(u => u.Roles)
                     .WithOne()
                     .HasForeignKey(r => r.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }
