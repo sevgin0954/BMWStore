@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
+﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
-using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.UserModels.ViewModels;
@@ -16,18 +15,20 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminUsersService : IAdminUsersService
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
+        private readonly IRoleRepository roleRepository;
+        private readonly IUserRepository userRepository;
 
-        public AdminUsersService(IBMWStoreUnitOfWork unitOfWork)
+        public AdminUsersService(IRoleRepository roleRepository, IUserRepository userRepository)
         {
-            this.unitOfWork = unitOfWork;
+            this.roleRepository = roleRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task<IEnumerable<UserAdminViewModel>> GetAllUsersAsync(IUserSortStrategy sortStrategy)
         {
-            var dbUserRoleId = await this.unitOfWork.Roles
+            var dbUserRoleId = await this.roleRepository
                 .GetIdByNameAsync(WebConstants.UserRoleName);
-            var models = await this.unitOfWork.Users
+            var models = await this.userRepository
                 .GetSortedWithRole(sortStrategy, dbUserRoleId)
                 .To<UserAdminViewModel>()
                 .ToArrayAsync();
@@ -37,7 +38,7 @@ namespace BMWStore.Services.AdminServices
 
         public async Task BanUserAsync(string userId)
         {
-            var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
+            var dbUser = await this.userRepository.GetByIdAsync(userId);
             DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
 
             if (this.IsUserBanned(dbUser))
@@ -47,12 +48,13 @@ namespace BMWStore.Services.AdminServices
 
             dbUser.LockoutEnd = DateTimeOffset.UtcNow.AddDays(WebConstants.UserBanDays);
 
-            await this.CompleteUnitOfWork();
+            var rowsAffected = await userRepository.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         public async Task UnbanUserAsync(string userId)
         {
-            var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
+            var dbUser = await this.userRepository.GetByIdAsync(userId);
             DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
 
             if (this.IsUserBanned(dbUser) == false)
@@ -62,7 +64,8 @@ namespace BMWStore.Services.AdminServices
 
             dbUser.LockoutEnd = null;
 
-            await this.CompleteUnitOfWork();
+            var rowsAffected = await userRepository.CompleteAsync();
+            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
         private bool IsUserBanned(User user)
@@ -77,17 +80,12 @@ namespace BMWStore.Services.AdminServices
 
         public async Task DeleteUserAsync(string userId)
         {
-            var dbUser = await this.unitOfWork.Users.GetByIdAsync(userId);
+            var dbUser = await this.userRepository.GetByIdAsync(userId);
             DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
 
-            this.unitOfWork.Users.Remove(dbUser);
+            this.userRepository.Remove(dbUser);
 
-            await this.CompleteUnitOfWork();
-        }
-
-        private async Task CompleteUnitOfWork()
-        {
-            var rowsAffected = await unitOfWork.CompleteAsync();
+            var rowsAffected = await userRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
     }

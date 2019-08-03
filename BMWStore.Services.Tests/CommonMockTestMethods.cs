@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.Tests
 {
-    public static class CommonTestMethods
+    public static class CommonMockTestMethods
     {
         public static Mock<UserManager<User>> GetMockedUserManager()
         {

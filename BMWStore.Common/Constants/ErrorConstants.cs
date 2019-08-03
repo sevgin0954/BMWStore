@@ -20,5 +20,7 @@
 
         public const string StatusNotFound = "Status not found";
         public const string StatusIsNotUpcoming = "You can check only test drives with upcoming status";
+
+        public const string RoleNotFound = "Role was not found";
     }
 }

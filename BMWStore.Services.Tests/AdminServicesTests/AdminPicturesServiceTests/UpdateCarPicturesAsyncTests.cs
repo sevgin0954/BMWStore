@@ -72,7 +72,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminPicturesServiceTests
         private IAdminPicturesService GetService(ApplicationDbContext dbContext, string newPictureUrl)
         {
             var mockedCloudinaryService = new Mock<ICloudinaryService>();
-            CommonTestMethods.SetupMockedCludinaryServiceUploadPicturesAsync(mockedCloudinaryService, newPictureUrl);
+            CommonMockTestMethods.SetupMockedCludinaryServiceUploadPicturesAsync(mockedCloudinaryService, newPictureUrl);
             var service = this.GetService(dbContext, mockedCloudinaryService.Object);
 
             return service;
