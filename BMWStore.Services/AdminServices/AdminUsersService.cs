@@ -9,6 +9,7 @@ using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
@@ -38,12 +39,10 @@ namespace BMWStore.Services.AdminServices
 
         public async Task BanUserAsync(string userId)
         {
-            var dbUser = await this.userRepository.GetByIdAsync(userId);
-            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
-
+            var dbUser = await this.GetValidatedUser(userId);
             if (this.IsUserBanned(dbUser))
             {
-                throw new ArgumentException(ErrorConstants.UserIsAlreadyBanned);
+                throw new ArgumentException(ErrorConstants.IncorrectUser);
             }
 
             dbUser.LockoutEnd = DateTimeOffset.UtcNow.AddDays(WebConstants.UserBanDays);
@@ -54,18 +53,25 @@ namespace BMWStore.Services.AdminServices
 
         public async Task UnbanUserAsync(string userId)
         {
-            var dbUser = await this.userRepository.GetByIdAsync(userId);
-            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
-
+            var dbUser = await this.GetValidatedUser(userId);
             if (this.IsUserBanned(dbUser) == false)
             {
-                throw new ArgumentException(ErrorConstants.UserIsNotBanned);
+                throw new ArgumentException(ErrorConstants.IncorrectUser);
             }
 
             dbUser.LockoutEnd = null;
 
             var rowsAffected = await userRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        private async Task<User> GetValidatedUser(string userId)
+        {
+            var dbUser = await this.userRepository.GetByIdWithRolesAsync(userId);
+            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+            await this.ValidateUserRoleAsync(dbUser);
+
+            return dbUser;
         }
 
         private bool IsUserBanned(User user)
@@ -82,11 +88,27 @@ namespace BMWStore.Services.AdminServices
         {
             var dbUser = await this.userRepository.GetByIdAsync(userId);
             DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+            await this.ValidateUserRoleAsync(dbUser);
 
             this.userRepository.Remove(dbUser);
 
             var rowsAffected = await userRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        private async Task ValidateUserRoleAsync(User user)
+        {
+            if (await this.IsUserInUserRoleAsync(user) == false)
+            {
+                throw new ArgumentException(ErrorConstants.IncorrectUser);
+            }
+        }
+
+        private async Task<bool> IsUserInUserRoleAsync(User user)
+        {
+            var dbUserRoleId = await this.roleRepository
+                .GetIdByNameAsync(WebConstants.UserRoleName);
+            return user.Roles.Any(r => r.RoleId == dbUserRoleId);
         }
     }
 }

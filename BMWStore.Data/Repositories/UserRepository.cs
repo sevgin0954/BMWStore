@@ -34,5 +34,15 @@ namespace BMWStore.Data.Repositories
                 .Sort(filteredUsers);
             return sortedUsers;
         }
+
+        public async Task<User> GetByIdWithRolesAsync(string userId)
+        {
+            var dbUser = await this.GetAll()
+                .Include(u => u.Roles)
+                .Where(u => u.Id == userId)
+                .FirstOrDefaultAsync();
+
+            return dbUser;
+        }
     }
 }

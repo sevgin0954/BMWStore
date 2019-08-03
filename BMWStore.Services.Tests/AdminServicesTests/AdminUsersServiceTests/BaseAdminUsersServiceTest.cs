@@ -4,6 +4,7 @@ using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 {
@@ -54,6 +55,12 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
             dbContext.SaveChanges();
 
             return dbUser;
+        }
+
+        protected void BanUser(ApplicationDbContext dbContext, User user)
+        {
+            user.LockoutEnd = DateTime.UtcNow.AddDays(1);
+            dbContext.SaveChanges();
         }
     }
 }

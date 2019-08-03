@@ -9,8 +9,7 @@
 
         public const string IncorrectId = "Incorrect id";
 
-        public const string UserIsAlreadyBanned = "User is already banned";
-        public const string UserIsNotBanned = "User is not banned";
+        public const string IncorrectUser = "You cant do that action on that user";
 
         public const string UnitOfWorkNoRowsAffected = "No rows affected in unit of work complete";
 

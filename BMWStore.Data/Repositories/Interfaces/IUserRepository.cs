@@ -12,5 +12,6 @@ namespace BMWStore.Data.Repositories.Interfaces
         IQueryable<User> GetSortedWithRole(
             IUserSortStrategy sortStrategy,
             string roleId);
+        Task<User> GetByIdWithRolesAsync(string userId);
     }
 }
