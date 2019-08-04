@@ -19,10 +19,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         public async void WithCorrectIdForNewCar_ShouldDeleteCar()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var carId = this.SeedCar<NewCar>(dbContext);
+            var dbNewCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
             var service = this.GetService(dbContext);
 
-            await service.DeleteCarAsync(carId);
+            await service.DeleteCarAsync(dbNewCar.Id);
 
             Assert.Empty(dbContext.BaseCars.ToList());
         }
@@ -31,10 +31,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         public async void WithCorrectIdForUsedCar_ShouldDeleteCar()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var carId = this.SeedCar<UsedCar>(dbContext);
+            var dbUsedCar = CommonSeedTestMethods.SeedCar<UsedCar>(dbContext);
             var service = this.GetService(dbContext);
 
-            await service.DeleteCarAsync(carId);
+            await service.DeleteCarAsync(dbUsedCar.Id);
 
             Assert.Empty(dbContext.BaseCars.ToList());
         }
@@ -43,10 +43,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         public async void WithIncorrectId_ShouldThrowException()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var carId = Guid.NewGuid().ToString();
+            var incorrectId = Guid.NewGuid().ToString();
             var service = this.GetService(dbContext);
 
-            var exception = await Assert.ThrowsAsync<ArgumentException>(() => service.DeleteCarAsync(carId));
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() => service.DeleteCarAsync(incorrectId));
             Assert.Equal(ErrorConstants.IncorrectId, exception.Message);
         }
     }

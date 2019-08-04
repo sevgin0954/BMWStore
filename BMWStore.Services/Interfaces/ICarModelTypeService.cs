@@ -8,6 +8,6 @@ namespace BMWStore.Services.Interfaces
 {
     public interface ICarModelTypeService
     {
-        Task<ICollection<FilterTypeBindingModel>> GetModelTypeFilterModels(IQueryable<BaseCar> cars);
+        Task<ICollection<FilterTypeBindingModel>> GetModelTypeFilterModelsAsync(IQueryable<BaseCar> cars);
     }
 }

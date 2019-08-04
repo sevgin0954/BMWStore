@@ -10,7 +10,7 @@ namespace BMWStore.Services
 {
     public class CarModelTypeService : ICarModelTypeService
     {
-        public async Task<ICollection<FilterTypeBindingModel>> GetModelTypeFilterModels(IQueryable<BaseCar> cars)
+        public async Task<ICollection<FilterTypeBindingModel>> GetModelTypeFilterModelsAsync(IQueryable<BaseCar> cars)
         {
             var modelTypeModels = await cars
                 .GroupBy(c => new { Value = c.ModelType.Id, Text = c.ModelType.Name })

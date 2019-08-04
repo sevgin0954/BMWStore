@@ -1,6 +1,8 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Data;
+using BMWStore.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace BMWStore.Services.Tests
 {
@@ -39,6 +41,51 @@ namespace BMWStore.Services.Tests
             dbContext.SaveChanges();
 
             return userRole;
+        }
+
+        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext, ICollection<Picture> pictures)
+            where TCar : BaseCar, new()
+        {
+            var dbCar = new TCar()
+            {
+                Pictures = pictures
+            };
+            dbContext.BaseCars.Add(dbCar);
+            dbContext.SaveChanges();
+
+            return dbCar;
+        }
+
+        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext, ICollection<CarOption> options) 
+            where TCar : BaseCar, new()
+        {
+            var dbCar = new TCar()
+            {
+                Options = options
+            };
+            dbContext.BaseCars.Add(dbCar);
+            dbContext.SaveChanges();
+
+            return dbCar;
+        }
+
+        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext, ModelType modelType) where TCar : BaseCar, new()
+        {
+            var dbCar = new TCar();
+            dbCar.ModelType = modelType;
+            dbContext.BaseCars.Add(dbCar);
+            dbContext.SaveChanges();
+
+            return dbCar;
+        }
+
+        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
+        {
+            var dbCar = new TCar();
+            dbContext.BaseCars.Add(dbCar);
+            dbContext.SaveChanges();
+
+            return dbCar;
         }
     }
 }

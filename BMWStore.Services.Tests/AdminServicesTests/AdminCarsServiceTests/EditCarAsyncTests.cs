@@ -39,7 +39,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         {
             var dbContext = this.baseTest.GetDbContext();
             var dbPictures = this.CreatePictures(Guid.NewGuid().ToString());
-            var dbCar = this.SeedNewCar(dbContext, dbPictures);
+            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbPictures);
 
             var model = this.CreateCarEditModel(dbCar.Id);
             var service = this.GetService(dbContext);
@@ -54,7 +54,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         {
             var dbContext = this.baseTest.GetDbContext();
             var dbPictures = this.CreatePictures(Guid.NewGuid().ToString());
-            var dbCar = this.SeedNewCar(dbContext, dbPictures);
+            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbPictures);
 
             var inputPicture = this.CreateInputPicture();
             var model = this.CreateCarEditModel(dbCar.Id, inputPicture);
@@ -73,7 +73,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var dbContext = this.baseTest.GetDbContext();
             var dbOptions = this.CreateOptions(2);
             var dbCarOptions = this.CreateCarOptions(dbOptions);
-            var dbCar = this.SeedNewCar(dbContext, dbCarOptions);
+            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbCarOptions);
 
             var service = this.GetService(dbContext);
 
@@ -90,7 +90,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var dbOptions = this.CreateOptions(2);
             var selectedOptions = dbOptions.Take(1);
             var dbCarOptions = this.CreateCarOptions(selectedOptions);
-            var dbCar = this.SeedNewCar(dbContext, dbCarOptions);
+            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbCarOptions);
 
             var service = this.GetService(dbContext);
 
