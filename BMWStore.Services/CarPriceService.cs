@@ -13,6 +13,8 @@ namespace BMWStore.Services
 {
     public class CarPriceService : ICarPriceService
     {
+        private const string PriceColumnName = "Price";
+
         private readonly IBMWStoreUnitOfWork unitOfWork;
 
         public CarPriceService(IBMWStoreUnitOfWork unitOfWork)
@@ -22,22 +24,34 @@ namespace BMWStore.Services
 
         public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModels(IEnumerable<CarConciseViewModel> carModels)
         {
-            var carType = new SqlParameter("type", "NewCar");
-
             var dataTable = new DataTable("BaseCars");
-            dataTable.Columns.Add("Price");
+            this.AddDataToDataTable(dataTable, carModels);
+
+            var cars = new SqlParameter("cars", SqlDbType.Structured)
+            {
+                TypeName = "[dbo].[BaseCars]",
+                Value = dataTable
+            };
+            var priceModels = await this.GetFilterModelsFromProcedureAsync(cars);
+
+            return priceModels;
+        }
+
+        private void AddDataToDataTable(DataTable dataTable, IEnumerable<CarConciseViewModel> carModels)
+        {
+            dataTable.Columns.Add(PriceColumnName);
             foreach (var car in carModels)
             {
                 var row = dataTable.NewRow();
-                row["Price"] = car.Price;
+                row[PriceColumnName] = car.Price;
                 dataTable.Rows.Add(row);
             }
+        }
 
-            var cars = new SqlParameter("cars", SqlDbType.Structured);
-            cars.TypeName = "[dbo].[BaseCars]";
-            cars.Value = dataTable;
+        private async Task<ICollection<FilterTypeBindingModel>> GetFilterModelsFromProcedureAsync(SqlParameter cars)
+        {
             var priceModels = await this.unitOfWork.Query<FilterTypeBindingModel>()
-                .FromSql("EXECUTE usp_GetCarPriceRangesCount @cars=@cars", cars)
+                .FromSql($"EXECUTE usp_GetCarPriceRangesCount @{cars.ParameterName}=@cars", cars)
                 .Select(c => new FilterTypeBindingModel() { Value = c.Value, Text = $"{c.Text} ({c.CarsCount})" })
                 .ToListAsync();
 
