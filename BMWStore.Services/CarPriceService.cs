@@ -1,4 +1,5 @@
-﻿using BMWStore.Data.Interfaces;
+﻿using BMWStore.Data;
+using BMWStore.Data.Interfaces;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
@@ -15,14 +16,14 @@ namespace BMWStore.Services
     {
         private const string PriceColumnName = "Price";
 
-        private readonly IBMWStoreUnitOfWork unitOfWork;
+        private readonly ApplicationDbContext dbContext;
 
-        public CarPriceService(IBMWStoreUnitOfWork unitOfWork)
+        public CarPriceService(ApplicationDbContext dbContext)
         {
-            this.unitOfWork = unitOfWork;
+            this.dbContext = dbContext;
         }
 
-        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModels(IEnumerable<CarConciseViewModel> carModels)
+        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync(IEnumerable<CarConciseViewModel> carModels)
         {
             var dataTable = new DataTable("BaseCars");
             this.AddDataToDataTable(dataTable, carModels);
@@ -50,7 +51,7 @@ namespace BMWStore.Services
 
         private async Task<ICollection<FilterTypeBindingModel>> GetFilterModelsFromProcedureAsync(SqlParameter cars)
         {
-            var priceModels = await this.unitOfWork.Query<FilterTypeBindingModel>()
+            var priceModels = await this.dbContext.Query<FilterTypeBindingModel>()
                 .FromSql($"EXECUTE usp_GetCarPriceRangesCount @{cars.ParameterName}=@cars", cars)
                 .Select(c => new FilterTypeBindingModel() { Value = c.Value, Text = $"{c.Text} ({c.CarsCount})" })
                 .ToListAsync();

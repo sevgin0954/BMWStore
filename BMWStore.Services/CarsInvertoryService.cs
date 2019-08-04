@@ -57,9 +57,9 @@ namespace BMWStore.Services
 
             // TODO: Use caching
             var yearModels = await this.carYearService.GetYearFilterModels(cars);
-            var seriesModels = await this.carSeriesService.GetSeriesFilterModels(cars);
+            var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
             var modelTypeModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
-            var priceModels = await this.carPriceService.GetPriceFilterModels(carModels);
+            var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(carModels);
 
             var model = new CarsInvertoryViewModel();
 

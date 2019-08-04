@@ -17,7 +17,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.CarModelTypeServiceTests
         public async void WithouCars_ShouldReturnEmptyCollection()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var service = this.GetService(dbContext);
+            var service = this.GetService();
 
             var models = await service.GetModelTypeFilterModelsAsync(dbContext.BaseCars);
 
@@ -28,7 +28,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.CarModelTypeServiceTests
         public async void WithCar_ShouldReturnModelWithCorrectValue()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var service = this.GetService(dbContext);
+            var service = this.GetService();
             var dbCar = this.SeedCarWithModelType<UsedCar>(dbContext);
 
             var models = await service.GetModelTypeFilterModelsAsync(dbContext.BaseCars);
@@ -38,10 +38,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.CarModelTypeServiceTests
         }
 
         [Fact]
-        public async void WithNewCarsWithDifferentModels_ShouldReturnCorrectModelTypes()
+        public async void WithCarsWithDifferentModels_ShouldReturnCorrectModelTypes()
         {
             var dbContext = this.baseTest.GetDbContext();
-            var service = this.GetService(dbContext);
+            var service = this.GetService();
             var dbCar1 = this.SeedCarWithModelType<UsedCar>(dbContext);
             var dbCar2 = this.SeedCarWithModelType<UsedCar>(dbContext);
 

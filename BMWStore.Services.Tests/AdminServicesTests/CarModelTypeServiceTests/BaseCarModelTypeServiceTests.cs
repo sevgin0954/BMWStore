@@ -7,7 +7,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.CarModelTypeServiceTests
 {
     public abstract class BaseCarModelTypeServiceTests
     {
-        protected ICarModelTypeService GetService(ApplicationDbContext dbContext)
+        protected ICarModelTypeService GetService()
         {
             var service = new CarModelTypeService();
 
