@@ -2,16 +2,17 @@
 using BMWStore.Services.AdminServices.Interfaces;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Common.Enums;
 using System.Linq;
-using BMWStore.Data.SortStrategies.TestDriveStrategies.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Models.AdminModels.ViewModels;
+using BMWStore.Common.Helpers;
 
 namespace BMWStore.Services.AdminServices
 {
@@ -20,19 +21,39 @@ namespace BMWStore.Services.AdminServices
         private readonly ITestDriveRepository testDriveRepository;
         private readonly IStatusRepository statusRepository;
 
-        public AdminTestDrivesService(ITestDriveRepository testDriveRepository, IStatusRepository statusRepository)
+        public AdminTestDrivesService(
+            ITestDriveRepository testDriveRepository, 
+            IStatusRepository statusRepository)
         {
             this.testDriveRepository = testDriveRepository;
             this.statusRepository = statusRepository;
         }
 
-        public async Task<IEnumerable<TestDriveViewModel>> GetAllTestDrivesAsync(ITestDriveSortStrategy sortStrategy)
+        public async Task<AdminTestDrivesViewModel> GetTestDriveViewModelAsync(
+            AdminTestDrivesSortStrategyType sortType,
+            SortStrategyDirection sortDirection,
+            int pageNumber)
         {
-            var models = await sortStrategy.Sort(this.testDriveRepository.GetAll())
+            var sortStrategy = TestDriveSortStrategyFactory.GetStrategy(sortType, sortDirection);
+            var sortedTestDrives = sortStrategy.Sort(this.testDriveRepository.GetAll());
+
+            var testDriveModels = await sortedTestDrives
+                .GetFromPage(pageNumber)
                 .To<TestDriveViewModel>()
                 .ToArrayAsync();
 
-            return models;
+            var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(sortedTestDrives);
+
+            var model = new AdminTestDrivesViewModel()
+            {
+                TestDrives = testDriveModels,
+                SortDirection = sortDirection,
+                SortStrategyType = sortType,
+                CurrentPage = pageNumber,
+                TotalPagesCount = totalPagesCount
+            };
+
+            return model;
         }
 
         public async Task ChangeTestDriveStatusToPassedAsync(string testDriveId)

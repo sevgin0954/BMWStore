@@ -1,9 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
-using BMWStore.Data.Factories.FilterStrategyFactory;
-using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Entities;
-using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
@@ -16,25 +13,23 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminCarsService adminCarsService;
         private readonly ISortCookieService sortCookieService;
-        private readonly ICarsService carsService;
         private readonly ISelectListItemsService selectListItemsService;
 
         public CarsController(
             IAdminCarsService adminCarsService, 
             ISortCookieService sortCookieService,
-            ICarsService carsService,
             ISelectListItemsService selectListItemsService)
         {
             this.adminCarsService = adminCarsService;
             this.sortCookieService = sortCookieService;
-            this.carsService = carsService;
             this.selectListItemsService = selectListItemsService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(
             string id,
-            AdminBaseCarFilterStrategy filter = AdminBaseCarFilterStrategy.All)
+            AdminBaseCarFilterStrategy filter = AdminBaseCarFilterStrategy.All,
+            int pageNumber = 1)
         {
             var cookies = this.HttpContext.Request.Cookies;
 
@@ -44,16 +39,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
             var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<AdminBaseCarSortStrategyType>(cookies, sortTypeKey);
 
-            var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
-            var filterStrategy = AdminCarFilterStrategyFactory.GetStrategy(filter, id);
-            var cars = await this.carsService.GetAllCarsAsync(sortStrategy, filterStrategy);
-            var model = new AdminCarsViewModel()
-            {
-                Cars = cars,
-                SortStrategyDirection = this.sortCookieService
-                    .GetSortStrategyDirectionOrDefault(cookies, sortDirectionKey),
-                SortStrategyType = sortType
-            };
+            var model = await this.adminCarsService.GetCarsViewModelAsync(id, sortDirection, sortType, filter, pageNumber);
 
             return View(model);
         }

@@ -21,7 +21,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
             var cookies = this.HttpContext.Request.Cookies;
 
@@ -33,14 +33,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortDirection = this.sortCookieService
                 .GetSortStrategyDirectionOrDefault(cookies, sortDirectionKey);
 
-            var sortStrategy = TestDriveSortStrategyFactory.GetStrategy(sortType, sortDirection);
-            var testDriveModels = await this.adminTestDrivesService.GetAllTestDrivesAsync(sortStrategy);
-            var model = new AdminTestDrivesViewModel()
-            {
-                TestDrives = testDriveModels,
-                SortDirection = sortDirection,
-                SortStrategyType = sortType
-            };
+            var model = await this.adminTestDrivesService.GetTestDriveViewModelAsync(sortType, sortDirection, pageNumber);
 
             this.ViewData["returnUrl"] = "/Admin/TestDrives";
 

@@ -1,0 +1,9 @@
+﻿@model BasePaginationModel
+<ul class="pagination">
+    @for (int i = 1; i <= Model.TotalPagesCount; i++)
+    {
+        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+            <a asp-action="Index" asp-route-pageNumber="@i" class="page-link">@i</a>
+        </li>
+    }
+</ul>

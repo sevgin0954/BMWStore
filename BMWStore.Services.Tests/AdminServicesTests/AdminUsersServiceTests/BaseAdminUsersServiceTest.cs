@@ -3,7 +3,9 @@ using BMWStore.Data.Repositories;
 using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Moq;
 using System;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
@@ -14,7 +16,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         {
             var roleRepository = new RoleRepository(dbContext);
             var userRepository = new UserRepository(dbContext);
-            var service = new AdminUsersService(roleRepository, userRepository);
+            var sortCookieService = new Mock<ISortCookieService>().Object;
+            var service = new AdminUsersService(roleRepository, userRepository, sortCookieService);
 
             return service;
         }

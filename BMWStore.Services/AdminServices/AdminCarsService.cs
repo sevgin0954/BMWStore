@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
+using BMWStore.Common.Enums;
+using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Factories.FilterStrategyFactory;
+using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
@@ -20,17 +25,48 @@ namespace BMWStore.Services.AdminServices
         private readonly ICarOptionRepository carOptionRepository;
         private readonly IAdminPicturesService adminPicturesService;
         private readonly ISelectListItemsService selectListItemsService;
+        private readonly ICarsService carsService;
 
         public AdminCarsService(
             ICarRepository carRepository,
             ICarOptionRepository carOptionRepository,
             IAdminPicturesService adminPicturesService,
-            ISelectListItemsService selectListItemsService)
+            ISelectListItemsService selectListItemsService,
+            ICarsService carsService)
         {
             this.carRepository = carRepository;
             this.carOptionRepository = carOptionRepository;
             this.adminPicturesService = adminPicturesService;
             this.selectListItemsService = selectListItemsService;
+            this.carsService = carsService;
+        }
+
+        public async Task<AdminCarsViewModel> GetCarsViewModelAsync(
+            string id,
+            SortStrategyDirection sortDirection,
+            AdminBaseCarSortStrategyType sortType,
+            AdminBaseCarFilterStrategy filter,
+            int pageNumber)
+        {
+            var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
+            var filterStrategy = AdminCarFilterStrategyFactory.GetStrategy(filter, id);
+
+            var filteredCars = this.carRepository.GetFiltered(filterStrategy);
+            var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
+
+            var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(filteredAndSortedCars);
+
+            var cars = await this.carsService.GetAllCarsAsync(filteredAndSortedCars, pageNumber);
+            var model = new AdminCarsViewModel()
+            {
+                Cars = cars,
+                SortStrategyDirection = sortDirection,
+                SortStrategyType = sortType,
+                CurrentPage = pageNumber,
+                TotalPagesCount = (int)totalPagesCount
+            };
+
+            return model;
         }
 
         public async Task CreateCarAsync<TCar>(AdminCarCreateBindingModel model) where TCar : BaseCar

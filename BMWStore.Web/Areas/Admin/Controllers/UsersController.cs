@@ -21,21 +21,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
             var cookies = this.HttpContext.Request.Cookies;
-            var sortStrategyName = this.cookieService
-                .GetSortStrategyTypeOrDefault<UserSortStrategyType>(cookies, WebConstants.CookieAdminUsersSortTypeKey);
-            var sortDirection = this.cookieService
-                .GetSortStrategyDirectionOrDefault(this.HttpContext.Request.Cookies, WebConstants.CookieAdminUsersSortDirectionKey);
-            var sortStrategy = UserSortStrategyFactory
-                .GetStrategy(sortStrategyName, sortDirection);
-            var model = new AdminUsersViewModel()
-            {
-                Users = await this.adminUsersService.GetAllUsersAsync(sortStrategy),
-                SortStrategyDirection = sortDirection,
-                SortStrategyType = sortStrategyName
-            };
+            var model = await this.adminUsersService.GetSortedUsersAsync(cookies, pageNumber);
 
             return View(model);
         }

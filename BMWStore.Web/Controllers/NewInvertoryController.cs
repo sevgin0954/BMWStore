@@ -3,6 +3,7 @@ using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.BindingModels;
 using BMWStore.Services.Interfaces;
@@ -15,18 +16,18 @@ namespace BMWStore.Web.Controllers
 {
     public class NewInvertoryController : Controller
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
         private readonly ICarsInvertoryService carsInvertoryService;
         private readonly ISortCookieService sortCookieService;
+        private readonly INewCarRepository newCarRepository;
 
         public NewInvertoryController(
-            IBMWStoreUnitOfWork unitOfWork,
             ICarsInvertoryService carsInvertoryService, 
-            ISortCookieService sortCookieService)
+            ISortCookieService sortCookieService,
+            INewCarRepository newCarRepository)
         {
-            this.unitOfWork = unitOfWork;
             this.carsInvertoryService = carsInvertoryService;
             this.sortCookieService = sortCookieService;
+            this.newCarRepository = newCarRepository;
         }
 
         [HttpGet]
@@ -38,7 +39,7 @@ namespace BMWStore.Web.Controllers
             var sortDirection = this.sortCookieService.GetSortStrategyDirectionOrDefault(cookie, sortDirectionKey);
 
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
-            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<NewCarSortStrategyType>(cookie, sortTypeKey);
+            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
 
             var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
 
@@ -46,11 +47,12 @@ namespace BMWStore.Web.Controllers
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series, model.ModelTypes);
 
-            var filteredCars = this.unitOfWork.NewCars
+            var filteredCars = this.newCarRepository
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
+
             var viewModel = await this.carsInvertoryService
-                .GetInvertoryBindingModel(sortedAndFilteredCars, sortType, sortDirection, this.User);
+                .GetInvertoryBindingModel(sortedAndFilteredCars, this.User, model.PageNumber);
             this.carsInvertoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             return View(viewModel);
@@ -75,7 +77,7 @@ namespace BMWStore.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeSortType(NewCarSortStrategyType sortStrategyType, string returnUrl)
+        public IActionResult ChangeSortType(BaseCarSortStrategyType sortStrategyType, string returnUrl)
         {
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
             this.sortCookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);

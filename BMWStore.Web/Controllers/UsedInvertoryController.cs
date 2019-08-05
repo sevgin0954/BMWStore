@@ -3,6 +3,7 @@ using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Interfaces;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.BindingModels;
 using BMWStore.Services.Interfaces;
@@ -15,17 +16,18 @@ namespace BMWStore.Web.Controllers
 {
     public class UsedInvertoryController : Controller
     {
-        private readonly IBMWStoreUnitOfWork unitOfWork;
         private readonly ICarsInvertoryService carsInvertoryService;
         private readonly ISortCookieService sortCookieService;
+        private readonly IUsedCarRepository usedCarRepository;
 
-        public UsedInvertoryController(IBMWStoreUnitOfWork unitOfWork,
+        public UsedInvertoryController(
             ICarsInvertoryService carsInvertoryService,
-            ISortCookieService sortCookieService)
+            ISortCookieService sortCookieService,
+            IUsedCarRepository usedCarRepository)
         {
-            this.unitOfWork = unitOfWork;
             this.carsInvertoryService = carsInvertoryService;
             this.sortCookieService = sortCookieService;
+            this.usedCarRepository = usedCarRepository;
         }
 
         [HttpGet]
@@ -45,11 +47,12 @@ namespace BMWStore.Web.Controllers
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series, model.ModelTypes);
 
-            var filteredCars = this.unitOfWork.UsedCars
+            var filteredCars = this.usedCarRepository
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
+
             var viewModel = await this.carsInvertoryService
-                .GetInvertoryBindingModel(sortedAndFilteredCars, sortType, sortDirection, this.User);
+                .GetInvertoryBindingModel(sortedAndFilteredCars, this.User, model.PageNumber);
             this.carsInvertoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             return View(viewModel);

@@ -29,6 +29,8 @@
         public const string CookieAdminUsersSortDirectionKey = "___AdminUsersSortDirection___";
         public const string CookieAdminUsersSortTypeKey = "___AdminUsersSortType___";
 
+        public const int PageSize = 10;
+
         public const string ReturnControllerName = "returnController";
         public const string ReturnActionName = "returnAction";
 

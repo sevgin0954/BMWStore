@@ -1,10 +1,11 @@
 ﻿using BMWStore.Common.Enums;
+using BMWStore.Models.PaginationModels;
 using BMWStore.Models.UserModels.ViewModels;
 using System.Collections.Generic;
 
 namespace BMWStore.Models.AdminModels.ViewModels
 {
-    public class AdminUsersViewModel
+    public class AdminUsersViewModel : BasePaginationModel
     {
         public SortStrategyDirection SortStrategyDirection { get; set; }
 

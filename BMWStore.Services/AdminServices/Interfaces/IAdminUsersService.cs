@@ -1,13 +1,12 @@
-﻿using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
-using BMWStore.Models.UserModels.ViewModels;
-using System.Collections.Generic;
+﻿using BMWStore.Models.AdminModels.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminUsersService
     {
-        Task<IEnumerable<UserAdminViewModel>> GetAllUsersAsync(IUserSortStrategy sortStrategy);
+        Task<AdminUsersViewModel> GetSortedUsersAsync(IRequestCookieCollection requestCookies, int pageNumber);
         Task BanUserAsync(string userId);
         Task UnbanUserAsync(string userId);
         Task DeleteUserAsync(string userId);

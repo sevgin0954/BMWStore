@@ -7,7 +7,7 @@ namespace BMWStore.Data.Repositories.Generic.Interfaces
 {
     public interface IBaseCarRepository<TCar> where TCar : BaseCar
     {
-        IQueryable<TCar> GetAllSorted(ICarSortStrategy<BaseCar> sortStrategy);
+        IQueryable<TCar> GetAllSorted(ICarSortStrategy<TCar> sortStrategy);
         IQueryable<TCar> GetFiltered(params ICarFilterStrategy[] filterStrategies);
     }
 }

@@ -71,7 +71,6 @@ namespace ServiceLayerRegistrar
             }
         }
 
-        // TODO: Make to detect only direct interfaces
         private Type GetClassInterfaceTypeToRegister(Type classType, Type[] classInterfaces)
         {
             var classTypeInterfaceName = $"I{classType.Name}";

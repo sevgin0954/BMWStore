@@ -87,5 +87,19 @@ namespace BMWStore.Services.Tests
 
             return dbCar;
         }
+
+        public static TCar SeedCarWithEverything<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
+        {
+            var pictures = new List<Picture>() { new Picture() { PublicId = "" } };
+            var dbCar = new TCar();
+            dbCar.Pictures = pictures;
+            dbCar.ModelType = new ModelType();
+            dbCar.Series = new Series();
+
+            dbContext.BaseCars.Add(dbCar);
+            dbContext.SaveChanges();
+
+            return dbCar;
+        }
     }
 }

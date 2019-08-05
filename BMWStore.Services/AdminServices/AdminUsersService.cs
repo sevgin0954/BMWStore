@@ -1,11 +1,17 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Enums;
+using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.UserModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using MappingRegistrar;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,23 +24,47 @@ namespace BMWStore.Services.AdminServices
     {
         private readonly IRoleRepository roleRepository;
         private readonly IUserRepository userRepository;
+        private readonly ISortCookieService sortCookieService;
 
-        public AdminUsersService(IRoleRepository roleRepository, IUserRepository userRepository)
+        public AdminUsersService(
+            IRoleRepository roleRepository, 
+            IUserRepository userRepository, 
+            ISortCookieService sortCookieService)
         {
             this.roleRepository = roleRepository;
             this.userRepository = userRepository;
+            this.sortCookieService = sortCookieService;
         }
 
-        public async Task<IEnumerable<UserAdminViewModel>> GetAllUsersAsync(IUserSortStrategy sortStrategy)
+        public async Task<AdminUsersViewModel> GetSortedUsersAsync(IRequestCookieCollection requestCookies, int pageNumber)
         {
+            var sortStrategyName = this.sortCookieService
+                .GetSortStrategyTypeOrDefault<UserSortStrategyType>(requestCookies, WebConstants.CookieAdminUsersSortTypeKey);
+            var sortDirection = this.sortCookieService
+                .GetSortStrategyDirectionOrDefault(requestCookies, WebConstants.CookieAdminUsersSortDirectionKey);
+            var sortStrategy = UserSortStrategyFactory.GetStrategy(sortStrategyName, sortDirection);
+
             var dbUserRoleId = await this.roleRepository
                 .GetIdByNameAsync(WebConstants.UserRoleName);
-            var models = await this.userRepository
-                .GetSortedWithRole(sortStrategy, dbUserRoleId)
+            var dbUsers = this.userRepository
+                .GetSortedWithRole(sortStrategy, dbUserRoleId);
+            var userModels = await dbUsers
+                .GetFromPage(pageNumber)
                 .To<UserAdminViewModel>()
                 .ToArrayAsync();
 
-            return models;
+            var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(dbUsers);
+
+            var model = new AdminUsersViewModel()
+            {
+                Users = userModels,
+                SortStrategyDirection = sortDirection,
+                SortStrategyType = sortStrategyName,
+                CurrentPage = pageNumber,
+                TotalPagesCount = totalPagesCount
+            };
+
+            return model;
         }
 
         public async Task BanUserAsync(string userId)

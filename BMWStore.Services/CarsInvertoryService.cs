@@ -13,6 +13,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
+using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
+using BMWStore.Common.Helpers;
+using BMWStore.Data.Repositories.Interfaces;
 
 namespace BMWStore.Services
 {
@@ -49,24 +54,27 @@ namespace BMWStore.Services
 
         public async Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
             IQueryable<BaseCar> cars,
-            Enum sortStrategy,
-            Enums.SortStrategyDirection sortDirection,
-            ClaimsPrincipal user)
+            ClaimsPrincipal user,
+            int pageNumber)
         {
-            var carModels = await cars.To<CarConciseViewModel>().ToArrayAsync();
+            var totalCarPages = await PaginationHelper.CalculateTotalPagesCount(cars);
 
-            // TODO: Use caching
+            var carModels = await cars
+                .GetFromPage(pageNumber)
+                .To<CarConciseViewModel>().ToArrayAsync();
+
             var yearModels = await this.carYearService.GetYearFilterModels(cars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
             var modelTypeModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
             var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(carModels);
 
-            var model = new CarsInvertoryViewModel();
+            var model = new CarsInvertoryViewModel()
+            {
+                CurrentPage = pageNumber,
+                TotalPagesCount = totalCarPages
+            };
 
-            var allFilterModel = this.AddAllFilterTypeModel();
-            model.Years.Add(allFilterModel);
-            model.Series.Add(allFilterModel);
-            model.Prices.Add(allFilterModel);
+            this.AddAllFilterTypeModels(model);
 
             model.Years.AddRange(yearModels);
             model.Series.AddRange(seriesModels);
@@ -74,9 +82,6 @@ namespace BMWStore.Services
             model.Prices.AddRange(priceModels);
 
             model.Cars = carModels;
-
-            model.SortStrategyType = sortStrategy;
-            model.SortStrategyDirection = sortDirection;
 
             if (this.signInManager.IsSignedIn(user))
             {
@@ -89,15 +94,17 @@ namespace BMWStore.Services
             return model;
         }
 
-        private FilterTypeBindingModel AddAllFilterTypeModel()
+        private void AddAllFilterTypeModels(CarsInvertoryViewModel model)
         {
-            var allModel = new FilterTypeBindingModel()
+            var allFilterModel = new FilterTypeBindingModel()
             {
                 Text = WebConstants.AllFilterTypeModelText,
                 Value = WebConstants.AllFilterTypeModelValue
             };
 
-            return allModel;
+            model.Years.Add(allFilterModel);
+            model.Series.Add(allFilterModel);
+            model.Prices.Add(allFilterModel);
         }
 
         public void SelectModelFilterItems(CarsInvertoryViewModel model,

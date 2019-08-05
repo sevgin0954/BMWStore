@@ -64,7 +64,7 @@ namespace BMWStore.Data
                 car.HasMany(c => c.Options)
                     .WithOne(o => o.Car)
                     .HasForeignKey(o => o.CarId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 car.HasMany(c => c.Pictures)
                     .WithOne(p => p.Car)
@@ -79,7 +79,7 @@ namespace BMWStore.Data
                 carOption.HasOne(co => co.Car)
                     .WithMany(c => c.Options)
                     .HasForeignKey(co => co.CarId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 carOption.HasOne(co => co.Option)
                     .WithMany(o => o.CarsOptions)

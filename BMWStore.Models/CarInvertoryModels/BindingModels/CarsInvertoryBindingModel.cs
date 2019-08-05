@@ -9,5 +9,6 @@ namespace BMWStore.Models.CarInvertoryModels.BindingModels
         public string Year { get; set; } = WebConstants.AllFilterTypeModelValue;
         public string PriceRange { get; set; } = WebConstants.AllFilterTypeModelValue;
         public string Series { get; set; } = WebConstants.AllFilterTypeModelValue;
+        public int PageNumber { get; set; } = 1;
     }
 }

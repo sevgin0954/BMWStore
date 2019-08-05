@@ -1,7 +1,5 @@
-﻿using BMWStore.Common.Enums;
-using BMWStore.Entities;
+﻿using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -13,9 +11,8 @@ namespace BMWStore.Services.Interfaces
     {
         Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
             IQueryable<BaseCar> cars,
-            Enum sortStrategy,
-            SortStrategyDirection sortDirection,
-            ClaimsPrincipal user);
+            ClaimsPrincipal user,
+            int pageNumber);
         void SelectModelFilterItems(CarsInvertoryViewModel model,
             string year,
             string priceRange,

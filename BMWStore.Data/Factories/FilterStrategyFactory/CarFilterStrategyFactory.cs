@@ -9,6 +9,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
 {
     public class CarFilterStrategyFactory
     {
+        // TODO: Implement special case pattern
         public static IEnumerable<ICarFilterStrategy> GetStrategies(
             string year,
             decimal? minPrice,

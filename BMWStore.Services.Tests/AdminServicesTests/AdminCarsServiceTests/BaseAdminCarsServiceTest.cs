@@ -21,8 +21,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var carsRepository = new CarRepository(dbContext);
             var carOptionsRepository = new CarOptionRepository(dbContext);
             var selectListItemsService = new Mock<ISelectListItemsService>().Object;
+            var carsService = new CarsService();
 
-            var service = new AdminCarsService(carsRepository, carOptionsRepository, pictureService, selectListItemsService);
+            var service = new AdminCarsService(
+                carsRepository, 
+                carOptionsRepository,
+                pictureService, 
+                selectListItemsService, 
+                carsService);
 
             return service;
         }
