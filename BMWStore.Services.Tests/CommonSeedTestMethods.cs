@@ -1,4 +1,5 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Enums;
 using BMWStore.Data;
 using BMWStore.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -183,15 +184,18 @@ namespace BMWStore.Services.Tests
             return dbCar;
         }
 
-        public static TestDrive SeedTestDriveWithCar<TCar>(ApplicationDbContext dbContext, string usedId)
+        public static TestDrive SeedTestDriveWithCar<TCar>(
+            ApplicationDbContext dbContext,
+            string userId,
+            TestDriveStatus status = TestDriveStatus.Upcoming)
             where TCar : BaseCar, new()
         {
-            var dbStatus = CommonCreateEntitiesTestMethods.CreateStatus(dbContext);
             var dbCar = SeedCarWithEverything<TCar>(dbContext);
+            var dbStatus = CommonCreateEntitiesTestMethods.CreateStatus(dbContext, status);
             var dbTestDrive = new TestDrive()
             {
                 Car = dbCar,
-                UserId = usedId,
+                UserId = userId,
                 Status = dbStatus
             };
 
@@ -199,6 +203,55 @@ namespace BMWStore.Services.Tests
             dbContext.SaveChanges();
 
             return dbTestDrive;
+        }
+
+        public static TestDrive SeedTestDriveWithCar<TCar>(
+            ApplicationDbContext dbContext, 
+            string userId,
+            Status status)
+            where TCar : BaseCar, new()
+        {
+            var dbCar = SeedCarWithEverything<TCar>(dbContext);
+            var dbTestDrive = new TestDrive()
+            {
+                Car = dbCar,
+                UserId = userId,
+                Status = status
+            };
+
+            dbContext.TestDrives.Add(dbTestDrive);
+            dbContext.SaveChanges();
+
+            return dbTestDrive;
+        }
+
+        public static TestDrive SeedTestDriveWithUser(
+            ApplicationDbContext dbContext, 
+            string userId, 
+            Status status)
+        {
+            var dbTestDrive = new TestDrive()
+            {
+                UserId = userId,
+                Status = status
+            };
+
+            dbContext.TestDrives.Add(dbTestDrive);
+            dbContext.SaveChanges();
+
+            return dbTestDrive;
+        }
+
+        public static Status SeedStatus(ApplicationDbContext dbContext, TestDriveStatus status)
+        {
+            var dbStatus = new Status()
+            {
+                Name = status.ToString()
+            };
+            dbContext.Statuses.Add(dbStatus);
+            dbContext.SaveChanges();
+
+            return dbStatus;
         }
     }
 }

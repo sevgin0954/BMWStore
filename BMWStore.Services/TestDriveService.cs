@@ -76,7 +76,6 @@ namespace BMWStore.Services
             return dbTestDrive.Id;
         }
 
-        // TODO: Refactor
         public async Task<IDictionary<string, string>> GetCarIdTestDriveIdKvpAsync(
             string userId, 
             Expression<Func<TestDrive, bool>> predicate)
@@ -95,19 +94,34 @@ namespace BMWStore.Services
         {
             var dbTestDrive = await this.testDriveRepository.GetByIdAsync(testDriveId);
 
-            var dbCanceledStatus = await this.statusRepository
-                .Find(tds => tds.Name == Enums.TestDriveStatus.Canceled.ToString())
-                .FirstAsync();
+            this.ValidateTestDriveUser(dbTestDrive, user);
+            await this.ValidateStatusAsync(dbTestDrive.StatusId);
 
-            if (dbTestDrive.StatusId == dbCanceledStatus.Id)
-            {
-                throw new ArgumentException(ErrorConstants.IncorrectParameterValue);
-            }
-
-            dbTestDrive.Status = dbCanceledStatus;
+            var dbCanceledStatusId = await this.statusRepository
+                .GetIdByNameAsync(Enums.TestDriveStatus.Canceled.ToString());
+            dbTestDrive.StatusId = dbCanceledStatusId;
 
             var rowsAffected = await this.testDriveRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        private void ValidateTestDriveUser(TestDrive dbTestDrive, ClaimsPrincipal user)
+        {
+            var dbUserId = this.userManager.GetUserId(user);
+            if (dbTestDrive.UserId != dbUserId)
+            {
+                throw new ArgumentException(ErrorConstants.IncorrectId);
+            }
+        }
+
+        private async Task ValidateStatusAsync(string statusId)
+        {
+            var dbUpcomingStatusId = await this.statusRepository
+                .GetIdByNameAsync(Enums.TestDriveStatus.Upcoming.ToString());
+            if (statusId != dbUpcomingStatusId)
+            {
+                throw new ArgumentException(ErrorConstants.UpcomingStatusRequired);
+            }
         }
     }
 }

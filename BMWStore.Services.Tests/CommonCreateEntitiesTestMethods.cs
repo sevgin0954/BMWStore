@@ -43,7 +43,8 @@ namespace BMWStore.Services.Tests
             return testDrive;
         }
 
-        public static TCar CreateCar<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
+        public static TCar CreateCar<TCar>(ApplicationDbContext dbContext) 
+            where TCar : BaseCar, new()
         {
             var dbCar = new TCar();
             dbContext.BaseCars.Add(dbCar);
