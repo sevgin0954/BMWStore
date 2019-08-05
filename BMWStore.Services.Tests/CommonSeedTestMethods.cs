@@ -3,6 +3,7 @@ using BMWStore.Data;
 using BMWStore.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BMWStore.Services.Tests
 {
@@ -13,6 +14,30 @@ namespace BMWStore.Services.Tests
             SeedAdminRole(dbContext);
             SeedUserRole(dbContext);
             dbContext.SaveChanges();
+        }
+
+        public static User SeedUser(string roleName, ApplicationDbContext dbContext)
+        {
+            var user = new User();
+            var role = dbContext.Roles.Where(r => r.NormalizedName == roleName.ToUpper()).First();
+            user.Roles.Add(new IdentityUserRole<string>()
+            {
+                RoleId = role.Id
+            });
+
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
+
+            return user;
+        }
+
+        public static User SeedUser(ApplicationDbContext dbContext)
+        {
+            var user = new User();
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
+
+            return user;
         }
 
         public static IdentityRole SeedAdminRole(ApplicationDbContext dbContext)
@@ -27,6 +52,51 @@ namespace BMWStore.Services.Tests
             dbContext.SaveChanges();
 
             return adminRole;
+        }
+
+        public static Option SeedOption(ApplicationDbContext dbContext)
+        {
+            var dbOption = new Option();
+            dbContext.Options.Add(dbOption);
+            dbContext.SaveChanges();
+
+            return dbOption;
+        }
+
+        public static Engine SeedEngine(ApplicationDbContext dbContext)
+        {
+            var dbEngine = new Engine();
+            dbContext.Engines.Add(dbEngine);
+            dbContext.SaveChanges();
+
+            return dbEngine;
+        }
+
+        public static FuelType SeedFuelType(ApplicationDbContext dbContext)
+        {
+            var dbFuelType = new FuelType();
+            dbContext.FuelTypes.Add(dbFuelType);
+            dbContext.SaveChanges();
+
+            return dbFuelType;
+        }
+
+        public static ModelType SeedModelType(ApplicationDbContext dbContext)
+        {
+            var dbModelType = new ModelType();
+            dbContext.ModelTypes.Add(dbModelType);
+            dbContext.SaveChanges();
+
+            return dbModelType;
+        }
+
+        public static Series SeedSeries(ApplicationDbContext dbContext)
+        {
+            var dbSeries = new Series();
+            dbContext.Series.Add(dbSeries);
+            dbContext.SaveChanges();
+
+            return dbSeries;
         }
 
         public static IdentityRole SeedUserRole(ApplicationDbContext dbContext)
@@ -69,16 +139,6 @@ namespace BMWStore.Services.Tests
             return dbCar;
         }
 
-        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext, ModelType modelType) where TCar : BaseCar, new()
-        {
-            var dbCar = new TCar();
-            dbCar.ModelType = modelType;
-            dbContext.BaseCars.Add(dbCar);
-            dbContext.SaveChanges();
-
-            return dbCar;
-        }
-
         public static TCar SeedCar<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
         {
             var dbCar = new TCar();
@@ -95,11 +155,50 @@ namespace BMWStore.Services.Tests
             dbCar.Pictures = pictures;
             dbCar.ModelType = new ModelType();
             dbCar.Series = new Series();
+            dbCar.Engine = new Engine();
+            dbCar.FuelType = new FuelType();
+            dbCar.Options.Add(new CarOption() { Option = new Option() });
 
             dbContext.BaseCars.Add(dbCar);
             dbContext.SaveChanges();
 
             return dbCar;
+        }
+
+        public static TCar SeedCarWithTestDrive<TCar>(ApplicationDbContext dbContext, string usedId) 
+            where TCar : BaseCar, new()
+        {
+            var dbCar = SeedCarWithEverything<TCar>(dbContext);
+            var dbStatus = CommonCreateEntitiesTestMethods.CreateStatus(dbContext);
+            var testDrive = new TestDrive()
+            {
+                Car = dbCar,
+                UserId = usedId,
+                Status = dbStatus
+            };
+
+            dbContext.TestDrives.Add(testDrive);
+            dbContext.SaveChanges();
+
+            return dbCar;
+        }
+
+        public static TestDrive SeedTestDriveWithCar<TCar>(ApplicationDbContext dbContext, string usedId)
+            where TCar : BaseCar, new()
+        {
+            var dbStatus = CommonCreateEntitiesTestMethods.CreateStatus(dbContext);
+            var dbCar = SeedCarWithEverything<TCar>(dbContext);
+            var dbTestDrive = new TestDrive()
+            {
+                Car = dbCar,
+                UserId = usedId,
+                Status = dbStatus
+            };
+
+            dbContext.TestDrives.Add(dbTestDrive);
+            dbContext.SaveChanges();
+
+            return dbTestDrive;
         }
     }
 }

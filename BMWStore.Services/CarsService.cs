@@ -18,7 +18,6 @@ namespace BMWStore.Services
         {
             var models = await cars
                 .GetFromPage(pageNumber)
-                .Include(uc => uc.Pictures)
                 .To<CarConciseViewModel>()
                 .ToArrayAsync();
 

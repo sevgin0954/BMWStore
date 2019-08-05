@@ -1,9 +1,7 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Data;
 using BMWStore.Entities;
-using Microsoft.AspNetCore.Identity;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsServiceTests
@@ -69,8 +67,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
 
             var yeasterday = this.GetYearterdayTime();
             var today = DateTime.UtcNow;
-            this.CreateTestDrivesWithCars(dbContext, today);
-            this.CreateTestDrive(new NewCar(), dbContext, yeasterday);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(new NewCar(), dbContext, today);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(new NewCar(), dbContext, yeasterday);
             this.CreateTestDrivesWithCars(dbContext, yeasterday);
             dbContext.SaveChanges();
 
@@ -88,7 +86,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
             var yeasterday = this.GetYearterdayTime();
             var today = DateTime.UtcNow;
             this.CreateTestDrivesWithCars(dbContext, today);
-            this.CreateTestDrive(new UsedCar(), dbContext, yeasterday);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(new UsedCar(), dbContext, yeasterday);
             this.CreateTestDrivesWithCars(dbContext, yeasterday);
             dbContext.SaveChanges();
 
@@ -121,8 +119,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
             var dbContext = this.baseTest.GetDbContext();
             var service = this.GetService(dbContext);
 
-            this.SeedUser(WebConstants.AdminRoleName, dbContext);
-            this.SeedUser(WebConstants.UserRoleName, dbContext);
+            CommonSeedTestMethods.SeedUser(WebConstants.AdminRoleName, dbContext);
+            CommonSeedTestMethods.SeedUser(WebConstants.UserRoleName, dbContext);
 
             var model = await service.GetStatisticsAsync();
 
@@ -155,78 +153,30 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
             Assert.Equal(1, model.UsedCarsCount);
         }
 
-        private User SeedUser(string roleName, ApplicationDbContext dbContext)
-        {
-            var user = new User();
-            var role = dbContext.Roles.Where(r => r.NormalizedName == roleName.ToUpper()).First();
-            user.Roles.Add(new IdentityUserRole<string>()
-            {
-                RoleId = role.Id
-            });
-
-            dbContext.Users.Add(user);
-            dbContext.SaveChanges();
-
-            return user;
-        }
-
-        private BaseCar CreateCar<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
-        {
-            var car = new TCar();
-            dbContext.BaseCars.Add(car);
-
-            return car;
-        }
-
         private void SeedCars(ApplicationDbContext dbContext)
         {
-            this.CreateCar<NewCar>(dbContext);
-            this.CreateCar<UsedCar>(dbContext);
+            CommonCreateEntitiesTestMethods.CreateCar<NewCar>(dbContext);
+            CommonCreateEntitiesTestMethods.CreateCar<UsedCar>(dbContext);
 
             dbContext.SaveChanges();
-        }
-
-        private TestDrive CreateTestDrive(BaseCar newCar, ApplicationDbContext dbContext)
-        {
-            var testDrive = new TestDrive()
-            {
-                Car = newCar
-            };
-
-            dbContext.TestDrives.Add(testDrive);
-
-            return testDrive;
         }
 
         private void SeedTestDrivesWithCars(ApplicationDbContext dbContext)
         {
-            var newCar = this.CreateCar<NewCar>(dbContext);
-            this.CreateTestDrive(newCar, dbContext);
-            var usedCar = this.CreateCar<UsedCar>(dbContext);
-            this.CreateTestDrive(usedCar, dbContext);
+            var newCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(newCar, dbContext);
+            var usedCar = CommonSeedTestMethods.SeedCar<UsedCar>(dbContext);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(usedCar, dbContext);
 
             dbContext.SaveChanges();
         }
 
         private void CreateTestDrivesWithCars(ApplicationDbContext dbContext, DateTime scheduleDate)
         {
-            var newCar = this.CreateCar<NewCar>(dbContext);
-            this.CreateTestDrive(newCar, dbContext, scheduleDate);
-            var usedCar = this.CreateCar<UsedCar>(dbContext);
-            this.CreateTestDrive(usedCar, dbContext, scheduleDate);
-        }
-
-        private TestDrive CreateTestDrive(BaseCar newCar, ApplicationDbContext dbContext, DateTime scheduleDate)
-        {
-            var testDrive = new TestDrive()
-            {
-                Car = newCar,
-                ScheduleDate = scheduleDate
-            };
-
-            dbContext.TestDrives.Add(testDrive);
-
-            return testDrive;
+            var newCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(newCar, dbContext, scheduleDate);
+            var usedCar = CommonSeedTestMethods.SeedCar<UsedCar>(dbContext);
+            CommonCreateEntitiesTestMethods.CreateTestDrive(usedCar, dbContext, scheduleDate);
         }
 
         private DateTime GetYearterdayTime()

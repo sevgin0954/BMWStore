@@ -17,6 +17,7 @@ namespace BMWStore.Services.Tests
                 typeof(User).GetTypeInfo().Assembly);
         }
 
+        // TODO: Move to BaseClass
         public ApplicationDbContext GetDbContext()
         {
             var options = this.GetDbContextOptions();

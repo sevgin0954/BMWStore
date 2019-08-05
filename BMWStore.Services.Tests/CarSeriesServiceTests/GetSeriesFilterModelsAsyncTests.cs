@@ -2,7 +2,7 @@
 using System.Linq;
 using Xunit;
 
-namespace BMWStore.Services.Tests.AdminServicesTests.CarSeriesServiceTests
+namespace BMWStore.Services.Tests.CarSeriesServiceTests
 {
     public class GetSeriesFilterModelsAsyncTests : BaseCarSeriesServiceTests, IClassFixture<BaseTestFixture>
     {

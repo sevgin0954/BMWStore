@@ -58,7 +58,7 @@ namespace BMWStore.Models.CarModels.BindingModels
 
         [Required]
         public string SelectedFuelTypeId { get; set; }
-        public IEnumerable<SelectListItem> FuelTypes { get; set; }
+        public IEnumerable<SelectListItem> FuelTypes { get; set; } = new List<SelectListItem>();
 
         [Range(EntitiesConstants.CarMinHoursePower, EntitiesConstants.CarMaxHoursePower)]
         [Required]
@@ -107,7 +107,6 @@ namespace BMWStore.Models.CarModels.BindingModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            // TODO: REFACTOR MAPPING
             configuration.CreateMap<AdminCarEditBindingModel, AdminCarEditBindingModel>()
                 .ForMember(dest => dest.Engines, opt => opt.Ignore())
                 .ForMember(dest => dest.ModelTypes, opt => opt.Ignore())

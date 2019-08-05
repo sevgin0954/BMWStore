@@ -8,16 +8,11 @@ using BMWStore.Services.Interfaces;
 using MappingRegistrar;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BMWStore.Data.Factories.SortStrategyFactories;
-using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
-using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Common.Helpers;
-using BMWStore.Data.Repositories.Interfaces;
 
 namespace BMWStore.Services
 {
@@ -29,6 +24,7 @@ namespace BMWStore.Services
         private readonly ICarPriceService carPriceService;
         private readonly IFilterTypesService filterTypesService;
         private readonly ITestDriveService testDriveService;
+        private readonly ICarsService carsService;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
 
@@ -39,6 +35,7 @@ namespace BMWStore.Services
             ICarPriceService carPriceService,
             IFilterTypesService filterTypesService,
             ITestDriveService testDriveService,
+            ICarsService carsService,
             SignInManager<User> signInManager,
             UserManager<User> userManager)
         {
@@ -48,6 +45,7 @@ namespace BMWStore.Services
             this.carPriceService = carPriceService;
             this.filterTypesService = filterTypesService;
             this.testDriveService = testDriveService;
+            this.carsService = carsService;
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
@@ -59,9 +57,7 @@ namespace BMWStore.Services
         {
             var totalCarPages = await PaginationHelper.CalculateTotalPagesCount(cars);
 
-            var carModels = await cars
-                .GetFromPage(pageNumber)
-                .To<CarConciseViewModel>().ToArrayAsync();
+            var carModels = await this.carsService.GetAllCarsAsync(cars, pageNumber);
 
             var yearModels = await this.carYearService.GetYearFilterModels(cars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);

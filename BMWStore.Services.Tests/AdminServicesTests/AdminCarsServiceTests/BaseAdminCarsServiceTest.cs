@@ -2,7 +2,6 @@
 using BMWStore.Data.Repositories;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using Moq;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
@@ -20,7 +19,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         {
             var carsRepository = new CarRepository(dbContext);
             var carOptionsRepository = new CarOptionRepository(dbContext);
-            var selectListItemsService = new Mock<ISelectListItemsService>().Object;
+            var selectListItemsService = new SelectListItemsService(dbContext);
             var carsService = new CarsService();
 
             var service = new AdminCarsService(

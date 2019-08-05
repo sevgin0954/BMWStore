@@ -3,7 +3,7 @@ using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using System;
 
-namespace BMWStore.Services.Tests.AdminServicesTests.CarSeriesServiceTests
+namespace BMWStore.Services.Tests.CarSeriesServiceTests
 {
     public abstract class BaseCarSeriesServiceTests
     {
