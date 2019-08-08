@@ -25,7 +25,28 @@ namespace BMWStore.Services.Tests
                 .Returns(userId);
         }
 
+        public static void SetupMockedSignInManager(Mock<SignInManager<User>> mock, bool isSignIn)
+        {
+            mock.Setup(sm => sm.IsSignedIn(It.IsAny<ClaimsPrincipal>()))
+                .Returns(isSignIn);
+        }
+
         public static Mock<SignInManager<User>> GetMockedSignInManager(UserManager<User> userManager)
+        {
+            var mockedSignInManager = GetSignInManager(userManager);
+
+            return mockedSignInManager;
+        }
+
+        public static Mock<SignInManager<User>> GetMockedSignInManager()
+        {
+            var userManager = GetMockedUserManager().Object;
+            var mockedSignInManager = GetSignInManager(userManager);
+
+            return mockedSignInManager;
+        }
+
+        private static Mock<SignInManager<User>> GetSignInManager(UserManager<User> userManager)
         {
             var contextAccessor = new Mock<IHttpContextAccessor>().Object;
             var claimsFactory = new Mock<IUserClaimsPrincipalFactory<User>>().Object;
