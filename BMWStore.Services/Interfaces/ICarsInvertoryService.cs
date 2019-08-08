@@ -9,7 +9,7 @@ namespace BMWStore.Services.Interfaces
 {
     public interface ICarsInvertoryService
     {
-        Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
+        Task<CarsInvertoryViewModel> GetInvertoryViewModel(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber);

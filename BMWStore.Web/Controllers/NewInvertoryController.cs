@@ -6,6 +6,7 @@ using BMWStore.Data.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.BindingModels;
+using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -52,7 +53,7 @@ namespace BMWStore.Web.Controllers
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
             var viewModel = await this.carsInvertoryService
-                .GetInvertoryBindingModel(sortedAndFilteredCars, this.User, model.PageNumber);
+                .GetInvertoryViewModel(sortedAndFilteredCars, this.User, model.PageNumber);
             this.carsInvertoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
             viewModel.SortStrategyDirection = sortDirection;
             viewModel.SortStrategyType = sortType;

@@ -1,13 +1,9 @@
 ﻿using BMWStore.Common.Constants;
-using Enums = BMWStore.Common.Enums;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
-using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
-using MappingRegistrar;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -23,10 +19,8 @@ namespace BMWStore.Services
         private readonly ICarModelTypeService carModelTypeService;
         private readonly ICarPriceService carPriceService;
         private readonly IFilterTypesService filterTypesService;
-        private readonly ITestDriveService testDriveService;
         private readonly ICarsService carsService;
         private readonly SignInManager<User> signInManager;
-        private readonly UserManager<User> userManager;
 
         public CarsInvertoryService(
             ICarYearService carYearService,
@@ -34,30 +28,26 @@ namespace BMWStore.Services
             ICarModelTypeService carModelTypeService,
             ICarPriceService carPriceService,
             IFilterTypesService filterTypesService,
-            ITestDriveService testDriveService,
             ICarsService carsService,
-            SignInManager<User> signInManager,
-            UserManager<User> userManager)
+            SignInManager<User> signInManager)
         {
             this.carYearService = carYearService;
             this.carSeriesService = carSeriesService;
             this.carModelTypeService = carModelTypeService;
             this.carPriceService = carPriceService;
             this.filterTypesService = filterTypesService;
-            this.testDriveService = testDriveService;
             this.carsService = carsService;
             this.signInManager = signInManager;
-            this.userManager = userManager;
         }
 
-        public async Task<CarsInvertoryViewModel> GetInvertoryBindingModel(
+        public async Task<CarsInvertoryViewModel> GetInvertoryViewModel(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber)
         {
             var totalCarPages = await PaginationHelper.CalculateTotalPagesCount(cars);
 
-            var carModels = await this.carsService.GetAllCarsAsync(cars, pageNumber);
+            var carModels = await this.carsService.GetCarsInvertoryViewModelAsync(cars, user, pageNumber);
 
             var yearModels = await this.carYearService.GetYearFilterModels(cars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
@@ -78,14 +68,6 @@ namespace BMWStore.Services
             model.Prices.AddRange(priceModels);
 
             model.Cars = carModels;
-
-            if (this.signInManager.IsSignedIn(user))
-            {
-                var userId = this.userManager.GetUserId(user);
-                var kvp = await this.testDriveService
-                    .GetCarIdTestDriveIdKvpAsync(userId, td => td.Status.Name == Enums.TestDriveStatus.Upcoming.ToString());
-                model.CarIdUpcomingTestDriveId = kvp;
-            }
 
             return model;
         }

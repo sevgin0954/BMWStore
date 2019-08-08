@@ -9,6 +9,7 @@ using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
+using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
@@ -56,7 +57,7 @@ namespace BMWStore.Services.AdminServices
 
             var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(filteredAndSortedCars);
 
-            var cars = await this.carsService.GetAllCarsAsync(filteredAndSortedCars, pageNumber);
+            var cars = await this.carsService.GetCarsModelsAsync<CarConciseViewModel>(filteredAndSortedCars, pageNumber);
             var model = new AdminCarsViewModel()
             {
                 Cars = cars,

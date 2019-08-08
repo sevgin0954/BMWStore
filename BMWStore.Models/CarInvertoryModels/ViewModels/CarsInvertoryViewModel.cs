@@ -22,9 +22,7 @@ namespace BMWStore.Models.CarInvertoryModels.ViewModels
 
         public List<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<CarConciseViewModel> Cars { get; set; } = new List<CarConciseViewModel>();
-
-        public IDictionary<string, string> CarIdUpcomingTestDriveId { get; set; } = new Dictionary<string, string>();
+        public IEnumerable<CarInvertoryConciseViewModel> Cars { get; set; } = new List<CarInvertoryConciseViewModel>();
 
         public ScheduleTestDriveBindingModel TestDriveModel { get; set; }
     }

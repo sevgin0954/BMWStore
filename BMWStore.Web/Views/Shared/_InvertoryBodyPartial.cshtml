@@ -118,16 +118,14 @@
             {
                 <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
                     <partial name="_CarConcisePartial" model="@car" />
-                    @if (Model.CarIdUpcomingTestDriveId.ContainsKey(car.Id))
+                    @if (car.IsTestDriveScheduled)
                     {
-                        var testDriveId = Model.CarIdUpcomingTestDriveId[car.Id];
-
                         <div class="row d-flex">
                             <div class="mx-auto">
                                 <a class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
                                    asp-controller="TestDrives"
                                    asp-action="Drive"
-                                   asp-route-testDriveId="@testDriveId">
+                                   asp-route-testDriveId="@car.TestDriveId">
                                     Scheduled
                                     <i class="far fa-calendar-check"></i>
                                 </a>
@@ -140,11 +138,11 @@
                             <div class="mx-auto">
                                 <button type="button" class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
                                         data-toggle="modal"
-                                        data-target="#myModal">
+                                        data-target="#@car.Id">
                                     Schedule A Test Drive
                                 </button>
 
-                                <div id="myModal" class="modal fade" role="dialog">
+                                <div id="@car.Id" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-body">

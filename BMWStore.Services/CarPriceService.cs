@@ -23,7 +23,8 @@ namespace BMWStore.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync(IEnumerable<CarConciseViewModel> carModels)
+        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync<TModel>(
+            IEnumerable<TModel> carModels) where TModel : CarConciseViewModel
         {
             var dataTable = new DataTable("BaseCars");
             this.AddDataToDataTable(dataTable, carModels);

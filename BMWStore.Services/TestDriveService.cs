@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
 using BMWStore.Data.Repositories.Interfaces;
 
 namespace BMWStore.Services
@@ -57,6 +56,7 @@ namespace BMWStore.Services
             return model;
         }
 
+
         public async Task<string> ScheduleTestDriveAsync(ScheduleTestDriveBindingModel model, ClaimsPrincipal user)
         {
             var dbTestDrive = Mapper.Map<TestDrive>(model);
@@ -74,20 +74,6 @@ namespace BMWStore.Services
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
 
             return dbTestDrive.Id;
-        }
-
-        public async Task<IDictionary<string, string>> GetCarIdTestDriveIdKvpAsync(
-            string userId, 
-            Expression<Func<TestDrive, bool>> predicate)
-        {
-            var kvp = await this.testDriveRepository
-                .Find(predicate)
-                .Where(td => td.UserId == userId)
-                .Select(td => new KeyValuePair<string, string>(td.CarId, td.Id))
-                .ToArrayAsync();
-
-            var result = new Dictionary<string, string>(kvp);
-            return result;
         }
 
         public async Task CancelTestDriveAsync(string testDriveId, ClaimsPrincipal user)
