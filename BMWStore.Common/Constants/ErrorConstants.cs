@@ -15,6 +15,8 @@
 
         public const string IncorrectPriceRange = "Incorrect price range";
 
+        public const string NotSignIn = "User was not sign in";
+
         public const string UpcomingStatusRequired = "Status should be upcoming";
         public const string StatusNotFound = "Status not found";
         public const string StatusIsNotUpcoming = "You can check only test drives with upcoming status";

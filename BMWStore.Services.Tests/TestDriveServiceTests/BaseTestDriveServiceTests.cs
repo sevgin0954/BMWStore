@@ -12,7 +12,8 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         {
             var testDriveRepository = new TestDriveRepository(dbContext);
             var statusRepository = new StatusRepository(dbContext);
-            var servie = new TestDriveService(testDriveRepository, statusRepository, userManager);
+            var carRepository = new CarRepository(dbContext);
+            var servie = new TestDriveService(testDriveRepository, statusRepository, carRepository, userManager);
 
             return servie;
         }

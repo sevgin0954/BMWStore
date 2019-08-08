@@ -22,15 +22,18 @@ namespace BMWStore.Services
     {
         private readonly ITestDriveRepository testDriveRepository;
         private readonly IStatusRepository statusRepository;
+        private readonly ICarRepository carRepository;
         private readonly UserManager<User> userManager;
 
         public TestDriveService(
             ITestDriveRepository testDriveRepository, 
             IStatusRepository statusRepository,
+            ICarRepository carRepository,
             UserManager<User> userManager)
         {
             this.testDriveRepository = testDriveRepository;
             this.statusRepository = statusRepository;
+            this.carRepository = carRepository;
             this.userManager = userManager;
         }
 
@@ -59,12 +62,18 @@ namespace BMWStore.Services
 
         public async Task<string> ScheduleTestDriveAsync(ScheduleTestDriveBindingModel model, ClaimsPrincipal user)
         {
+            await this.ValidateCarIdAsync(model.CarId);
+
             var dbTestDrive = Mapper.Map<TestDrive>(model);
+
             var dbStatusId = await this.statusRepository
                 .Find(s => s.Name == Enums.TestDriveStatus.Upcoming.ToString())
                 .Select(s => s.Id)
                 .FirstAsync();
+
             var userId = this.userManager.GetUserId(user);
+            DataValidator.ValidateNotNull(userId, new InvalidOperationException(ErrorConstants.NotSignIn));
+
             dbTestDrive.StatusId = dbStatusId;
             dbTestDrive.UserId = userId;
 
@@ -74,6 +83,15 @@ namespace BMWStore.Services
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
 
             return dbTestDrive.Id;
+        }
+
+        private async Task ValidateCarIdAsync(string carId)
+        {
+            var isCarExist = await this.carRepository.AnyAsync(c => c.Id == carId);
+            if (isCarExist == false)
+            {
+                throw new ArgumentException(ErrorConstants.IncorrectId);
+            }
         }
 
         public async Task CancelTestDriveAsync(string testDriveId, ClaimsPrincipal user)
