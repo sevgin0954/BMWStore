@@ -3,7 +3,7 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTransmissionsServiceTests
 {
-    public class CreateNewTransmissionAsyncTests : BaseAdminTransmissionsServiceTests
+    public class CreateNewTransmissionAsyncTests : BaseAdminTransmissionsServiceTests, IClassFixture<MapperFixture>
     {
         [Fact]
         public async void WithModel_ShouldCreateNewTransmission()

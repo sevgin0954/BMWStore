@@ -31,8 +31,8 @@ namespace BMWStore.Services.Tests.SeedDbStatusesServiceTests
 
             await service.SeedTestDriveStatusesAsync(dbStatus.Name);
 
-            Assert.Equal(1, dbContext.Statuses.Count());
-            Assert.Contains(dbContext.Statuses, s => s.Name == dbStatus.Name);
+            Assert.Single(dbContext.Statuses);
+            Assert.Equal(dbStatus, dbContext.Statuses.First());
         }
     }
 }
