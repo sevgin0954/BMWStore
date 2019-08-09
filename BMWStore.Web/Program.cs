@@ -30,17 +30,19 @@ namespace BMWStore.Web
 
                 try
                 {
-                    var seedDbService = serviceProvider.GetRequiredService<ISeedDbService>();
+                    var seedDbRolesService = serviceProvider.GetRequiredService<ISeedDbRolesService>();
+                    var seedDbUsersService = serviceProvider.GetRequiredService<ISeedDbUsersService>();
+                    var seedDbStatusesService = serviceProvider.GetRequiredService<ISeedDbStatusesService>();
 
-                    seedDbService
+                    seedDbRolesService
                         .SeedRolesAsync(WebConstants.AdminRoleName, WebConstants.UserRoleName, WebConstants.SupportRoleName)
                         .GetAwaiter()
                         .GetResult();
-                    seedDbService
-                        .SeedAdminAsync(IdentityConstants.AdminPassword, IdentityConstants.AdminEmail)
+                    seedDbUsersService
+                        .SeedUserAsync(IdentityConstants.AdminPassword, IdentityConstants.AdminEmail, WebConstants.AdminRoleName)
                         .GetAwaiter()
                         .GetResult();
-                    seedDbService
+                    seedDbStatusesService
                         .SeedTestDriveStatuses(Enum.GetNames(typeof(TestDriveStatus)))
                         .GetAwaiter()
                         .GetResult();
@@ -48,7 +50,7 @@ namespace BMWStore.Web
                 catch (Exception e)
                 {
                     var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(e, "An error occurred.");
+                    logger.LogError(e, e.Message);
                 }
             }
         }

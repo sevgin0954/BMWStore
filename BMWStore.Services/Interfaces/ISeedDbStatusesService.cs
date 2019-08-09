@@ -2,10 +2,8 @@
 
 namespace BMWStore.Services.Interfaces
 {
-    public interface ISeedDbService
+    public interface ISeedDbStatusesService
     {
-        Task SeedAdminAsync(string password, string email);
-        Task SeedRolesAsync(params string[] roles);
         Task SeedTestDriveStatuses(params string[] statusNames);
     }
 }
