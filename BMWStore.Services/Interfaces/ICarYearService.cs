@@ -8,6 +8,6 @@ namespace BMWStore.Services.Interfaces
 {
     public interface ICarYearService
     {
-        Task<ICollection<FilterTypeBindingModel>> GetYearFilterModels(IQueryable<BaseCar> cars);
+        Task<ICollection<FilterTypeBindingModel>> GetYearFilterModelsAsync(IQueryable<BaseCar> cars);
     }
 }

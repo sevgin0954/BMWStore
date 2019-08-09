@@ -85,7 +85,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
 
         private async Task<IEnumerable<CarInvertoryConciseViewModel>> CallGetCarsInvertoryViewModelAsync(
             ApplicationDbContext dbContext,
-            bool isUserSignIn, 
+            bool isUserSignIn,
             int pageNumber = 1)
         {
             var signInManager = this.GetSetupedSignInManager(true);

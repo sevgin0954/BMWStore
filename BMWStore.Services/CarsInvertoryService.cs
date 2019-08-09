@@ -45,7 +45,7 @@ namespace BMWStore.Services
 
             var carModels = await this.carsService.GetCarsInvertoryViewModelAsync(cars, user, pageNumber);
 
-            var yearModels = await this.carYearService.GetYearFilterModels(cars);
+            var yearModels = await this.carYearService.GetYearFilterModelsAsync(cars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
             var modelTypeModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
             var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(carModels);
