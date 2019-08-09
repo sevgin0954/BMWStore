@@ -3,7 +3,6 @@ using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -20,7 +19,6 @@ namespace BMWStore.Services
         private readonly ICarPriceService carPriceService;
         private readonly IFilterTypesService filterTypesService;
         private readonly ICarsService carsService;
-        private readonly SignInManager<User> signInManager;
 
         public CarsInvertoryService(
             ICarYearService carYearService,
@@ -28,8 +26,7 @@ namespace BMWStore.Services
             ICarModelTypeService carModelTypeService,
             ICarPriceService carPriceService,
             IFilterTypesService filterTypesService,
-            ICarsService carsService,
-            SignInManager<User> signInManager)
+            ICarsService carsService)
         {
             this.carYearService = carYearService;
             this.carSeriesService = carSeriesService;
@@ -37,10 +34,9 @@ namespace BMWStore.Services
             this.carPriceService = carPriceService;
             this.filterTypesService = filterTypesService;
             this.carsService = carsService;
-            this.signInManager = signInManager;
         }
 
-        public async Task<CarsInvertoryViewModel> GetInvertoryViewModel(
+        public async Task<CarsInvertoryViewModel> GetInvertoryViewModelAsync(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber)

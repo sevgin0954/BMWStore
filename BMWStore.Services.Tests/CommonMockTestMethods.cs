@@ -1,11 +1,8 @@
 ﻿using BMWStore.Entities;
-using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace BMWStore.Services.Tests
 {
@@ -62,14 +59,6 @@ namespace BMWStore.Services.Tests
         {
             mock.SetupGet(rc => rc[key])
                 .Returns(value.ToString());
-        }
-
-        public static void SetupMockedCludinaryServiceUploadPicturesAsync(
-            Mock<ICloudinaryService> mock, 
-            params string[] returnPictureUrls)
-        {
-            mock.Setup(cs => cs.UploadPicturesAsync(It.IsAny<IEnumerable<IFormFile>>()))
-                .Returns(Task.FromResult<IEnumerable<string>>(returnPictureUrls));
         }
     }
 }
