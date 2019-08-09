@@ -1,25 +1,19 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 {
-    public class BanUserAsyncTests : BaseAdminUsersServiceTest, IClassFixture<BaseTestFixture>
+    public class BanUserAsyncTests : BaseAdminUsersServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public BanUserAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
-            CommonSeedTestMethods.SeedUserRole(dbContext);
+            SeedRolesMethods.SeedUserRole(dbContext);
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await service.BanUserAsync(incorrectId));
             Assert.Equal(ErrorConstants.IncorrectId, exception.Message);
@@ -28,10 +22,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         [Fact]
         public async void WithAdmin_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbAdmin = this.SeedAdminWithRole(dbContext);
-            CommonSeedTestMethods.SeedUserRole(dbContext);
+            var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
+            SeedRolesMethods.SeedUserRole(dbContext);
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await service.BanUserAsync(dbAdmin.Id));
             Assert.Equal(ErrorConstants.IncorrectUser, exception.Message);
@@ -40,9 +34,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         [Fact]
         public async void WithBannedUser_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbUser = this.SeedUserWithRole(dbContext);
+            var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
             this.BanUser(dbContext, dbUser);
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await service.BanUserAsync(dbUser.Id));
@@ -52,9 +46,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         [Fact]
         public async void WithNotBanned_ShouldBanUser()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbUser = this.SeedUserWithRole(dbContext);
+            var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 
             await service.BanUserAsync(dbUser.Id);
 

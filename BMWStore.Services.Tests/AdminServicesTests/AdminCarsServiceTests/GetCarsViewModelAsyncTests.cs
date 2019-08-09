@@ -2,24 +2,18 @@
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 {
-    public class GetCarsViewModelAsyncTests : BaseAdminCarsServiceTest, IClassFixture<BaseTestFixture>
+    public class GetCarsViewModelAsyncTests : BaseAdminCarsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetCarsViewModelAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithoutCars_ShouldReturnModelWithEmptyCarsCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
 
             var model = await this.CallGetCarsViewModelAsync(dbContext);
 
@@ -29,8 +23,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithBiggerPage_ShouldReturnEmptyCarsCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetCarsViewModelAsync(dbContext, 2);
 
@@ -40,8 +34,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithCar()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetCarsViewModelAsync(dbContext);
 

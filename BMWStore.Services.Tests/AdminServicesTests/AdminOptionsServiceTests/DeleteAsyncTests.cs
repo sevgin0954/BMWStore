@@ -1,22 +1,16 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
 {
-    public class DeleteAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<BaseTestFixture>
+    public class DeleteAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public DeleteAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
 
@@ -27,8 +21,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         [Fact]
         public async void WithCorrectId_ShouldDeleteOption()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbOption = this.SeedOption(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbOption = SeedOptionsMethods.SeedOption(dbContext);
             var service = this.GetService(dbContext);
 
             await service.DeleteAsync(dbOption.Id);

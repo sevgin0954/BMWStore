@@ -1,12 +1,11 @@
 ﻿using BMWStore.Data;
 using BMWStore.Data.Repositories;
-using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
 {
-    public abstract class BaseAdminEnginesServiceTest
+    public abstract class BaseAdminEnginesServiceTest : BaseTest
     {
         protected IAdminEnginesService GetService(ApplicationDbContext dbContext)
         {
@@ -15,27 +14,6 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
             var service = new AdminEnginesService(engineRepository, selectListItemsService);
 
             return service;
-        }
-
-        protected Engine SeedEngine(string id, ApplicationDbContext dbContext)
-        {
-            var dbEngine = new Engine()
-            {
-                Id = id
-            };
-            dbContext.Engines.Add(dbEngine);
-            dbContext.SaveChanges();
-
-            return dbEngine;
-        }
-
-        protected void SeedEngineWithTransmission(ApplicationDbContext dbContext)
-        {
-            var engine = new Engine();
-            var transmission = new Transmission();
-            engine.Transmission = transmission;
-            dbContext.Engines.Add(engine);
-            dbContext.SaveChanges();
         }
     }
 }

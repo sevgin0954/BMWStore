@@ -1,20 +1,14 @@
-﻿using Xunit;
+﻿using BMWStore.Services.Tests.Common.SeedTestMethods;
+using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
 {
-    public class GetAllOptionsAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<BaseTestFixture>
+    public class GetAllOptionsAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetAllOptionsAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithoutOptions_ShouldReturnEmptyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var models = await service.GetAllOptionsAsync();
@@ -25,9 +19,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         [Fact]
         public async void WithOption_ShouldReturnOption()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            this.SeedOption(dbContext);
+            SeedOptionsMethods.SeedOption(dbContext);
 
             var models = await service.GetAllOptionsAsync();
 

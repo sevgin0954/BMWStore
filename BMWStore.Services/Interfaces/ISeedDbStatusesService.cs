@@ -4,6 +4,6 @@ namespace BMWStore.Services.Interfaces
 {
     public interface ISeedDbStatusesService
     {
-        Task SeedTestDriveStatuses(params string[] statusNames);
+        Task SeedTestDriveStatusesAsync(params string[] statusNames);
     }
 }

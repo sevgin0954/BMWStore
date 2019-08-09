@@ -1,27 +1,20 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Moq;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
 {
-    public class GetInvertoryViewModelAsyncTests : BaseCarsInvertoryServiceTest, IClassFixture<BaseTestFixture>
+    public class GetInvertoryViewModelAsyncTests : BaseCarsInvertoryServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetInvertoryViewModelAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithoutCars_ShouldReturnModelWithEmptyPropertiesCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 
@@ -31,8 +24,8 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithCar()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 
@@ -42,8 +35,8 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithPrice()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 
@@ -53,8 +46,8 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithModelType()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 
@@ -64,8 +57,8 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithSeries()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 
@@ -75,8 +68,8 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithYear()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 

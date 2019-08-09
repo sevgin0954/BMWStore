@@ -43,7 +43,7 @@ namespace BMWStore.Web
                         .GetAwaiter()
                         .GetResult();
                     seedDbStatusesService
-                        .SeedTestDriveStatuses(Enum.GetNames(typeof(TestDriveStatus)))
+                        .SeedTestDriveStatusesAsync(Enum.GetNames(typeof(TestDriveStatus)))
                         .GetAwaiter()
                         .GetResult();
                 }

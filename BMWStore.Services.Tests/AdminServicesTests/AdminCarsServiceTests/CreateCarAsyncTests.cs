@@ -5,19 +5,12 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 {
-    public class CreateCarAsyncTests : BaseAdminCarsServiceTest, IClassFixture<BaseTestFixture>
+    public class CreateCarAsyncTests : BaseAdminCarsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public CreateCarAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithTCarNewCar_ShouldCreateNewCar()
         {
-            var dbContext = baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var model = this.GetCarCreateModel();
 
@@ -31,7 +24,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithTCarUsedCar_ShouldCreateUsedCar()
         {
-            var dbContext = baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var model = this.GetCarCreateModel();
 

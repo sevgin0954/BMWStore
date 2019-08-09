@@ -116,7 +116,7 @@ namespace BMWStore.Web
             services.AddScoped<IBMWStoreUnitOfWork, BMWStoreUnitOfWork>();
 
             var serviceRegistrar = new ServiceCollectionRegistrar(services);
-            serviceRegistrar.AddScopedServices(typeof(SeedDbService));
+            serviceRegistrar.AddScopedServices(typeof(CarModelTypeService));
             serviceRegistrar.AddScopedServices(typeof(CarRepository));
             serviceRegistrar.AddScopedServices(typeof(AdminCarsService));
         }

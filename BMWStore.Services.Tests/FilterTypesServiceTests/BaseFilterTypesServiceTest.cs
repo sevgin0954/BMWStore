@@ -2,7 +2,7 @@
 
 namespace BMWStore.Services.Tests.FilterTypesServiceTests
 {
-    public abstract class BaseFilterTypesServiceTest
+    public abstract class BaseFilterTypesServiceTest : BaseTest
     {
         public IFilterTypesService GetService()
         {

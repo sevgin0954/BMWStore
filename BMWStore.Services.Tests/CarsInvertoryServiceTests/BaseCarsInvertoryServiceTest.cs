@@ -1,9 +1,10 @@
 ﻿using BMWStore.Services.Interfaces;
+using BMWStore.Services.Tests.Common.MockTestMethods;
 using Moq;
 
 namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
 {
-    public abstract class BaseCarsInvertoryServiceTest
+    public abstract class BaseCarsInvertoryServiceTest : BaseTest
     {
         protected ICarsInvertoryService GetService()
         {

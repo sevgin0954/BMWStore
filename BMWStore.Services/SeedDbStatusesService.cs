@@ -14,7 +14,7 @@ namespace BMWStore.Services
             this.statusRepository = statusRepository;
         }
 
-        public async Task SeedTestDriveStatuses(params string[] statusNames)
+        public async Task SeedTestDriveStatusesAsync(params string[] statusNames)
         {
             foreach (var statusName in statusNames)
             {

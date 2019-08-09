@@ -3,6 +3,8 @@ using BMWStore.Common.Enums;
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models.TestDriveModels.BindingModels;
+using BMWStore.Services.Tests.Common.MockTestMethods;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Moq;
 using System;
 using System.Linq;
@@ -12,20 +14,13 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.TestDriveServiceTests
 {
-    public class ScheduleTestDriveAsyncTests : BaseTestDriveServiceTests, IClassFixture<BaseTestFixture>
+    public class ScheduleTestDriveAsyncTests : BaseTestDriveServiceTests, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public ScheduleTestDriveAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithNotSignInUser_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
             var model = this.GetModel(dbContext, dbCar.Id);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => 
@@ -36,8 +31,8 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         [Fact]
         public async void WithModelWithIncorrectCarId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
             var carIncorrectId = Guid.NewGuid().ToString();
             var model = this.GetModel(dbContext, carIncorrectId);
 
@@ -49,9 +44,9 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         [Fact]
         public async void WithModel_ShouldScheduleTestDriveWithUpcomingStatus()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
             var model = this.GetModel(dbContext, dbCar.Id);
 
             await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id);
@@ -62,10 +57,10 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         [Fact]
         public async void WithAlreadyScheduledTestDrive_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
             this.SheduleTestDrive(dbContext, dbUser.Id);
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
             var model = this.GetModel(dbContext, dbCar.Id);
 
             await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id);
@@ -76,10 +71,10 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         [Fact]
         public async void WithScheduledTestDriveFromAnother_ShouldSheduleTestDrive()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             this.SheduleTestDrive(dbContext);
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
             var model = this.GetModel(dbContext, dbCar.Id);
 
             await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id);
@@ -92,7 +87,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             ApplicationDbContext dbContext,
             string userId)
         {
-            CommonSeedTestMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+            SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
             var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
             CommonMockTestMethods.SetupMockedUserManagerGetUserId(mockedUserManager, userId);
             var service = this.GetService(dbContext, mockedUserManager.Object);
@@ -114,7 +109,8 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
 
         private TestDrive SheduleTestDrive(ApplicationDbContext dbContext, string userId = "")
         {
-            var dbTestDrive = CommonSeedTestMethods.SeedTestDriveWithCar<NewCar>(dbContext, userId, TestDriveStatus.Upcoming);
+            var dbStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDriveWithCar<NewCar>(dbContext, userId, dbStatus);
 
             return dbTestDrive;
         }

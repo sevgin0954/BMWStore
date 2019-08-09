@@ -1,21 +1,15 @@
 ﻿using BMWStore.Common.Enums;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
 {
-    public class GetTestDriveViewModelAsyncTests : BaseAdminTestDrivesServiceTest, IClassFixture<BaseTestFixture>
+    public class GetTestDriveViewModelAsyncTests : BaseAdminTestDrivesServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetTestDriveViewModelAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithoutTestDrives_ShouldReturnEmptyTestDriveCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var sortType = AdminTestDrivesSortStrategyType.Date;
             var sortDirect = SortStrategyDirection.Ascending;
@@ -28,8 +22,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         [Fact]
         public async void WithTestDrive_ShouldReturnModelWithTestDrive()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            this.SeedTestDriveWithStatuses(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedTestDrivesMethods.SeedTestDriveWithEverything(dbContext);
             var service = this.GetService(dbContext);
             var sortType = AdminTestDrivesSortStrategyType.Date;
             var sortDirect = SortStrategyDirection.Ascending;

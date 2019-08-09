@@ -7,7 +7,7 @@ using BMWStore.Services.Interfaces;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminPicturesServiceTests
 {
-    public abstract class BaseAdminPicturesServiceTest
+    public abstract class BaseAdminPicturesServiceTest : BaseTest
     {
         public IAdminPicturesService GetService(ApplicationDbContext dbContext, ICloudinaryService cloudinaryService)
         {

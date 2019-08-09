@@ -1,23 +1,16 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Common.Enums;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
 {
-    public class DeleteAsyncTests : BaseAdminTestDrivesServiceTest, IClassFixture<BaseTestFixture>
+    public class DeleteAsyncTests : BaseAdminTestDrivesServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public DeleteAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
 
@@ -28,9 +21,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         [Fact]
         public async void WithCorrectId_ShouldDeleteTestDrive()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbTestDrive = this.SeedTestDriveWithStatuses(dbContext);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDriveWithStatus(dbContext);
 
             await service.DeleteAsync(dbTestDrive.Id);
 

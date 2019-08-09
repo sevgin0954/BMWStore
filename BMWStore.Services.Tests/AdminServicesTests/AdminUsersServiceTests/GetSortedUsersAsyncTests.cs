@@ -1,25 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BMWStore.Services.Tests.Common.SeedTestMethods;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 {
-    public class GetSortedUsersAsyncTests : BaseAdminUsersServiceTest, IClassFixture<BaseTestFixture>
+    public class GetSortedUsersAsyncTests : BaseAdminUsersServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetSortedUsersAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithAdminOnly_ShouldReturnEmptyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            this.SeedAdminWithRole(dbContext);
-            CommonSeedTestMethods.SeedUserRole(dbContext);
+            SeedUsersMethods.SeedAdminWithRole(dbContext);
+            SeedRolesMethods.SeedUserRole(dbContext);
 
             var cookies = new Mock<IRequestCookieCollection>().Object;
             var model = await service.GetSortedUsersAsync(cookies, 1);
@@ -30,7 +24,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         [Fact]
         public async void WithAdminAndUser_ShouldReturnUserOnly()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             this.SeedUserAndAdmin(dbContext);
 

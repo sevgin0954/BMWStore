@@ -5,7 +5,7 @@ using BMWStore.Services.AdminServices.Interfaces;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTransmissionsServiceTests
 {
-    public abstract class BaseAdminTransmissionsServiceTests
+    public abstract class BaseAdminTransmissionsServiceTests : BaseTest
     {
         public IAdminTransmissionsService GetService(ApplicationDbContext dbContext)
         {

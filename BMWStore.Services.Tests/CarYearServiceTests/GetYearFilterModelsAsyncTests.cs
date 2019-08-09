@@ -1,22 +1,16 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CarYearServiceTests
 {
-    public class GetYearFilterModelsAsyncTests : BaseCarYearServiceTest, IClassFixture<BaseTestFixture>
+    public class GetYearFilterModelsAsyncTests : BaseCarYearServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetYearFilterModelsAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithouthCars_ShouldReturnEmtpyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService();
             
             var models = await service.GetYearFilterModelsAsync(dbContext.BaseCars);
@@ -29,7 +23,7 @@ namespace BMWStore.Services.Tests.CarYearServiceTests
         {
             const string year = "2019";
 
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             this.SeedCarWithYear(dbContext, year);
             var service = this.GetService();
 
@@ -45,7 +39,7 @@ namespace BMWStore.Services.Tests.CarYearServiceTests
             const string year1 = "2019";
             const string year2 = "2018";
 
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             this.SeedCarWithYear(dbContext, year1);
             this.SeedCarWithYear(dbContext, year2);
             var service = this.GetService();
@@ -59,7 +53,7 @@ namespace BMWStore.Services.Tests.CarYearServiceTests
 
         private void SeedCarWithYear(ApplicationDbContext dbContext, string year)
         {
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
             dbCar.Year = year;
 
             dbContext.SaveChanges();

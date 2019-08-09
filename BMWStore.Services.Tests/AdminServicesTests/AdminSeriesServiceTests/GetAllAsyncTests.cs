@@ -1,20 +1,14 @@
-﻿using Xunit;
+﻿using BMWStore.Services.Tests.Common.SeedTestMethods;
+using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
 {
-    public class GetAllAsyncTests : BaseAdminSeriesServiceTest, IClassFixture<BaseTestFixture>
+    public class GetAllAsyncTests : BaseAdminSeriesServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetAllAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithoutSeries_ShouldReturnEmptyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var models = await service.GetAllAsync();
@@ -25,8 +19,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
         [Fact]
         public async void WithSeries_ShouldReturnSeries()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            this.SeedSeries(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedSeriesMethods.SeedSeries(dbContext);
             var service = this.GetService(dbContext);
 
             var models = await service.GetAllAsync();

@@ -97,7 +97,7 @@ namespace BMWStore.Services
         public async Task CancelTestDriveAsync(string testDriveId, ClaimsPrincipal user)
         {
             var dbTestDrive = await this.testDriveRepository.GetByIdAsync(testDriveId);
-
+            DataValidator.ValidateNotNull(dbTestDrive, new ArgumentException(ErrorConstants.IncorrectId));
             this.ValidateTestDriveUser(dbTestDrive, user);
             await this.ValidateStatusAsync(dbTestDrive.StatusId);
 

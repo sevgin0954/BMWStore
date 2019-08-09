@@ -5,19 +5,12 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
 {
-    public class SetEditBindingModelPropertiesAsyncTests : BaseAdminEnginesServiceTest, IClassFixture<BaseTestFixture>
+    public class SetEditBindingModelPropertiesAsyncTests : BaseAdminEnginesServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public SetEditBindingModelPropertiesAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var model = new AdminEngineEditBindingModel()
             {

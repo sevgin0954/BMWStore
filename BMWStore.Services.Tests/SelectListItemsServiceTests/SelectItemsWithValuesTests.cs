@@ -6,15 +6,8 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.SelectListItemsServiceTests
 {
-    public class SelectItemsWithValuesTests : BaseSelectListItemsServiceTests, IClassFixture<BaseTestFixture>
+    public class SelectItemsWithValuesTests : BaseSelectListItemsServiceTests
     {
-        private readonly BaseTestFixture baseTest;
-
-        public SelectItemsWithValuesTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public void WithItemAndValue_ShouldSelectItem()
         {
@@ -43,7 +36,7 @@ namespace BMWStore.Services.Tests.SelectListItemsServiceTests
 
         private ISelectListItemsService GetService()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             return service;

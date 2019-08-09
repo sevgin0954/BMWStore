@@ -1,23 +1,17 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Models.OptionModels.BidningModels;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
 {
-    public class EditOptionAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<BaseTestFixture>
+    public class EditOptionAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public EditOptionAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var model = this.GetEditModel(Guid.NewGuid().ToString());
 
@@ -28,8 +22,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         [Fact]
         public async void WithCorrectId_ShouldEditOption()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbOption = this.SeedOption(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbOption = SeedOptionsMethods.SeedOption(dbContext);
             var service = this.GetService(dbContext);
 
             var modelName = Guid.NewGuid().ToString();

@@ -1,24 +1,18 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 {
-    public class DeleteUserAsyncTests : BaseAdminUsersServiceTest, IClassFixture<BaseTestFixture>
+    public class DeleteUserAsyncTests : BaseAdminUsersServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public DeleteUserAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            CommonSeedTestMethods.SeedUserRole(dbContext);
+            SeedRolesMethods.SeedUserRole(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () =>
@@ -29,10 +23,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         [Fact]
         public async void WithAdmin_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbAdmin = this.SeedAdminWithRole(dbContext);
-            CommonSeedTestMethods.SeedUserRole(dbContext);
+            var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
+            SeedRolesMethods.SeedUserRole(dbContext);
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => 
                 await service.DeleteUserAsync(dbAdmin.Id));
@@ -42,9 +36,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         [Fact]
         public async void WithUser_ShoudDeleteUser()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbUser = this.SeedUserWithRole(dbContext);
+            var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 
             await service.DeleteUserAsync(dbUser.Id);
 

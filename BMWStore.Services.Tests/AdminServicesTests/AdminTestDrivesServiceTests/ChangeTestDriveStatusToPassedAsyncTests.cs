@@ -1,23 +1,17 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
 {
-    public class ChangeTestDriveStatusToPassedAsyncTests : BaseAdminTestDrivesServiceTest, IClassFixture<BaseTestFixture>
+    public class ChangeTestDriveStatusToPassedAsyncTests : BaseAdminTestDrivesServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public ChangeTestDriveStatusToPassedAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
 
@@ -29,9 +23,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         [Fact]
         public async void WithotPassedStatus_ShouldTrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbTestDrive = this.SeedTestDriveWithStatuses(dbContext, TestDriveStatus.Canceled);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDriveWithStatus(dbContext, TestDriveStatus.Canceled);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 async () => await service.ChangeTestDriveStatusToPassedAsync(dbTestDrive.Id));
@@ -40,9 +34,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         [Fact]
         public async void WithPassedTestDrive_ShouldTrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbTestDrive = this.SeedTestDriveWithStatuses(dbContext, TestDriveStatus.Passed);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDrive(dbContext, "", this.PassedStatus);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 async () => await service.ChangeTestDriveStatusToPassedAsync(dbTestDrive.Id));
@@ -52,9 +46,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         [Fact]
         public async void WithCanceledTestDrive_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbTestDrive = this.SeedTestDriveWithStatuses(dbContext, TestDriveStatus.Canceled);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDriveWithStatus(dbContext, TestDriveStatus.Canceled);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 async () => await service.ChangeTestDriveStatusToPassedAsync(dbTestDrive.Id));
@@ -64,9 +58,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         [Fact]
         public async void WithUpcomingTestDrive_ShouldChangeStatusToPassed()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var dbTestDrive = this.SeedTestDriveWithStatuses(dbContext, TestDriveStatus.Upcoming);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDrive(dbContext, "", this.UpcomingStatus);
 
             await service.ChangeTestDriveStatusToPassedAsync(dbTestDrive.Id);
 

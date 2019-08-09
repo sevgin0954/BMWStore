@@ -2,6 +2,7 @@
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Moq;
@@ -12,19 +13,12 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 {
-    public class EditCarAsyncTests : BaseAdminCarsServiceTest, IClassFixture<BaseTestFixture>
+    public class EditCarAsyncTests : BaseAdminCarsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public EditCarAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var incorrectId = Guid.NewGuid().ToString();
             var model = this.CreateCarEditModel(incorrectId);
             var service = this.GetService(dbContext);
@@ -37,24 +31,25 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithoutPictures_ShouldNotChangePictures()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbPictures = this.CreatePictures(Guid.NewGuid().ToString());
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbPictures);
+            var dbContext = this.GetDbContext();
+            var dbPicture = this.CreatePictur(Guid.NewGuid().ToString());
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext, dbPicture);
 
             var model = this.CreateCarEditModel(dbCar.Id);
             var service = this.GetService(dbContext);
 
             await service.EditCarAsync<NewCar>(model);
 
-            Assert.Equal(dbCar.Pictures, dbPictures);
+            Assert.Single(dbCar.Pictures);
+            Assert.Equal(dbCar.Pictures.First().PublicId, dbPicture.PublicId);
         }
 
         [Fact]
         public async void WithPictures_ShouldReplacePictures()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbPictures = this.CreatePictures(Guid.NewGuid().ToString());
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbPictures);
+            var dbContext = this.GetDbContext();
+            var dbPictures = this.CreatePictur(Guid.NewGuid().ToString());
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext, dbPictures);
 
             var inputPicture = this.CreateInputPicture();
             var model = this.CreateCarEditModel(dbCar.Id, inputPicture);
@@ -70,10 +65,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithoutOptions_ShouldNotReplaceOptions()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var dbOptions = this.CreateOptions(2);
             var dbCarOptions = this.CreateCarOptions(dbOptions);
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbCarOptions);
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext, dbCarOptions);
 
             var service = this.GetService(dbContext);
 
@@ -86,11 +81,11 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithOptions_ShouldReplaceOptions()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var dbOptions = this.CreateOptions(2);
             var selectedOptions = dbOptions.Take(1);
             var dbCarOptions = this.CreateCarOptions(selectedOptions);
-            var dbCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext, dbCarOptions);
+            var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext, dbCarOptions);
 
             var service = this.GetService(dbContext);
 
@@ -169,20 +164,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             return options;
         }
 
-        private ICollection<Picture> CreatePictures(params string[] publicIds)
+        private Picture CreatePictur(string publicId)
         {
-            var pictures = new List<Picture>();
-
-            foreach (var publicId in publicIds)
+            var dbPicture = new Picture()
             {
-                var dbPicture = new Picture()
-                {
-                    PublicId = publicId
-                };
-                pictures.Add(dbPicture);
-            }
+                PublicId = publicId
+            };
 
-            return pictures;
+            return dbPicture;
         }
     }
 }

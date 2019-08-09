@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BMWStore.Services.Tests.TestDriveServiceTests
 {
-    public abstract class BaseTestDriveServiceTests
+    public abstract class BaseTestDriveServiceTests : BaseTest
     {
         protected ITestDriveService GetService(ApplicationDbContext dbContext, UserManager<User> userManager)
         {

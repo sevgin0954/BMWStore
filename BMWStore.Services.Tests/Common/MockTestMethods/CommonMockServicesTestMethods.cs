@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace BMWStore.Services.Tests
+namespace BMWStore.Services.Tests.Common.MockTestMethods
 {
     public static class CommonMockServicesTestMethods
     {

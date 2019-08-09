@@ -3,19 +3,12 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTransmissionsServiceTests
 {
-    public class CreateNewTransmissionAsyncTests : BaseAdminTransmissionsServiceTests, IClassFixture<BaseTestFixture>
+    public class CreateNewTransmissionAsyncTests : BaseAdminTransmissionsServiceTests
     {
-        private readonly BaseTestFixture baseTest;
-
-        public CreateNewTransmissionAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithModel_ShouldCreateNewTransmission()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var model = new AdminTransmissionsCreateBindingModel();
 

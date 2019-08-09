@@ -1,24 +1,17 @@
-﻿using BMWStore.Common.Constants;
-using BMWStore.Data;
+﻿using BMWStore.Data;
 using BMWStore.Entities;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsServiceTests
 {
-    public class GetStatisticsAsyncTests : BaseAdminDashboardStatisticsServiceTest, IClassFixture<BaseTestFixture>
+    public class GetStatisticsAsyncTests : BaseAdminDashboardStatisticsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetStatisticsAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithoutRecords_ShouldReturnModelWithPropertiesWithValuesZero()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var model = await service.GetStatisticsAsync();
@@ -36,7 +29,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithNewAndUsedCarTestDrives_ShouldReturnModelWithCorrectTotalNewCarTestDrivesCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             this.SeedTestDrivesWithCars(dbContext);
@@ -49,7 +42,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithNewAndUsedCarTestDrives_ShouldReturnModelWithCorrectTotalUsedCarTestDrivesCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             this.SeedTestDrivesWithCars(dbContext);
@@ -62,14 +55,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithTestDrives_ShouldReturnModelWithCorrectNewCarsTestDrivesFromPast24HoursCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var yeasterday = this.GetYearterdayTime();
             var today = DateTime.UtcNow;
-            CommonCreateEntitiesTestMethods.CreateTestDrive(new NewCar(), dbContext, today);
-            CommonCreateEntitiesTestMethods.CreateTestDrive(new NewCar(), dbContext, yeasterday);
-            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            SeedTestDrivesMethods.SeedTestDriveWithCar<NewCar>(dbContext, today);
+            SeedTestDrivesMethods.SeedTestDriveWithCar<NewCar>(dbContext, yeasterday);
+            this.SeedTestDrivesWithCars(dbContext, yeasterday);
             dbContext.SaveChanges();
 
             var model = await service.GetStatisticsAsync();
@@ -80,14 +73,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithTestDrives_ShouldReturnModelWithCorrectUsedCarsTestDrivesFromPast24HoursCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var yeasterday = this.GetYearterdayTime();
             var today = DateTime.UtcNow;
-            this.CreateTestDrivesWithCars(dbContext, today);
-            CommonCreateEntitiesTestMethods.CreateTestDrive(new UsedCar(), dbContext, yeasterday);
-            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            this.SeedTestDrivesWithCars(dbContext, today);
+            SeedTestDrivesMethods.SeedTestDriveWithCar<UsedCar>(dbContext, yeasterday);
+            this.SeedTestDrivesWithCars(dbContext, yeasterday);
             dbContext.SaveChanges();
 
             var model = await service.GetStatisticsAsync();
@@ -98,14 +91,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithTestDrives_ShouldReturnModelWithCorrectTestTotalDrivesFromPast24HourCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var yeasterday = this.GetYearterdayTime();
             var today = DateTime.UtcNow;
-            this.CreateTestDrivesWithCars(dbContext, today);
-            this.CreateTestDrivesWithCars(dbContext, yeasterday);
-            this.CreateTestDrivesWithCars(dbContext, yeasterday);
+            this.SeedTestDrivesWithCars(dbContext, today);
+            this.SeedTestDrivesWithCars(dbContext, yeasterday);
+            this.SeedTestDrivesWithCars(dbContext, yeasterday);
             dbContext.SaveChanges();
 
             var model = await service.GetStatisticsAsync();
@@ -116,11 +109,11 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithAdminAndUser_ShouldReturnModelWithCorrectTotalUsersCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            CommonSeedTestMethods.SeedUser(WebConstants.AdminRoleName, dbContext);
-            CommonSeedTestMethods.SeedUser(WebConstants.UserRoleName, dbContext);
+            SeedUsersMethods.SeedUser(dbContext, this.AdminRole);
+            SeedUsersMethods.SeedUser(dbContext, this.UserRole);
 
             var model = await service.GetStatisticsAsync();
 
@@ -130,10 +123,11 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithNewAndUsedCars_ShouldReturnModelWithCorrectTotalNewCarsCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            this.SeedCars(dbContext);
+            SeedCarsMethods.SeedCar<NewCar>(dbContext);
+            SeedCarsMethods.SeedCar<UsedCar>(dbContext);
 
             var model = await service.GetStatisticsAsync();
 
@@ -143,40 +137,29 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDashboardStatisticsSer
         [Fact]
         public async void WithNewAndUsedCars_ShouldReturnModelWithCorrectTotalUsedCarsCount()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            this.SeedCars(dbContext);
+            SeedCarsMethods.SeedCar<NewCar>(dbContext);
+            SeedCarsMethods.SeedCar<UsedCar>(dbContext);
 
             var model = await service.GetStatisticsAsync();
 
             Assert.Equal(1, model.UsedCarsCount);
         }
 
-        private void SeedCars(ApplicationDbContext dbContext)
-        {
-            CommonCreateEntitiesTestMethods.CreateCar<NewCar>(dbContext);
-            CommonCreateEntitiesTestMethods.CreateCar<UsedCar>(dbContext);
-
-            dbContext.SaveChanges();
-        }
-
         private void SeedTestDrivesWithCars(ApplicationDbContext dbContext)
         {
-            var newCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
-            CommonCreateEntitiesTestMethods.CreateTestDrive(newCar, dbContext);
-            var usedCar = CommonSeedTestMethods.SeedCar<UsedCar>(dbContext);
-            CommonCreateEntitiesTestMethods.CreateTestDrive(usedCar, dbContext);
-
-            dbContext.SaveChanges();
+            var newCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
+            SeedTestDrivesMethods.SeedTestDrive(dbContext, newCar);
+            var usedCar = SeedCarsMethods.SeedCar<UsedCar>(dbContext);
+            SeedTestDrivesMethods.SeedTestDrive(dbContext, usedCar);
         }
 
-        private void CreateTestDrivesWithCars(ApplicationDbContext dbContext, DateTime scheduleDate)
+        private void SeedTestDrivesWithCars(ApplicationDbContext dbContext, DateTime scheduleDate)
         {
-            var newCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
-            CommonCreateEntitiesTestMethods.CreateTestDrive(newCar, dbContext, scheduleDate);
-            var usedCar = CommonSeedTestMethods.SeedCar<UsedCar>(dbContext);
-            CommonCreateEntitiesTestMethods.CreateTestDrive(usedCar, dbContext, scheduleDate);
+            SeedTestDrivesMethods.SeedTestDriveWithCar<NewCar>(dbContext, scheduleDate);
+            SeedTestDrivesMethods.SeedTestDriveWithCar<UsedCar>(dbContext, scheduleDate);
         }
 
         private DateTime GetYearterdayTime()

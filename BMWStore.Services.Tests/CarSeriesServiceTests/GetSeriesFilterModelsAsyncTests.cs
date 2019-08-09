@@ -1,22 +1,16 @@
 ﻿using BMWStore.Entities;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System.Linq;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CarSeriesServiceTests
 {
-    public class GetSeriesFilterModelsAsyncTests : BaseCarSeriesServiceTests, IClassFixture<BaseTestFixture>
+    public class GetSeriesFilterModelsAsyncTests : BaseCarSeriesServiceTests, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetSeriesFilterModelsAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithouCars_ShouldReturnEmptyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService();
 
             var models = await service.GetSeriesFilterModelsAsync(dbContext.BaseCars);
@@ -27,9 +21,9 @@ namespace BMWStore.Services.Tests.CarSeriesServiceTests
         [Fact]
         public async void WithCar_ShouldReturnModelWithCorrectValue()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService();
-            var dbCar = this.SeedCarWithSeries<UsedCar>(dbContext);
+            var dbCar = SeedCarsMethods.SeedCarWithEverything<UsedCar>(dbContext);
 
             var models = await service.GetSeriesFilterModelsAsync(dbContext.BaseCars);
 
@@ -40,10 +34,10 @@ namespace BMWStore.Services.Tests.CarSeriesServiceTests
         [Fact]
         public async void WithCarsWithDifferentModels_ShouldReturnCorrectModelTypes()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService();
-            var dbCar1 = this.SeedCarWithSeries<UsedCar>(dbContext);
-            var dbCar2 = this.SeedCarWithSeries<UsedCar>(dbContext);
+            var dbCar1 = SeedCarsMethods.SeedCarWithEverything<UsedCar>(dbContext);
+            var dbCar2 = SeedCarsMethods.SeedCarWithEverything<UsedCar>(dbContext);
 
             var models = await service.GetSeriesFilterModelsAsync(dbContext.BaseCars);
 

@@ -6,7 +6,7 @@ using BMWStore.Services.AdminServices.Interfaces;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
 {
-    public abstract class BaseAdminFuelTypesServiceTest
+    public abstract class BaseAdminFuelTypesServiceTest : BaseTest
     {
         protected IAdminFuelTypesService GetService(ApplicationDbContext dbContext)
         {
@@ -14,16 +14,6 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
             var service = new AdminFuelTypesService(fuelTypeRepository);
 
             return service;
-        }
-
-        protected FuelType SeedFuelType(ApplicationDbContext dbContext)
-        {
-            var dbFuelType = new FuelType();
-            dbContext.FuelTypes.Add(dbFuelType);
-
-            dbContext.SaveChanges();
-
-            return dbFuelType;
         }
     }
 }

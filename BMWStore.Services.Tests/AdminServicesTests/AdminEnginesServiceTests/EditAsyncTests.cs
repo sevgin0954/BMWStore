@@ -1,23 +1,17 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Models.EngineModels.BindingModels;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
 {
-    public class EditAsyncTests : BaseAdminEnginesServiceTest, IClassFixture<BaseTestFixture>
+    public class EditAsyncTests : BaseAdminEnginesServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public EditAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
             var model = new AdminEngineEditBindingModel()
@@ -32,14 +26,13 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
         [Fact]
         public async void WithCorrectId_ShouldEditEngine()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var engineId = Guid.NewGuid().ToString();
-            var dbEngine = this.SeedEngine(engineId, dbContext);
+            var dbEngine = SeedEnginesMethods.SeedEngine(dbContext);
 
             var model = new AdminEngineEditBindingModel()
             {
-                Id = engineId,
+                Id = dbEngine.Id,
                 Name = Guid.NewGuid().ToString()
             };
 

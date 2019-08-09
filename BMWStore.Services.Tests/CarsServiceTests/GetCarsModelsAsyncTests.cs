@@ -1,24 +1,18 @@
 ﻿using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System.Linq;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CarsServiceTests
 {
-    public class GetCarsModelsAsyncTests : BaseCarsServiceTest, IClassFixture<BaseTestFixture>
+    public class GetCarsModelsAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetCarsModelsAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithCar_ShouldReturnCorrectModel()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
             var service = this.GetService();
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, 1);
@@ -30,7 +24,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         [Fact]
         public async void WithoutCars_ShouldReturnEmptyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService();
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, 1);
@@ -43,8 +37,8 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         [InlineData(1)]
         public async void WithCarAndSmallerThenOnePageNumber_ShouldReturnFirstPageModel(int pageNumber)
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
             var service = this.GetService();
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, pageNumber);
@@ -55,8 +49,8 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         [Fact]
         public async void WithCarsAndBiggerPageNumber_ShouldReturnEmptyCollection()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            CommonSeedTestMethods.SeedCarWithEverything<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
             var service = this.GetService();
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, 2);

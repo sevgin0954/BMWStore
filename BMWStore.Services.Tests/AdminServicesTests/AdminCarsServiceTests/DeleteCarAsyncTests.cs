@@ -1,25 +1,19 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Entities;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using System.Linq;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 {
-    public class DeleteCarAsyncTests : BaseAdminCarsServiceTest, IClassFixture<BaseTestFixture>
+    public class DeleteCarAsyncTests : BaseAdminCarsServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public DeleteCarAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithCorrectIdForNewCar_ShouldDeleteCar()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbNewCar = CommonSeedTestMethods.SeedCar<NewCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbNewCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
             var service = this.GetService(dbContext);
 
             await service.DeleteCarAsync(dbNewCar.Id);
@@ -30,8 +24,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithCorrectIdForUsedCar_ShouldDeleteCar()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUsedCar = CommonSeedTestMethods.SeedCar<UsedCar>(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbUsedCar = SeedCarsMethods.SeedCar<UsedCar>(dbContext);
             var service = this.GetService(dbContext);
 
             await service.DeleteCarAsync(dbUsedCar.Id);
@@ -42,7 +36,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var incorrectId = Guid.NewGuid().ToString();
             var service = this.GetService(dbContext);
 

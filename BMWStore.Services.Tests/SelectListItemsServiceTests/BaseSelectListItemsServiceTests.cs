@@ -3,7 +3,7 @@ using BMWStore.Services.Interfaces;
 
 namespace BMWStore.Services.Tests.SelectListItemsServiceTests
 {
-    public abstract class BaseSelectListItemsServiceTests
+    public abstract class BaseSelectListItemsServiceTests : BaseTest
     {
         public ISelectListItemsService GetService(ApplicationDbContext dbContext)
         {

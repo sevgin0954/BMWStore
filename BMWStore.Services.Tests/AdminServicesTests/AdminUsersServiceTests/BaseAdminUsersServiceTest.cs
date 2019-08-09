@@ -4,13 +4,13 @@ using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Moq;
 using System;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 {
-    public class BaseAdminUsersServiceTest
+    public class BaseAdminUsersServiceTest : BaseTest
     {
         protected IAdminUsersService GetService(ApplicationDbContext dbContext)
         {
@@ -24,40 +24,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 
         protected void SeedUserAndAdmin(ApplicationDbContext dbContext)
         {
-            this.SeedAdminWithRole(dbContext);
-            this.SeedUserWithRole(dbContext);
-
-            dbContext.SaveChanges();
-        }
-
-        protected User SeedAdminWithRole(ApplicationDbContext dbContext)
-        {
-            var dbAdminRole = CommonSeedTestMethods.SeedAdminRole(dbContext);
-            var dbAdmin = new User();
-            dbAdmin.Roles.Add(new IdentityUserRole<string>()
-            {
-                RoleId = dbAdminRole.Id
-            });
-
-            dbContext.Users.Add(dbAdmin);
-            dbContext.SaveChanges();
-
-            return dbAdmin;
-        }
-
-        protected User SeedUserWithRole(ApplicationDbContext dbContext)
-        {
-            var dbUserRole = CommonSeedTestMethods.SeedUserRole(dbContext);
-            var dbUser = new User();
-            dbUser.Roles.Add(new IdentityUserRole<string>()
-            {
-                RoleId = dbUserRole.Id
-            });
-
-            dbContext.Users.Add(dbUser);
-            dbContext.SaveChanges();
-
-            return dbUser;
+            SeedUsersMethods.SeedUserWithRole(dbContext);
+            SeedUsersMethods.SeedAdminWithRole(dbContext);
         }
 
         protected void BanUser(ApplicationDbContext dbContext, User user)

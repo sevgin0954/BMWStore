@@ -1,30 +1,25 @@
-﻿using BMWStore.Data;
+﻿using BMWStore.Common.Enums;
+using BMWStore.Data;
 using BMWStore.Entities;
-using BMWStore.Models.TestDriveModels.ViewModels;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Tests.Common.MockTestMethods;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using Moq;
 using System;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace BMWStore.Services.Tests.TestDriveServiceTests
 {
-    public class GetTestDriveAsyncTests : BaseTestDriveServiceTests, IClassFixture<BaseTestFixture>
+    public class GetTestDriveAsyncTests : BaseTestDriveServiceTests, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public GetTestDriveAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithTestDriveOnAnotherUser_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
-            var dbTestDrive = CommonSeedTestMethods.SeedTestDriveWithCar<NewCar>(dbContext, "");
+            var dbContext = this.GetDbContext();
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
+            var dbUpcomingStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDriveWithCar<NewCar>(dbContext, "", dbUpcomingStatus);
             var service = this.GetService(dbContext, dbUser.Id);
             var user = new Mock<ClaimsPrincipal>().Object;
 
@@ -34,8 +29,8 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         [Fact]
         public async void WithIncorrectId_ShouldThrowExcception()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
+            var dbContext = this.GetDbContext();
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
             var service = this.GetService(dbContext, dbUser.Id);
             var user = new Mock<ClaimsPrincipal>().Object;
             var incorrectId = Guid.NewGuid().ToString();
@@ -46,9 +41,10 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         [Fact]
         public async void WithCorrectId_ShouldReturnTestDrive()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var dbUser = CommonSeedTestMethods.SeedUser(dbContext);
-            var dbTestDrive = CommonSeedTestMethods.SeedTestDriveWithCar<NewCar>(dbContext, dbUser.Id);
+            var dbContext = this.GetDbContext();
+            var dbUser = SeedUsersMethods.SeedUser(dbContext);
+            var dbUpcomingStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+            var dbTestDrive = SeedTestDrivesMethods.SeedTestDriveWithCar<NewCar>(dbContext, dbUser.Id, dbUpcomingStatus);
             var service = this.GetService(dbContext, dbUser.Id);
             var user = new Mock<ClaimsPrincipal>().Object;
 

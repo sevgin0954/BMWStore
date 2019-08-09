@@ -6,7 +6,7 @@ using BMWStore.Services.AdminServices.Interfaces;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
 {
-    public abstract class BaseAdminModelTypesServiceTest
+    public abstract class BaseAdminModelTypesServiceTest : BaseTest
     {
         public IAdminModelTypesService GetService(ApplicationDbContext dbContext)
         {
@@ -14,16 +14,6 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
             var service = new AdminModelTypesService(modelTypeRepository);
 
             return service;
-        }
-
-        protected ModelType SeedModelType(ApplicationDbContext dbContext)
-        {
-            var dbModelType = new ModelType();
-            dbContext.ModelTypes.Add(dbModelType);
-
-            dbContext.SaveChanges();
-
-            return dbModelType;
         }
     }
 }

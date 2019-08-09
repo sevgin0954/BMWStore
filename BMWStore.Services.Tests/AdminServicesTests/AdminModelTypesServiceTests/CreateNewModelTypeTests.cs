@@ -3,19 +3,12 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
 {
-    public class CreateNewModelTypeTests : BaseAdminModelTypesServiceTest, IClassFixture<BaseTestFixture>
+    public class CreateNewModelTypeTests : BaseAdminModelTypesServiceTest, IClassFixture<MapperFixture>
     {
-        private readonly BaseTestFixture baseTest;
-
-        public CreateNewModelTypeTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithModel_ShouldCreateNewModelType()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var model = new AdminModelTypeCreateBidningModel();
 

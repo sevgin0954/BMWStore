@@ -1,22 +1,16 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Services.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
 {
-    public class DeleteAsyncTests : BaseAdminFuelTypesServiceTest, IClassFixture<BaseTestFixture>
+    public class DeleteAsyncTests : BaseAdminFuelTypesServiceTest
     {
-        private readonly BaseTestFixture baseTest;
-
-        public DeleteAsyncTests(BaseTestFixture baseTest)
-        {
-            this.baseTest = baseTest;
-        }
-
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
         {
-            var dbContext = this.baseTest.GetDbContext();
+            var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
 
@@ -27,8 +21,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
         [Fact]
         public async void WithCorrectId_ShouldDeleteFuelType()
         {
-            var dbContext = this.baseTest.GetDbContext();
-            var fuelType = this.SeedFuelType(dbContext);
+            var dbContext = this.GetDbContext();
+            var fuelType = SeedFuelTypesMethods.SeedFuelType(dbContext);
             var service = this.GetService(dbContext);
 
             await service.DeleteAsync(fuelType.Id);
