@@ -8,10 +8,10 @@ namespace BMWStore.Services
     public class FilterTypesService : IFilterTypesService
     {
         public void SelectFilterTypeModelsWithValues(
-            IEnumerable<FilterTypeBindingModel> filterTypeBindingModels, 
+            IEnumerable<FilterTypeBindingModel> filterTypeBindingModels,
             params string[] values)
         {
-            if (values != null && values.Length > 0)
+            if (values.Length > 0)
             {
                 foreach (var model in filterTypeBindingModels)
                 {

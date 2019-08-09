@@ -1,5 +1,4 @@
 ﻿using BMWStore.Data;
-using BMWStore.Data.Interfaces;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
