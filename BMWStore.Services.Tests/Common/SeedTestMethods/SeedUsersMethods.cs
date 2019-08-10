@@ -14,6 +14,18 @@ namespace BMWStore.Services.Tests.Common.SeedTestMethods
             return user;
         }
 
+        public static User SeedUser(ApplicationDbContext dbContext, string email)
+        {
+            var user = new User()
+            {
+                Email = email,
+                NormalizedEmail = email.ToUpper()
+            };
+            SeedUser(dbContext, user);
+
+            return user;
+        }
+
         public static User SeedUser(ApplicationDbContext dbContext, IdentityRole role)
         {
             var user = new User();

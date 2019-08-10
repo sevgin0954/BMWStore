@@ -42,7 +42,7 @@ namespace BMWStore.Services
 
         private Task<bool> IsUserExist(string email)
         {
-            var isExist = this.userRepository.AnyAsync(u => u.NormalizedEmail == email.ToString());
+            var isExist = this.userRepository.AnyAsync(u => u.NormalizedEmail == email.ToUpper());
 
             return isExist;
         }
