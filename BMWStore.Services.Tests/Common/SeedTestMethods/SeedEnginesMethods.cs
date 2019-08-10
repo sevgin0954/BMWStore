@@ -14,6 +14,18 @@ namespace BMWStore.Services.Tests.Common.SeedTestMethods
             return dbEngine;
         }
 
+        public static Engine SeedEngine(ApplicationDbContext dbContext, string name)
+        {
+            var dbEngine = new Engine()
+            {
+                Name = name
+            };
+            dbContext.Engines.Add(dbEngine);
+            dbContext.SaveChanges();
+
+            return dbEngine;
+        }
+
         public static void SeedEngineWithTransmission(ApplicationDbContext dbContext)
         {
             var engine = new Engine();
