@@ -4,7 +4,6 @@ using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
-using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.UserModels.ViewModels;
@@ -14,7 +13,6 @@ using MappingRegistrar;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,24 +22,24 @@ namespace BMWStore.Services.AdminServices
     {
         private readonly IRoleRepository roleRepository;
         private readonly IUserRepository userRepository;
-        private readonly ISortCookieService sortCookieService;
+        private readonly ICookiesService cookiesService;
 
         public AdminUsersService(
             IRoleRepository roleRepository, 
-            IUserRepository userRepository, 
-            ISortCookieService sortCookieService)
+            IUserRepository userRepository,
+            ICookiesService cookiesService)
         {
             this.roleRepository = roleRepository;
             this.userRepository = userRepository;
-            this.sortCookieService = sortCookieService;
+            this.cookiesService = cookiesService;
         }
 
         public async Task<AdminUsersViewModel> GetSortedUsersAsync(IRequestCookieCollection requestCookies, int pageNumber)
         {
-            var sortStrategyName = this.sortCookieService
-                .GetSortStrategyTypeOrDefault<UserSortStrategyType>(requestCookies, WebConstants.CookieAdminUsersSortTypeKey);
-            var sortDirection = this.sortCookieService
-                .GetSortStrategyDirectionOrDefault(requestCookies, WebConstants.CookieAdminUsersSortDirectionKey);
+            var sortStrategyName = this.cookiesService
+                .GetValueOrDefault<UserSortStrategyType>(requestCookies, WebConstants.CookieAdminUsersSortTypeKey);
+            var sortDirection = this.cookiesService
+                .GetValueOrDefault<SortStrategyDirection>(requestCookies, WebConstants.CookieAdminUsersSortDirectionKey);
             var sortStrategy = UserSortStrategyFactory.GetStrategy(sortStrategyName, sortDirection);
 
             var dbUserRoleId = await this.roleRepository

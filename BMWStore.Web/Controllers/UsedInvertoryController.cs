@@ -2,7 +2,6 @@
 using BMWStore.Common.Enums;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
-using BMWStore.Data.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.BindingModels;
@@ -17,16 +16,16 @@ namespace BMWStore.Web.Controllers
     public class UsedInvertoryController : Controller
     {
         private readonly ICarsInvertoryService carsInvertoryService;
-        private readonly ISortCookieService sortCookieService;
+        private readonly ICookiesService cookiesService;
         private readonly IUsedCarRepository usedCarRepository;
 
         public UsedInvertoryController(
             ICarsInvertoryService carsInvertoryService,
-            ISortCookieService sortCookieService,
+            ICookiesService cookiesService,
             IUsedCarRepository usedCarRepository)
         {
             this.carsInvertoryService = carsInvertoryService;
-            this.sortCookieService = sortCookieService;
+            this.cookiesService = cookiesService;
             this.usedCarRepository = usedCarRepository;
         }
 
@@ -36,10 +35,10 @@ namespace BMWStore.Web.Controllers
             var cookie = this.HttpContext.Request.Cookies;
 
             var sortDirectionKey = WebConstants.CookieUserCarsSortDirectionKey;
-            var sortDirection = this.sortCookieService.GetSortStrategyDirectionOrDefault(cookie, sortDirectionKey);
+            var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookie, sortDirectionKey);
 
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
-            var sortType = this.sortCookieService.GetSortStrategyTypeOrDefault<UsedCarSortStrategyType>(cookie, sortTypeKey);
+            var sortType = this.cookiesService.GetValueOrDefault<UsedCarSortStrategyType>(cookie, sortTypeKey);
 
             var sortStrategy = UsedCarSortStrategyFactory.GetStrategy<UsedCar>(sortType, sortDirection);
 
@@ -82,7 +81,7 @@ namespace BMWStore.Web.Controllers
         public IActionResult ChangeSortType(UsedCarSortStrategyType sortStrategyType, string returnUrl)
         {
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
-            this.sortCookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortTypeKey, sortStrategyType.ToString());
 
             return Redirect(returnUrl);
         }
@@ -91,7 +90,7 @@ namespace BMWStore.Web.Controllers
         public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection, string returnUrl)
         {
             var sortDirectionKey = WebConstants.CookieUserCarsSortDirectionKey;
-            this.sortCookieService.ChangeSortDirectionCookie(this.HttpContext.Response.Cookies, sortDirection, sortDirectionKey);
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortDirectionKey, sortDirection.ToString());
 
             return Redirect(returnUrl);
         }

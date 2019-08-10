@@ -59,7 +59,6 @@ namespace BMWStore.Services
             return model;
         }
 
-
         public async Task<string> ScheduleTestDriveAsync(ScheduleTestDriveBindingModel model, ClaimsPrincipal user)
         {
             await this.ValidateCarIdAsync(model.CarId);

@@ -4,7 +4,7 @@
     {
         public const string EmptyCollection = "The collection was empty";
 
-        public const string EmptyEnumException = "Enum was empty";
+        public const string EmptyEnum = "Enum was empty";
         public const string IncorrectEnumValue = "Value dont exist in the enum";
 
         public const string IncorrectId = "Incorrect id";

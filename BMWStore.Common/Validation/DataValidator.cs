@@ -22,7 +22,7 @@ namespace BMWStore.Common.Validation
         {
             if (enumerable.GetEnumerator().MoveNext() == false)
             {
-                throw new Exception(exceptionMessage);
+                throw new InvalidOperationException(exceptionMessage);
             }
         }
 

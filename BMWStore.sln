@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MappingRegistrar", "Mapping
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4B00B0CD-C39E-4F6F-B92E-F83BE4B48FD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Services.Tests", "BMWStore.Services.Tests\BMWStore.Services.Tests.csproj", "{629CA521-4C78-476F-959F-1A4CBDCB1686}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Services.Tests", "BMWStore.Services.Tests\BMWStore.Services.Tests.csproj", "{629CA521-4C78-476F-959F-1A4CBDCB1686}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

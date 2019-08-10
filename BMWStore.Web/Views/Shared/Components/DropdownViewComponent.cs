@@ -21,7 +21,7 @@ namespace BMWStore.Web.Views.Shared.Components
             var enumData = Enum.GetNames(enumType);
 
             DataValidator.ValidateEnumValue(selectedEnumName, enumType);
-            DataValidator.ValidateNotEmptyEnum(enumType, ErrorConstants.EmptyEnumException);
+            DataValidator.ValidateNotEmptyEnum(enumType, ErrorConstants.EmptyEnum);
 
             if (returnUrl == null)
             {

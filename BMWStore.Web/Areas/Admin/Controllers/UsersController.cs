@@ -1,7 +1,5 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
-using BMWStore.Data.Factories.SortStrategyFactories;
-using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +10,12 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class UsersController : BaseAdminController
     {
         private readonly IAdminUsersService adminUsersService;
-        private readonly ISortCookieService cookieService;
+        private readonly ICookiesService cookiesService;
 
-        public UsersController(IAdminUsersService usersService, ISortCookieService cookieService)
+        public UsersController(IAdminUsersService usersService, ICookiesService cookiesService)
         {
             this.adminUsersService = usersService;
-            this.cookieService = cookieService;
+            this.cookiesService = cookiesService;
         }
 
         [HttpGet]
@@ -57,7 +55,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public IActionResult ChangeSortType(UserSortStrategyType sortStrategyType)
         {
             var sortTypeKey = WebConstants.CookieAdminUsersSortTypeKey;
-            this.cookieService.ChangeSortTypeCookie(this.HttpContext.Response.Cookies, sortStrategyType, sortTypeKey);
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortTypeKey, sortStrategyType.ToString());
 
             return RedirectToAction("Index");
         }
@@ -66,7 +64,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection)
         {
             var sortDirectionKey = WebConstants.CookieAdminUsersSortDirectionKey;
-            this.cookieService.ChangeSortDirectionCookie(this.HttpContext.Response.Cookies, sortDirection, sortDirectionKey);
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortDirectionKey, sortDirection.ToString());
 
             return RedirectToAction("Index");
         }
