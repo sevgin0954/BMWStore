@@ -84,16 +84,5 @@ namespace BMWStore.Services.AdminServices
                 throw new InvalidOperationException(ErrorConstants.StatusIsNotUpcoming);
             }
         }
-
-        public async Task DeleteAsync(string testDriveId)
-        {
-            var dbTestDrive = await this.testDriveRepository.GetByIdAsync(testDriveId);
-            DataValidator.ValidateNotNull(dbTestDrive, new ArgumentException(ErrorConstants.IncorrectId));
-
-            this.testDriveRepository.Remove(dbTestDrive);
-
-            var rowsAffected = await this.testDriveRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
     }
 }

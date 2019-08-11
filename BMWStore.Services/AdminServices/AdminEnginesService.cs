@@ -68,15 +68,6 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task DeleteAsync(string engineId)
-        {
-            var dbEngine = await this.GetDbEngineAsync(engineId);
-            this.engineRepository.Remove(dbEngine);
-
-            var rowsAffected = await this.engineRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
-
         private async Task<Engine> GetDbEngineAsync(string engineId)
         {
             var dbEngine = await this.engineRepository.GetByIdAsync(engineId);

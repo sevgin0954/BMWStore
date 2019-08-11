@@ -85,7 +85,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             int pageNumber = 1)
         {
             var signInManager = this.GetSetupedSignInManager(isUserSignIn);
-            var service = this.GetService(signInManager);
+            var service = this.GetService(signInManager, dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
 
             var models = await service.GetCarsInvertoryViewModelAsync(dbContext.BaseCars, user, pageNumber);

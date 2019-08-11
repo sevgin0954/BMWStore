@@ -42,16 +42,6 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task DeleteAsync(string optionId)
-        {
-            var dbOption = await this.GetOptionAsync(optionId);
-
-            this.optionRepository.Remove(dbOption);
-
-            var rowsAffected = await this.optionRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
-
         public async Task<AdminCarOptionEditBindingModel> GetEditBindingModelAsync(string optionId)
         {
             var dbOption = await this.GetOptionAsync(optionId);

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
@@ -8,7 +7,6 @@ using BMWStore.Models.SeriesModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,17 +38,6 @@ namespace BMWStore.Services.AdminServices
                 .ToArrayAsync();
 
             return models;
-        }
-
-        public async Task DeleteAsync(string seriesId)
-        {
-            var dbSeries = await this.seriesRepository.GetByIdAsync(seriesId);
-            DataValidator.ValidateNotNull(dbSeries, new ArgumentException(ErrorConstants.IncorrectId));
-
-            this.seriesRepository.Remove(dbSeries);
-
-            var rowsAffected = await this.seriesRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
     }
 }

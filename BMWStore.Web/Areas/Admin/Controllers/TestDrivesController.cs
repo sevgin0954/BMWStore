@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
+using BMWStore.Entities;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,16 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminTestDrivesService adminTestDrivesService;
         private readonly ICookiesService cookiesService;
+        private readonly IAdminDeleteService adminDeleteService;
 
-        public TestDrivesController(IAdminTestDrivesService adminTestDrivesService, ICookiesService ookiesService)
+        public TestDrivesController(
+            IAdminTestDrivesService adminTestDrivesService, 
+            ICookiesService ookiesService,
+            IAdminDeleteService adminDeleteService)
         {
             this.adminTestDrivesService = adminTestDrivesService;
             this.cookiesService = ookiesService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         [HttpGet]
@@ -47,7 +53,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string testDriveId)
         {
-            await this.adminTestDrivesService.DeleteAsync(testDriveId);
+            await this.adminDeleteService.DeleteAsync<TestDrive>(testDriveId);
 
             return RedirectToAction("Index");
         }

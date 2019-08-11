@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
@@ -40,17 +39,6 @@ namespace BMWStore.Services.AdminServices
                 .ToArrayAsync();
 
             return models;
-        }
-
-        public async Task DeleteAsync(string fuelTypeId)
-        {
-            var dbFuelType = await this.fuelTypeRepository.GetByIdAsync(fuelTypeId);
-            DataValidator.ValidateNotNull(dbFuelType, new ArgumentException(ErrorConstants.IncorrectId));
-
-            this.fuelTypeRepository.Remove(dbFuelType);
-
-            var rowsAffected = await this.fuelTypeRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
     }
 }

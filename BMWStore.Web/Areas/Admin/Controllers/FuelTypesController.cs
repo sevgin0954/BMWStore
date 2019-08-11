@@ -1,4 +1,5 @@
-﻿using BMWStore.Models.FuelTypeModels.BindingModels;
+﻿using BMWStore.Entities;
+using BMWStore.Models.FuelTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,10 +9,12 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class FuelTypesController : BaseAdminController
     {
         private readonly IAdminFuelTypesService fuelTypesService;
+        private readonly IAdminDeleteService adminDeleteService;
 
-        public FuelTypesController(IAdminFuelTypesService fuelTypesService)
+        public FuelTypesController(IAdminFuelTypesService fuelTypesService, IAdminDeleteService adminDeleteService)
         {
             this.fuelTypesService = fuelTypesService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         [HttpGet]
@@ -41,7 +44,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.fuelTypesService.DeleteAsync(id);
+            await this.adminDeleteService.DeleteAsync<FuelType>(id);
 
             return RedirectToAction("Index");
         }

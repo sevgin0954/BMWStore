@@ -1,4 +1,5 @@
-﻿using BMWStore.Models.OptionModels.BidningModels;
+﻿using BMWStore.Entities;
+using BMWStore.Models.OptionModels.BidningModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,10 +9,12 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class CarOptionsController : BaseAdminController
     {
         private readonly IAdminOptionsService adminCarOptionsService;
+        private readonly IAdminDeleteService adminDeleteService;
 
-        public CarOptionsController(IAdminOptionsService adminCarOptionsService)
+        public CarOptionsController(IAdminOptionsService adminCarOptionsService, IAdminDeleteService adminDeleteService)
         {
             this.adminCarOptionsService = adminCarOptionsService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         [HttpGet]
@@ -41,7 +44,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.adminCarOptionsService.DeleteAsync(id);
+            await this.adminDeleteService.DeleteAsync<Option>(id);
 
             return RedirectToAction("Index");
         }

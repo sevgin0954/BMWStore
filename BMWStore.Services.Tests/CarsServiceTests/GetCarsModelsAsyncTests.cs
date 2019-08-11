@@ -13,7 +13,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var dbContext = this.GetDbContext();
             SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
-            var service = this.GetService();
+            var service = this.GetService(dbContext);
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, 1);
 
@@ -25,7 +25,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         public async void WithoutCars_ShouldReturnEmptyCollection()
         {
             var dbContext = this.GetDbContext();
-            var service = this.GetService();
+            var service = this.GetService(dbContext);
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, 1);
 
@@ -39,7 +39,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var dbContext = this.GetDbContext();
             SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
-            var service = this.GetService();
+            var service = this.GetService(dbContext);
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, pageNumber);
 
@@ -51,7 +51,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var dbContext = this.GetDbContext();
             SeedCarsMethods.SeedCarWithEverything<NewCar>(dbContext);
-            var service = this.GetService();
+            var service = this.GetService(dbContext);
 
             var model = await service.GetCarsModelsAsync<CarConciseViewModel>(dbContext.BaseCars, 2);
 

@@ -1,4 +1,4 @@
-﻿using BMWStore.Common.Constants;
+﻿using BMWStore.Entities;
 using BMWStore.Models.ModelTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +9,12 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class ModelTypesController : BaseAdminController
     {
         private readonly IAdminModelTypesService modelTypesService;
+        private readonly IAdminDeleteService adminDeleteService;
 
-        public ModelTypesController(IAdminModelTypesService modelTypesService)
+        public ModelTypesController(IAdminModelTypesService modelTypesService, IAdminDeleteService adminDeleteService)
         {
             this.modelTypesService = modelTypesService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         [HttpGet]
@@ -42,7 +44,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.modelTypesService.DeleteAsync(id);
+            await this.adminDeleteService.DeleteAsync<ModelType>(id);
 
             return Redirect("Index");
         }

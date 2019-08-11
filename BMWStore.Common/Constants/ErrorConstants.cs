@@ -11,6 +11,8 @@
 
         public const string IncorrectUser = "You cant do that action on that user";
 
+        public const string IncorrectGenericType = "Incorrect generic type";
+
         public const string UnitOfWorkNoRowsAffected = "No rows affected in unit of work complete";
 
         public const string IncorrectPriceRange = "Incorrect price range";

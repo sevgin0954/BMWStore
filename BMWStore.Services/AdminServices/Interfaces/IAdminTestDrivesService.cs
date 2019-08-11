@@ -11,6 +11,5 @@ namespace BMWStore.Services.AdminServices.Interfaces
             SortStrategyDirection sortDirection,
             int pageNumber);
         Task ChangeTestDriveStatusToPassedAsync(string testDriveId);
-        Task DeleteAsync(string testDriveId);
     }
 }

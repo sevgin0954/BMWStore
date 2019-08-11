@@ -23,7 +23,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var selectListItemsService = new SelectListItemsService(dbContext);
             var userManager = CommonMockTestMethods.GetMockedUserManager().Object;
             var signInManager = CommonMockTestMethods.GetMockedSignInManager(userManager).Object;
-            var carsService = new CarsService(signInManager);
+            var carsService = new CarsService(signInManager, carsRepository);
 
             var service = new AdminCarsService(
                 carsRepository, 
