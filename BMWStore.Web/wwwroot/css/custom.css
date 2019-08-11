@@ -132,6 +132,17 @@
     padding: 20px;
 }
 
+.color-black {
+    color: black;
+}
+
+.color-blakc-hover {
+}
+
+.color-black-hover:hover {
+    color: black;
+}
+
 .color-blue {
     color: #45ADDE;
 }
@@ -191,9 +202,15 @@
     border: none;
 }
 
-.no-outline {
+.no-text-decorator {
+    text-decoration: none;
+}
+.no-text-decorator:hover {
+    text-decoration: none;
 }
 
+.no-outline {
+}
 .no-outline:focus, .no-outline:active {
     outline: none !important;
     box-shadow: none;

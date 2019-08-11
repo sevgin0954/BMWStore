@@ -23,7 +23,7 @@ namespace BMWStore.Services
         }
 
         public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync<TModel>(
-            IEnumerable<TModel> carModels) where TModel : CarConciseViewModel
+            IEnumerable<TModel> carModels) where TModel : BaseCarViewModel
         {
             var dataTable = new DataTable("BaseCars");
             this.AddDataToDataTable(dataTable, carModels);
@@ -38,7 +38,7 @@ namespace BMWStore.Services
             return priceModels;
         }
 
-        private void AddDataToDataTable(DataTable dataTable, IEnumerable<CarConciseViewModel> carModels)
+        private void AddDataToDataTable(DataTable dataTable, IEnumerable<BaseCarViewModel> carModels)
         {
             dataTable.Columns.Add(PriceColumnName);
             foreach (var car in carModels)

@@ -8,6 +8,6 @@ namespace BMWStore.Services.Interfaces
     public interface ICarPriceService
     {
         Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync<TModel>(
-            IEnumerable<TModel> carModels) where TModel : CarConciseViewModel;
+            IEnumerable<TModel> carModels) where TModel : BaseCarViewModel;
     }
 }

@@ -117,7 +117,12 @@
             @foreach (var car in Model.Cars)
             {
                 <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
-                    <partial name="_CarConcisePartial" model="@car" />
+                    <a class="no-text-decorator color-black"
+                       asp-controller="Car"
+                       asp-action="Index"
+                       asp-route-carId="@car.Id">
+                        <partial name="_CarConcisePartial" model="@car" />
+                    </a>
                     @if (car.IsTestDriveScheduled)
                     {
                         <div class="row d-flex">
@@ -136,7 +141,8 @@
                     {
                         <div class="row d-flex">
                             <div class="mx-auto">
-                                <button type="button" class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                                <button class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                                        type="button"
                                         data-toggle="modal"
                                         data-target="#@car.Id">
                                     Schedule A Test Drive

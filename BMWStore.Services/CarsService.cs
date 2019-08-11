@@ -1,10 +1,14 @@
-﻿using BMWStore.Common.Helpers;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Helpers;
+using BMWStore.Common.Validation;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -15,11 +19,36 @@ namespace BMWStore.Services
     public class CarsService : ICarsService
     {
         private readonly SignInManager<User> signInManager;
+        private readonly ICarRepository carRepository;
 
-        public CarsService(SignInManager<User> signInManager)
+        public CarsService(SignInManager<User> signInManager, ICarRepository carRepository)
         {
             this.signInManager = signInManager;
+            this.carRepository = carRepository;
         }
+
+        // TODO: change to use one query
+        public async Task<CarViewModel> GetCarViewModel(string carId)
+        {
+            //await this.ValidateCarIdAsync(carId);
+
+            var model = await this.carRepository
+                .Find(c => c.Id == carId)
+                .To<CarViewModel>()
+                .FirstOrDefaultAsync();
+            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
+
+            return model;
+        }
+
+        //private async Task ValidateCarIdAsync(string carId)
+        //{
+        //    var isExist = await this.carRepository.AnyAsync(c => c.Id == carId);
+        //    if (isExist == false)
+        //    {
+        //        throw new ArgumentException(ErrorConstants.IncorrectId);
+        //    }
+        //}
 
         public async Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(
             IQueryable<BaseCar> cars,
