@@ -20,6 +20,8 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public string EngineName { get; set; }
 
+        public string TransmissionName { get; set; }
+
         public double FuelConsumation_City_Litres_100Km { get; set; }
 
         public double FuelConsumation_Highway_Litres_100Km { get; set; }
@@ -27,6 +29,8 @@ namespace BMWStore.Models.CarModels.ViewModels
         public string FuelTypeName { get; set; }
 
         public double HoursePower { get; set; }
+
+        public string ModelTypeId { get; set; }
 
         public IEnumerable<string> OptionNames { get; set; } = new List<string>();
 
@@ -40,7 +44,8 @@ namespace BMWStore.Models.CarModels.ViewModels
         {
             configuration.CreateMap<BaseCar, CarViewModel>()
                 .ForMember(dest => dest.OptionNames, opt => opt.MapFrom(src => src.Options.Select(o => o.Option.Name)))
-                .ForMember(dest => dest.PicturePublicIds, opt => opt.MapFrom(src => src.Pictures.Select(p => p.PublicId)));
+                .ForMember(dest => dest.PicturePublicIds, opt => opt.MapFrom(src => src.Pictures.Select(p => p.PublicId)))
+                .ForMember(dest => dest.TransmissionName, opt => opt.MapFrom(src => src.Engine.Transmission.Name));
 
             base.CreateMappings(configuration);
         }

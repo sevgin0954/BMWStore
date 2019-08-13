@@ -1,4 +1,5 @@
-﻿using BMWStore.Services.Interfaces;
+﻿using BMWStore.Models.CarInvertoryModels.ViewModels;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,7 +17,16 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
-            var model = await this.carsService.GetCarViewModel(carId);
+            var carModel = await this.carsService.GetCarViewModel(carId);
+
+            var model = new CarInvertoryViewModel()
+            {
+                Car = carModel,
+                ModelTypeName = carModel.ModelTypeName,
+                ModelTypeId = carModel.ModelTypeId,
+                Year = carModel.Year,
+                isNew = carModel.IsNew
+            };
 
             return View(model);
         }
