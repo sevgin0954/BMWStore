@@ -1,22 +1,26 @@
 ﻿using BMWStore.Models.OptionTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
 {
-    public class OptionTypesController : Controller
+    public class OptionTypesController : BaseAdminController
     {
         private readonly IAdminOptionTypesService adminOptionTypesService;
+        private readonly IReadService readService;
 
-        public OptionTypesController(IAdminOptionTypesService adminOptionTypesService)
+        public OptionTypesController(IAdminOptionTypesService adminOptionTypesService, IReadService readService)
         {
             this.adminOptionTypesService = adminOptionTypesService;
+            this.readService = readService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
+
             return View();
         }
 

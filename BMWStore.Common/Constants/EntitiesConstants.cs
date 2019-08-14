@@ -60,7 +60,7 @@
         public const int OptionNameMinLength = 3;
 
         public const int OptionTypeNameMaxLength = 50;
-        public const int OptionTypeNameMinLength = 50;
+        public const int OptionTypeNameMinLength = 5;
 
         public const int SeriesNameMaxLength = 15;
         public const int SeriesNameMinLength = 2;

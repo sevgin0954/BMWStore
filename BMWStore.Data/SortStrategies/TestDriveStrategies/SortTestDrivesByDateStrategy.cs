@@ -11,7 +11,7 @@ namespace BMWStore.Data.SortStrategies.TestDriveStrategies
             var sortedTestDrives = testDrives
                    .OrderBy(td => td.ScheduleDate);
 
-            return sortedTestDrives; throw new System.NotImplementedException();
+            return sortedTestDrives;
         }
     }
 }

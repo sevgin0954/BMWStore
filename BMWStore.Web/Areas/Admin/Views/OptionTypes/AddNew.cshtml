@@ -1,0 +1,23 @@
+﻿@model OptionTypeCreateBindingModel
+@{
+    ViewData["Title"] = "Add New Option Types";
+}
+
+<h5>@ViewData["Title"]</h5>
+
+<div class="container-item-white border-radius-smooth border-grey">
+    <form class="form-group" method="post">
+        <div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+
+        <partial name="_FormButtonsPartial" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/returnBack.js"></script>
+}
