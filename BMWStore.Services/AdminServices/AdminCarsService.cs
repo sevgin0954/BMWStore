@@ -81,17 +81,6 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task DeleteCarAsync(string carId)
-        {
-            var dbCar = await this.carRepository.GetByIdAsync(carId);
-            DataValidator.ValidateNotNull(dbCar, new ArgumentException(ErrorConstants.IncorrectId));
-
-            this.carRepository.Remove(dbCar);
-
-            var rowsAffected = await this.carRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
-
         public async Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model)
         {
             var allOptions = model.CarOptions;

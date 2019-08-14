@@ -2,6 +2,8 @@
 {
     public class EntitiesConstants
     {
+        public const int CarDescriptionMaxLength = 1000;
+        public const int CarDescriptionMinLength = 100;
         public const double CarMaxAcceleration_0_100Km = 15;
         public const double CarMinAcceleration_0_100Km = 0.1;
         public const int CarMaxCO2Emissions = 95;
@@ -56,6 +58,9 @@
         public const int OptionNameMaxLength = 25;
         public const string OptionNameMaxPrice = "100000";
         public const int OptionNameMinLength = 3;
+
+        public const int OptionTypeNameMaxLength = 50;
+        public const int OptionTypeNameMinLength = 50;
 
         public const int SeriesNameMaxLength = 15;
         public const int SeriesNameMinLength = 2;

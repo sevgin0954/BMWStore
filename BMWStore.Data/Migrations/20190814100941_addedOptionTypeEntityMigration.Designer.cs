@@ -4,14 +4,16 @@ using BMWStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BMWStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190814100941_addedOptionTypeEntityMigration")]
+    partial class addedOptionTypeEntityMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,9 +184,6 @@ namespace BMWStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.HasIndex("OptionTypeId");
 
                     b.ToTable("Options");
@@ -195,14 +194,9 @@ namespace BMWStore.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("OptionTypes");
                 });
@@ -253,9 +247,6 @@ namespace BMWStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Statuses");
                 });
 
@@ -272,7 +263,7 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<DateTime>("ScheduleDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2019, 8, 14, 13, 22, 22, 263, DateTimeKind.Utc).AddTicks(9671));
+                        .HasDefaultValue(new DateTime(2019, 8, 14, 10, 9, 40, 392, DateTimeKind.Utc).AddTicks(9190));
 
                     b.Property<string>("StatusId")
                         .IsRequired();
@@ -303,9 +294,6 @@ namespace BMWStore.Data.Migrations
                     b.Property<decimal>("Price");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Transmissions");
                 });

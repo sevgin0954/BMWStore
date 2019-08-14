@@ -13,6 +13,7 @@ namespace BMWStore.Entities
 
         public ICollection<CarOption> CarsOptions { get; set; } = new List<CarOption>();
 
+        [MaxLength(EntitiesConstants.OptionNameMaxLength)]
         [MinLength(EntitiesConstants.OptionNameMinLength)]
         [Required]
         public string Name { get; set; }
@@ -20,6 +21,10 @@ namespace BMWStore.Entities
         [Range(typeof(decimal), EntitiesConstants.MinPrice, EntitiesConstants.OptionNameMaxPrice)]
         [Required]
         public decimal Price { get; set; }
+
+        [Required]
+        public string OptionTypeId { get; set; }
+        public OptionType OptionType { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

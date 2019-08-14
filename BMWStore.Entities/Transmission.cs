@@ -13,6 +13,7 @@ namespace BMWStore.Entities
 
         public ICollection<Engine> Engines { get; set; } = new List<Engine>();
 
+        [MaxLength(EntitiesConstants.TransmissionNameMaxLength)]
         [MinLength(EntitiesConstants.TransmissionNameMinLength)]
         [Required]
         public string Name { get; set; }

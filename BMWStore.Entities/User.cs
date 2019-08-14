@@ -7,10 +7,12 @@ namespace BMWStore.Entities
 {
     public class User : IdentityUser
     {
+        [MaxLength(EntitiesConstants.UserNameMaxLength)]
         [MinLength(EntitiesConstants.UserNameMinLength)]
         [Required]
         public string FirstName { get; set; }
 
+        [MaxLength(EntitiesConstants.UserNameMaxLength)]
         [MinLength(EntitiesConstants.UserNameMinLength)]
         [Required]
         public string LastName { get; set; }

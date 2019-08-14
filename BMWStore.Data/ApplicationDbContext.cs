@@ -1,5 +1,4 @@
-﻿using BMWStore.Common.Constants;
-using BMWStore.Entities;
+﻿using BMWStore.Entities;
 using BMWStore.Models.FilterModels.BindingModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +18,7 @@ namespace BMWStore.Data
         public DbSet<ModelType> ModelTypes { get; set; }
         public DbSet<NewCar> NewCars { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<OptionType> OptionTypes { get; set; }
         public DbSet<TestDrive> TestDrives { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Picture> Pictures { get; set; }
@@ -94,9 +94,6 @@ namespace BMWStore.Data
                 engine.HasIndex(e => e.Name)
                     .IsUnique();
 
-                engine.Property(e => e.Name)
-                    .HasMaxLength(EntitiesConstants.EngineeNameMaxLength);
-
                 engine.HasOne(e => e.Transmission)
                     .WithMany(t => t.Engines)
                     .HasForeignKey(e => e.TransmissionId)
@@ -109,9 +106,6 @@ namespace BMWStore.Data
 
                 fuelType.HasIndex(ft => ft.Name)
                     .IsUnique();
-
-                fuelType.Property(ft => ft.Name)
-                    .HasMaxLength(EntitiesConstants.FuelTypeNameMaxLength);
             });
 
             builder.Entity<ModelType>(modelType =>
@@ -120,21 +114,36 @@ namespace BMWStore.Data
 
                 modelType.HasIndex(mt => mt.Name)
                     .IsUnique();
-
-                modelType.Property(mt => mt.Name)
-                    .HasMaxLength(EntitiesConstants.ModelTypeNameMaxLength);
             });
 
             builder.Entity<Option>(option =>
             {
                 option.HasKey(o => o.Id);
 
-                option.Property(o => o.Name)
-                    .HasMaxLength(EntitiesConstants.OptionNameMaxLength);
+                option.HasIndex(o => o.Name)
+                    .IsUnique();
 
                 option.HasMany(o => o.CarsOptions)
                     .WithOne(c => c.Option)
                     .HasForeignKey(c => c.OptionId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                option.HasOne(o => o.OptionType)
+                    .WithMany(ot => ot.Options)
+                    .HasForeignKey(o => o.OptionTypeId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<OptionType>(optionType =>
+            {
+                optionType.HasKey(ot => ot.Id);
+
+                optionType.HasIndex(ot => ot.Name)
+                    .IsUnique();
+
+                optionType.HasMany(ot => ot.Options)
+                    .WithOne(o => o.OptionType)
+                    .HasForeignKey(o => o.OptionTypeId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -155,6 +164,9 @@ namespace BMWStore.Data
             {
                 status.HasKey(s => s.Id);
 
+                status.HasIndex(s => s.Name)
+                    .IsUnique();
+
                 status.HasMany(s => s.TestDrives)
                     .WithOne(s => s.Status)
                     .HasForeignKey(s => s.StatusId)
@@ -173,22 +185,21 @@ namespace BMWStore.Data
                 series.HasIndex(s => s.Name)
                     .IsUnique();
 
-                // TODO: Use attribute
-                series.Property(s => s.Name)
-                    .HasMaxLength(EntitiesConstants.SeriesNameMaxLength);
+                series.HasIndex(s => s.Name)
+                    .IsUnique();
             });
 
             builder.Entity<Transmission>(transmissions =>
             {
                 transmissions.HasKey(t => t.Id);
 
+                transmissions.HasIndex(t => t.Name)
+                    .IsUnique();
+
                 transmissions.HasMany(t => t.Engines)
                     .WithOne(e => e.Transmission)
                     .HasForeignKey(t => t.TransmissionId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-                transmissions.Property(t => t.Name)
-                    .HasMaxLength(EntitiesConstants.TransmissionNameMaxLength);
             });
 
             builder.Entity<User>(user =>
@@ -197,12 +208,6 @@ namespace BMWStore.Data
                     .WithOne(bc => bc.User)
                     .HasForeignKey(bc => bc.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-                user.Property(u => u.FirstName)
-                    .HasMaxLength(EntitiesConstants.UserNameMaxLength);
-
-                user.Property(u => u.LastName)
-                    .HasMaxLength(EntitiesConstants.UserNameMaxLength);
 
                 user.HasMany(u => u.Roles)
                     .WithOne()

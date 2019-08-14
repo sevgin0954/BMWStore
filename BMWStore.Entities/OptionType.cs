@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class Status
+    public class OptionType
     {
         public string Id { get; set; }
 
+        [MaxLength(EntitiesConstants.OptionTypeNameMaxLength)]
+        [MinLength(EntitiesConstants.OptionTypeNameMinLength)]
         [Required]
-        [MaxLength(EntitiesConstants.TestDriveNameMaxLength)]
-        [MinLength(EntitiesConstants.TestDriveNameMinLength)]
         public string Name { get; set; }
 
-        public ICollection<TestDrive> TestDrives { get; set; } = new List<TestDrive>();
+        public ICollection<Option> Options { get; set; } = new List<Option>();
     }
 }

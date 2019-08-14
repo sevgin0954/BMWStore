@@ -1,6 +1,7 @@
 ﻿using BMWStore.Entities;
 using BMWStore.Models.OptionModels.BidningModels;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,11 +11,16 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminOptionsService adminCarOptionsService;
         private readonly IAdminDeleteService adminDeleteService;
+        private readonly ISelectListItemsService selectListItemsService;
 
-        public CarOptionsController(IAdminOptionsService adminCarOptionsService, IAdminDeleteService adminDeleteService)
+        public CarOptionsController(
+            IAdminOptionsService adminCarOptionsService, 
+            IAdminDeleteService adminDeleteService,
+            ISelectListItemsService selectListItemsService)
         {
             this.adminCarOptionsService = adminCarOptionsService;
             this.adminDeleteService = adminDeleteService;
+            this.selectListItemsService = selectListItemsService;
         }
 
         [HttpGet]
@@ -26,9 +32,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddNew()
+        public async Task<IActionResult> AddNew()
         {
-            var model = new AdminOptionCreateBindingModel();
+            var OptionTypeModels = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Option>();
+            var model = new AdminOptionCreateBindingModel()
+            {
+                OptionTypes = OptionTypeModels
+            };
 
             return View(model);
         }

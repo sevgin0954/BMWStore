@@ -27,11 +27,8 @@ namespace BMWStore.Services
             this.carRepository = carRepository;
         }
 
-        // TODO: change to use one query
         public async Task<CarViewModel> GetCarViewModel(string carId)
         {
-            //await this.ValidateCarIdAsync(carId);
-
             var model = await this.carRepository
                 .Find(c => c.Id == carId)
                 .To<CarViewModel>()
@@ -40,15 +37,6 @@ namespace BMWStore.Services
 
             return model;
         }
-
-        //private async Task ValidateCarIdAsync(string carId)
-        //{
-        //    var isExist = await this.carRepository.AnyAsync(c => c.Id == carId);
-        //    if (isExist == false)
-        //    {
-        //        throw new ArgumentException(ErrorConstants.IncorrectId);
-        //    }
-        //}
 
         public async Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(
             IQueryable<BaseCar> cars,
