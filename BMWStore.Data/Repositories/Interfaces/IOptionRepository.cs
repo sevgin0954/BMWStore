@@ -3,7 +3,7 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.Repositories.Interfaces
 {
-    public interface IOptionRepository : IRepository<OptionType>
+    public interface IOptionRepository : IRepository<Option>
     {
     }
 }

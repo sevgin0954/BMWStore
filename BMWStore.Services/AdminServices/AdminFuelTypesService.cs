@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
+using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.FuelTypeModels.BindingModels;
 using BMWStore.Models.FuelTypeModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
-using MappingRegistrar;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+using BMWStore.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
@@ -16,10 +15,12 @@ namespace BMWStore.Services.AdminServices
     public class AdminFuelTypesService : IAdminFuelTypesService
     {
         private readonly IFuelTypeRepository fuelTypeRepository;
+        private readonly IReadService readService;
 
-        public AdminFuelTypesService(IFuelTypeRepository fuelTypeRepository)
+        public AdminFuelTypesService(IFuelTypeRepository fuelTypeRepository, IReadService readService)
         {
             this.fuelTypeRepository = fuelTypeRepository;
+            this.readService = readService;
         }
 
         public async Task CreateNewFuelTypeAsync(AdminFuelTypeCreateBindingModel model)
@@ -31,14 +32,17 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<IEnumerable<FuelTypeViewModel>> GetAllAsync()
+        public async Task<AdminFuelTypesViewModel> GetFuelTypesViewModelAsync(int pageNumber)
         {
-            var models = await this.fuelTypeRepository
-                .GetAll()
-                .To<FuelTypeViewModel>()
-                .ToArrayAsync();
+            var fuelTypeModels = await this.readService.GetAllAsync<FuelTypeViewModel, FuelType>(pageNumber);
+            var model = new AdminFuelTypesViewModel()
+            {
+                FuelTypes = fuelTypeModels,
+                CurrentPage = pageNumber,
+                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(this.fuelTypeRepository.GetAll())
+            };
 
-            return models;
+            return model;
         }
     }
 }

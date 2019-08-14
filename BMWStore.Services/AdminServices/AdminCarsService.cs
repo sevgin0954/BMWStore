@@ -42,6 +42,7 @@ namespace BMWStore.Services.AdminServices
             this.carsService = carsService;
         }
 
+        // TODO: Map totalPagesCount with one query
         public async Task<AdminCarsViewModel> GetCarsViewModelAsync(
             string id,
             SortStrategyDirection sortDirection,
@@ -55,8 +56,7 @@ namespace BMWStore.Services.AdminServices
             var filteredCars = this.carRepository.GetFiltered(filterStrategy);
             var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
-            var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(filteredAndSortedCars);
-
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredAndSortedCars);
             var cars = await this.carsService.GetCarsModelsAsync<CarConciseViewModel>(filteredAndSortedCars, pageNumber);
             var model = new AdminCarsViewModel()
             {
@@ -64,7 +64,7 @@ namespace BMWStore.Services.AdminServices
                 SortStrategyDirection = sortDirection,
                 SortStrategyType = sortType,
                 CurrentPage = pageNumber,
-                TotalPagesCount = (int)totalPagesCount
+                TotalPagesCount = totalPagesCount
             };
 
             return model;

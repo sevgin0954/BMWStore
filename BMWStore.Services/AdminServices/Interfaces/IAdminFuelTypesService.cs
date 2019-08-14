@@ -1,6 +1,5 @@
-﻿using BMWStore.Models.FuelTypeModels.BindingModels;
-using BMWStore.Models.FuelTypeModels.ViewModels;
-using System.Collections.Generic;
+﻿using BMWStore.Models.AdminModels.ViewModels;
+using BMWStore.Models.FuelTypeModels.BindingModels;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices.Interfaces
@@ -8,6 +7,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
     public interface IAdminFuelTypesService
     {
         Task CreateNewFuelTypeAsync(AdminFuelTypeCreateBindingModel model);
-        Task<IEnumerable<FuelTypeViewModel>> GetAllAsync();
+        Task<AdminFuelTypesViewModel> GetFuelTypesViewModelAsync(int pageNumber);
     }
 }

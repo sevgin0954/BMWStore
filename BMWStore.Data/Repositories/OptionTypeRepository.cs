@@ -4,7 +4,7 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.Repositories
 {
-    public class OptionTypeRepository : BaseRepository<OptionType>, IOptionRepository
+    public class OptionTypeRepository : BaseRepository<OptionType>, IOptionTypeRepository
     {
         public OptionTypeRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }

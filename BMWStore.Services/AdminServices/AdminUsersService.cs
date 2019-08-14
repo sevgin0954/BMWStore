@@ -51,7 +51,7 @@ namespace BMWStore.Services.AdminServices
                 .To<UserAdminViewModel>()
                 .ToArrayAsync();
 
-            var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(dbUsers);
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(dbUsers);
 
             var model = new AdminUsersViewModel()
             {

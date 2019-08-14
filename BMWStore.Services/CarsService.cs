@@ -20,14 +20,16 @@ namespace BMWStore.Services
     {
         private readonly SignInManager<User> signInManager;
         private readonly ICarRepository carRepository;
+        private readonly IReadService readService;
 
-        public CarsService(SignInManager<User> signInManager, ICarRepository carRepository)
+        public CarsService(SignInManager<User> signInManager, ICarRepository carRepository, IReadService readService)
         {
             this.signInManager = signInManager;
             this.carRepository = carRepository;
+            this.readService = readService;
         }
 
-        public async Task<CarViewModel> GetCarViewModel(string carId)
+        public async Task<CarViewModel> GetCarViewModelAsync(string carId)
         {
             var model = await this.carRepository
                 .Find(c => c.Id == carId)
@@ -42,10 +44,7 @@ namespace BMWStore.Services
             IQueryable<BaseCar> cars,
             int pageNumber) where TModel : class
         {
-            var models = await cars
-                .GetFromPage(pageNumber)
-                .To<TModel>()
-                .ToArrayAsync();
+            var models = await this.readService.GetAllAsync<TModel, BaseCar>(cars, pageNumber);
 
             return models;
         }

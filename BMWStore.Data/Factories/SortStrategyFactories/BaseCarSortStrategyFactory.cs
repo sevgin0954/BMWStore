@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace BMWStore.Data.Factories.SortStrategyFactories
 {
-    public class BaseCarSortStrategyFactory
+    public static class BaseCarSortStrategyFactory
     {
         public static ICarSortStrategy<TCar> GetStrategy<TCar>(
             AdminBaseCarSortStrategyType sortType, 

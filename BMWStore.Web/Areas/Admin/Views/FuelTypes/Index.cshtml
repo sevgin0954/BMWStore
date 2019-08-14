@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FuelTypeViewModel>
+﻿@model AdminFuelTypesViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var fuelType in Model)
+            @foreach (var fuelType in Model.FuelTypes)
             {
                 <tr data-id="@fuelType.Id">
                     <td>@fuelType.Name</td>
@@ -57,6 +57,8 @@
         </tbody>
     </table>
 </div>
+
+<partial name="_PaginationPartial" />
 
 @section Scripts {
     <script src="~/js/removeElementOnButtonClick.js"></script>

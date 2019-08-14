@@ -1,4 +1,6 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Enums;
+using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Entities;
 using BMWStore.Models.EngineModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -13,23 +15,37 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         private readonly IAdminEnginesService enginesService;
         private readonly ISelectListItemsService selectListItemsService;
         private readonly IAdminDeleteService adminDeleteService;
+        private readonly ICookiesService cookiesService;
 
         public EnginesController(
             IAdminEnginesService enginesService, 
             ISelectListItemsService selectListItemsService,
-            IAdminDeleteService adminDeleteService)
+            IAdminDeleteService adminDeleteService,
+            ICookiesService cookiesService)
         {
             this.enginesService = enginesService;
             this.selectListItemsService = selectListItemsService;
             this.adminDeleteService = adminDeleteService;
+            this.cookiesService = cookiesService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
-            var models = await this.enginesService.GetAllAsync();
+            var cookies = this.HttpContext.Request.Cookies;
 
-            return View(models);
+            var sortTypeKey = WebConstants.CookieAdminEngineSortTypeKey;
+            var sortDirectionKey = WebConstants.CookieAdminEngineSortDirectionKey;
+
+            var engineSortStrategy = this.cookiesService.GetValueOrDefault<EngineSortStrategy>(cookies, sortTypeKey);
+            var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
+            var sortStrategy = EnginesSortStrategyFactory.GetStrategy(engineSortStrategy, sortDirection);
+            var model = await this.enginesService.GetEnginesViewModelAsync(pageNumber, sortStrategy);
+
+            model.SortStrategyDirection = sortDirection;
+            model.SortStrategyType = engineSortStrategy;
+
+            return View(model);
         }
 
         [HttpGet]
@@ -81,6 +97,24 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             await this.adminDeleteService.DeleteAsync<Engine>(id);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSortType(EngineSortStrategy sortStrategyType)
+        {
+            var sortTypeKey = WebConstants.CookieAdminEngineSortTypeKey;
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortTypeKey, sortStrategyType.ToString());
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection)
+        {
+            var sortDirectionKey = WebConstants.CookieAdminEngineSortDirectionKey;
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortDirectionKey, sortDirection.ToString());
 
             return RedirectToAction("Index");
         }

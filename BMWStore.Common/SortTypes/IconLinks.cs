@@ -19,7 +19,9 @@ namespace BMWStore.Common.SortTypes
             { "Year", "<i class=\"far fa-calendar-alt\"></i>" },
             { "PassedCount", "<i class=\"fas fa-check\"></i>" },
             { "Status", "<i class=\"fas fa-info-circle\"></i>" },
-            { "Date", "<i class=\"fas fa-calendar-minus\"></i>" }
+            { "Date", "<i class=\"fas fa-calendar-minus\"></i>" },
+            { "Weight", "<i class=\"fas fa-weight-hanging\"></i>" },
+            { "Cars", "<i class=\"fas fa-car\"></i>" }
         };
     }
 }

@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
+using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Data.SortStrategies.EngineStrategies.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.EngineModels.BindingModels;
 using BMWStore.Models.EngineModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using MappingRegistrar;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,11 +20,16 @@ namespace BMWStore.Services.AdminServices
     {
         private readonly IEngineRepository engineRepository;
         private readonly ISelectListItemsService selectListItemsService;
+        private readonly IReadService readService;
 
-        public AdminEnginesService(IEngineRepository engineRepository, ISelectListItemsService selectListItemsService)
+        public AdminEnginesService(
+            IEngineRepository engineRepository, 
+            ISelectListItemsService selectListItemsService,
+            IReadService readService)
         {
             this.engineRepository = engineRepository;
             this.selectListItemsService = selectListItemsService;
+            this.readService = readService;
         }
 
         public async Task CreateEngineAsync(AdminEngineCreateBindingModel model)
@@ -36,14 +41,20 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<IEnumerable<EngineViewModel>> GetAllAsync()
+        public async Task<AdminEnginesViewModel> GetEnginesViewModelAsync(int pageNumber, IEngineSortStrategy engineSortStrategy)
         {
-            var models = await this.engineRepository
-                .GetAll()
-                .To<EngineViewModel>()
-                .ToArrayAsync();
+            var sortedEngines = engineSortStrategy.Sort(this.engineRepository.GetAll());
+            var engineModels = await this.readService.GetAllAsync<EngineViewModel, Engine>(sortedEngines, pageNumber);
 
-            return models;
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(this.engineRepository.GetAll());
+            var model = new AdminEnginesViewModel()
+            {
+                Engines = engineModels,
+                CurrentPage = pageNumber,
+                TotalPagesCount = totalPagesCount
+            };
+
+            return model;
         }
 
         public async Task SetEditBindingModelPropertiesAsync(AdminEngineEditBindingModel model)

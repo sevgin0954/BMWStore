@@ -1,6 +1,5 @@
 ﻿using BMWStore.Data;
 using BMWStore.Data.Repositories;
-using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
 
@@ -11,7 +10,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
         protected IAdminFuelTypesService GetService(ApplicationDbContext dbContext)
         {
             var fuelTypeRepository = new FuelTypeRepository(dbContext);
-            var service = new AdminFuelTypesService(fuelTypeRepository);
+            var readService = new ReadService(dbContext);
+            var service = new AdminFuelTypesService(fuelTypeRepository, readService);
 
             return service;
         }

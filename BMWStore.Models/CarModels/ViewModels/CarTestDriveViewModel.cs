@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class TestDriveCarViewModel : IMapFrom<BaseCar>, IHaveCustomMappings
+    public class CarTestDriveViewModel : IMapFrom<BaseCar>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -23,7 +23,7 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<BaseCar, TestDriveCarViewModel>()
+            configuration.CreateMap<BaseCar, CarTestDriveViewModel>()
                 .ForMember(dest => dest.PicturePublicId, opt => opt.MapFrom(src => src.Pictures.First().PublicId));
         }
     }

@@ -41,7 +41,7 @@ namespace BMWStore.Services
             ClaimsPrincipal user,
             int pageNumber)
         {
-            var totalCarPages = await PaginationHelper.CalculateTotalPagesCount(cars);
+            var totalCarPages = await PaginationHelper.CountTotalPagesCountAsync(cars);
 
             var carModels = await this.carsService.GetCarsInvertoryViewModelAsync(cars, user, pageNumber);
 

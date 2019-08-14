@@ -13,16 +13,17 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var userManager = CommonMockTestMethods.GetMockedUserManager().Object;
             var signInManager = CommonMockTestMethods.GetMockedSignInManager(userManager).Object;
-            var carRepository = new CarRepository(dbContext);
-            var service = new CarsService(signInManager, carRepository);
+
+            var service = this.GetService(signInManager, dbContext);
 
             return service;
         }
 
         protected ICarsService GetService(SignInManager<User> signInManager, ApplicationDbContext dbContext)
         {
+            var readService = new ReadService(dbContext);
             var carRepository = new CarRepository(dbContext);
-            var service = new CarsService(signInManager, carRepository);
+            var service = new CarsService(signInManager, carRepository, readService);
 
             return service;
         }

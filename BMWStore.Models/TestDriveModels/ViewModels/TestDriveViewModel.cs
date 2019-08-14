@@ -13,7 +13,7 @@ namespace BMWStore.Models.TestDriveModels.ViewModels
 
         public TestDriveUserViewModel User { get; set; }
 
-        public TestDriveCarViewModel Car { get; set; }
+        public CarTestDriveViewModel Car { get; set; }
 
         public DateTime ScheduleDate { get; set; }
 

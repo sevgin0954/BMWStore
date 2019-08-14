@@ -18,11 +18,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
-            var models = await this.fuelTypesService.GetAllAsync();
+            var model = await this.fuelTypesService.GetFuelTypesViewModelAsync(pageNumber);
 
-            return View(models);
+            return View(model);
         }
 
         [HttpGet]

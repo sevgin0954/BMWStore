@@ -42,7 +42,7 @@ namespace BMWStore.Services.AdminServices
                 .To<TestDriveViewModel>()
                 .ToArrayAsync();
 
-            var totalPagesCount = await PaginationHelper.CalculateTotalPagesCount(sortedTestDrives);
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(sortedTestDrives);
 
             var model = new AdminTestDrivesViewModel()
             {

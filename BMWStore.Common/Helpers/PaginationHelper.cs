@@ -9,7 +9,7 @@ namespace BMWStore.Common.Helpers
 {
     public static class PaginationHelper
     {
-        public static async Task<int> CalculateTotalPagesCount<TEntity>(IQueryable<TEntity> entities) where TEntity : class
+        public static async Task<int> CountTotalPagesCountAsync<TEntity>(IQueryable<TEntity> entities) where TEntity : class
         {
             var totalCarsCount = await entities.CountAsync();
             var totalPagesCount = Math.Ceiling((double)totalCarsCount / WebConstants.PageSize);
