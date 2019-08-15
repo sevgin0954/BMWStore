@@ -58,7 +58,7 @@ namespace BMWStore.Services.AdminServices
             await this.adminEditService.EditAsync<Transmission, TransmissionEditBindingModel>(model, model.Id);
         }
 
-        public async Task DeleteService(string transmissionId)
+        public async Task DeleteAsync(string transmissionId)
         {
             await this.adminDeleteService.DeleteAsync<Transmission>(transmissionId);
         }

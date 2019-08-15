@@ -58,7 +58,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.transmissionsService.DeleteService(id);
+            await this.transmissionsService.DeleteAsync(id);
 
             return RedirectToAction("Index");
         }

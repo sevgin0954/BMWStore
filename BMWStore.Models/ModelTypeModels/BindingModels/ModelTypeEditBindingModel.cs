@@ -1,14 +1,12 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.ModelTypeModels.BindingModels
 {
-    public class ModelTypeEditBindingModel : IMapFrom<ModelType>
+    public class ModelTypeEditBindingModel : IMapFrom<ModelType>, IMapTo<ModelType>
     {
-        [BindNever]
         [Required]
         public string Id { get; set; }
 

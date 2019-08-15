@@ -2,7 +2,6 @@
 using BMWStore.Common.Constants;
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +11,6 @@ namespace BMWStore.Models.EngineModels.BindingModels
     public class AdminEngineEditBindingModel : IMapTo<Engine>, IMapFrom<Engine>, IHaveCustomMappings
     {
         [Required]
-        [BindNever]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.EngineeNameMaxLength)]
@@ -36,7 +34,17 @@ namespace BMWStore.Models.EngineModels.BindingModels
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<AdminEngineEditBindingModel, Engine>()
-                .ForMember(dest => dest.TransmissionId, opt => opt.MapFrom(src => src.SelectedTransmissionId));
+                .ForMember(dest => dest.TransmissionId, opt => opt.MapFrom(src => src.SelectedTransmissionId))
+                .ReverseMap()
+                .ForMember(dest => dest.Transmissions, opt => opt.MapFrom(src => new List<SelectListItem>()
+                {
+                    new SelectListItem()
+                    {
+                        Selected = true,
+                        Value = src.TransmissionId,
+                        Text = src.Transmission.Name
+                    }
+                }));
         }
     }
 }

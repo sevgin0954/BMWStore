@@ -8,8 +8,7 @@ namespace BMWStore.Services.Tests.Common.SeedTestMethods
         public static Engine SeedEngine(ApplicationDbContext dbContext)
         {
             var dbEngine = new Engine();
-            dbContext.Engines.Add(dbEngine);
-            dbContext.SaveChanges();
+            AddEngine(dbContext, dbEngine);
 
             return dbEngine;
         }
@@ -20,17 +19,24 @@ namespace BMWStore.Services.Tests.Common.SeedTestMethods
             {
                 Name = name
             };
-            dbContext.Engines.Add(dbEngine);
-            dbContext.SaveChanges();
+            AddEngine(dbContext, dbEngine);
 
             return dbEngine;
         }
 
-        public static void SeedEngineWithTransmission(ApplicationDbContext dbContext)
+        public static Engine SeedEngineWithTransmission(ApplicationDbContext dbContext)
         {
-            var engine = new Engine();
+            var dbEngine = new Engine();
             var transmission = new Transmission();
-            engine.Transmission = transmission;
+            dbEngine.Transmission = transmission;
+
+            AddEngine(dbContext, dbEngine);
+
+            return dbEngine;
+        }
+
+        private static void AddEngine(ApplicationDbContext dbContext, Engine engine)
+        {
             dbContext.Engines.Add(engine);
             dbContext.SaveChanges();
         }

@@ -1,13 +1,13 @@
 ﻿using BMWStore.Common.Constants;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using BMWStore.Entities;
+using MappingRegistrar.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.OptionTypeModels.BindingModels
 {
-    public class OptionTypeEditBindingModel
+    public class OptionTypeEditBindingModel : IMapFrom<OptionType>, IMapTo<OptionType>
     {
         [Required]
-        [BindNever]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.OptionTypeNameMaxLength)]

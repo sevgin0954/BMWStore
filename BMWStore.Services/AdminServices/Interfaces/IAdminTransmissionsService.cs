@@ -11,6 +11,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
         Task CreateNewTransmissionAsync(TransmissionCreateBindingModel model);
         Task<TransmissionEditBindingModel> GetEditingModelAsync(string transmissionId);
         Task EditAsync(TransmissionEditBindingModel model);
-        Task DeleteService(string transmissionId);
+        Task DeleteAsync(string transmissionId);
     }
 }

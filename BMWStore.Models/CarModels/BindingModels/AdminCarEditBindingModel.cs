@@ -12,6 +12,7 @@ namespace BMWStore.Models.CarModels.BindingModels
 {
     public class AdminCarEditBindingModel : IMapTo<AdminCarEditBindingModel>, IMapFrom<NewCar>, IMapFrom<UsedCar>, IMapFrom<BaseCar>, IHaveCustomMappings
     {
+        [Required]
         public string Id { get; set; }
 
         [Range(EntitiesConstants.CarMinMileage, EntitiesConstants.CarMaxMileage)]

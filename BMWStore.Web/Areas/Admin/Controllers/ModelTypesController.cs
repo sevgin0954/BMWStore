@@ -41,7 +41,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await this.modelTypesService.GetEditingModel(id);
+            var model = await this.modelTypesService.GetEditingModelAsync(id);
 
             return View(model);
         }

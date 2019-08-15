@@ -65,9 +65,9 @@ namespace BMWStore.Services.AdminServices
 
         public async Task<AdminEngineEditBindingModel> GetEditModelAsync(string engineId)
         {
-            var allTransmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
-
             var model = await this.readService.GetModelByIdAsync<AdminEngineEditBindingModel, Engine>(engineId);
+
+            var allTransmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
 
             var selectedTransmissionsIds = model.Transmissions.Select(t => t.Value).ToArray();
             this.selectListItemsService.SelectItemsWithValues(allTransmissions, selectedTransmissionsIds);

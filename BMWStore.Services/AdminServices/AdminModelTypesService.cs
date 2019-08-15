@@ -48,7 +48,7 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<ModelTypeEditBindingModel> GetEditingModel(string modelTypeId)
+        public async Task<ModelTypeEditBindingModel> GetEditingModelAsync(string modelTypeId)
         {
             var model = await this.readService.GetModelByIdAsync<ModelTypeEditBindingModel, ModelType>(modelTypeId);
 
