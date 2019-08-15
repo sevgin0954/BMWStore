@@ -12,7 +12,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
             var modelTypeRepository = new ModelTypeRepository(dbContext);
             var readService = new ReadService(dbContext);
             var adminDeleteService = new AdminDeleteService(dbContext);
-            var service = new AdminModelTypesService(modelTypeRepository, readService, adminDeleteService);
+            var adminEditService = new AdminEditService(dbContext);
+            var service = new AdminModelTypesService(modelTypeRepository, readService, adminDeleteService, adminEditService);
 
             return service;
         }

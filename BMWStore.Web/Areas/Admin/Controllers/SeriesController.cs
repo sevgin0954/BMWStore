@@ -25,15 +25,31 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNew()
         {
-            var model = new AdminSeriesCreateBindingModel();
+            var model = new SeriesCreateBindingModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminSeriesCreateBindingModel model)
+        public async Task<IActionResult> AddNew(SeriesCreateBindingModel model)
         {
             await this.seriesService.CreateNewSeriesAsync(model);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await this.seriesService.GetEditingModelAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(SeriesEditBindingModel model)
+        {
+            await this.seriesService.EditAsync(model);
 
             return RedirectToAction("Index");
         }

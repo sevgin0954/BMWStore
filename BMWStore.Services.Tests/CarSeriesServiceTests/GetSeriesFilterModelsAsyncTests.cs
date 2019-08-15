@@ -27,7 +27,7 @@ namespace BMWStore.Services.Tests.CarSeriesServiceTests
 
             var models = await service.GetSeriesFilterModelsAsync(dbContext.BaseCars);
 
-            Assert.Equal(dbCar.SeriesId, models.First().Value);
+            Assert.Equal(dbCar.Series.Name, models.First().Value);
             Assert.Single(models);
         }
 
@@ -41,8 +41,8 @@ namespace BMWStore.Services.Tests.CarSeriesServiceTests
 
             var models = await service.GetSeriesFilterModelsAsync(dbContext.BaseCars);
 
-            Assert.Contains(models, m => m.Value == dbCar1.SeriesId);
-            Assert.Contains(models, m => m.Value == dbCar2.SeriesId);
+            Assert.Contains(models, m => m.Value == dbCar1.Series.Name);
+            Assert.Contains(models, m => m.Value == dbCar2.Series.Name);
             Assert.Equal(2, models.Count);
         }
     }

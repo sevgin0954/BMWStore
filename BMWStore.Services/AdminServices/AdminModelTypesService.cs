@@ -7,11 +7,8 @@ using BMWStore.Models.ModelTypeModels.BindingModels;
 using BMWStore.Models.ModelTypeModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using MappingRegistrar;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
@@ -21,15 +18,18 @@ namespace BMWStore.Services.AdminServices
         private readonly IModelTypeRepository modelTypeRepository;
         private readonly IReadService readService;
         private readonly IAdminDeleteService adminDeleteService;
+        private readonly IAdminEditService adminEditService;
 
         public AdminModelTypesService(
             IModelTypeRepository modelTypeRepository, 
             IReadService readService,
-            IAdminDeleteService adminDeleteService)
+            IAdminDeleteService adminDeleteService,
+            IAdminEditService adminEditService)
         {
             this.modelTypeRepository = modelTypeRepository;
             this.readService = readService;
             this.adminDeleteService = adminDeleteService;
+            this.adminEditService = adminEditService;
         }
 
         public async Task<IEnumerable<ModelTypeViewModel>> GetAllAsync()
@@ -48,17 +48,16 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        // TODO: Repeating code
         public async Task<ModelTypeEditBindingModel> GetEditingModel(string modelTypeId)
         {
-            var model = await this.modelTypeRepository
-                .GetAll()
-                .Where(mt => mt.Id == modelTypeId)
-                .To<ModelTypeEditBindingModel>()
-                .FirstOrDefaultAsync();
-            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
+            var model = await this.readService.GetModelByIdAsync<ModelTypeEditBindingModel, ModelType>(modelTypeId);
 
             return model;
+        }
+
+        public async Task EditAsync(ModelTypeEditBindingModel model)
+        {
+            await this.adminEditService.EditAsync<ModelType, ModelTypeEditBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string modelTypeId)

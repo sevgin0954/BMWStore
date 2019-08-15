@@ -10,7 +10,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTransmissionsServiceTe
         {
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var model = new AdminTransmissionsCreateBindingModel();
+            var model = new TransmissionCreateBindingModel();
 
             await service.CreateNewTransmissionAsync(model);
 

@@ -2,6 +2,7 @@
 using BMWStore.Common.Constants;
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,8 @@ namespace BMWStore.Models.EngineModels.BindingModels
 {
     public class AdminEngineEditBindingModel : IMapTo<Engine>, IMapFrom<Engine>, IHaveCustomMappings
     {
+        [Required]
+        [BindNever]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.EngineeNameMaxLength)]

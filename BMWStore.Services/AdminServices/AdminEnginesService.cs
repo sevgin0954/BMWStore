@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Common.Constants;
 using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
@@ -10,7 +9,6 @@ using BMWStore.Models.EngineModels.BindingModels;
 using BMWStore.Models.EngineModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,17 +20,20 @@ namespace BMWStore.Services.AdminServices
         private readonly ISelectListItemsService selectListItemsService;
         private readonly IReadService readService;
         private readonly IAdminDeleteService adminDeleteService;
+        private readonly IAdminEditService adminEditService;
 
         public AdminEnginesService(
             IEngineRepository engineRepository, 
             ISelectListItemsService selectListItemsService,
             IReadService readService,
-            IAdminDeleteService adminDeleteService)
+            IAdminDeleteService adminDeleteService,
+            IAdminEditService adminEditService)
         {
             this.engineRepository = engineRepository;
             this.selectListItemsService = selectListItemsService;
             this.readService = readService;
             this.adminDeleteService = adminDeleteService;
+            this.adminEditService = adminEditService;
         }
 
         public async Task CreateEngineAsync(AdminEngineCreateBindingModel model)
@@ -44,7 +45,9 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<AdminEnginesViewModel> GetEnginesViewModelAsync(int pageNumber, IEngineSortStrategy engineSortStrategy)
+        public async Task<AdminEnginesViewModel> GetEnginesViewModelAsync(
+            int pageNumber, 
+            IEngineSortStrategy engineSortStrategy)
         {
             var sortedEngines = engineSortStrategy.Sort(this.engineRepository.GetAll());
             var engineModels = await this.readService.GetAllAsync<EngineViewModel, Engine>(sortedEngines, pageNumber);
@@ -60,34 +63,23 @@ namespace BMWStore.Services.AdminServices
             return model;
         }
 
-        public async Task SetEditBindingModelPropertiesAsync(AdminEngineEditBindingModel model)
+        public async Task<AdminEngineEditBindingModel> GetEditModelAsync(string engineId)
         {
-            var allTransmissions = model.Transmissions;
+            var allTransmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
 
-            var dbEngine = await this.GetDbEngineAsync(model.Id);
-            Mapper.Map(dbEngine, model);
+            var model = await this.readService.GetModelByIdAsync<AdminEngineEditBindingModel, Engine>(engineId);
 
             var selectedTransmissionsIds = model.Transmissions.Select(t => t.Value).ToArray();
             this.selectListItemsService.SelectItemsWithValues(allTransmissions, selectedTransmissionsIds);
 
             model.Transmissions = allTransmissions;
+
+            return model;
         }
 
         public async Task EditAsync(AdminEngineEditBindingModel model)
         {
-            var dbEngine = await this.GetDbEngineAsync(model.Id);
-            Mapper.Map(model, dbEngine);
-
-            var rowsAffected = await this.engineRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
-
-        private async Task<Engine> GetDbEngineAsync(string engineId)
-        {
-            var dbEngine = await this.engineRepository.GetByIdAsync(engineId);
-            DataValidator.ValidateNotNull(dbEngine, new ArgumentException(ErrorConstants.IncorrectId));
-
-            return dbEngine;
+            await this.adminEditService.EditAsync<Engine, AdminEngineEditBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string engineId)

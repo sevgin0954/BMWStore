@@ -7,10 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class Transmission : IMapTo<SelectListItem>, IHaveCustomMappings
+    public class Transmission : BaseEntity, IMapTo<SelectListItem>, IHaveCustomMappings
     {
-        public string Id { get; set; }
-
         public ICollection<Engine> Engines { get; set; } = new List<Engine>();
 
         [MaxLength(EntitiesConstants.TransmissionNameMaxLength)]

@@ -21,17 +21,20 @@ namespace BMWStore.Services.AdminServices
         private readonly IReadService readService;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly ISelectListItemsService selectListItemsService;
+        private readonly IAdminEditService adminEditService;
 
         public AdminOptionsService(
             IOptionRepository optionRepository, 
             IReadService readService,
             IAdminDeleteService adminDeleteService,
-            ISelectListItemsService selectListItemsService)
+            ISelectListItemsService selectListItemsService,
+            IAdminEditService adminEditService)
         {
             this.optionRepository = optionRepository;
             this.readService = readService;
             this.adminDeleteService = adminDeleteService;
             this.selectListItemsService = selectListItemsService;
+            this.adminEditService = adminEditService;
         }
 
         public async Task<AdminOptionsViewModel> GetOptionsViewModelAsync(IOptionFilterStrategy filterStrategy, int pageNumber)
@@ -74,13 +77,7 @@ namespace BMWStore.Services.AdminServices
 
         public async Task EditOptionAsync(AdminCarOptionEditBindingModel model)
         {
-            var dbOption = await this.GetOptionAsync(model.Id);
-            DataValidator.ValidateNotNull(dbOption, new ArgumentException(ErrorConstants.IncorrectId));
-
-            Mapper.Map(model, dbOption);
-
-            var rowsAffected = await this.optionRepository.CompleteAsync();
-            UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+            await this.adminEditService.EditAsync<Option, AdminCarOptionEditBindingModel>(model, model.Id);
         }
 
         private async Task<Option> GetOptionAsync(string optionId)

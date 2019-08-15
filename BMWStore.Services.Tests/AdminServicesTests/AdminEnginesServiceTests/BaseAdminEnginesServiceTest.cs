@@ -13,11 +13,13 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
             var selectListItemsService = new SelectListItemsService(dbContext);
             var readService = new ReadService(dbContext);
             var adminDeleteService = new AdminDeleteService(dbContext);
+            var adminEditService = new AdminEditService(dbContext);
             var service = new AdminEnginesService(
-                engineRepository, 
+                engineRepository,
                 selectListItemsService, 
                 readService,
-                adminDeleteService);
+                adminDeleteService,
+                adminEditService);
 
             return service;
         }

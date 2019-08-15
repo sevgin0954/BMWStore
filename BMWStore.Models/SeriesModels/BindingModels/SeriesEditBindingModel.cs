@@ -1,12 +1,15 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Entities;
-using MappingRegistrar.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.SeriesModels.BindingModels
 {
-    public class AdminSeriesCreateBindingModel : IMapTo<Series>
+    public class SeriesEditBindingModel
     {
+        [Required]
+        [BindNever]
+        public string Id { get; set; }
+
         [MaxLength(EntitiesConstants.SeriesNameMaxLength)]
         [MinLength(EntitiesConstants.SeriesNameMinLength)]
         [Required]

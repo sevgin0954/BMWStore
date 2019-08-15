@@ -1,8 +1,12 @@
-﻿using BMWStore.Common.Helpers;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Helpers;
+using BMWStore.Common.Validation;
 using BMWStore.Data;
+using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +58,20 @@ namespace BMWStore.Services
                 .ToArrayAsync();
 
             return models;
+        }
+
+        public async Task<TModel> GetModelByIdAsync<TModel, TEntity>(string id)
+            where TEntity : BaseEntity
+            where TModel : class
+        {
+            var model = await this.dbContext.Set<TEntity>()
+               .AsQueryable()
+               .Where(e => e.Id == id)
+               .To<TModel>()
+               .FirstOrDefaultAsync();
+            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
+
+            return model;
         }
     }
 }

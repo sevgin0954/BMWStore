@@ -39,17 +39,21 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(string id)
-        //{
-            
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await this.adminOptionTypesService.GetEditingModelAsync(id);
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(ModelTypeEditBindingModel model)
-        //{
+            return View(model);
+        }
 
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Edit(OptionTypeEditBindingModel model)
+        {
+            await this.adminOptionTypesService.EditAsync(model);
+
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)

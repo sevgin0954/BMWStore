@@ -74,7 +74,10 @@ namespace BMWStore.Data
 
             builder.Entity<CarOption>(carOption =>
             {
-                carOption.HasKey(co => new { co.CarId, co.OptionId });
+                carOption.HasKey(co => co.Id);
+
+                carOption.HasIndex(co => new { co.OptionId, co.CarId })
+                    .IsUnique();
 
                 carOption.HasOne(co => co.Car)
                     .WithMany(c => c.Options)

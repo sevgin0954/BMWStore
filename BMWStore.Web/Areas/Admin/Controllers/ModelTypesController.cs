@@ -25,17 +25,33 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNew()
         {
-            var model = new AdminModelTypeCreateBidningModel();
+            var model = new ModelTypeCreateBidningModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminModelTypeCreateBidningModel model)
+        public async Task<IActionResult> AddNew(ModelTypeCreateBidningModel model)
         {
             await this.modelTypesService.CreateNewModelType(model);
 
-            return Redirect("Index");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await this.modelTypesService.GetEditingModel(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ModelTypeEditBindingModel model)
+        {
+            await this.modelTypesService.EditAsync(model);
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -43,7 +59,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             await this.modelTypesService.DeleteAsync(id);
 
-            return Redirect("Index");
+            return RedirectToAction("Index");
         }
     }
 }

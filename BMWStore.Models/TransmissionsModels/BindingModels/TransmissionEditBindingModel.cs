@@ -1,12 +1,15 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Entities;
-using MappingRegistrar.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.TransmissionsModels.BindingModels
 {
-    public class AdminTransmissionsCreateBindingModel : IMapTo<Transmission>
+    public class TransmissionEditBindingModel
     {
+        [Required]
+        [BindNever]
+        public string Id { get; set; }
+
         [MaxLength(EntitiesConstants.TransmissionNameMaxLength)]
         [MinLength(EntitiesConstants.TransmissionNameMinLength)]
         [Required]

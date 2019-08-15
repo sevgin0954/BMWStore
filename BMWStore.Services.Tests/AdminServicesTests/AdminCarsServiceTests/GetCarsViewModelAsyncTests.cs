@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Enums;
 using BMWStore.Data;
+using BMWStore.Data.FilterStrategies.CarStrategies;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.Tests.Common.SeedTestMethods;
@@ -44,13 +45,13 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 
         private async Task<AdminCarsViewModel> CallGetCarsViewModelAsync(ApplicationDbContext dbContext, int page = 1)
         {
-            var id = "";
             var service = this.GetService(dbContext);
+            var filterStrategy = new ReturnAllFilterStrategy();
             var model = await service.GetCarsViewModelAsync(
-                id, 
+                filterStrategy,
                 SortStrategyDirection.Ascending, 
                 AdminBaseCarSortStrategyType.Condition, 
-                AdminBaseCarFilterStrategy.All, page);
+                page);
 
             return model;
         }

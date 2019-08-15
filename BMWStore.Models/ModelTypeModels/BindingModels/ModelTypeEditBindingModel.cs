@@ -9,6 +9,7 @@ namespace BMWStore.Models.ModelTypeModels.BindingModels
     public class ModelTypeEditBindingModel : IMapFrom<ModelType>
     {
         [BindNever]
+        [Required]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.ModelTypeNameMaxLength)]

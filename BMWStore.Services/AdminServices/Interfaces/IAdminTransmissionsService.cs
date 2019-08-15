@@ -1,5 +1,5 @@
 ﻿using BMWStore.Models.TransmissionsModels.BindingModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using BMWStore.Models.TransmissionsModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,6 +7,10 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminTransmissionsService
     {
-        Task CreateNewTransmissionAsync(AdminTransmissionsCreateBindingModel model);
+        Task<IEnumerable<TransmissionViewModel>> GetAllAsync();
+        Task CreateNewTransmissionAsync(TransmissionCreateBindingModel model);
+        Task<TransmissionEditBindingModel> GetEditingModelAsync(string transmissionId);
+        Task EditAsync(TransmissionEditBindingModel model);
+        Task DeleteService(string transmissionId);
     }
 }

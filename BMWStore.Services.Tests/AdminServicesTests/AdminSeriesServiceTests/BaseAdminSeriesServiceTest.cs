@@ -12,7 +12,12 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
             var seriesRepository = new SeriesRepository(dbContext);
             var readService = new ReadService(dbContext);
             var adminDeleteService = new AdminDeleteService(dbContext);
-            var service = new AdminSeriesService(seriesRepository, readService, adminDeleteService);
+            var adminEditService = new AdminEditService(dbContext);
+            var service = new AdminSeriesService(
+                seriesRepository, 
+                readService, 
+                adminDeleteService,
+                adminEditService);
 
             return service;
         }

@@ -7,10 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class OptionType : IMapTo<SelectListItem>, IHaveCustomMappings
+    public class OptionType : BaseEntity, IMapTo<SelectListItem>, IHaveCustomMappings
     {
-        public string Id { get; set; }
-
         [MaxLength(EntitiesConstants.OptionTypeNameMaxLength)]
         [MinLength(EntitiesConstants.OptionTypeNameMinLength)]
         [Required]

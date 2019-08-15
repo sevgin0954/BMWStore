@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public abstract class BaseCar
+    public abstract class BaseCar : BaseEntity
     {
-        public string Id { get; set; }
-
         [Range(EntitiesConstants.CarMinAcceleration_0_100Km, EntitiesConstants.CarMaxAcceleration_0_100Km)]
         [Required]
         public double Acceleration_0_100Km { get; set; }

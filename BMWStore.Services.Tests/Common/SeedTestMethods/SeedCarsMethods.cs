@@ -1,5 +1,6 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace BMWStore.Services.Tests.Common.SeedTestMethods
@@ -55,11 +56,24 @@ namespace BMWStore.Services.Tests.Common.SeedTestMethods
         {
             var pictures = new List<Picture>() { new Picture() { PublicId = "" } };
             var dbCar = new TCar();
+            dbCar.Name = Guid.NewGuid().ToString();
             dbCar.Pictures = pictures;
-            dbCar.ModelType = new ModelType();
-            dbCar.Series = new Series();
-            dbCar.Engine = new Engine();
-            dbCar.FuelType = new FuelType();
+            dbCar.ModelType = new ModelType()
+            {
+                Name = Guid.NewGuid().ToString()
+            };
+            dbCar.Series = new Series()
+            {
+                Name = Guid.NewGuid().ToString()
+            };
+            dbCar.Engine = new Engine()
+            {
+                Name = Guid.NewGuid().ToString()
+            };
+            dbCar.FuelType = new FuelType()
+            {
+                Name = Guid.NewGuid().ToString()
+            };
             dbCar.Options.Add(new CarOption() { Option = new Option() });
 
             SeedCar(dbContext, dbCar);

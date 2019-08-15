@@ -12,7 +12,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
             var optionRepository = new OptionRepository(dbContext);
             var readService = new ReadService(dbContext);
             var adminDeleteService = new AdminDeleteService(dbContext);
-            return new AdminOptionsService(optionRepository, readService, adminDeleteService);
+            var selectListItemService = new SelectListItemsService(dbContext);
+            var adminEditService = new AdminEditService(dbContext);
+            return new AdminOptionsService(
+                optionRepository, 
+                readService, 
+                adminDeleteService,
+                selectListItemService,
+                adminEditService);
         }
     }
 }

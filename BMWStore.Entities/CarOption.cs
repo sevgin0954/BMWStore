@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BMWStore.Entities
 {
-    public class CarOption : IMapFrom<SelectListItem>, IHaveCustomMappings
+    public class CarOption : BaseEntity, IMapFrom<SelectListItem>, IHaveCustomMappings
     {
         public string CarId { get; set; }
         public BaseCar Car { get; set; }

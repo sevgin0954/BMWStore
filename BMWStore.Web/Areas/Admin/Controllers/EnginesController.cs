@@ -48,10 +48,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var transmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
+            var allTransmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
             var model = new AdminEngineCreateBindingModel()
             {
-                Transmissions = transmissions
+                Transmissions = allTransmissions
             };
 
             this.ViewData[WebConstants.ReturnControllerName] = "Engines";
@@ -71,13 +71,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var transmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
-            var model = new AdminEngineEditBindingModel()
-            {
-                Id = id,
-                Transmissions = transmissions
-            };
-            await this.enginesService.SetEditBindingModelPropertiesAsync(model);
+            var model = await this.enginesService.GetEditModelAsync(id);
 
             return View(model);
         }

@@ -25,17 +25,33 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNew()
         {
-            var model = new AdminFuelTypeCreateBindingModel();
+            var model = new FuelTypeCreateBindingModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminFuelTypeCreateBindingModel model)
+        public async Task<IActionResult> AddNew(FuelTypeCreateBindingModel model)
         {
             await this.fuelTypesService.CreateNewFuelTypeAsync(model);
 
             return Redirect("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await this.fuelTypesService.GetEditingModelAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(FuelTypeEditBindingModel model)
+        {
+            await this.fuelTypesService.EditAsync(model);
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

@@ -16,15 +16,18 @@ namespace BMWStore.Services.AdminServices
         private readonly IOptionTypeRepository optionTypeRepository;
         private readonly IReadService readService;
         private readonly IAdminDeleteService adminDeleteService;
+        private readonly IAdminEditService adminEditService;
 
         public AdminOptionTypesService(
             IOptionTypeRepository optionTypeRepository, 
             IReadService readService,
-            IAdminDeleteService adminDeleteService)
+            IAdminDeleteService adminDeleteService,
+            IAdminEditService adminEditService)
         {
             this.optionTypeRepository = optionTypeRepository;
             this.readService = readService;
             this.adminDeleteService = adminDeleteService;
+            this.adminEditService = adminEditService;
         }
 
         public async Task<IEnumerable<OptionTypeViewModel>> GetAllAsync()
@@ -41,6 +44,18 @@ namespace BMWStore.Services.AdminServices
 
             var rowsAffected = await this.optionTypeRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
+        }
+
+        public async Task<OptionTypeEditBindingModel> GetEditingModelAsync(string optionTypeId)
+        {
+            var model = await this.readService.GetModelByIdAsync<OptionTypeEditBindingModel, OptionType>(optionTypeId);
+
+            return model;
+        }
+
+        public async Task EditAsync(OptionTypeEditBindingModel model)
+        {
+            await this.adminEditService.EditAsync<OptionType, OptionTypeEditBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string optionTypeId)
