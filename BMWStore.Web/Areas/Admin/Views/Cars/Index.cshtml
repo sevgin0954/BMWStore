@@ -34,7 +34,9 @@
 @foreach (var car in Model.Cars)
 {
     <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
-        <partial name="_CarConcisePartial" model="@car" />
+        <a asp-controller="Car" asp-action="Index" asp-route-carId="@car.Id" class="no-text-decorator color-black">
+            <partial name="_CarConcisePartial" model="@car" />
+        </a>
 
         <div class="row d-flex">
             <div class="mx-auto">

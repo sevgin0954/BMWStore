@@ -3,7 +3,6 @@ using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
 using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
-using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;

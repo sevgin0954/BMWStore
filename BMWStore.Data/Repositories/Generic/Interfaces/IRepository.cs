@@ -13,7 +13,6 @@ namespace BMWStore.Data.Repositories.Generic.Interfaces
         Task<int> CountAllAsync();
         Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
-        TEntity GetById(string id);
         Task<TEntity> GetByIdAsync(params object[] keyValues);
         IQueryable<TEntity> GetAll();
         void Remove(TEntity entity);

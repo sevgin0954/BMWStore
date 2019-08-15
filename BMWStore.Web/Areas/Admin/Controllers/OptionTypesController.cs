@@ -1,4 +1,5 @@
-﻿using BMWStore.Models.OptionTypeModels.BindingModels;
+﻿using BMWStore.Models.ModelTypeModels.BindingModels;
+using BMWStore.Models.OptionTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -37,6 +38,18 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(string id)
+        //{
+            
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(ModelTypeEditBindingModel model)
+        //{
+
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)

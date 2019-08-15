@@ -61,11 +61,6 @@ namespace BMWStore.Data.Repositories.Generic
             return this.dbContext.Set<TEntity>();
         }
 
-        public TEntity GetById(string id)
-        {
-            return this.dbContext.Set<TEntity>().Find(id);
-        }
-
         public async Task<TEntity> GetByIdAsync(string id)
         {
             return await this.dbContext.Set<TEntity>().FindAsync(id);
