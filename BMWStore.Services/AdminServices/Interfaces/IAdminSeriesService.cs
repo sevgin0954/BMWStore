@@ -9,5 +9,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
     {
         Task CreateNewSeriesAsync(AdminSeriesCreateBindingModel model);
         Task<IEnumerable<SeriesViewModel>> GetAllAsync();
+        Task DeleteAsync(string seriesId);
     }
 }

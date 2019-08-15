@@ -21,15 +21,18 @@ namespace BMWStore.Services.AdminServices
         private readonly IEngineRepository engineRepository;
         private readonly ISelectListItemsService selectListItemsService;
         private readonly IReadService readService;
+        private readonly IAdminDeleteService adminDeleteService;
 
         public AdminEnginesService(
             IEngineRepository engineRepository, 
             ISelectListItemsService selectListItemsService,
-            IReadService readService)
+            IReadService readService,
+            IAdminDeleteService adminDeleteService)
         {
             this.engineRepository = engineRepository;
             this.selectListItemsService = selectListItemsService;
             this.readService = readService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         public async Task CreateEngineAsync(AdminEngineCreateBindingModel model)
@@ -85,6 +88,11 @@ namespace BMWStore.Services.AdminServices
             DataValidator.ValidateNotNull(dbEngine, new ArgumentException(ErrorConstants.IncorrectId));
 
             return dbEngine;
+        }
+
+        public async Task DeleteAsync(string engineId)
+        {
+            await this.adminDeleteService.DeleteAsync<Engine>(engineId);
         }
     }
 }

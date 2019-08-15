@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
+using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
+using BMWStore.Data.FilterStrategies.OptionStrategies.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.OptionModels.BidningModels;
 using BMWStore.Models.OptionModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
-using MappingRegistrar;
-using Microsoft.EntityFrameworkCore;
+using BMWStore.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
@@ -17,10 +18,33 @@ namespace BMWStore.Services.AdminServices
     public class AdminOptionsService : IAdminOptionsService
     {
         private readonly IOptionRepository optionRepository;
+        private readonly IReadService readService;
+        private readonly IAdminDeleteService adminDeleteService;
 
-        public AdminOptionsService(IOptionRepository optionRepository)
+        public AdminOptionsService(
+            IOptionRepository optionRepository, 
+            IReadService readService,
+            IAdminDeleteService adminDeleteService)
         {
             this.optionRepository = optionRepository;
+            this.readService = readService;
+            this.adminDeleteService = adminDeleteService;
+        }
+
+        public async Task<AdminOptionsViewModel> GetOptionsViewModelAsync(IOptionFilterStrategy filterStrategy, int pageNumber)
+        {
+            var allOptions = this.optionRepository.GetAll();
+            var filteredOptions = filterStrategy.Filter(allOptions);
+            var optionModels = await this.readService.GetAllAsync<OptionViewModel, Option>(filteredOptions, pageNumber);
+
+            var model = new AdminOptionsViewModel()
+            {
+                CurrentPage = pageNumber,
+                Options = optionModels,
+                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(allOptions)
+            };
+
+            return model;
         }
 
         public async Task CreateNewOptionAsync(AdminOptionCreateBindingModel model)
@@ -30,16 +54,6 @@ namespace BMWStore.Services.AdminServices
 
             var rowsAffected = await this.optionRepository.CompleteAsync();
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
-        }
-
-        public async Task<IEnumerable<OptionViewModel>> GetAllOptionsAsync()
-        {
-            var models = await this.optionRepository
-                .GetAll()
-                .To<OptionViewModel>()
-                .ToArrayAsync();
-
-            return models;
         }
 
         public async Task<AdminCarOptionEditBindingModel> GetEditBindingModelAsync(string optionId)
@@ -68,6 +82,11 @@ namespace BMWStore.Services.AdminServices
             DataValidator.ValidateNotNull(dbOption, new ArgumentException(ErrorConstants.IncorrectId));
 
             return dbOption;
+        }
+
+        public async Task DeleteAsync(string optionId)
+        {
+            await this.adminDeleteService.DeleteAsync<Option>(optionId);
         }
     }
 }

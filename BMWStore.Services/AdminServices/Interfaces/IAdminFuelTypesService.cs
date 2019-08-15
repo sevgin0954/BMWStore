@@ -8,5 +8,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
     {
         Task CreateNewFuelTypeAsync(AdminFuelTypeCreateBindingModel model);
         Task<AdminFuelTypesViewModel> GetFuelTypesViewModelAsync(int pageNumber);
+        Task DeleteAsync(string fuelTypeId);
     }
 }

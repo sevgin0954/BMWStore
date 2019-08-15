@@ -31,17 +31,5 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDeleteServiceTests
 
             Assert.Empty(dbContext.Engines);
         }
-
-        [Fact]
-        public async void WithUserEntity_ShouldThrowException()
-        {
-            var dbContext = this.GetDbContext();
-            var service = this.GetService(dbContext);
-            var dbEngine = SeedEnginesMethods.SeedEngine(dbContext);
-
-            var exception = await Assert.ThrowsAsync<NotSupportedException>(async () =>
-                await service.DeleteAsync<User>(dbEngine.Id));
-            Assert.Equal(ErrorConstants.IncorrectGenericType, exception.Message);
-        }
     }
 }

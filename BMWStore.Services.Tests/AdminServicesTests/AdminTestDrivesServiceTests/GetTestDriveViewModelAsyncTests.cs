@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
             var sortType = AdminTestDrivesSortStrategyType.Date;
             var sortDirect = SortStrategyDirection.Ascending;
 
-            var model = await service.GetTestDriveViewModelAsync(sortType, sortDirect, 1);
+            var model = await service.GetTestDrivesViewModelAsync(sortType, sortDirect, 1);
 
             Assert.Empty(model.TestDrives);
         }
@@ -28,7 +28,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
             var sortType = AdminTestDrivesSortStrategyType.Date;
             var sortDirect = SortStrategyDirection.Ascending;
 
-            var model = await service.GetTestDriveViewModelAsync(sortType, sortDirect, 1);
+            var model = await service.GetTestDrivesViewModelAsync(sortType, sortDirect, 1);
 
             Assert.Single(model.TestDrives);
         }

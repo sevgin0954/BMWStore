@@ -1,6 +1,5 @@
 ﻿using BMWStore.Models.OptionTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -9,19 +8,18 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     public class OptionTypesController : BaseAdminController
     {
         private readonly IAdminOptionTypesService adminOptionTypesService;
-        private readonly IReadService readService;
 
-        public OptionTypesController(IAdminOptionTypesService adminOptionTypesService, IReadService readService)
+        public OptionTypesController(IAdminOptionTypesService adminOptionTypesService)
         {
             this.adminOptionTypesService = adminOptionTypesService;
-            this.readService = readService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var models = await this.adminOptionTypesService.GetAllAsync();
 
-            return View();
+            return View(models);
         }
 
         [HttpGet]

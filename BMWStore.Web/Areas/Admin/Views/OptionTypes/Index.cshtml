@@ -5,6 +5,68 @@
 
 <h5>@ViewData["Title"]</h5>
 
-<div>
-
+<div class="container-item-white border-radius-smooth border-grey">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Options</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var optionType in Model)
+            {
+                <tr data-id="@optionType.Id">
+                    <td>@optionType.Id</td>
+                    <td>@optionType.Name</td>
+                    <td>
+                        @if (optionType.OptionsCount == 0)
+                        {
+                            <a href="#">Options (@optionType.OptionsCount)</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="" asp-action="">Options (@optionType.OptionsCount)</a>
+                        }
+                    </td>
+                    <td>
+                        <div>
+                            @if (optionType.OptionsCount == 0)
+                            {
+                                <button delete data-id="@optionType.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                                    Delete
+                                </button>
+                            }
+                            else
+                            {
+                                <button disabled class="btn btn-wide border-light-red background-light-red-hover">
+                                    Delete
+                                </button>
+                            }
+                        </div>
+                        <div>
+                            <a class="btn btn-wide border-green background-green-hover"
+                               asp-route-id="@optionType.Id"
+                               asp-area="Admin"
+                               asp-controller="OptionTypes"
+                               asp-action="Edit">
+                                Edit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+@section Scripts {
+    <script src="~/js/removeElementOnButtonClick.js"></script>
+    <script>
+        $(function () {
+            removeElementOnButtonClick('[delete]', 'data-id', '/Admin/ModelTypes/Delete');
+        })
+    </script>
+}

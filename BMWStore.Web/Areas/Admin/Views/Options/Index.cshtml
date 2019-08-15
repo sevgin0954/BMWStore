@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OptionViewModel>
+﻿@model AdminOptionsViewModel
 @{
     ViewData["Title"] = "Car Options";
 }
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var option in Model)
+            @foreach (var option in Model.Options)
             {
                 <tr data-optionId="@option.Id">
                     <td>@option.Name</td>
@@ -59,6 +59,8 @@
         </tbody>
     </table>
 </div>
+
+<partial name="_PaginationPartial" />
 
 @section Scripts {
     <script src="~/js/removeElementOnButtonClick.js"></script>

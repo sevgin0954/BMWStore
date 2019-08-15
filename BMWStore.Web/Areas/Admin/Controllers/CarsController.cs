@@ -14,18 +14,15 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         private readonly IAdminCarsService adminCarsService;
         private readonly ICookiesService cookiesService;
         private readonly ISelectListItemsService selectListItemsService;
-        private readonly IAdminDeleteService adminDeleteService;
 
         public CarsController(
             IAdminCarsService adminCarsService,
             ICookiesService cookiesService,
-            ISelectListItemsService selectListItemsService,
-            IAdminDeleteService adminDeleteService)
+            ISelectListItemsService selectListItemsService)
         {
             this.adminCarsService = adminCarsService;
             this.cookiesService = cookiesService;
             this.selectListItemsService = selectListItemsService;
-            this.adminDeleteService = adminDeleteService;
         }
 
         [HttpGet]
@@ -85,7 +82,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.adminDeleteService.DeleteAsync<BaseCar>(id);
+            await this.adminCarsService.DeleteAsync(id);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }

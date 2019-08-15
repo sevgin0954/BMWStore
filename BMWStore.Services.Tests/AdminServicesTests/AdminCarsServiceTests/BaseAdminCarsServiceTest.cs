@@ -24,12 +24,14 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             var carOptionsRepository = new CarOptionRepository(dbContext);
             var selectListItemsService = new SelectListItemsService(dbContext);
             var carsService = this.GetCarService(dbContext, carRepository);
+            var adminDeleteService = new AdminDeleteService(dbContext);
             var service = new AdminCarsService(
                 carRepository, 
                 carOptionsRepository,
                 pictureService, 
                 selectListItemsService, 
-                carsService);
+                carsService, 
+                adminDeleteService);
 
             return service;
         }

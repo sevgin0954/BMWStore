@@ -12,16 +12,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminTestDrivesService adminTestDrivesService;
         private readonly ICookiesService cookiesService;
-        private readonly IAdminDeleteService adminDeleteService;
 
         public TestDrivesController(
             IAdminTestDrivesService adminTestDrivesService, 
-            ICookiesService ookiesService,
-            IAdminDeleteService adminDeleteService)
+            ICookiesService ookiesService)
         {
             this.adminTestDrivesService = adminTestDrivesService;
             this.cookiesService = ookiesService;
-            this.adminDeleteService = adminDeleteService;
         }
 
         [HttpGet]
@@ -35,7 +32,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortDirectionKey = WebConstants.CookieAdminTestDrivesSortDirectionKey;
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
 
-            var model = await this.adminTestDrivesService.GetTestDriveViewModelAsync(sortType, sortDirection, pageNumber);
+            var model = await this.adminTestDrivesService.GetTestDrivesViewModelAsync(sortType, sortDirection, pageNumber);
 
             this.ViewData["returnUrl"] = "/Admin/TestDrives";
 
@@ -53,7 +50,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string testDriveId)
         {
-            await this.adminDeleteService.DeleteAsync<TestDrive>(testDriveId);
+            await this.adminTestDrivesService.DeleteAsync(testDriveId);
 
             return RedirectToAction("Index");
         }

@@ -17,5 +17,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
         Task CreateCarAsync<TCar>(AdminCarCreateBindingModel model) where TCar : BaseCar;
         Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model);
         Task EditCarAsync<TCar>(AdminCarEditBindingModel model) where TCar : BaseCar;
+        Task DeleteAsync(string carId);
     }
 }

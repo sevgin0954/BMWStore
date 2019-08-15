@@ -27,19 +27,22 @@ namespace BMWStore.Services.AdminServices
         private readonly IAdminPicturesService adminPicturesService;
         private readonly ISelectListItemsService selectListItemsService;
         private readonly ICarsService carsService;
+        private readonly IAdminDeleteService adminDeleteService;
 
         public AdminCarsService(
             ICarRepository carRepository,
             ICarOptionRepository carOptionRepository,
             IAdminPicturesService adminPicturesService,
             ISelectListItemsService selectListItemsService,
-            ICarsService carsService)
+            ICarsService carsService,
+            IAdminDeleteService adminDeleteService)
         {
             this.carRepository = carRepository;
             this.carOptionRepository = carOptionRepository;
             this.adminPicturesService = adminPicturesService;
             this.selectListItemsService = selectListItemsService;
             this.carsService = carsService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         // TODO: Map totalPagesCount with one query
@@ -121,6 +124,11 @@ namespace BMWStore.Services.AdminServices
             }
 
             await this.carOptionRepository.CompleteAsync();
+        }
+
+        public async Task DeleteAsync(string carId)
+        {
+            await this.adminDeleteService.DeleteAsync<BaseCar>(carId);
         }
     }
 }

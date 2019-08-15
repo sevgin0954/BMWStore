@@ -18,6 +18,18 @@ namespace BMWStore.Services
             this.dbContext = dbContext;
         }
 
+        public async Task<IEnumerable<TModel>> GetAllAsync<TModel, TEntity>()
+            where TEntity : class
+            where TModel : class
+        {
+            var models = await this.dbContext.Set<TEntity>()
+                .AsQueryable()
+                .To<TModel>()
+                .ToArrayAsync();
+
+            return models;
+        }
+
         public async Task<IEnumerable<TModel>> GetAllAsync<TModel, TEntity>(int pageNumber)
             where TEntity : class
             where TModel : class

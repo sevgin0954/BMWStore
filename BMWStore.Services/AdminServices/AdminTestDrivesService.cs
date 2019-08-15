@@ -20,16 +20,19 @@ namespace BMWStore.Services.AdminServices
     {
         private readonly ITestDriveRepository testDriveRepository;
         private readonly IStatusRepository statusRepository;
+        private readonly IAdminDeleteService adminDeleteService;
 
         public AdminTestDrivesService(
             ITestDriveRepository testDriveRepository, 
-            IStatusRepository statusRepository)
+            IStatusRepository statusRepository,
+            IAdminDeleteService adminDeleteService)
         {
             this.testDriveRepository = testDriveRepository;
             this.statusRepository = statusRepository;
+            this.adminDeleteService = adminDeleteService;
         }
 
-        public async Task<AdminTestDrivesViewModel> GetTestDriveViewModelAsync(
+        public async Task<AdminTestDrivesViewModel> GetTestDrivesViewModelAsync(
             AdminTestDrivesSortStrategyType sortType,
             SortStrategyDirection sortDirection,
             int pageNumber)
@@ -83,6 +86,11 @@ namespace BMWStore.Services.AdminServices
             {
                 throw new InvalidOperationException(ErrorConstants.StatusIsNotUpcoming);
             }
+        }
+
+        public async Task DeleteAsync(string testDriveId)
+        {
+            await this.adminDeleteService.DeleteAsync<TestDrive>(testDriveId);
         }
     }
 }

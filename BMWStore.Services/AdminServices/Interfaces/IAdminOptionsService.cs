@@ -1,15 +1,16 @@
-﻿using BMWStore.Models.OptionModels.BidningModels;
-using BMWStore.Models.OptionModels.ViewModels;
-using System.Collections.Generic;
+﻿using BMWStore.Data.FilterStrategies.OptionStrategies.Interfaces;
+using BMWStore.Models.AdminModels.ViewModels;
+using BMWStore.Models.OptionModels.BidningModels;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminOptionsService
     {
+        Task<AdminOptionsViewModel> GetOptionsViewModelAsync(IOptionFilterStrategy filterStrategy, int pageNumber);
         Task CreateNewOptionAsync(AdminOptionCreateBindingModel model);
-        Task<IEnumerable<OptionViewModel>> GetAllOptionsAsync();
         Task<AdminCarOptionEditBindingModel> GetEditBindingModelAsync(string carOptionId);
         Task EditOptionAsync(AdminCarOptionEditBindingModel model);
+        Task DeleteAsync(string optionId);
     }
 }

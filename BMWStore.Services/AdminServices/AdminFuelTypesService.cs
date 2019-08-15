@@ -16,11 +16,16 @@ namespace BMWStore.Services.AdminServices
     {
         private readonly IFuelTypeRepository fuelTypeRepository;
         private readonly IReadService readService;
+        private readonly IAdminDeleteService adminDeleteService;
 
-        public AdminFuelTypesService(IFuelTypeRepository fuelTypeRepository, IReadService readService)
+        public AdminFuelTypesService(
+            IFuelTypeRepository fuelTypeRepository, 
+            IReadService readService,
+            IAdminDeleteService adminDeleteService)
         {
             this.fuelTypeRepository = fuelTypeRepository;
             this.readService = readService;
+            this.adminDeleteService = adminDeleteService;
         }
 
         public async Task CreateNewFuelTypeAsync(AdminFuelTypeCreateBindingModel model)
@@ -43,6 +48,11 @@ namespace BMWStore.Services.AdminServices
             };
 
             return model;
+        }
+
+        public async Task DeleteAsync(string fuelTypeId)
+        {
+            await this.adminDeleteService.DeleteAsync<FuelType>(fuelTypeId);
         }
     }
 }
