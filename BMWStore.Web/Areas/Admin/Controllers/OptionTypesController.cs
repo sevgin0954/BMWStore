@@ -37,5 +37,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.adminOptionTypesService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -9,13 +9,12 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
 {
     public class CarFilterStrategyFactory
     {
-        // TODO: Implement special case pattern
         public static IEnumerable<ICarFilterStrategy> GetStrategies(
             string year,
             decimal? minPrice,
             decimal? maxPrice,
             string series,
-            IEnumerable<string> modelTypes)
+            IEnumerable<string> modelTypeIds)
         {
             var strategies = new List<ICarFilterStrategy>();
 
@@ -37,9 +36,9 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
                 strategies.Add(seriesStrategy);
             }
 
-            if (modelTypes.Count() > 0)
+            if (modelTypeIds.Count() > 0)
             {
-                var modelTypeStrategy = CreateModelTypeStrategy(modelTypes.ToArray());
+                var modelTypeStrategy = CreateModelTypeStrategy(modelTypeIds.ToArray());
                 strategies.Add(modelTypeStrategy);
             }
 
@@ -49,7 +48,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
         private static ICarFilterStrategy CreateYearStrategy(int startYear)
         {
             DataValidator.ValidateYearString(startYear.ToString());
-            var yearStrategy = new FilterCarsByYearStrategy(startYear);
+            var yearStrategy = new FilterCarsByPredicateStrategy(c => int.Parse(c.Year) == startYear);
 
             return yearStrategy;
         }
@@ -58,21 +57,21 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
         {
             DataValidator.ValidateMinPrice(minPrice, EntitiesConstants.MinPrice);
             DataValidator.ValidateMaxPrice(maxPrice, EntitiesConstants.CarMaxPrice);
-            var priceStrategy = new FilterCarsByPriceRangeStrategy(minPrice, maxPrice);
+            var priceStrategy = new FilterCarsByPredicateStrategy(c => c.Price >= minPrice && c.Price <= maxPrice);
 
             return priceStrategy;
         }
 
-        private static ICarFilterStrategy CreateSeriesStrategy(string series)
+        private static ICarFilterStrategy CreateSeriesStrategy(string seriesName)
         {
-            var filterStrategy = new FilterCarsBySeriesIdStrategy(series);
+            var filterStrategy = new FilterCarsByPredicateStrategy(c => c.Series.Name == seriesName);
 
             return filterStrategy;
         }
 
-        private static ICarFilterStrategy CreateModelTypeStrategy(params string[] modelTypes)
+        private static ICarFilterStrategy CreateModelTypeStrategy(params string[] modelTypeNames)
         {
-            var modelTypeStrategy = new FilterCarsByModelTypeNamesStrategy(modelTypes);
+            var modelTypeStrategy = new FilterCarsByPredicateStrategy(c => modelTypeNames.Any(mtn => mtn == c.ModelType.Name));
 
             return modelTypeStrategy;
         }

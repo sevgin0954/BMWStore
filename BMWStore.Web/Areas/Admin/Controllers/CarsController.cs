@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
+using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -27,8 +28,8 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Index(
-            string id,
             AdminBaseCarFilterStrategy filter = AdminBaseCarFilterStrategy.All,
+            string name = "",
             int pageNumber = 1)
         {
             var cookies = this.HttpContext.Request.Cookies;
@@ -39,7 +40,8 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortTypeKey = WebConstants.CookieAdminCarsSortTypeKey;
             var sortType = this.cookiesService.GetValueOrDefault<AdminBaseCarSortStrategyType>(cookies, sortTypeKey);
 
-            var model = await this.adminCarsService.GetCarsViewModelAsync(id, sortDirection, sortType, filter, pageNumber);
+            var filterStrategy = AdminCarFilterStrategyFactory.GetStrategy(filter, name);
+            var model = await this.adminCarsService.GetCarsViewModelAsync(filterStrategy, sortDirection, sortType, pageNumber);
 
             return View(model);
         }

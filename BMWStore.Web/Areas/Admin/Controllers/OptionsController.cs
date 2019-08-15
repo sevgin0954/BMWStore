@@ -25,10 +25,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(
             string name,
-            AdminOptionFilterStrategy optionFilterStrategy = AdminOptionFilterStrategy.All, 
+            AdminOptionFilterStrategy filterType = AdminOptionFilterStrategy.All, 
             int pageNumber = 1)
         {
-            var filterStrategy = OptionFilterStrategyFactory.GetStrategy(optionFilterStrategy, name);
+            var filterStrategy = OptionFilterStrategyFactory.GetStrategy(filterType, name);
             var model = await this.adminOptionsService.GetOptionsViewModelAsync(filterStrategy, pageNumber);
 
             return View(model);
@@ -37,10 +37,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var OptionTypeModels = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Option>();
+            var optionTypeModels = await this.selectListItemsService.GetAllAsSelectListItemsAsync<OptionType>();
             var model = new AdminOptionCreateBindingModel()
             {
-                OptionTypes = OptionTypeModels
+                OptionTypes = optionTypeModels
             };
 
             return View(model);

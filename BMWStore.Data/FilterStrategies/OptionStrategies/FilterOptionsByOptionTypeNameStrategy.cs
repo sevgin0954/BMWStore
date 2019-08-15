@@ -4,11 +4,11 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.FilterStrategies.OptionStrategies
 {
-    public class FilterOptionsByOptionTypeStrategy : IOptionFilterStrategy
+    public class FilterOptionsByOptionTypeNameStrategy : IOptionFilterStrategy
     {
         private readonly string optionTypeName;
 
-        public FilterOptionsByOptionTypeStrategy(string optionTypeName)
+        public FilterOptionsByOptionTypeNameStrategy(string optionTypeName)
         {
             this.optionTypeName = optionTypeName;
         }

@@ -14,7 +14,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
                 case AdminOptionFilterStrategy.All:
                     return new ReturnAllFilterStrategy();
                 case AdminOptionFilterStrategy.OptionType:
-                    return new FilterOptionsByOptionTypeStrategy(name);
+                    return new FilterOptionsByOptionTypeNameStrategy(name);
                 default:
                     throw new InvalidEnumArgumentException();
             }

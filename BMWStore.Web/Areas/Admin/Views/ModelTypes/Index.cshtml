@@ -30,7 +30,7 @@
                         {
                             <a asp-controller="Cars"
                                asp-action="Index"
-                               asp-route-id="@modelType.Id"
+                               asp-route-name="@modelType.Name"
                                asp-route-filter="@AdminBaseCarFilterStrategy.ModelType">
                                 Cars (@modelType.CarsCount)
                             </a>

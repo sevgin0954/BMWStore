@@ -5,6 +5,7 @@ using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
@@ -47,14 +48,12 @@ namespace BMWStore.Services.AdminServices
 
         // TODO: Map totalPagesCount with one query
         public async Task<AdminCarsViewModel> GetCarsViewModelAsync(
-            string id,
+            ICarFilterStrategy filterStrategy,
             SortStrategyDirection sortDirection,
             AdminBaseCarSortStrategyType sortType,
-            AdminBaseCarFilterStrategy filter,
             int pageNumber)
         {
             var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
-            var filterStrategy = AdminCarFilterStrategyFactory.GetStrategy(filter, id);
 
             var filteredCars = this.carRepository.GetFiltered(filterStrategy);
             var filteredAndSortedCars = sortStrategy.Sort(filteredCars);

@@ -96,7 +96,7 @@ namespace BMWStore.Web
             {
                 routes.MapRoute(
                     name: "paginationIndex",
-                    template: "{area:exists}/{controller}/{action=Index}/{id?}/{filter?}/{pageNumber?}"
+                    template: "{area:exists}/{controller}/{action=Index}/{filter?}/{name?}/{pageNumber?}"
                 );
 
                 routes.MapRoute(

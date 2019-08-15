@@ -9,5 +9,6 @@ namespace BMWStore.Services.AdminServices.Interfaces
     {
         Task<IEnumerable<OptionTypeViewModel>> GetAllAsync();
         Task CreateOptionTypeAsync(OptionTypeCreateBindingModel model);
+        Task DeleteAsync(string optionTypeId);
     }
 }
