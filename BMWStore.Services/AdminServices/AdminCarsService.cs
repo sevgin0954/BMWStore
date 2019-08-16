@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
-using BMWStore.Common.Enums;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Factories.SortStrategyFactories;

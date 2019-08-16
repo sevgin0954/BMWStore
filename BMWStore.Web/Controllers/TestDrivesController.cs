@@ -16,7 +16,7 @@ namespace BMWStore.Web.Controllers
             this.testDriveService = testDriveService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
             var models = await this.testDriveService.GetAllTestDrivesAsync(this.User);
             this.ViewData["returnAction"] = "Index";

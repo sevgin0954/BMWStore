@@ -35,6 +35,11 @@ namespace BMWStore.Models.CarModels.BindingModels
         [Required]
         public string ColorName { get; set; }
 
+        [MinLength(EntitiesConstants.CarDescriptionMinLength)]
+        [MaxLength(EntitiesConstants.CarDescriptionMaxLength)]
+        [Required]
+        public string Description { get; set; }
+
         [Range(EntitiesConstants.CarMinDisplacement, EntitiesConstants.CarMaxDisplacement)]
         [Required]
         public double Displacement { get; set; }

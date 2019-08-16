@@ -35,7 +35,7 @@
                 <th scope="col">Phone</th>
                 <th scope="col">Email</th>
                 <th scope="col">Full name</th>
-                <th scope="col">Orders</th>
+                <th scope="col">Test Drives</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -47,7 +47,24 @@
                     <td>@user.PhoneNumber</td>
                     <td>@user.Email</td>
                     <td>@user.FullName</td>
-                    <td><a href="#">Orders (@user.OrdersCount)</a></td>
+                    <td>
+                        @if (user.TestDrivesCount == 0)
+                        {
+                            <a href="#">
+                                Test Drives (@user.TestDrivesCount)
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="Admin"
+                               asp-controller="TestDrives"
+                               asp-action="Index"
+                               asp-route-filter="@AdminTestDriveFilterStrategy.Email.ToString()"
+                               asp-route-name="@user.Email">
+                                Test Drives (@user.TestDrivesCount)
+                            </a>
+                        }
+                    </td>
                     <td>
                         @if (user.IsBanned)
                         {

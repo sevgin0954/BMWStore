@@ -30,9 +30,9 @@ namespace BMWStore.Services.AdminServices
             this.adminEditService = adminEditService;
         }
 
-        public async Task<IEnumerable<OptionTypeViewModel>> GetAllAsync()
+        public async Task<IEnumerable<OptionTypeConciseViewModel>> GetAllAsync()
         {
-            var models = await this.readService.GetAllAsync<OptionTypeViewModel, OptionType>();
+            var models = await this.readService.GetAllAsync<OptionTypeConciseViewModel, OptionType>();
 
             return models;
         }

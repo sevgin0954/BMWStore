@@ -1,5 +1,5 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Common.Enums;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +23,14 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             var cookies = this.HttpContext.Request.Cookies;
             var model = await this.adminUsersService.GetSortedUsersAsync(cookies, pageNumber);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Account(string id)
+        {
+            var model = await this.adminUsersService.GetUserByIdAsync(id);
 
             return View(model);
         }

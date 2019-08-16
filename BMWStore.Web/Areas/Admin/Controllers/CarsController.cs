@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Common.Enums;
+using BMWStore.Common.Enums.FilterStrategies;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;

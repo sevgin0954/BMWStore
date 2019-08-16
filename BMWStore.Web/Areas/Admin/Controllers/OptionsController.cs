@@ -1,4 +1,4 @@
-﻿using BMWStore.Common.Enums;
+﻿using BMWStore.Common.Enums.FilterStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Entities;
 using BMWStore.Models.OptionModels.BidningModels;

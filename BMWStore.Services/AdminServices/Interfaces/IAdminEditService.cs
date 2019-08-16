@@ -1,12 +1,11 @@
-﻿using BMWStore.Entities;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminEditService
     {
         Task EditAsync<TEntity, TModel>(TModel editingModel, string id)
-            where TEntity : BaseEntity
+            where TEntity : class
             where TModel : class;
     }
 }

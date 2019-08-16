@@ -1,4 +1,4 @@
-﻿using BMWStore.Common.Enums;
+﻿using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Models.EngineModels.ViewModels;
 using BMWStore.Models.PaginationModels;
 using System.Collections.Generic;

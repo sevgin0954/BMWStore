@@ -4,7 +4,7 @@ using MappingRegistrar.Interfaces;
 
 namespace BMWStore.Models.OptionTypeModels.ViewModels
 {
-    public class OptionTypeViewModel : IMapFrom<OptionType>, IHaveCustomMappings
+    public class OptionTypeConciseViewModel : IMapFrom<OptionType>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace BMWStore.Models.OptionTypeModels.ViewModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<OptionType, OptionTypeViewModel>()
+            configuration.CreateMap<OptionType, OptionTypeConciseViewModel>()
                 .ForMember(dest => dest.OptionsCount, opt => opt.MapFrom(src => src.Options.Count));
         }
     }

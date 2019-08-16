@@ -1,5 +1,5 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Common.Enums;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Factories.SortStrategyFactories;
@@ -9,9 +9,7 @@ using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.UserModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using MappingRegistrar;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,18 +21,30 @@ namespace BMWStore.Services.AdminServices
         private readonly IRoleRepository roleRepository;
         private readonly IUserRepository userRepository;
         private readonly ICookiesService cookiesService;
+        private readonly IReadService readService;
 
         public AdminUsersService(
-            IRoleRepository roleRepository, 
+            IRoleRepository roleRepository,
             IUserRepository userRepository,
-            ICookiesService cookiesService)
+            ICookiesService cookiesService,
+            IReadService readService)
         {
             this.roleRepository = roleRepository;
             this.userRepository = userRepository;
             this.cookiesService = cookiesService;
+            this.readService = readService;
         }
 
-        public async Task<AdminUsersViewModel> GetSortedUsersAsync(IRequestCookieCollection requestCookies, int pageNumber)
+        public async Task<UserAdminViewModel> GetUserByIdAsync(string id)
+        {
+            var model = await this.readService.GetModelByIdAsync<UserAdminViewModel, User>(id);
+
+            return model;
+        }
+
+        public async Task<AdminUsersViewModel> GetSortedUsersAsync(
+            IRequestCookieCollection requestCookies, 
+            int pageNumber)
         {
             var sortStrategyName = this.cookiesService
                 .GetValueOrDefault<UserSortStrategyType>(requestCookies, WebConstants.CookieAdminUsersSortTypeKey);
@@ -44,14 +54,13 @@ namespace BMWStore.Services.AdminServices
 
             var dbUserRoleId = await this.roleRepository
                 .GetIdByNameAsync(WebConstants.UserRoleName);
-            var dbUsers = this.userRepository
-                .GetSortedWithRole(sortStrategy, dbUserRoleId);
-            var userModels = await dbUsers
-                .GetFromPage(pageNumber)
-                .To<UserAdminViewModel>()
-                .ToArrayAsync();
 
-            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(dbUsers);
+            var sortedUsers = this.userRepository
+                .GetSortedWithRole(sortStrategy, dbUserRoleId);
+
+            var userModels = await this.readService.GetAllAsync<UserAdminViewModel, User>(sortedUsers, pageNumber);
+
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(sortedUsers);
 
             var model = new AdminUsersViewModel()
             {

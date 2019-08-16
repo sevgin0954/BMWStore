@@ -7,7 +7,7 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminOptionTypesService
     {
-        Task<IEnumerable<OptionTypeViewModel>> GetAllAsync();
+        Task<IEnumerable<OptionTypeConciseViewModel>> GetAllAsync();
         Task CreateOptionTypeAsync(OptionTypeCreateBindingModel model);
         Task<OptionTypeEditBindingModel> GetEditingModelAsync(string optionTypeId);
         Task EditAsync(OptionTypeEditBindingModel model);

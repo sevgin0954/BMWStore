@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class Status : BaseEntity
+    public class Status
     {
+        public string Id { get; set; }
+
         [Required]
         [MaxLength(EntitiesConstants.TestDriveNameMaxLength)]
         [MinLength(EntitiesConstants.TestDriveNameMinLength)]

@@ -95,13 +95,20 @@ namespace BMWStore.Data.Migrations
 
             modelBuilder.Entity("BMWStore.Entities.CarOption", b =>
                 {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<string>("CarId");
 
                     b.Property<string>("OptionId");
 
-                    b.HasKey("CarId", "OptionId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("OptionId");
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("OptionId", "CarId")
+                        .IsUnique()
+                        .HasFilter("[OptionId] IS NOT NULL AND [CarId] IS NOT NULL");
 
                     b.ToTable("CarsOptions");
                 });
@@ -272,7 +279,7 @@ namespace BMWStore.Data.Migrations
 
                     b.Property<DateTime>("ScheduleDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2019, 8, 14, 19, 56, 39, 874, DateTimeKind.Utc).AddTicks(3556));
+                        .HasDefaultValue(new DateTime(2019, 8, 16, 20, 25, 6, 471, DateTimeKind.Utc).AddTicks(2664));
 
                     b.Property<string>("StatusId")
                         .IsRequired();

@@ -17,7 +17,7 @@ namespace BMWStore.Services.Interfaces
             where TEntity : class
             where TModel : class;
         Task<TModel> GetModelByIdAsync<TModel, TEntity>(string id)
-            where TEntity : BaseEntity
+            where TEntity : class
             where TModel : class;
     }
 }

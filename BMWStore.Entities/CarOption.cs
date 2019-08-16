@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BMWStore.Entities
 {
-    public class CarOption : BaseEntity, IMapFrom<SelectListItem>, IHaveCustomMappings
+    public class CarOption : IMapFrom<SelectListItem>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         public string CarId { get; set; }
         public BaseCar Car { get; set; }
 

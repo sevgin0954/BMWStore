@@ -1,0 +1,71 @@
+﻿@model UserAdminViewModel
+@{
+    ViewData["Title"] = "Account";
+}
+
+<h4>Account</h4>
+
+<div class="container-item-white border-grey border-radius-smooth">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Full name</th>
+                <th scope="col">Test Drives</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-userId="@Model.Id">
+                <td>@Model.Id</td>
+                <td>@Model.PhoneNumber</td>
+                <td>@Model.Email</td>
+                <td>@Model.FullName</td>
+                <td>
+                    @if (Model.TestDrivesCount == 0)
+                    {
+                        <a href="#">
+                            Test Drives (@Model.TestDrivesCount)
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-area="Admin"
+                           asp-controller="TestDrives"
+                           asp-action="Index"
+                           asp-route-filter="@AdminTestDriveFilterStrategy.Email.ToString()"
+                           asp-route-name="@Model.Email">
+                            Test Drives (@Model.TestDrivesCount)
+                        </a>
+                    }
+                </td>
+                <td>
+                    @if (Model.IsBanned)
+                    {
+                        <button unban data-userId="@Model.Id" class="btn btn-wide background-green-hover border-green">
+                            Unban
+                        </button>
+                        <button hidden ban data-userId="@Model.Id" class="btn btn-wide border-light-blue background-light-blue-hover">
+                            Ban
+                        </button>
+                    }
+                    else
+                    {
+                        <button hidden unban data-userId="@Model.Id" class="btn btn-wide background-green-hover border-green">
+                            Unban
+                        </button>
+                        <button ban data-userId="@Model.Id" class="btn btn-wide border-light-blue background-light-blue-hover">
+                            Ban
+                        </button>
+                    }
+
+                    <button delete data-userId="@Model.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

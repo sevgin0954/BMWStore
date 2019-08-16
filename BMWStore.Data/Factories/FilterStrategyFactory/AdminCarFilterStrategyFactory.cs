@@ -1,4 +1,4 @@
-﻿using BMWStore.Common.Enums;
+﻿using BMWStore.Common.Enums.FilterStrategies;
 using BMWStore.Data.FilterStrategies.CarStrategies;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using System.ComponentModel;

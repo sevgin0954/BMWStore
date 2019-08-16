@@ -1,4 +1,4 @@
-﻿using BMWStore.Common.Enums;
+﻿using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.SortStrategies.TestDriveStrategies;
 using BMWStore.Data.SortStrategies.TestDriveStrategies.Interfaces;
 using System.ComponentModel;

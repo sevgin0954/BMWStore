@@ -1,4 +1,5 @@
 ﻿using BMWStore.Common.Enums;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;

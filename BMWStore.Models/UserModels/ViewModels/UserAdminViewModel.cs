@@ -1,9 +1,10 @@
-﻿using BMWStore.Entities;
+﻿using AutoMapper;
+using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
 
 namespace BMWStore.Models.UserModels.ViewModels
 {
-    public class UserAdminViewModel : IMapFrom<User>
+    public class UserAdminViewModel : IMapFrom<User>, IHaveCustomMappings
     {
         public string Email { get; set; }
 
@@ -13,8 +14,14 @@ namespace BMWStore.Models.UserModels.ViewModels
 
         public bool IsBanned { get; set; }
 
-        public int OrdersCount { get; set; }
+        public int TestDrivesCount { get; set; }
 
         public string PhoneNumber { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<User, UserAdminViewModel>()
+                .ForMember(dest => dest.TestDrivesCount, opt => opt.MapFrom(src => src.TestDrives.Count));
+        }
     }
 }

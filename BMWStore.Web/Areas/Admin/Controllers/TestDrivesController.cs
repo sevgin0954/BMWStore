@@ -1,5 +1,8 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
+using BMWStore.Common.Enums.FilterStrategies;
+using BMWStore.Common.Enums.SortStrategies;
+using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Entities;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
@@ -22,7 +25,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int pageNumber = 1)
+        public async Task<IActionResult> Index(
+            AdminTestDriveFilterStrategy filter = AdminTestDriveFilterStrategy.All,
+            int pageNumber = 1,
+            string name = "")
         {
             var cookies = this.HttpContext.Request.Cookies;
 
@@ -32,9 +38,12 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortDirectionKey = WebConstants.CookieAdminTestDrivesSortDirectionKey;
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
 
-            var model = await this.adminTestDrivesService.GetTestDrivesViewModelAsync(sortType, sortDirection, pageNumber);
-
-            this.ViewData["returnUrl"] = "/Admin/TestDrives";
+            var filterStrategy = AdminTestDrivesFilterStrategyFactory.GetStrategy(filter, name);
+            var model = await this.adminTestDrivesService.GetTestDrivesViewModelAsync(
+                filterStrategy, 
+                sortType,
+                sortDirection, 
+                pageNumber);
 
             return View(model);
         }

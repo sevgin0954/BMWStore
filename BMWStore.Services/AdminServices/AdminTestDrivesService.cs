@@ -13,6 +13,8 @@ using BMWStore.Entities;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Common.Helpers;
+using BMWStore.Data.FilterStrategies.TestDrives.Interfaces;
+using BMWStore.Common.Enums.SortStrategies;
 
 namespace BMWStore.Services.AdminServices
 {
@@ -33,19 +35,21 @@ namespace BMWStore.Services.AdminServices
         }
 
         public async Task<AdminTestDrivesViewModel> GetTestDrivesViewModelAsync(
+            ITestDriveFilterStrategy filterStrategy,
             AdminTestDrivesSortStrategyType sortType,
             SortStrategyDirection sortDirection,
             int pageNumber)
         {
             var sortStrategy = TestDriveSortStrategyFactory.GetStrategy(sortType, sortDirection);
             var sortedTestDrives = sortStrategy.Sort(this.testDriveRepository.GetAll());
+            var sortedAndFilteredTestDrive = filterStrategy.Filter(sortedTestDrives);
 
-            var testDriveModels = await sortedTestDrives
+            var testDriveModels = await sortedAndFilteredTestDrive
                 .GetFromPage(pageNumber)
                 .To<TestDriveViewModel>()
                 .ToArrayAsync();
 
-            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(sortedTestDrives);
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(sortedAndFilteredTestDrive);
 
             var model = new AdminTestDrivesViewModel()
             {

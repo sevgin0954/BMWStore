@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class TestDrive : BaseEntity
+    public class TestDrive
     {
+        public string Id { get; set; }
+
         [Required]
         public string CarId { get; set; }
         public BaseCar Car { get; set; }

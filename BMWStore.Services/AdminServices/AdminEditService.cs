@@ -2,7 +2,6 @@
 using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data;
-using BMWStore.Entities;
 using BMWStore.Services.AdminServices.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace BMWStore.Services.AdminServices
         }
 
         public async Task EditAsync<TEntity, TModel>(TModel editingModel, string id)
-            where TEntity : BaseEntity
+            where TEntity : class
             where TModel : class
         {
             var dbEntity = await this.dbContext.FindAsync<TEntity>(id);

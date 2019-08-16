@@ -1,8 +1,8 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Extensions;
 using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data;
-using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
@@ -61,12 +61,11 @@ namespace BMWStore.Services
         }
 
         public async Task<TModel> GetModelByIdAsync<TModel, TEntity>(string id)
-            where TEntity : BaseEntity
+            where TEntity : class
             where TModel : class
         {
-            var model = await this.dbContext.Set<TEntity>()
-               .AsQueryable()
-               .Where(e => e.Id == id)
+            var model = await this.dbContext
+               .FindAll<TEntity>(id)
                .To<TModel>()
                .FirstOrDefaultAsync();
             DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));

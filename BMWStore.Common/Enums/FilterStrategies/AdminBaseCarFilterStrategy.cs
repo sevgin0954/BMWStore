@@ -1,4 +1,4 @@
-﻿namespace BMWStore.Common.Enums
+﻿namespace BMWStore.Common.Enums.FilterStrategies
 {
     public enum AdminBaseCarFilterStrategy
     {

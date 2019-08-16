@@ -1,4 +1,4 @@
-﻿namespace BMWStore.Common.Enums
+﻿namespace BMWStore.Common.Enums.SortStrategies
 {
     public enum UsedCarSortStrategyType
     {

@@ -16,6 +16,8 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public double Displacement { get; set; }
 
+        public string Description { get; set; }
+
         public int DoorsCount { get; set; }
 
         public string EngineName { get; set; }

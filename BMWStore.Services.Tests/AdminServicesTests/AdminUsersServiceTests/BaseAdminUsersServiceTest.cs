@@ -17,7 +17,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
             var roleRepository = new RoleRepository(dbContext);
             var userRepository = new UserRepository(dbContext);
             var sortCookieService = new Mock<ICookiesService>().Object;
-            var service = new AdminUsersService(roleRepository, userRepository, sortCookieService);
+            var readService = new ReadService(dbContext);
+            var service = new AdminUsersService(roleRepository, userRepository, sortCookieService, readService);
 
             return service;
         }

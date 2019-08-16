@@ -7,8 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Entities
 {
-    public class Option : BaseEntity, IMapTo<SelectListItem>, IHaveCustomMappings
+    public class Option : IMapTo<SelectListItem>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         public ICollection<CarOption> CarsOptions { get; set; } = new List<CarOption>();
 
         [MaxLength(EntitiesConstants.OptionNameMaxLength)]

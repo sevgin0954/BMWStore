@@ -136,6 +136,15 @@
             </div>
         </div>
         <div class="input-group">
+            <div>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="Description"></label>
+                <textarea class="form-control" asp-for="Description" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="input-group">
             <div class="flex-column col-10">
                 <label asp-for="Pictures"></label>
                 <input picturesInput hidden type="file" asp-for="Pictures" multiple>
