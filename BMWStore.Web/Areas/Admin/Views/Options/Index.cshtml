@@ -5,13 +5,39 @@
 
 <h5>@ViewData["Title"]</h5>
 
-<partial name="_AddNewPartial" />
+<div class="container-item-white border-radius-smooth border-grey d-flex">
+    <a class="btn border-blue-hover"
+       asp-action="AddNew">
+        Add new
+        <i class="fas fa-plus"></i>
+    </a>
+    <div class="d-flex mx-auto">
+        @await Component.InvokeAsync("Dropdown", new
+         {
+             enumTypeName = typeof(OptionSortStrategyType).AssemblyQualifiedName,
+             selectedEnumName = @Model.SortStrategyType.ToString(),
+             controllerName = "Options",
+             actionName = "ChangeSortType",
+             routeParamName = "sortStrategyType",
+             prependText = "Order by"
+         })
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(SortStrategyDirection).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortStrategyDirection.ToString(),
+            controllerName = "Options",
+            actionName = "ChangeSortDirection",
+            routeParamName = "sortDirection"
+        })
+    </div>
+</div>
 
 <div class="container-item-white border-radius-smooth border-grey">
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Name</th>
+                <th scope="col">Option type</th>
                 <th scope="col">Price</th>
                 <th scope="col">Cars</th>
                 <th scope="col"></th>
@@ -22,6 +48,7 @@
             {
                 <tr data-optionId="@option.Id">
                     <td>@option.Name</td>
+                    <td>@option.OptionTypeName</td>
                     <td>@option.Price</td>
                     <td>
                         @if (option.CarsCount == 0)

@@ -1,4 +1,6 @@
-﻿using BMWStore.Common.Enums.FilterStrategies;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Enums.FilterStrategies;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Entities;
 using BMWStore.Models.OptionModels.BidningModels;
@@ -13,13 +15,16 @@ namespace BMWStore.Web.Areas.Admin.Controllers
     {
         private readonly IAdminOptionsService adminOptionsService;
         private readonly ISelectListItemsService selectListItemsService;
+        private readonly ICookiesService cookiesService;
 
         public OptionsController(
             IAdminOptionsService adminOptionsService,
-            ISelectListItemsService selectListItemsService)
+            ISelectListItemsService selectListItemsService,
+            ICookiesService cookiesService)
         {
             this.adminOptionsService = adminOptionsService;
             this.selectListItemsService = selectListItemsService;
+            this.cookiesService = cookiesService;
         }
 
         [HttpGet]
@@ -28,8 +33,20 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             AdminOptionFilterStrategy filterType = AdminOptionFilterStrategy.All, 
             int pageNumber = 1)
         {
+            var cookies = this.HttpContext.Request.Cookies;
+
+            var sortStrategyKey = WebConstants.CookieAdminOptionsSortTypeKey;
+            var sortType = this.cookiesService.GetValueOrDefault<OptionSortStrategyType>(cookies, sortStrategyKey);
+
+            var sortDirectionKey = WebConstants.CookieAdminOptionsSortDirectionKey;
+            var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
+
             var filterStrategy = OptionFilterStrategyFactory.GetStrategy(filterType, name);
-            var model = await this.adminOptionsService.GetOptionsViewModelAsync(filterStrategy, pageNumber);
+            var model = await this.adminOptionsService.GetOptionsViewModelAsync(
+                filterStrategy,
+                sortType,
+                sortDirection,
+                pageNumber);
 
             return View(model);
         }
@@ -74,6 +91,24 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(AdminCarOptionEditBindingModel model)
         {
             await this.adminOptionsService.EditOptionAsync(model);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSortType(OptionSortStrategyType sortStrategyType)
+        {
+            var sortTypeKey = WebConstants.CookieAdminOptionsSortTypeKey;
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortTypeKey, sortStrategyType.ToString());
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection)
+        {
+            var sortDirectionKey = WebConstants.CookieAdminOptionsSortDirectionKey;
+            this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortDirectionKey, sortDirection.ToString());
 
             return RedirectToAction("Index");
         }

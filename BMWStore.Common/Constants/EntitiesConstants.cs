@@ -55,7 +55,7 @@
         public const int FuelTypeNameMaxLength = 15;
         public const int FuelTypeNameMinLength = 3;
 
-        public const int OptionNameMaxLength = 25;
+        public const int OptionNameMaxLength = 50;
         public const string OptionNameMaxPrice = "100000";
         public const int OptionNameMinLength = 3;
 

@@ -128,6 +128,8 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        // TODO: Move to separate controller
+
         [HttpPost]
         public IActionResult ChangeSortType(AdminBaseCarSortStrategyType sortStrategyType)
         {

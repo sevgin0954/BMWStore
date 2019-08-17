@@ -1,5 +1,8 @@
-﻿using BMWStore.Services.Interfaces;
+﻿using BMWStore.Models.CarInvertoryModels.ViewModels;
+using BMWStore.Models.OptionTypeModels.ViewModels;
+using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
@@ -16,7 +19,17 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
-            var model = await this.carsService.GetCarViewModelAsync(carId);
+            var carModel = await this.carsService.GetCarViewModelAsync(carId);
+
+            var model = new CarInvertoryViewModel()
+            {
+                Car = carModel,
+                OptionTypes = carModel.Options.GroupBy(o => o.OptionTypeName).Select(group => new OptionTypeViewModel()
+                {
+                    Name = group.Key,
+                    OptionNames = group.Select(o => o.Name).ToList()
+                })
+            };
 
             return View(model);
         }

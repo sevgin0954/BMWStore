@@ -1,0 +1,42 @@
+﻿@model OptionTypeViewModel
+
+@{ 
+    var optionsCount = Model.OptionNames.Count();
+    var leftColOptionsCount = (int)Math.Ceiling(optionsCount / 3.0);
+}
+
+<div class="font-medium">
+    <u class="font-medium">@Model.Name</u>
+    <div class="row">
+        &emsp;&emsp;
+        <div class="col">
+            @foreach (var optionName in Model.OptionNames.Take(leftColOptionsCount))
+            {
+                <div class="mb-3">
+                    <i class="fas fa-check"></i>
+                    @optionName
+                </div>
+            }
+        </div>
+
+        <div class="col">
+            @foreach (var optionName in Model.OptionNames.Skip(leftColOptionsCount).Take(leftColOptionsCount))
+            {
+                <div class="mb-3">
+                    <i class="fas fa-check"></i>
+                    @optionName
+                </div>
+            }
+        </div>
+
+        <div class="col">
+            @foreach (var optionName in Model.OptionNames.Skip(leftColOptionsCount * 2))
+            {
+                <div class="mb-3">
+                    <i class="fas fa-check"></i>
+                    @optionName
+                </div>
+            }
+        </div>
+    </div>
+</div>

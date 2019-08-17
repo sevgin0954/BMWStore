@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
+using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.FilterStrategies.OptionStrategies.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
@@ -37,17 +39,26 @@ namespace BMWStore.Services.AdminServices
             this.adminEditService = adminEditService;
         }
 
-        public async Task<AdminOptionsViewModel> GetOptionsViewModelAsync(IOptionFilterStrategy filterStrategy, int pageNumber)
+        public async Task<AdminOptionsViewModel> GetOptionsViewModelAsync(
+            IOptionFilterStrategy filterStrategy,
+            OptionSortStrategyType sortStrategyType,
+            SortStrategyDirection sortDirection,
+            int pageNumber)
         {
+            var sortStrategy = OptionSortStrategyFactory.GetStrategy(sortStrategyType, sortDirection);
+
             var allOptions = this.optionRepository.GetAll();
             var filteredOptions = filterStrategy.Filter(allOptions);
-            var optionModels = await this.readService.GetAllAsync<OptionViewModel, Option>(filteredOptions, pageNumber);
+            var sortedAndFilteredOptions = sortStrategy.Sort(filteredOptions);
+            var optionModels = await this.readService.GetAllAsync<OptionViewModel, Option>(sortedAndFilteredOptions, pageNumber);
 
             var model = new AdminOptionsViewModel()
             {
                 CurrentPage = pageNumber,
                 Options = optionModels,
-                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(allOptions)
+                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(allOptions),
+                SortStrategyDirection = sortDirection,
+                SortStrategyType = sortStrategyType
             };
 
             return model;

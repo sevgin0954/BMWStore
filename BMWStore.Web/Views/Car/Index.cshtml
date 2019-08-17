@@ -1,4 +1,4 @@
-﻿@model CarViewModel
+﻿@model CarInvertoryViewModel
 @using CloudinaryDotNet;
 @inject CloudinaryDotNet.Cloudinary cloudinary;
 
@@ -6,14 +6,14 @@
     ViewData["Title"] = "Car Information";
 }
 
-<h4 class="mt-4">@($"{Model.Year} {Model.Name} {Model.ModelTypeName} in {Model.ColorName}")</h4>
+<h4 class="mt-4">@($"{Model.Car.Year} {Model.Car.Name} {Model.Car.ModelTypeName} in {Model.Car.ColorName}")</h4>
 
 @{
     var invertoryControllerName = "";
     var invertoryType = "";
 }
 
-@if (Model.IsNew)
+@if (Model.Car.IsNew)
 {
     invertoryControllerName = "NewInvertory";
     invertoryType = "NEW";
@@ -27,11 +27,11 @@ else
 <div class="mt-4 mb-2 no-padding">
     <a asp-controller="@invertoryControllerName" asp-action="Index">@invertoryType</a>
     <span> > </span>
-    <a asp-controller="@invertoryControllerName" asp-action="Index" asp-route-year="@Model.Year">@Model.Year</a>
+    <a asp-controller="@invertoryControllerName" asp-action="Index" asp-route-year="@Model.Car.Year">@Model.Car.Year</a>
     <span> > </span>
-    <a asp-controller="@invertoryControllerName" asp-action="Index" asp-route-modelTypes="@Model.ModelTypeId">@Model.ModelTypeName</a>
+    <a asp-controller="@invertoryControllerName" asp-action="Index" asp-route-modelTypes="@Model.Car.ModelTypeId">@Model.Car.ModelTypeName</a>
     <span> > </span>
-    <span>@Model.Name</span>
+    <span>@Model.Car.Name</span>
 </div>
 
 <div class="row no-margin">
@@ -47,14 +47,14 @@ else
                 .Width(500)
                 .Height(300)
                 .Crop("fill")
-        ).BuildImageTag(Model.PicturePublicIds.First())
+        ).BuildImageTag(Model.Car.PicturePublicIds.First())
         </div>
     </div>
     <div class="col no-padding ml-4">
         <div class="container-light-blue border-radius-smooth border-grey">
             <div class="row no-margin mt-2 font-large">
                 Price:
-                <div class="ml-auto"><strong>$@Model.Price</strong></div>
+                <div class="ml-auto"><strong>$@Model.Car.Price</strong></div>
             </div>
 
             <hr />
@@ -83,14 +83,14 @@ else
                         <div class="mb-2 d-flex">
                             <div class="mr-4">
                                 <div>
-                                    <strong>@Model.FuelConsumation_City_Litres_100Km lpk</strong>
+                                    <strong>@Model.Car.FuelConsumation_City_Litres_100Km lpk</strong>
                                 </div>
                                 <span>City</span>
                             </div>
 
                             <div>
                                 <div class="">
-                                    <strong>@Model.FuelConsumation_Highway_Litres_100Km lpk</strong>
+                                    <strong>@Model.Car.FuelConsumation_Highway_Litres_100Km lpk</strong>
                                 </div>
                                 <span>Highway</span>
                             </div>
@@ -98,21 +98,21 @@ else
 
                         <div class="mb-2">
                             <div>
-                                <strong>@Model.EngineName</strong>
+                                <strong>@Model.Car.EngineName</strong>
                             </div>
-                            <span>@Model.TransmissionName</span>
+                            <span>@Model.Car.TransmissionName</span>
                         </div>
 
                         <div>
                             <div>
-                                <strong>@Model.ColorName</strong>
+                                <strong>@Model.Car.ColorName</strong>
                             </div>
                             <span class="mb-auto">Exterior</span>
                         </div>
 
                         <div class="mt-3">
                             <div>
-                                <strong>@Model.Vin</strong>
+                                <strong>@Model.Car.Vin</strong>
                             </div>
                         </div>
                     </div>
@@ -128,54 +128,54 @@ else
     <div class="ml-auto mr-auto">
         <div class="mb-4">
             <i class="fas fa-tachometer-alt"></i>
-            Acceleration 0-100km: @Model.Acceleration_0_100Km
+            Acceleration 0-100km: @Model.Car.Acceleration_0_100Km
         </div>
 
         <div class="mb-4">
             <i class="fas fa-box"></i>
-            Engine Displacement: @Model.Displacement in
+            Engine Displacement: @Model.Car.Displacement in
         </div>
 
         <div class="mb-4">
             <i class="fas fa-cogs"></i>
-            Transmission: @Model.TransmissionName
+            Transmission: @Model.Car.TransmissionName
         </div>
 
         <div class="mb-4">
             <i class="fas fa-horse"></i>
-            Hourse Power: @Model.HoursePower
+            Hourse Power: @Model.Car.HoursePower
         </div>
 
         <div class="mb-4">
             <i class="fas fa-truck-loading"></i>
-            Torque: @Model.Torque
+            Torque: @Model.Car.Torque
         </div>
     </div>
 
     <div class="mr-auto ml-auto">
         <div class="mb-4">
             <i class="fas fa-smog"></i>
-            CO2 Emissions: @Model.CO2Emissions gr
+            CO2 Emissions: @Model.Car.CO2Emissions gr
         </div>
 
         <div class="mb-4">
             <i class="fas fa-door-open"></i>
-            DoorsCount: @Model.DoorsCount
+            DoorsCount: @Model.Car.DoorsCount
         </div>
 
         <div class="mb-4">
             <i class="fas fa-gas-pump"></i>
-            Fuel Type: @Model.FuelTypeName
+            Fuel Type: @Model.Car.FuelTypeName
         </div>
 
         <div class="mb-4">
             <i class="fas fa-car"></i>
-            Model Type: @Model.ModelTypeName
+            Model Type: @Model.Car.ModelTypeName
         </div>
 
         <div class="mb-4">
             <i class="fas fa-weight-hanging"></i>
-            Weight: @Model.Weight_Kg kg
+            Weight: @Model.Car.Weight_Kg kg
         </div>
     </div>
 </div>
@@ -187,7 +187,7 @@ else
         &emsp;&emsp;
     </div>
     <div class="col">
-        @Model.Description
+        @Model.Car.Description
     </div>
 </div>
 
@@ -195,17 +195,18 @@ else
 
 <h6 class="font-medium">Options</h6>
 <hr />
-<div class="row">
-    @{
-        var optionsCount = Model.OptionNames.Count();
-        var leftColOptionsCount = (int)Math.Ceiling(optionsCount / 2.0);
+<div>
+    @{ var isFirst = true; }
+    @foreach (var optionType in Model.OptionTypes)
+    {
+        @if (isFirst == false)
+        {
+            <hr />
+        }
+        isFirst = false;
+
+        @Html.DisplayFor(m => optionType);
     }
-    <div class="col-4">
-        <partial name="_OptionsPartial" model="@Model.OptionNames.Take(leftColOptionsCount)" />
-    </div>
-    <div class="col-4">
-        <partial name="_OptionsPartial" model="@Model.OptionNames.Skip(leftColOptionsCount)" />
-    </div>
 </div>
 
 <hr />

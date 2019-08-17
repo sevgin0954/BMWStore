@@ -1,4 +1,5 @@
-﻿using BMWStore.Data;
+﻿using BMWStore.Common.Enums.SortStrategies;
+using BMWStore.Data;
 using BMWStore.Data.FilterStrategies.OptionStrategies;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Services.Tests.Common.SeedTestMethods;
@@ -23,7 +24,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         public async void WithBiggerPageNumber_ShouldReturnEmptyCollection()
         {
             var dbContext = this.GetDbContext();
-            SeedOptionsMethods.SeedOption(dbContext);
+            SeedOptionsMethods.SeedOptionWithOptionType(dbContext);
 
             var model = await this.CallGetOptionsViewModelAsync(dbContext, 2);
 
@@ -34,7 +35,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         public async void WithOption_ShouldReturnModelWithCorrectTotalPagesCount()
         {
             var dbContext = this.GetDbContext();
-            SeedOptionsMethods.SeedOption(dbContext);
+            SeedOptionsMethods.SeedOptionWithOptionType(dbContext);
 
             var model = await this.CallGetOptionsViewModelAsync(dbContext);
 
@@ -45,7 +46,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         public async void WithOption_ShouldReturnModelWithOption()
         {
             var dbContext = this.GetDbContext();
-            SeedOptionsMethods.SeedOption(dbContext);
+            SeedOptionsMethods.SeedOptionWithOptionType(dbContext);
 
             var model = await this.CallGetOptionsViewModelAsync(dbContext);
 
@@ -58,7 +59,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         {
             var service = this.GetService(dbContext);
             var filterStrategy = new ReturnAllFilterStrategy();
-            var model = await service.GetOptionsViewModelAsync(filterStrategy, pageNumber);
+            var sortStrategy = OptionSortStrategyType.Name;
+            var sortDirection = SortStrategyDirection.Ascending;
+            var model = await service.GetOptionsViewModelAsync(filterStrategy, sortStrategy, sortDirection, pageNumber);
 
             return model;
         }
