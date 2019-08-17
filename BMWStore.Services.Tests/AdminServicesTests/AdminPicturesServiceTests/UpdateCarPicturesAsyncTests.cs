@@ -2,8 +2,8 @@
 using BMWStore.Entities;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using BMWStore.Services.Tests.Common.MockTestMethods;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.MockTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moq;

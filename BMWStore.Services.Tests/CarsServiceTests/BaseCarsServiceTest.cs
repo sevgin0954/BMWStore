@@ -2,7 +2,7 @@
 using BMWStore.Data.Repositories;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
-using BMWStore.Services.Tests.Common.MockTestMethods;
+using BMWStore.Tests.Common.MockTestMethods;
 using Microsoft.AspNetCore.Identity;
 
 namespace BMWStore.Services.Tests.CarsServiceTests

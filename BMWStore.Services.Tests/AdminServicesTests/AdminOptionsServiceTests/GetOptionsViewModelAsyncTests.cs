@@ -2,7 +2,7 @@
 using BMWStore.Data;
 using BMWStore.Data.FilterStrategies.OptionStrategies;
 using BMWStore.Models.AdminModels.ViewModels;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using System.Threading.Tasks;
 using Xunit;
 

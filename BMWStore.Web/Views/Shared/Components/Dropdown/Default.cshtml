@@ -20,6 +20,7 @@
             {
                 parms[Model.ParameterName] = strategyTypeName;
                 <form method="post"
+                      asp-area="@Model.AreaName"
                       asp-controller="@Model.ControllerName"
                       asp-action="@Model.ActionName"
                       asp-all-route-data="@parms">

@@ -2,7 +2,7 @@
 using BMWStore.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace BMWStore.Services.Tests.Common.SeedTestMethods
+namespace BMWStore.Tests.Common.SeedTestMethods
 {
     public static class SeedRolesMethods
     {

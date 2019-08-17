@@ -4,7 +4,7 @@ using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Moq;
 using System;
 

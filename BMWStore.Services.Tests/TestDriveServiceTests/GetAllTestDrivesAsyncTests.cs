@@ -2,8 +2,8 @@
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
-using BMWStore.Services.Tests.Common.MockTestMethods;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.MockTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Moq;
 using System.Linq;
 using System.Security.Claims;

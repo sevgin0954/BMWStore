@@ -1,7 +1,7 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.ViewModels;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Moq;
 using System.Security.Claims;
 using System.Threading.Tasks;

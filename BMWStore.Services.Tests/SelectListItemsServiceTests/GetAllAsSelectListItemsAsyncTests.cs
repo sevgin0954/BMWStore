@@ -1,5 +1,5 @@
 ﻿using BMWStore.Entities;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using System;
 using System.Linq;
 using Xunit;

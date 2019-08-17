@@ -8,6 +8,8 @@ namespace BMWStore.Models.ViewComponentModels.ViewModels
 
         public string SelectedSortName { get; set; }
 
+        public string AreaName { get; set; }
+
         public string ControllerName { get; set; }
 
         public string ActionName { get; set; }

@@ -1,7 +1,7 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
 
-namespace BMWStore.Services.Tests.Common.SeedTestMethods
+namespace BMWStore.Tests.Common.SeedTestMethods
 {
     public static class SeedEnginesMethods
     {

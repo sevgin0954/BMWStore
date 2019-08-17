@@ -1,4 +1,4 @@
-﻿using BMWStore.Services.Tests.Common.SeedTestMethods;
+﻿using BMWStore.Tests.Common.SeedTestMethods;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests

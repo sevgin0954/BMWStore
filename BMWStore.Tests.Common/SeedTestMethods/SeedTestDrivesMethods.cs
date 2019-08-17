@@ -3,7 +3,7 @@ using BMWStore.Data;
 using BMWStore.Entities;
 using System;
 
-namespace BMWStore.Services.Tests.Common.SeedTestMethods
+namespace BMWStore.Tests.Common.SeedTestMethods
 {
     public static class SeedTestDrivesMethods
     {

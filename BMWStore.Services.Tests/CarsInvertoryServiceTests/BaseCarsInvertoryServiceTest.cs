@@ -1,5 +1,5 @@
 ﻿using BMWStore.Services.Interfaces;
-using BMWStore.Services.Tests.Common.MockTestMethods;
+using BMWStore.Tests.Common.MockTestMethods;
 using Moq;
 
 namespace BMWStore.Services.Tests.CarsInvertoryServiceTests

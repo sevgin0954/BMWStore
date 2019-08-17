@@ -2,7 +2,7 @@
 using BMWStore.Data.SortStrategies.EngineStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Moq;
 using System.Linq;
 using System.Threading.Tasks;

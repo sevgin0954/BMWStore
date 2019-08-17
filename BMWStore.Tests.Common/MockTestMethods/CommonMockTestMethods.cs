@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Moq;
 using System.Security.Claims;
 
-namespace BMWStore.Services.Tests.Common.MockTestMethods
+namespace BMWStore.Tests.Common.MockTestMethods
 {
     public static class CommonMockTestMethods
     {

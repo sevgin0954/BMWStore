@@ -2,8 +2,8 @@
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
-using BMWStore.Services.Tests.Common.MockTestMethods;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.MockTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using System;

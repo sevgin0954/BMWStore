@@ -1,6 +1,6 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 

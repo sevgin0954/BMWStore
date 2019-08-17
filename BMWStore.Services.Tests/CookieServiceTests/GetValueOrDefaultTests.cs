@@ -1,5 +1,5 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Services.Tests.Common.MockTestMethods;
+using BMWStore.Tests.Common.MockTestMethods;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System;

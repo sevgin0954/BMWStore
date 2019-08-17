@@ -1,6 +1,6 @@
 ﻿using BMWStore.Entities;
 using BMWStore.Models.CarModels.BindingModels;
-using BMWStore.Services.Tests.Common.SeedTestMethods;
+using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
