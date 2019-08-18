@@ -17,6 +17,8 @@
 
         public const string IncorrectPriceRange = "Incorrect price range";
 
+        public const string TypeWasNotEnum = "Type with that name was not enum";
+
         public const string NotSignIn = "User was not sign in";
 
         public const string UpcomingStatusRequired = "Status should be upcoming";

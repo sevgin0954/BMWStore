@@ -1,7 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using System;
 using System.Collections;
-using System.ComponentModel;
 using System.Globalization;
 
 namespace BMWStore.Common.Validation
@@ -26,6 +25,14 @@ namespace BMWStore.Common.Validation
             }
         }
 
+        public static void ValidateEnumType(Type type)
+        {
+            if (type.IsEnum == false)
+            {
+                throw new ArgumentException(ErrorConstants.TypeWasNotEnum);
+            }
+        }
+
         public static void ValidateNotEmptyEnum(Type enumType, string exceptionMessage)
         {
             var enumValues = Enum.GetValues(enumType);
@@ -37,7 +44,7 @@ namespace BMWStore.Common.Validation
             var result = new object();
             if (Enum.TryParse(enumType, enumValue, out result) == false)
             {
-                throw new InvalidEnumArgumentException(ErrorConstants.IncorrectEnumValue);
+                throw new ArgumentException(ErrorConstants.IncorrectEnumValue);
             }
         }
 

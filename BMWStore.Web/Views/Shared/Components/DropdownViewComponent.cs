@@ -16,7 +16,7 @@ namespace BMWStore.Web.Views.Shared.Components
             string enumTypeName, 
             string selectedEnumName, 
             string area,
-            string controllerName, 
+            string controllerName,
             string actionName,
             string routeParamName,
             string returnUrl,
@@ -24,6 +24,7 @@ namespace BMWStore.Web.Views.Shared.Components
         {
             var enumType = Type.GetType(enumTypeName);
 
+            DataValidator.ValidateEnumType(enumType);
             DataValidator.ValidateNotEmptyEnum(enumType, ErrorConstants.EmptyEnum);
             DataValidator.ValidateEnumValue(selectedEnumName, enumType);
 
