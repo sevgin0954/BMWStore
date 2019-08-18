@@ -34,10 +34,10 @@ namespace BMWStore.Web.Controllers
         {
             var cookie = this.HttpContext.Request.Cookies;
 
-            var sortDirectionKey = WebConstants.CookieUserCarsSortDirectionKey;
+            var sortDirectionKey = WebConstants.CookieUserNewCarsSortDirectionKey;
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookie, sortDirectionKey);
 
-            var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
+            var sortTypeKey = WebConstants.CookieUserNewCarsSortTypeKey;
             var sortType = this.cookiesService.GetValueOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
 
             var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
@@ -53,6 +53,7 @@ namespace BMWStore.Web.Controllers
             var viewModel = await this.carsInventoryService
                 .GetInventoryViewModelAsync(sortedAndFilteredCars, this.User, model.PageNumber);
             this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
+
             viewModel.SortStrategyDirection = sortDirection;
             viewModel.SortStrategyType = sortType;
 
@@ -62,7 +63,7 @@ namespace BMWStore.Web.Controllers
         [HttpPost]
         public IActionResult ChangeSortType(BaseCarSortStrategyType sortStrategyType, string returnUrl)
         {
-            var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
+            var sortTypeKey = WebConstants.CookieUserNewCarsSortTypeKey;
             this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortTypeKey, sortStrategyType.ToString());
 
             return Redirect(returnUrl);
@@ -71,7 +72,7 @@ namespace BMWStore.Web.Controllers
         [HttpPost]
         public IActionResult ChangeSortDirection(SortStrategyDirection sortDirection, string returnUrl)
         {
-            var sortDirectionKey = WebConstants.CookieUserCarsSortDirectionKey;
+            var sortDirectionKey = WebConstants.CookieUserNewCarsSortDirectionKey;
             this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortDirectionKey, sortDirection.ToString());
 
             return Redirect(returnUrl);

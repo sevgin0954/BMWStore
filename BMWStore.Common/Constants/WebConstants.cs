@@ -26,8 +26,11 @@
         public const string CookieAdminEngineSortDirectionKey = "___AdminEngineSortDirection___";
         public const string CookieAdminEngineSortTypeKey = "___AdminEngineSortType___";
 
-        public const string CookieUserCarsSortDirectionKey = "___UserCarsSortDirection___";
-        public const string CookieUserCarsSortTypeKey = "___UserCarsSortType___";
+        public const string CookieUserNewCarsSortDirectionKey = "___UserNewCarsSortDirection___";
+        public const string CookieUserNewCarsSortTypeKey = "___UserNewCarsSortType___";
+
+        public const string CookieUserUsedCarsSortDirectionKey = "___UserUsedCarsSortDirection___";
+        public const string CookieUserUsedCarsSortTypeKey = "___UserUsedCarsSortType___";
 
         public const string CookieAdminUsersSortDirectionKey = "___AdminUsersSortDirection___";
         public const string CookieAdminUsersSortTypeKey = "___AdminUsersSortType___";
