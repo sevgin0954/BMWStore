@@ -30,7 +30,7 @@ namespace BMWStore.Web.Views.Shared.Components
 
             if (string.IsNullOrEmpty(area))
             {
-                var defaultArea = this.ViewContext.RouteData.Values[AreaValue].ToString();
+                var defaultArea = this.ViewContext.RouteData.Values[AreaValue]?.ToString();
                 area = defaultArea;
             }
             if (string.IsNullOrEmpty(controllerName))

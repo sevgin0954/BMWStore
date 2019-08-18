@@ -38,12 +38,30 @@ namespace BMWStore.Web.Tests.ViewComponentsTests.DropdownViewComponentTests
         public void WithIncorrectEnumTypeName_ShouldThrowException()
         {
             var viewComponent = new DropdownViewComponent();
+
             var typeName = typeof(TestEnum).AssemblyQualifiedName;
             var selectedEnumName = "c";
 
             var exception = Assert.Throws<ArgumentException>(() => viewComponent
                 .Invoke(typeName, selectedEnumName, null, null, null, null, null));
             Assert.Equal(ErrorConstants.IncorrectEnumValue, exception.Message);
+        }
+
+        [Fact]
+        public void WithViewWithoutArea_ShouldSetAreaToNull()
+        {
+            var viewComponent = new DropdownViewComponent();
+
+            var typeName = typeof(TestEnum).AssemblyQualifiedName;
+            var selectedEnumName = TestEnum.a.ToString();
+
+            var httpContext = this.GetHttpContext();
+            var viewContext = this.GetViewContext(httpContext);
+            this.AddComponentContext(viewComponent, viewContext);
+
+            var resultModel = this.InvokeComponent(viewComponent, typeName, selectedEnumName, areaName: null);
+
+            Assert.Null(resultModel.AreaName);
         }
 
         [Fact]
@@ -56,11 +74,8 @@ namespace BMWStore.Web.Tests.ViewComponentsTests.DropdownViewComponentTests
             var defaultAction = Guid.NewGuid().ToString();
 
             var httpContext = this.GetHttpContext();
-            var viewContext = this.GetViewContext(httpContext, defaultArea, defaultController, defaultAction);
-
-            var context = new ViewComponentContext();
-            context.ViewContext = viewContext;
-            viewComponent.ViewComponentContext = context;
+            var viewContext = this.GetViewContextWithArea(httpContext, defaultArea, defaultController, defaultAction);
+            this.AddComponentContext(viewComponent, viewContext);
 
             var typeName = typeof(TestEnum).AssemblyQualifiedName;
             var selectedEnumName = TestEnum.a.ToString();
@@ -118,16 +133,26 @@ namespace BMWStore.Web.Tests.ViewComponentsTests.DropdownViewComponentTests
             Assert.Equal(prependText, resultModel.PrependText);
         }
 
+        private ViewContext GetViewContextWithArea(
+            HttpContext httpContext, 
+            string areaName, 
+            string defaultController = "",
+            string defaultAction = "")
+        {
+            var viewContext = this.GetViewContext(httpContext, defaultController, defaultAction);
+            viewContext.RouteData.Values["area"] = areaName;
+
+            return viewContext;
+        }
+
         private ViewContext GetViewContext(
             HttpContext httpContext,
-            string defaultArea, 
-            string defaultController, 
-            string defaultAction)
+            string defaultController = "", 
+            string defaultAction = "")
         {
             var viewContext = new ViewContext();
             viewContext.HttpContext = httpContext;
             viewContext.RouteData = new RouteData();
-            viewContext.RouteData.Values["area"] = defaultArea;
             viewContext.RouteData.Values["controller"] = defaultController;
             viewContext.RouteData.Values["action"] = defaultAction;
 
@@ -170,6 +195,13 @@ namespace BMWStore.Web.Tests.ViewComponentsTests.DropdownViewComponentTests
             httpContext.Request.QueryString = QueryString.Create(queryValue, queryKey);
 
             return httpContext;
+        }
+
+        private void AddComponentContext(DropdownViewComponent viewComponent, ViewContext viewContext)
+        {
+            var context = new ViewComponentContext();
+            context.ViewContext = viewContext;
+            viewComponent.ViewComponentContext = context;
         }
     }
 
