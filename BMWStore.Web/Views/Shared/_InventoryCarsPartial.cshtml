@@ -1,0 +1,77 @@
+﻿@model CarsInventoryViewModel
+@foreach (var car in Model.Cars)
+{
+    <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
+        <a class="no-text-decorator color-black"
+           asp-controller="Car"
+           asp-action="Index"
+           asp-route-carId="@car.Id">
+            <partial name="_CarConcisePartial" model="@car" />
+        </a>
+        @if (car.IsTestDriveScheduled)
+        {
+            <div class="row d-flex">
+                <div class="mx-auto">
+                    <a class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                       asp-controller="TestDrives"
+                       asp-action="Drive"
+                       asp-route-testDriveId="@car.TestDriveId">
+                        Scheduled
+                        <i class="far fa-calendar-check"></i>
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row d-flex">
+                <div class="mx-auto">
+                    <button class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#@car.Id">
+                        Schedule A Test Drive
+                    </button>
+
+                    <div id="@car.Id" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form method="post" asp-controller="TestDrives" asp-action="Schedule">
+                                        <input name="CarId" value="@car.Id" hidden />
+                                        <div class="form-group">
+                                            <div>
+                                                <span asp-validation-for="TestDriveModel.ScheduleDate"
+                                                      class="text-danger"></span>
+                                            </div>
+                                            <label asp-for="TestDriveModel.ScheduleDate" type="text"></label>
+                                            <input class="form-control datepicker"
+                                                   data-provide="datepicker"
+                                                   name="ScheduleDate" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
+                                                <span asp-validation-for="TestDriveModel.Comment"
+                                                      class="text-danger"></span>
+                                            </div>
+                                            <label asp-for="TestDriveModel.Comment"></label>
+                                            <textarea class="form-control"
+                                                      name="Comment"
+                                                      asp-for="TestDriveModel.Comment"
+                                                      type="text"></textarea>
+                                        </div>
+                                        <div class="d-flex">
+                                            <button class="btn border-blue background-blue-hover mx-auto mt-3" type="submit">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

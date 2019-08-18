@@ -1,5 +1,5 @@
 ﻿using BMWStore.Entities;
-using BMWStore.Models.CarInvertoryModels.ViewModels;
+using BMWStore.Models.CarInventoryModels.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.Interfaces
 {
-    public interface ICarsInvertoryService
+    public interface ICarsInventoryService
     {
-        Task<CarsInvertoryViewModel> GetInvertoryViewModelAsync(
+        Task<CarsInventoryViewModel> GetInventoryViewModelAsync(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber);
-        void SelectModelFilterItems(CarsInvertoryViewModel model,
+        void SelectModelFilterItems(CarsInventoryViewModel model,
             string year,
             string priceRange,
             string series,

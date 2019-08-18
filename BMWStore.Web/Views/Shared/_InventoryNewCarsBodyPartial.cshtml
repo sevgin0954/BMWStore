@@ -1,0 +1,13 @@
+﻿@model CarsInventoryViewModel
+<div class="row">
+    <div class="col-2 mt-4 mr-3 no-padding">
+        <partial name="_InventoryBaseCarsFilterPartial" />
+    </div>
+    <div class="mt-4 col no-padding">
+        <partial name="_InventoryBaseCarsSortPartial" />
+
+        <div class="container-light-blue border-grey border-radius-smooth mt-4">
+            <partial name="_InventoryCarsPartial" />
+        </div>
+    </div>
+</div>

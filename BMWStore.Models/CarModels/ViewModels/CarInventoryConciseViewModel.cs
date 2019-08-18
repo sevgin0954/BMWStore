@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class CarInvertoryConciseViewModel : BaseCarScheduleTestDriveViewModel
+    public class CarInventoryConciseViewModel : BaseCarScheduleTestDriveViewModel
     {
         public string PicturePublicId { get; set; }
 
@@ -12,7 +12,7 @@ namespace BMWStore.Models.CarModels.ViewModels
         {
             base.CreateMappings(configuration);
 
-            configuration.CreateMap<BaseCar, CarInvertoryConciseViewModel>()
+            configuration.CreateMap<BaseCar, CarInventoryConciseViewModel>()
                 .ForMember(dest => dest.PicturePublicId, opt => opt.MapFrom(src => src.Pictures.First().PublicId));
         }
     }

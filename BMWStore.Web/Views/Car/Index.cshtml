@@ -1,4 +1,4 @@
-﻿@model CarInvertoryViewModel
+﻿@model CarInventoryViewModel
 @using CloudinaryDotNet;
 @inject CloudinaryDotNet.Cloudinary cloudinary;
 
@@ -9,27 +9,27 @@
 <h4 class="mt-4">@($"{Model.Car.Year} {Model.Car.Name} {Model.Car.ModelTypeName} in {Model.Car.ColorName}")</h4>
 
 @{
-    var invertoryControllerName = "";
-    var invertoryType = "";
+    var inventoryControllerName = "";
+    var inventoryType = "";
 }
 
 @if (Model.Car.IsNew)
 {
-    invertoryControllerName = "NewInvertory";
-    invertoryType = "NEW";
+    inventoryControllerName = "NewInventory";
+    inventoryType = "NEW";
 }
 else
 {
-    invertoryControllerName = "UsedInvertory";
-    invertoryType = "USED";
+    inventoryControllerName = "UsedInventory";
+    inventoryType = "USED";
 }
 
 <div class="mt-4 mb-2 no-padding">
-    <a asp-controller="@invertoryControllerName" asp-action="Index">@invertoryType</a>
+    <a asp-controller="@inventoryControllerName" asp-action="Index">@inventoryType</a>
     <span> > </span>
-    <a asp-controller="@invertoryControllerName" asp-action="Index" asp-route-year="@Model.Car.Year">@Model.Car.Year</a>
+    <a asp-controller="@inventoryControllerName" asp-action="Index" asp-route-year="@Model.Car.Year">@Model.Car.Year</a>
     <span> > </span>
-    <a asp-controller="@invertoryControllerName" asp-action="Index" asp-route-modelTypes="@Model.Car.ModelTypeId">@Model.Car.ModelTypeName</a>
+    <a asp-controller="@inventoryControllerName" asp-action="Index" asp-route-modelTypes="@Model.Car.ModelTypeId">@Model.Car.ModelTypeName</a>
     <span> > </span>
     <span>@Model.Car.Name</span>
 </div>

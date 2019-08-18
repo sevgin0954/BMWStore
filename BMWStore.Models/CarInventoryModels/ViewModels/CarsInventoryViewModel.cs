@@ -6,9 +6,9 @@ using BMWStore.Models.TestDriveModels.BindingModels;
 using System;
 using System.Collections.Generic;
 
-namespace BMWStore.Models.CarInvertoryModels.ViewModels
+namespace BMWStore.Models.CarInventoryModels.ViewModels
 {
-    public class CarsInvertoryViewModel : BasePaginationModel
+    public class CarsInventoryViewModel : BasePaginationModel
     {
         public Enum SortStrategyType { get; set; }
 
@@ -22,7 +22,7 @@ namespace BMWStore.Models.CarInvertoryModels.ViewModels
 
         public List<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<CarInvertoryConciseViewModel> Cars { get; set; } = new List<CarInvertoryConciseViewModel>();
+        public IEnumerable<CarInventoryConciseViewModel> Cars { get; set; } = new List<CarInventoryConciseViewModel>();
 
         public ScheduleTestDriveBindingModel TestDriveModel { get; set; }
     }

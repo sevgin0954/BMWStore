@@ -5,7 +5,7 @@ using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
-using BMWStore.Models.CarInvertoryModels.BindingModels;
+using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -13,24 +13,24 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
 {
-    public class NewInvertoryController : Controller
+    public class UsedInventoryController : Controller
     {
-        private readonly ICarsInvertoryService carsInvertoryService;
+        private readonly ICarsInventoryService carsInventoryService;
         private readonly ICookiesService cookiesService;
-        private readonly INewCarRepository newCarRepository;
+        private readonly IUsedCarRepository usedCarRepository;
 
-        public NewInvertoryController(
-            ICarsInvertoryService carsInvertoryService,
+        public UsedInventoryController(
+            ICarsInventoryService carsInventoryService,
             ICookiesService cookiesService,
-            INewCarRepository newCarRepository)
+            IUsedCarRepository usedCarRepository)
         {
-            this.carsInvertoryService = carsInvertoryService;
+            this.carsInventoryService = carsInventoryService;
             this.cookiesService = cookiesService;
-            this.newCarRepository = newCarRepository;
+            this.usedCarRepository = usedCarRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(CarsInvertoryBindingModel model)
+        public async Task<IActionResult> Index(CarsInventoryBindingModel model)
         {
             var cookie = this.HttpContext.Request.Cookies;
 
@@ -38,21 +38,21 @@ namespace BMWStore.Web.Controllers
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookie, sortDirectionKey);
 
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
-            var sortType = this.cookiesService.GetValueOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
+            var sortType = this.cookiesService.GetValueOrDefault<UsedCarSortStrategyType>(cookie, sortTypeKey);
 
-            var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
+            var sortStrategy = UsedCarSortStrategyFactory.GetStrategy<UsedCar>(sortType, sortDirection);
 
             var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series, model.ModelTypes);
 
-            var filteredCars = this.newCarRepository
+            var filteredCars = this.usedCarRepository
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
-            var viewModel = await this.carsInvertoryService
-                .GetInvertoryViewModelAsync(sortedAndFilteredCars, this.User, model.PageNumber);
-            this.carsInvertoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
+            var viewModel = await this.carsInventoryService
+                .GetInventoryViewModelAsync(sortedAndFilteredCars, this.User, model.PageNumber);
+            this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
             viewModel.SortStrategyDirection = sortDirection;
             viewModel.SortStrategyType = sortType;
 
@@ -60,7 +60,7 @@ namespace BMWStore.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeSortType(BaseCarSortStrategyType sortStrategyType, string returnUrl)
+        public IActionResult ChangeSortType(UsedCarSortStrategyType sortStrategyType, string returnUrl)
         {
             var sortTypeKey = WebConstants.CookieUserCarsSortTypeKey;
             this.cookiesService.SetCookieValue(this.HttpContext.Response.Cookies, sortTypeKey, sortStrategyType.ToString());

@@ -1,0 +1,26 @@
+﻿@model CarsInventoryViewModel
+<div>
+    <h5>@Model.Cars.Count() Vehicles matching</h5>
+</div>
+<div class="container-light-blue border-grey border-radius-smooth">
+    <div class="d-flex">
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(BaseCarSortStrategyType).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortStrategyType.ToString(),
+            controllerName = "NewInventory",
+            actionName = "ChangeSortType",
+            routeParamName = "sortStrategyType",
+            prependText = "Order by"
+        })
+
+        @await Component.InvokeAsync("Dropdown", new
+        {
+            enumTypeName = typeof(SortStrategyDirection).AssemblyQualifiedName,
+            selectedEnumName = @Model.SortStrategyDirection.ToString(),
+            controllerName = "NewInventory",
+            actionName = "ChangeSortDirection",
+            routeParamName = "sortDirection"
+        })
+    </div>
+</div>

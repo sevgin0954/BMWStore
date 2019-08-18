@@ -58,7 +58,7 @@ namespace BMWStore.Services
             return models;
         }
 
-        public async Task<IEnumerable<CarInvertoryConciseViewModel>> GetCarsInvertoryViewModelAsync(
+        public async Task<IEnumerable<CarInventoryConciseViewModel>> GetCarsInventoryViewModelAsync(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber)
@@ -67,7 +67,7 @@ namespace BMWStore.Services
 
             var models = await cars
                 .GetFromPage(pageNumber)
-                .To<CarInvertoryConciseViewModel>(new { isUserSignedIn })
+                .To<CarInventoryConciseViewModel>(new { isUserSignedIn })
                 .ToArrayAsync();
 
             return models;

@@ -15,14 +15,14 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.CarsServiceTests
 {
-    public class GetCarsInvertoryViewModelAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
+    public class GetCarsInventoryViewModelAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
     {
         [Fact]
         public async void WithoutSignInUserAndCar_ShouldReturnModelWithFalseIsTestDriveScheduled()
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInvertoryViewModelAsync(dbContext, true);
+            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.IsTestDriveScheduled == false));
         }
@@ -32,7 +32,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInvertoryViewModelAsync(dbContext, true);
+            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.TestDriveId == null));
         }
@@ -42,7 +42,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInvertoryViewModelAsync(dbContext, true);
+            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.IsTestDriveScheduled == false));
         }
@@ -52,7 +52,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInvertoryViewModelAsync(dbContext, true);
+            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.TestDriveId == null));
         }
@@ -63,7 +63,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             var dbContext = this.GetDbContext();
             this.ScheduleTestDrive(dbContext);
 
-            var models = await this.CallGetCarsInvertoryViewModelAsync(dbContext, true);
+            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.IsTestDriveScheduled));
         }
@@ -74,12 +74,12 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             var dbContext = this.GetDbContext();
             var dbTestDrive = this.ScheduleTestDrive(dbContext);
 
-            var models = await this.CallGetCarsInvertoryViewModelAsync(dbContext, true);
+            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.TestDriveId == dbTestDrive.Id));
         }
 
-        private async Task<IEnumerable<CarInvertoryConciseViewModel>> CallGetCarsInvertoryViewModelAsync(
+        private async Task<IEnumerable<CarInventoryConciseViewModel>> CallGetCarsInventoryViewModelAsync(
             ApplicationDbContext dbContext,
             bool isUserSignIn,
             int pageNumber = 1)
@@ -88,7 +88,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             var service = this.GetService(signInManager, dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
 
-            var models = await service.GetCarsInvertoryViewModelAsync(dbContext.BaseCars, user, pageNumber);
+            var models = await service.GetCarsInventoryViewModelAsync(dbContext.BaseCars, user, pageNumber);
 
             return models;
         }

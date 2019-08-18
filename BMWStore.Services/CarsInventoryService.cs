@@ -1,6 +1,5 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Entities;
-using BMWStore.Models.CarInvertoryModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
 using System.Collections.Generic;
@@ -8,12 +7,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BMWStore.Common.Helpers;
-using Microsoft.EntityFrameworkCore;
 using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Models.CarInventoryModels.ViewModels;
 
 namespace BMWStore.Services
 {
-    public class CarsInvertoryService : ICarsInvertoryService
+    public class CarsInventoryService : ICarsInventoryService
     {
         private readonly ICarYearService carYearService;
         private readonly ICarSeriesService carSeriesService;
@@ -22,7 +21,7 @@ namespace BMWStore.Services
         private readonly IFilterTypesService filterTypesService;
         private readonly ICarsService carsService;
 
-        public CarsInvertoryService(
+        public CarsInventoryService(
             ICarYearService carYearService,
             ICarSeriesService carSeriesService,
             ICarModelTypeService carModelTypeService,
@@ -38,22 +37,22 @@ namespace BMWStore.Services
             this.carsService = carsService;
         }
 
-        public async Task<CarsInvertoryViewModel> GetInvertoryViewModelAsync(
+        public async Task<CarsInventoryViewModel> GetInventoryViewModelAsync(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber)
         {
             var totalCarPages = await PaginationHelper.CountTotalPagesCountAsync(cars);
 
-            var allCarModels = await this.carsService.GetCarsModelsAsync<CarInvertoryConciseViewModel>(cars);
-            var carModels = await this.carsService.GetCarsInvertoryViewModelAsync(cars, user, pageNumber);
+            var allCarModels = await this.carsService.GetCarsModelsAsync<CarInventoryConciseViewModel>(cars);
+            var carModels = await this.carsService.GetCarsInventoryViewModelAsync(cars, user, pageNumber);
 
             var yearModels = await this.carYearService.GetYearFilterModelsAsync(cars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
             var modelTypeModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
             var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(allCarModels);
 
-            var model = new CarsInvertoryViewModel()
+            var model = new CarsInventoryViewModel()
             {
                 CurrentPage = pageNumber,
                 TotalPagesCount = totalCarPages
@@ -71,7 +70,7 @@ namespace BMWStore.Services
             return model;
         }
 
-        private void AddAllFilterTypeModels(CarsInvertoryViewModel model)
+        private void AddAllFilterTypeModels(CarsInventoryViewModel model)
         {
             var allFilterModel = new FilterTypeBindingModel()
             {
@@ -84,7 +83,7 @@ namespace BMWStore.Services
             model.Prices.Add(allFilterModel);
         }
 
-        public void SelectModelFilterItems(CarsInvertoryViewModel model,
+        public void SelectModelFilterItems(CarsInventoryViewModel model,
             string year,
             string priceRange,
             string series,

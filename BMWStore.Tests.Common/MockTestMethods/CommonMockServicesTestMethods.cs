@@ -15,12 +15,12 @@ namespace BMWStore.Tests.Common.MockTestMethods
     {
         public static void SetupCarsService(Mock<ICarsService> mockedCarsService)
         {
-            mockedCarsService.Setup(cs => cs.GetCarsInvertoryViewModelAsync(
+            mockedCarsService.Setup(cs => cs.GetCarsInventoryViewModelAsync(
                     It.IsAny<IQueryable<BaseCar>>(),
                     It.IsAny<ClaimsPrincipal>(),
                     It.IsAny<int>()))
                 .ReturnsAsync((IQueryable<BaseCar> cars, ClaimsPrincipal user, int pageNumber) =>
-                    cars.Select(c => new CarInvertoryConciseViewModel()).ToList());
+                    cars.Select(c => new CarInventoryConciseViewModel()).ToList());
         }
 
         public static void SetupMockedCludinaryServiceUploadPicturesAsync(
@@ -33,8 +33,8 @@ namespace BMWStore.Tests.Common.MockTestMethods
 
         public static void SetupCarPriceService(Mock<ICarPriceService> mockedCarPriceService)
         {
-            mockedCarPriceService.Setup(cps => cps.GetPriceFilterModelsAsync(It.IsAny<IEnumerable<CarInvertoryConciseViewModel>>()))
-                .Returns((IEnumerable<CarInvertoryConciseViewModel> input) => Task.FromResult<ICollection<FilterTypeBindingModel>>(
+            mockedCarPriceService.Setup(cps => cps.GetPriceFilterModelsAsync(It.IsAny<IEnumerable<CarInventoryConciseViewModel>>()))
+                .Returns((IEnumerable<CarInventoryConciseViewModel> input) => Task.FromResult<ICollection<FilterTypeBindingModel>>(
                     input.Select(a => new FilterTypeBindingModel()).ToList())
                 );
         }

@@ -2,11 +2,11 @@
 using BMWStore.Tests.Common.MockTestMethods;
 using Moq;
 
-namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
+namespace BMWStore.Services.Tests.CarsInventoryServiceTests
 {
-    public abstract class BaseCarsInvertoryServiceTest : BaseTest
+    public abstract class BaseCarsInventoryServiceTest : BaseTest
     {
-        protected ICarsInvertoryService GetService()
+        protected ICarsInventoryService GetService()
         {
             var carYearService = new CarYearService();
             var carSeriesService = new CarSeriesService();
@@ -16,7 +16,7 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
             var filterTypesService = new FilterTypesService();
             var mockedCarsService = new Mock<ICarsService>();
             CommonMockServicesTestMethods.SetupCarsService(mockedCarsService);
-            var service = new CarsInvertoryService(
+            var service = new CarsInventoryService(
                 carYearService, 
                 carSeriesService, 
                 carModelTypeService,

@@ -1,9 +1,9 @@
 ﻿using BMWStore.Common.Constants;
 using System.Collections.Generic;
 
-namespace BMWStore.Models.CarInvertoryModels.BindingModels
+namespace BMWStore.Models.CarInventoryModels.BindingModels
 {
-    public class CarsInvertoryBindingModel
+    public class CarsInventoryBindingModel
     {
         public IEnumerable<string> ModelTypes { get; set; } = new List<string>();
         public string Year { get; set; } = WebConstants.AllFilterTypeModelValue;

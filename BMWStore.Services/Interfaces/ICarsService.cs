@@ -14,7 +14,7 @@ namespace BMWStore.Services.Interfaces
         Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(
             IQueryable<BaseCar> cars,
             int pageNumber) where TModel : class;
-        Task<IEnumerable<CarInvertoryConciseViewModel>> GetCarsInvertoryViewModelAsync(
+        Task<IEnumerable<CarInventoryConciseViewModel>> GetCarsInventoryViewModelAsync(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber);

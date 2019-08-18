@@ -2,9 +2,9 @@
 using BMWStore.Models.OptionTypeModels.ViewModels;
 using System.Collections.Generic;
 
-namespace BMWStore.Models.CarInvertoryModels.ViewModels
+namespace BMWStore.Models.CarInventoryModels.ViewModels
 {
-    public class CarInvertoryViewModel
+    public class CarInventoryViewModel
     {
         public CarViewModel Car { get; set; }
 

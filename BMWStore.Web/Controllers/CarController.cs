@@ -1,4 +1,4 @@
-﻿using BMWStore.Models.CarInvertoryModels.ViewModels;
+﻿using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Models.OptionTypeModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ namespace BMWStore.Web.Controllers
         {
             var carModel = await this.carsService.GetCarViewModelAsync(carId);
 
-            var model = new CarInvertoryViewModel()
+            var model = new CarInventoryViewModel()
             {
                 Car = carModel,
                 OptionTypes = carModel.Options.GroupBy(o => o.OptionTypeName).Select(group => new OptionTypeViewModel()
