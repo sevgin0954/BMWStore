@@ -40,7 +40,7 @@ namespace BMWStore.Services.Tests.CarsInvertoryServiceTests
 
             var model = await this.CallGetInvertoryViewModelAsync(dbContext);
 
-            Assert.Equal(2, model.Prices.Count);
+            Assert.Single(model.Prices);
         }
 
         [Fact]

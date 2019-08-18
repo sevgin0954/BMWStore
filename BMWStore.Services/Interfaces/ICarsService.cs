@@ -10,6 +10,7 @@ namespace BMWStore.Services.Interfaces
     public interface ICarsService
     {
         Task<CarViewModel> GetCarViewModelAsync(string carId);
+        Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(IQueryable<BaseCar> cars);
         Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(
             IQueryable<BaseCar> cars,
             int pageNumber) where TModel : class;

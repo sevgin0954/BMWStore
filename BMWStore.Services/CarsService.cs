@@ -40,6 +40,15 @@ namespace BMWStore.Services
             return model;
         }
 
+        public async Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(IQueryable<BaseCar> cars)
+        {
+            var models = await cars
+                .To<TModel>()
+                .ToArrayAsync();
+
+            return models;
+        }
+
         public async Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(
             IQueryable<BaseCar> cars,
             int pageNumber) where TModel : class

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BMWStore.Common.Helpers;
+using Microsoft.EntityFrameworkCore;
+using BMWStore.Models.CarModels.ViewModels;
 
 namespace BMWStore.Services
 {
@@ -43,12 +45,13 @@ namespace BMWStore.Services
         {
             var totalCarPages = await PaginationHelper.CountTotalPagesCountAsync(cars);
 
+            var allCarModels = await this.carsService.GetCarsModelsAsync<CarInvertoryConciseViewModel>(cars);
             var carModels = await this.carsService.GetCarsInvertoryViewModelAsync(cars, user, pageNumber);
 
             var yearModels = await this.carYearService.GetYearFilterModelsAsync(cars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
             var modelTypeModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
-            var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(carModels);
+            var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(allCarModels);
 
             var model = new CarsInvertoryViewModel()
             {
