@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
+using BMWStore.Common.Helpers;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
@@ -7,7 +8,6 @@ using BMWStore.Entities;
 using BMWStore.Models.CarInvertoryModels.BindingModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,7 +42,7 @@ namespace BMWStore.Web.Controllers
 
             var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
 
-            var priceRanges = this.ParsePriceRange(model.PriceRange);
+            var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series, model.ModelTypes);
 
@@ -57,24 +57,6 @@ namespace BMWStore.Web.Controllers
             viewModel.SortStrategyType = sortType;
 
             return View(viewModel);
-        }
-
-        private decimal?[] ParsePriceRange(string priceRange)
-        {
-            var priceRanges = new decimal?[] { null, null };
-
-            if (priceRange != null && priceRange != WebConstants.AllFilterTypeModelValue)
-            {
-                var priceParts = priceRange
-                    .Split(" -}".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                if (priceParts.Length == 2)
-                {
-                    priceRanges[0] = decimal.Parse(priceParts[0]);
-                    priceRanges[1] = decimal.Parse(priceParts[1]);
-                }
-            }
-
-            return priceRanges;
         }
 
         [HttpPost]
