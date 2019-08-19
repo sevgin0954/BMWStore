@@ -13,7 +13,7 @@
                     @foreach (var modelType in Model.Years)
                     {
                         <div>
-                            <input onclick="clickBtn()"
+                            <input data-click
                                    name="year"
                                    value="@modelType.Value"
                                    type="radio"
@@ -30,7 +30,7 @@
                     @foreach (var modelType in Model.Series)
                     {
                         <div>
-                            <input onclick="clickBtn()"
+                            <input data-click
                                    name="series"
                                    value="@modelType.Value"
                                    type="radio"
@@ -47,7 +47,7 @@
                     @foreach (var modelType in Model.ModelTypes)
                     {
                         <div>
-                            <input onclick="clickBtn()"
+                            <input data-click
                                    name="modelTypes"
                                    value="@modelType.Value"
                                    type="checkbox"
@@ -64,7 +64,7 @@
                     @foreach (var modelType in Model.Prices)
                     {
                         <div>
-                            <input onclick="clickBtn()"
+                            <input data-click
                                    name="priceRange"
                                    value="@modelType.Value"
                                    type="radio"

@@ -40,7 +40,7 @@
 
         <div class="row d-flex">
             <div class="mx-auto">
-                <button delete data-carId="@car.Id" class="btn border-light-red background-light-red-hover">Delete</button>
+                <button data-delete-btn="@car.Id" class="btn border-light-red background-light-red-hover">Delete</button>
                 <a class="btn border-green background-green-hover ml-2"
                    asp-route-id="@car.Id"
                    asp-area="Admin"
@@ -59,7 +59,7 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('[delete]', 'data-carId', '/Admin/Cars/Delete');
+            removeElementOnButtonClick('data-delete-btn', 'data-carId', '/Admin/Cars/Delete');
         })
     </script>
 }

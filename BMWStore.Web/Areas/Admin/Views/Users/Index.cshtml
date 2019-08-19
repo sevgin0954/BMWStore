@@ -85,7 +85,7 @@
                             </button>
                         }
 
-                        <button delete data-userId="@user.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                        <button data-delete-btn="@user.Id" class="btn btn-wide border-light-red background-light-red-hover">
                             Delete
                         </button>
                     </td>
@@ -101,7 +101,7 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('[delete]', 'data-userId', '/Admin/Users/Delete');
+            removeElementOnButtonClick('data-delete-btn', 'data-userId', '/Admin/Users/Delete');
         })
     </script>
     <script>

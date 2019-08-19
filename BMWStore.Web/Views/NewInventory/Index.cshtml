@@ -15,13 +15,14 @@
 <partial name="_InventoryNewCarsBodyPartial" />
 
 @section Scripts {
-    <script>
-        function clickBtn() {
-            const submitBtn = $('#filterSubmit');
-            submitBtn.click();
-        }
-    </script>
+    <script src="~/js/clickBtnOnBtnClick.js"></script>
     <script src="~/js/datetimePickerPick.js"></script>
     <script src="~/js/showModal.js"></script>
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            clickBtnOnBtnClick('[data-click]', '#filterSubmit');
+        })
+    </script>
 }

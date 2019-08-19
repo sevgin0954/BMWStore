@@ -9,7 +9,6 @@
         {
             enumTypeName = typeof(AdminTestDrivesSortStrategyType).AssemblyQualifiedName,
             selectedEnumName = @Model.SortStrategyType.ToString(),
-            controllerName = "TestDrives",
             actionName = "ChangeSortType",
             routeParamName = "sortStrategyType",
             prependText = "Order by"
@@ -20,7 +19,6 @@
         {
             enumTypeName = typeof(SortStrategyDirection).AssemblyQualifiedName,
             selectedEnumName = @Model.SortDirection.ToString(),
-            controllerName = "TestDrives",
             actionName = "ChangeSortDirection",
             routeParamName = "sortDirection"
         })
@@ -29,8 +27,8 @@
 
 @foreach (var testDrive in Model.TestDrives)
 {
-    <div class="container-item-white border-radius-smooth border-grey">
-        <partial name="_TestDrivePartial" model="@testDrive" />
+    <div data-delete="@testDrive.Id" class="container-item-white border-radius-smooth border-grey">
+        @Html.DisplayFor(m => testDrive)
 
         <div class="mt-4 d-flex justify-content-center">
             <div class="mr-auto"></div>
@@ -76,18 +74,22 @@
             </div>
 
             <div class="ml-auto">
-                <form method="post"
-                      asp-controller="TestDrives"
-                      asp-action="Delete"
-                      asp-route-testDriveId="@testDrive.Id">
-                    <button class="btn border-light-red-hover">
-                        Delete
-                        <i class="far fa-trash-alt" aria-hidden="true"></i>
-                    </button>
-                </form>
+                <button data-delete-btn="@testDrive.Id" class="btn border-light-red-hover">
+                    Delete
+                    <i class="far fa-trash-alt" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
     </div>
 }
 
 <partial name="_PaginationPartial" />
+
+@section Scripts {
+    <script src="~/js/removeElementOnButtonClick.js"></script>
+    <script>
+        $(function () {
+            removeElementOnButtonClick('data-delete-btn', 'data-delete', '/Admin/TestDrives/Delete');
+        })
+    </script>
+}

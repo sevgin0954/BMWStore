@@ -7,7 +7,7 @@
 
 <div class="container-item-white border-radius-smooth border-grey d-flex">
     <a class="btn border-blue-hover"
-       asp-controller="Cars"
+       asp-controller="Engines"
        asp-action="AddNew">
         Add new
         <i class="fas fa-plus"></i>
@@ -94,7 +94,7 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('[delete]', 'data-id', '/Admin/Engines/Delete');
+            removeElementOnButtonClick('data-delete-btn', 'data-id', '/Admin/Engines/Delete');
         })
     </script>
 }

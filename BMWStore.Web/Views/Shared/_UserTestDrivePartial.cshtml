@@ -1,7 +1,7 @@
 ﻿@model TestDriveViewModel
 
 <div class="container-item-white border-radius-smooth border-grey">
-    <partial name="_TestDrivePartial" />
+    @Html.DisplayForModel()
 
     <div class="d-flex">
         @if (Model.Status.Name == BMWStore.Common.Enums.TestDriveStatus.Canceled)
@@ -24,8 +24,7 @@
                 <button cancelBtn class="btn border-light-red background-light-red-hover" type="submit"
                         asp-controller="TestDrives"
                         asp-action="Cancel"
-                        asp-route-testDriveId="@Model.Id"
-                        asp-route-returnAction="@ViewData["returnAction"]">
+                        asp-route-testDriveId="@Model.Id">
                     Cancel
                     <i class="fas fa-times" aria-hidden="true"></i>
                 </button>

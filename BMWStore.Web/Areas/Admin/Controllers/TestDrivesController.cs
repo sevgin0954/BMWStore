@@ -57,9 +57,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string testDriveId)
+        public async Task<IActionResult> Delete(string id)
         {
-            await this.adminTestDrivesService.DeleteAsync(testDriveId);
+            await this.adminTestDrivesService.DeleteAsync(id);
 
             return RedirectToAction("Index");
         }

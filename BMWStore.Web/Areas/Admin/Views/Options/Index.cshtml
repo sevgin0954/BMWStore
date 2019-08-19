@@ -67,7 +67,7 @@
                     </td>
                     <td>
                         <div>
-                            <button delete data-optionId="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
+                            <button data-delete-btn="@option.Id" class="btn btn-wide border-light-red background-light-red-hover">
                                 Delete
                             </button>
                         </div>
@@ -93,7 +93,7 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('[delete]', 'data-optionId', '/Admin/Options/Delete');
+            removeElementOnButtonClick('data-delete-btn', 'data-optionId', '/Admin/Options/Delete');
         })
     </script>
 }

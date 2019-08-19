@@ -1,18 +1,18 @@
-﻿function removeElementOnButtonClick(btnAttr, elementToDeleteAttr, deleteUrl) {
-    const deleteBtns = $(btnAttr);
+﻿function removeElementOnButtonClick(btnEventStarterAttr, elementToDeleteAttr, deleteUrl) {
+    const deleteBtns = $(`[${btnEventStarterAttr}]`);
 
     deleteBtns.on('click', function (e) {
         const deleteBtn = $(e.currentTarget);
-        // TODO: REFACETOR FOR BTN TO DONT NEED TO HAVE elementToDeleteAttr
-        const id = deleteBtn.attr(elementToDeleteAttr);
+        
+        const id = deleteBtn.attr(btnEventStarterAttr);
         
         makePostRequest(deleteUrl, id, function () {
-            $(`[${elementToDeleteAttr}*='${id}']`).remove();
+            const elementToDelete = $(`[${elementToDeleteAttr}*='${id}']`);
+            elementToDelete.remove();
         });
     });
 }
 
-// TODO: Refactor
 function makePostRequest(url, id, successCallback) {
     $.ajax({
         url: url,

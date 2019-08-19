@@ -10,6 +10,7 @@ using BMWStore.Models.UserModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,17 +19,20 @@ namespace BMWStore.Services.AdminServices
 {
     public class AdminUsersService : IAdminUsersService
     {
+        private readonly UserManager<User> userManager;
         private readonly IRoleRepository roleRepository;
         private readonly IUserRepository userRepository;
         private readonly ICookiesService cookiesService;
         private readonly IReadService readService;
 
         public AdminUsersService(
+            UserManager<User> userManager,
             IRoleRepository roleRepository,
             IUserRepository userRepository,
             ICookiesService cookiesService,
             IReadService readService)
         {
+            this.userManager = userManager;
             this.roleRepository = roleRepository;
             this.userRepository = userRepository;
             this.cookiesService = cookiesService;
@@ -135,17 +139,10 @@ namespace BMWStore.Services.AdminServices
 
         private async Task ValidateUserRoleAsync(User user)
         {
-            if (await this.IsUserInUserRoleAsync(user) == false)
+            if (await this.userManager.IsInRoleAsync(user, WebConstants.UserRoleName) == false)
             {
                 throw new ArgumentException(ErrorConstants.IncorrectUser);
             }
-        }
-
-        private async Task<bool> IsUserInUserRoleAsync(User user)
-        {
-            var dbUserRoleId = await this.roleRepository
-                .GetIdByNameAsync(WebConstants.UserRoleName);
-            return user.Roles.Any(r => r.RoleId == dbUserRoleId);
         }
     }
 }
