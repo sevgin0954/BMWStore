@@ -1,4 +1,5 @@
 ﻿using BMWStore.Data;
+using BMWStore.Data.FilterStrategies.CarStrategies.CarMultipleStrategies;
 using BMWStore.Entities;
 using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Tests.Common.SeedTestMethods;
@@ -80,7 +81,8 @@ namespace BMWStore.Services.Tests.CarsInventoryServiceTests
         {
             var service = this.GetService();
             var user = new Mock<ClaimsPrincipal>().Object;
-            var model = await service.GetInventoryViewModelAsync(dbContext.BaseCars, user, 1);
+            var filterStrategy = new ReturnAllMultipleFilterStrategy();
+            var model = await service.GetInventoryViewModelAsync(filterStrategy, dbContext.BaseCars, user, 1);
 
             return model;
         }

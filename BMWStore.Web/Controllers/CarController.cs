@@ -1,8 +1,6 @@
 ﻿using BMWStore.Models.CarInventoryModels.ViewModels;
-using BMWStore.Models.OptionTypeModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
