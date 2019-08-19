@@ -13,8 +13,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
             string year,
             decimal? minPrice,
             decimal? maxPrice,
-            string series,
-            IEnumerable<string> modelTypeIds)
+            string series)
         {
             var strategies = new List<ICarFilterStrategy>();
 
@@ -34,12 +33,6 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
             {
                 var seriesStrategy = CreateSeriesStrategy(series);
                 strategies.Add(seriesStrategy);
-            }
-
-            if (modelTypeIds.Count() > 0)
-            {
-                var modelTypeStrategy = CreateModelTypeStrategy(modelTypeIds.ToArray());
-                strategies.Add(modelTypeStrategy);
             }
 
             return strategies;
@@ -67,13 +60,6 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
             var filterStrategy = new FilterCarsByPredicateStrategy(c => c.Series.Name == seriesName);
 
             return filterStrategy;
-        }
-
-        private static ICarFilterStrategy CreateModelTypeStrategy(params string[] modelTypeNames)
-        {
-            var modelTypeStrategy = new FilterCarsByPredicateStrategy(c => modelTypeNames.Any(mtn => mtn == c.ModelType.Name));
-
-            return modelTypeStrategy;
         }
     }
 }

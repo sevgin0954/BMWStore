@@ -44,14 +44,15 @@ namespace BMWStore.Web.Controllers
 
             var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
             var filterStrategies = CarFilterStrategyFactory
-                .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series, model.ModelTypes);
+                .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series);
 
             var filteredCars = this.usedCarRepository
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
+            var filterStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
             var viewModel = await this.carsInventoryService
-                .GetInventoryViewModelAsync(sortedAndFilteredCars, this.User, model.PageNumber);
+                .GetInventoryViewModelAsync(filterStrategy, sortedAndFilteredCars, this.User, model.PageNumber);
             this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             viewModel.SortStrategyDirection = sortDirection;

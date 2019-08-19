@@ -1,4 +1,5 @@
-﻿using BMWStore.Entities;
+﻿using BMWStore.Data.FilterStrategies.CarStrategies.CarMultipleStrategies.Interfaces;
+using BMWStore.Entities;
 using BMWStore.Models.CarInventoryModels.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace BMWStore.Services.Interfaces
     public interface ICarsInventoryService
     {
         Task<CarsInventoryViewModel> GetInventoryViewModelAsync(
+            ICarMultipleFilterStrategy multipleFilterStrategy,
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber);

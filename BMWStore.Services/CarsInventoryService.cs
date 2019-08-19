@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using BMWStore.Common.Helpers;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.CarInventoryModels.ViewModels;
+using BMWStore.Data.FilterStrategies.CarStrategies.CarMultipleStrategies.Interfaces;
 
 namespace BMWStore.Services
 {
@@ -38,18 +39,22 @@ namespace BMWStore.Services
         }
 
         public async Task<CarsInventoryViewModel> GetInventoryViewModelAsync(
+            ICarMultipleFilterStrategy multipleFilterStrategy,
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber)
         {
-            var totalCarPages = await PaginationHelper.CountTotalPagesCountAsync(cars);
-
-            var allCarModels = await this.carsService.GetCarsModelsAsync<CarInventoryConciseViewModel>(cars);
-            var carModels = await this.carsService.GetCarsInventoryViewModelAsync(cars, user, pageNumber);
-
-            var yearModels = await this.carYearService.GetYearFilterModelsAsync(cars);
-            var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(cars);
             var modelTypeModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
+
+            var filteredCars = multipleFilterStrategy.Filter(cars);
+
+            var totalCarPages = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
+
+            var allCarModels = await this.carsService.GetCarsModelsAsync<CarInventoryConciseViewModel>(filteredCars);
+            var currentPageCarModels = await this.carsService.GetCarsInventoryViewModelAsync(filteredCars, user, pageNumber);
+
+            var yearModels = await this.carYearService.GetYearFilterModelsAsync(filteredCars);
+            var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(filteredCars);
             var priceModels = await this.carPriceService.GetPriceFilterModelsAsync(allCarModels);
 
             var model = new CarsInventoryViewModel()
@@ -65,7 +70,7 @@ namespace BMWStore.Services
             model.ModelTypes.AddRange(modelTypeModels);
             model.Prices.AddRange(priceModels);
 
-            model.Cars = carModels;
+            model.Cars = currentPageCarModels;
 
             return model;
         }
