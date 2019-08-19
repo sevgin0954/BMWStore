@@ -10,25 +10,24 @@ namespace BMWStore.Web.Controllers
     public class CarController : Controller
     {
         private readonly ICarsService carsService;
+        private readonly IOptionTypeService optionTypeService;
 
-        public CarController(ICarsService carsService)
+        public CarController(ICarsService carsService, IOptionTypeService optionTypeService)
         {
             this.carsService = carsService;
+            this.optionTypeService = optionTypeService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
             var carModel = await this.carsService.GetCarViewModelAsync(carId);
+            var optionTypeModels = this.optionTypeService.GetViewModels(carModel.Options);
 
             var model = new CarInventoryViewModel()
             {
                 Car = carModel,
-                OptionTypes = carModel.Options.GroupBy(o => o.OptionTypeName).Select(group => new OptionTypeViewModel()
-                {
-                    Name = group.Key,
-                    OptionNames = group.Select(o => o.Name).ToList()
-                })
+                OptionTypes = optionTypeModels
             };
 
             return View(model);
