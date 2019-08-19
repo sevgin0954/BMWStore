@@ -15,21 +15,25 @@ namespace BMWStore.Data.Factories.SortStrategyFactories
             switch (sortType)
             {
                 case UsedCarSortStrategyType.Price when sortDirection == SortStrategyDirection.Ascending:
-                    return new SortCarsByPriceStrategy<TCar>();
+                    return new SortCarsByPredicateStrategy<TCar, decimal>(c => c.Price);
                 case UsedCarSortStrategyType.Price when sortDirection == SortStrategyDirection.Descending:
-                    return new SortCarsByPriceDescStrategy<TCar>();
+                    return new SortCarsByPredicateDescStrategy<TCar, decimal>(c => c.Price);
+
                 case UsedCarSortStrategyType.Year when sortDirection == SortStrategyDirection.Ascending:
-                    return new SortCarsByYearStrategy<TCar>();
+                    return new SortCarsByPredicateStrategy<TCar, string>(c => c.Year);
                 case UsedCarSortStrategyType.Year when sortDirection == SortStrategyDirection.Descending:
-                    return new SortCarsByYearDescStrategy<TCar>();
+                    return new SortCarsByPredicateDescStrategy<TCar, string>(c => c.Year);
+
                 case UsedCarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Ascending:
-                    return new SortCarsByYearStrategy<TCar>();
+                    return new SortCarsByPredicateStrategy<TCar, int>(c => c.WarrantyMonthsLeft);
                 case UsedCarSortStrategyType.Warranty when sortDirection == SortStrategyDirection.Descending:
-                    return new SortCarsByYearDescStrategy<TCar>();
+                    return new SortCarsByPredicateDescStrategy<TCar, int>(c => c.WarrantyMonthsLeft);
+
                 case UsedCarSortStrategyType.Mileage when sortDirection == SortStrategyDirection.Ascending:
-                    return new SortUsedCarsByMileageStrategy<TCar>();
+                    return new SortCarsByPredicateStrategy<TCar, double>(c => c.Mileage);
                 case UsedCarSortStrategyType.Mileage when sortDirection == SortStrategyDirection.Descending:
-                    return new SortUsedCarsByMileageDescStrategy<TCar>();
+                    return new SortCarsByPredicateDescStrategy<TCar, double>(c => c.Mileage);
+
                 default:
                     throw new InvalidEnumArgumentException();
             }
