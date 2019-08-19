@@ -21,7 +21,7 @@ namespace BMWStore.Web.TagHelpers
                 var selected = item.Selected ? @"checked=""checked""" : "";
                 var disabled = item.Disabled ? @"disabled=""disabled""" : "";
 
-                var html = $@"<label><input type=""checkbox"" {selected} {disabled} id=""{ModelName}_{i}__Selected"" name=""{ModelName}[{i}].Selected"" value=""true"" /> {item.Text}</label>";
+                var html = $@"<label><input type=""checkbox"" {selected}{disabled} id=""{ModelName}_{i}__Selected"" name=""{ModelName}[{i}].Selected"" value=""true"" /> {item.Text}</label>";
                 html += $@"<input type=""hidden"" id=""{ModelName}_{i}__Value"" name=""{ModelName}[{i}].Value"" value=""{item.Value}"">";
                 html += $@"<input type=""hidden"" id=""{ModelName}_{i}__Text"" name=""{ModelName}[{i}].Text"" value=""{item.Text}"">";
 
@@ -30,8 +30,6 @@ namespace BMWStore.Web.TagHelpers
 
                 i++;
             }
-
-            output.Attributes.SetAttribute("class", "th-chklstbx");
         }
     }
 }
