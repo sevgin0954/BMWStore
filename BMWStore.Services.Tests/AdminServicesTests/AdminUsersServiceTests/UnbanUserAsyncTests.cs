@@ -1,4 +1,5 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Tests.Common.MockTestMethods;
 using BMWStore.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
@@ -23,7 +24,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithAdmin_ShouldThrowException()
         {
             var dbContext = this.GetDbContext();
-            var service = this.GetService(dbContext);
+            var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
+            CommonMockTestMethods.SetipMockedUserManagerIsInRoleAsync(mockedUserManager, false);
+            var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
             SeedRolesMethods.SeedUserRole(dbContext);
 
@@ -35,7 +38,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithNotBannedUser_ShouldThrowException()
         {
             var dbContext = this.GetDbContext();
-            var service = this.GetService(dbContext);
+            var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
+            CommonMockTestMethods.SetipMockedUserManagerIsInRoleAsync(mockedUserManager, true);
+            var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await service.UnbanUserAsync(dbUser.Id));
@@ -46,7 +51,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithBannedUser_ShouldUnbanUser()
         {
             var dbContext = this.GetDbContext();
-            var service = this.GetService(dbContext);
+            var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
+            CommonMockTestMethods.SetipMockedUserManagerIsInRoleAsync(mockedUserManager, true);
+            var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
             this.BanUser(dbContext, dbUser);
 

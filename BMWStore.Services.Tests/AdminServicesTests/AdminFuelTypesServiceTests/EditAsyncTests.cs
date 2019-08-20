@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            var model = new FuelTypeEditBindingModel()
+            var model = new FuelTypeBindingModel()
             {
                 Id = Guid.NewGuid().ToString()
             };
@@ -30,7 +30,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
             var service = this.GetService(dbContext);
             var dbFuelType = SeedFuelTypesMethods.SeedFuelType(dbContext);
 
-            var model = new FuelTypeEditBindingModel()
+            var model = new FuelTypeBindingModel()
             {
                 Id = dbFuelType.Id,
                 Name = Guid.NewGuid().ToString()

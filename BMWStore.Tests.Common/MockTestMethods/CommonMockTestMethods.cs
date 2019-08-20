@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BMWStore.Tests.Common.MockTestMethods
 {
@@ -26,6 +27,12 @@ namespace BMWStore.Tests.Common.MockTestMethods
         {
             mock.Setup(sm => sm.IsSignedIn(It.IsAny<ClaimsPrincipal>()))
                 .Returns(isSignIn);
+        }
+
+        public static void SetipMockedUserManagerIsInRoleAsync(Mock<UserManager<User>> mock,  bool returns)
+        {
+            mock.Setup(um => um.IsInRoleAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(returns));
         }
 
         public static Mock<SignInManager<User>> GetMockedSignInManager(UserManager<User> userManager)

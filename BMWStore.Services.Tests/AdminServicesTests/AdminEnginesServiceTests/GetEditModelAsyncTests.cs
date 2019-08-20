@@ -31,20 +31,5 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
 
             Assert.Equal(dbEngine.Transmission.Id, model.SelectedTransmissionId);
         }
-
-        [Fact]
-        public async void WithEngineWithTransmission_ShouldReturnModelWithCorrectTransmissionsSelectedValues()
-        {
-            var dbContext = this.GetDbContext();
-            var dbEngine = SeedEnginesMethods.SeedEngineWithTransmission(dbContext);
-            var dbTransmission = SeedTransmissionsMethods.SeedTransmission(dbContext);
-            var service = this.GetService(dbContext);
-
-            var model = await service.GetEditModelAsync(dbEngine.Id);
-
-            Assert.Equal(2, model.Transmissions.Count());
-            Assert.Contains(model.Transmissions, t => t.Selected == true && t.Value == dbEngine.Transmission.Id);
-            Assert.Contains(model.Transmissions, t => t.Selected == false && t.Value == dbTransmission.Id);
-        }
     }
 }

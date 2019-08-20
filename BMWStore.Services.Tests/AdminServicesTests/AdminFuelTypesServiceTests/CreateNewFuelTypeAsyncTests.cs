@@ -11,7 +11,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            var model = new FuelTypeCreateBindingModel();
+            var model = new FuelTypeBindingModel();
             await service.CreateNewFuelTypeAsync(model);
 
             Assert.Single(dbContext.FuelTypes);

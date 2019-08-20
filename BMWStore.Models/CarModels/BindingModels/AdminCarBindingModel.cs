@@ -10,13 +10,18 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.BindingModels
 {
-    public class AdminCarCreateBindingModel : IMapTo<UsedCar>, IMapTo<NewCar>, IHaveCustomMappings
+    public class AdminCarBindingModel : IMapTo<AdminCarBindingModel>, IMapTo<NewCar>, IMapTo<UsedCar>, IMapFrom<NewCar>, IMapFrom<UsedCar>, IMapFrom<BaseCar>, IHaveCustomMappings
     {
+        [Required]
+        public string Id { get; set; }
+
         [Range(EntitiesConstants.CarMinMileage, EntitiesConstants.CarMaxMileage)]
         [Required]
         public double Mileage { get; set; }
 
-        [Display(Name ="Acceleration 0-100Km")]
+        public bool IsNew { get; set; }
+
+        [Display(Name = "Acceleration 0-100Km")]
         [Range(EntitiesConstants.CarMinAcceleration_0_100Km, EntitiesConstants.CarMaxAcceleration_0_100Km)]
         [Required]
         public double Acceleration_0_100Km { get; set; }
@@ -59,7 +64,7 @@ namespace BMWStore.Models.CarModels.BindingModels
 
         [Required]
         public string SelectedFuelTypeId { get; set; }
-        public IEnumerable<SelectListItem> FuelTypes { get; set; }
+        public IEnumerable<SelectListItem> FuelTypes { get; set; } = new List<SelectListItem>();
 
         [Range(EntitiesConstants.CarMinHoursePower, EntitiesConstants.CarMaxHoursePower)]
         [Required]
@@ -75,7 +80,7 @@ namespace BMWStore.Models.CarModels.BindingModels
         public string Name { get; set; }
 
         [Required]
-        public IEnumerable<IFormFile> Pictures { get; set; }
+        public IEnumerable<IFormFile> Pictures { get; set; } = new List<IFormFile>();
 
         [Range(typeof(decimal), EntitiesConstants.MinPrice, EntitiesConstants.CarMaxPrice)]
         [Required]
@@ -87,7 +92,7 @@ namespace BMWStore.Models.CarModels.BindingModels
 
         [Range(EntitiesConstants.CarMinTorque, EntitiesConstants.CarMaxTorque)]
         [Required]
-        public decimal Torque { get; set; } 
+        public decimal Torque { get; set; }
 
         [MaxLength(EntitiesConstants.CarVinLength)]
         [MinLength(EntitiesConstants.CarVinLength)]
@@ -108,23 +113,40 @@ namespace BMWStore.Models.CarModels.BindingModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<AdminCarCreateBindingModel, NewCar>()
-                .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
-                .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
-                .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
-                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId))
-                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(co => co.Selected)))
+            configuration.CreateMap<AdminCarBindingModel, AdminCarBindingModel>()
+                .ForMember(dest => dest.Engines, opt => opt.Ignore())
+                .ForMember(dest => dest.ModelTypes, opt => opt.Ignore())
                 .ForMember(dest => dest.Series, opt => opt.Ignore())
-                .ForMember(dest => dest.Pictures, opt => opt.Ignore());
+                .ForMember(dest => dest.FuelTypes, opt => opt.Ignore())
+                .ForMember(dest => dest.Pictures, opt => opt.Ignore())
+                .ForMember(dest => dest.CarOptions, opt => opt.Ignore());
 
-            configuration.CreateMap<AdminCarCreateBindingModel, UsedCar>()
+            configuration.CreateMap<AdminCarBindingModel, BaseCar>()
+                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(o => o.Selected)))
                 .ForMember(dest => dest.EngineId, opt => opt.MapFrom(src => src.SelectedEngineId))
                 .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
                 .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
                 .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId))
-                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.CarOptions.Where(co => co.Selected)))
                 .ForMember(dest => dest.Series, opt => opt.Ignore())
-                .ForMember(dest => dest.Pictures, opt => opt.Ignore());
+                .ForMember(dest => dest.Pictures, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .IncludeAllDerived();
+
+            configuration.CreateMap<BaseCar, AdminCarBindingModel>()
+                .ForMember(dest => dest.SelectedEngineId, opt => opt.MapFrom(src => src.EngineId))
+                .ForMember(dest => dest.SelectedFuelTypeId, opt => opt.MapFrom(src => src.FuelTypeId))
+                .ForMember(dest => dest.SelectedModelTypeId, opt => opt.MapFrom(src => src.ModelTypeId))
+                .ForMember(dest => dest.SelectedSeriesId, opt => opt.MapFrom(src => src.SeriesId))
+                .ForMember(dest => dest.CarOptions, opt => opt.MapFrom(src => src.Options.Select(o => new SelectListItem()
+                    { Value = o.OptionId, Text = o.Option.Name, Selected = true })))
+                .ForMember(dest => dest.IsNew, opt => opt.MapFrom(src => src is NewCar))
+                .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src is UsedCar ? (src as UsedCar).Mileage : 0))
+                .ForMember(dest => dest.Pictures, opt => opt.Ignore())
+                .ForMember(dest => dest.Engines, opt => opt.Ignore())
+                .ForMember(dest => dest.FuelTypes, opt => opt.Ignore())
+                .ForMember(dest => dest.ModelTypes, opt => opt.Ignore())
+                .ForMember(dest => dest.Series, opt => opt.Ignore())
+                .IncludeAllDerived();
         }
     }
 }

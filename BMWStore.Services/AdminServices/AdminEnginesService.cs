@@ -36,7 +36,7 @@ namespace BMWStore.Services.AdminServices
             this.adminEditService = adminEditService;
         }
 
-        public async Task CreateEngineAsync(AdminEngineCreateBindingModel model)
+        public async Task CreateEngineAsync(EngineBindingModel model)
         {
             var dbEngine = Mapper.Map<Engine>(model);
             this.engineRepository.Add(dbEngine);
@@ -63,9 +63,9 @@ namespace BMWStore.Services.AdminServices
             return model;
         }
 
-        public async Task<AdminEngineEditBindingModel> GetEditModelAsync(string engineId)
+        public async Task<EngineBindingModel> GetEditModelAsync(string engineId)
         {
-            var model = await this.readService.GetModelByIdAsync<AdminEngineEditBindingModel, Engine>(engineId);
+            var model = await this.readService.GetModelByIdAsync<EngineBindingModel, Engine>(engineId);
 
             var allTransmissions = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Transmission>();
 
@@ -77,9 +77,9 @@ namespace BMWStore.Services.AdminServices
             return model;
         }
 
-        public async Task EditAsync(AdminEngineEditBindingModel model)
+        public async Task EditAsync(EngineBindingModel model)
         {
-            await this.adminEditService.EditAsync<Engine, AdminEngineEditBindingModel>(model, model.Id);
+            await this.adminEditService.EditAsync<Engine, EngineBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string engineId)

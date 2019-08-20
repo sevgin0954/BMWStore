@@ -12,7 +12,6 @@ using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
@@ -108,7 +107,7 @@ namespace BMWStore.Services.AdminServices
 
         private async Task<User> GetValidatedUser(string userId)
         {
-            var dbUser = await this.userRepository.GetByIdWithRolesAsync(userId);
+            var dbUser = await this.userRepository.GetByIdAsync(userId);
             DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
             await this.ValidateUserRoleAsync(dbUser);
 

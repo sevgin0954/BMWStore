@@ -1,12 +1,12 @@
-﻿@model AdminCarBindingModel
+﻿@model FuelTypeBindingModel
 @{
-    ViewData["Title"] = "Edit Car";
+    ViewData["Title"] = "Edit";
 }
 
 <h5>@ViewData["Title"]</h5>
 
 <div class="container-item-white border-radius-smooth border-grey">
-    <form class="form-group" method="post" enctype="multipart/form-data">
+    <form class="form-group" method="post">
         @Html.EditorForModel()
 
         <partial name="_FormButtonsPartial" />
@@ -15,9 +15,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/pictureInput.js"></script>
     <script src="~/js/returnBack.js"></script>
-    <script>
-        addEventForAddingPictures('[picturesAddBtn]', '[picturesInput]', '[displayInput]');
-    </script>
 }

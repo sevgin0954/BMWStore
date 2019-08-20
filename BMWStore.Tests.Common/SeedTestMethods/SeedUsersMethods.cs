@@ -43,7 +43,7 @@ namespace BMWStore.Tests.Common.SeedTestMethods
         public static User SeedUserWithRole(ApplicationDbContext dbContext)
         {
             var dbUserRole = SeedRolesMethods.SeedUserRole(dbContext);
-            var dbUser = SeedUsersMethods.SeedUser(dbContext, dbUserRole);
+            var dbUser = SeedUser(dbContext, dbUserRole);
 
             return dbUser;
         }
@@ -51,7 +51,7 @@ namespace BMWStore.Tests.Common.SeedTestMethods
         public static User SeedAdminWithRole(ApplicationDbContext dbContext)
         {
             var dbUserRole = SeedRolesMethods.SeedAdminRole(dbContext);
-            var dbUser = SeedUsersMethods.SeedUser(dbContext, dbUserRole);
+            var dbUser = SeedUser(dbContext, dbUserRole);
 
             return dbUser;
         }

@@ -55,7 +55,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public async Task<IActionResult> AddNew()
         {
             var optionTypeModels = await this.selectListItemsService.GetAllAsSelectListItemsAsync<OptionType>();
-            var model = new AdminOptionCreateBindingModel()
+            var model = new OptionBindingModel()
             {
                 OptionTypes = optionTypeModels
             };
@@ -64,7 +64,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminOptionCreateBindingModel model)
+        public async Task<IActionResult> AddNew(OptionBindingModel model)
         {
             await this.adminOptionsService.CreateNewOptionAsync(model);
 
@@ -88,7 +88,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AdminCarOptionEditBindingModel model)
+        public async Task<IActionResult> Edit(OptionBindingModel model)
         {
             await this.adminOptionsService.EditOptionAsync(model);
 

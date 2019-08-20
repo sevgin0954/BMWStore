@@ -12,7 +12,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         {
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var model = this.GetCarCreateModel();
+            var model = new AdminCarBindingModel();
 
             await service.CreateCarAsync<NewCar>(model);
             var dbCars = dbContext.BaseCars.ToList();
@@ -26,20 +26,13 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         {
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var model = this.GetCarCreateModel();
+            var model = new AdminCarBindingModel();
 
             await service.CreateCarAsync<UsedCar>(model);
             var dbCars = dbContext.BaseCars.ToList();
 
             Assert.Single(dbCars);
             Assert.IsType<UsedCar>(dbCars.First());
-        }
-
-        private AdminCarCreateBindingModel GetCarCreateModel()
-        {
-            var model = new AdminCarCreateBindingModel();
-
-            return model;
         }
     }
 }

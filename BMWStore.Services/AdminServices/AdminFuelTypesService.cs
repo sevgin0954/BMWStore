@@ -31,7 +31,7 @@ namespace BMWStore.Services.AdminServices
             this.adminEditService = adminEditService;
         }
 
-        public async Task CreateNewFuelTypeAsync(FuelTypeCreateBindingModel model)
+        public async Task CreateNewFuelTypeAsync(FuelTypeBindingModel model)
         {
             var dbFuelType = Mapper.Map<FuelType>(model);
             this.fuelTypeRepository.Add(dbFuelType);
@@ -53,16 +53,16 @@ namespace BMWStore.Services.AdminServices
             return model;
         }
 
-        public async Task<FuelTypeEditBindingModel> GetEditingModelAsync(string fuelTypeId)
+        public async Task<FuelTypeBindingModel> GetEditingModelAsync(string fuelTypeId)
         {
-            var model = await this.readService.GetModelByIdAsync<FuelTypeEditBindingModel, FuelType>(fuelTypeId);
+            var model = await this.readService.GetModelByIdAsync<FuelTypeBindingModel, FuelType>(fuelTypeId);
 
             return model;
         }
 
-        public async Task EditAsync(FuelTypeEditBindingModel model)
+        public async Task EditAsync(FuelTypeBindingModel model)
         {
-            await this.adminEditService.EditAsync<FuelType, FuelTypeEditBindingModel>(model, model.Id);
+            await this.adminEditService.EditAsync<FuelType, FuelTypeBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string fuelTypeId)

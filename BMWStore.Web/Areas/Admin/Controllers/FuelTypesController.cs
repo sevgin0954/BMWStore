@@ -25,13 +25,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNew()
         {
-            var model = new FuelTypeCreateBindingModel();
+            var model = new FuelTypeBindingModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(FuelTypeCreateBindingModel model)
+        public async Task<IActionResult> AddNew(FuelTypeBindingModel model)
         {
             await this.fuelTypesService.CreateNewFuelTypeAsync(model);
 
@@ -47,7 +47,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(FuelTypeEditBindingModel model)
+        public async Task<IActionResult> Edit(FuelTypeBindingModel model)
         {
             await this.fuelTypesService.EditAsync(model);
 

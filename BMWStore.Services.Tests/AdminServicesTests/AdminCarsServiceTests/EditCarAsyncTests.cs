@@ -96,9 +96,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             Assert.True(dbCar.Options.All(o => selectedInputOptions.Any(sio => sio.Id == o.OptionId)));
         }
 
-        private AdminCarEditBindingModel CreateCarEditModel(string id)
+        private AdminCarBindingModel CreateCarEditModel(string id)
         {
-            var model = new AdminCarEditBindingModel()
+            var model = new AdminCarBindingModel()
             {
                 Id = id
             };
@@ -106,9 +106,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             return model;
         }
 
-        private AdminCarEditBindingModel CreateCarEditModel(string id, params IFormFile[] pictures)
+        private AdminCarBindingModel CreateCarEditModel(string id, params IFormFile[] pictures)
         {
-            var model =  new AdminCarEditBindingModel()
+            var model =  new AdminCarBindingModel()
             {
                 Id = id,
                 Pictures = pictures
@@ -117,9 +117,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             return model;
         }
 
-        private AdminCarEditBindingModel CreateCarEditModel(string id, IEnumerable<Option> options)
+        private AdminCarBindingModel CreateCarEditModel(string id, IEnumerable<Option> options)
         {
-            var model = new AdminCarEditBindingModel()
+            var model = new AdminCarBindingModel()
             {
                 Id = id,
                 CarOptions = options.Select(o => new SelectListItem() { Text = o.Name })

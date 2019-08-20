@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            var model = new AdminEngineEditBindingModel()
+            var model = new EngineBindingModel()
             {
                 Id = Guid.NewGuid().ToString()
             };
@@ -30,7 +30,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminEnginesServiceTests
             var service = this.GetService(dbContext);
             var dbEngine = SeedEnginesMethods.SeedEngine(dbContext);
 
-            var model = new AdminEngineEditBindingModel()
+            var model = new EngineBindingModel()
             {
                 Id = dbEngine.Id,
                 Name = Guid.NewGuid().ToString()

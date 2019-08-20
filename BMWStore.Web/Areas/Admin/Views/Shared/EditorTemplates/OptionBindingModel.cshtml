@@ -1,0 +1,36 @@
+﻿@model OptionBindingModel
+
+<input hidden asp-for="Id" />
+<div>
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<label asp-for="Name"></label>
+<input class="form-control" asp-for="Name" />
+
+<div>
+    <span asp-validation-for="Price" class="text-danger"></span>
+</div>
+<label asp-for="Price"></label>
+<input class="form-control" asp-for="Price" />
+
+<div class="input-group">
+    <div class="col-10 no-padding">
+        <div>
+            <span asp-validation-for="OptionTypes" class="text-danger"></span>
+        </div>
+        <label asp-for="OptionTypes"></label>
+        <select class="form-control" asp-items="Model.OptionTypes" asp-for="OptionTypeId">
+            <option disabled selected>Select option</option>
+        </select>
+    </div>
+
+    <div class="ml-auto mt-auto">
+        <a class="btn border-green background-green-hover"
+           asp-area="Admin"
+           asp-controller="OptionTypes"
+           asp-action="AddNew">
+            Add new
+            <i class="fas fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>

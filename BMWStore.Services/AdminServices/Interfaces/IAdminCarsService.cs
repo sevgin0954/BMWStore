@@ -1,5 +1,4 @@
-﻿using BMWStore.Common.Enums;
-using BMWStore.Common.Enums.SortStrategies;
+﻿using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.AdminModels.ViewModels;
@@ -15,9 +14,9 @@ namespace BMWStore.Services.AdminServices.Interfaces
             SortStrategyDirection sortDirection,
             AdminBaseCarSortStrategyType sortType,
             int pageNumber);
-        Task CreateCarAsync<TCar>(AdminCarCreateBindingModel model) where TCar : BaseCar;
-        Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model);
-        Task EditCarAsync<TCar>(AdminCarEditBindingModel model) where TCar : BaseCar;
+        Task CreateCarAsync<TCar>(AdminCarBindingModel model) where TCar : BaseCar;
+        Task SetEditBindingModelPropertiesAsync(AdminCarBindingModel model);
+        Task EditCarAsync<TCar>(AdminCarBindingModel model) where TCar : BaseCar;
         Task DeleteAsync(string carId);
     }
 }

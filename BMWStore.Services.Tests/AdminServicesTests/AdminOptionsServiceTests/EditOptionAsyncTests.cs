@@ -34,9 +34,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
             Assert.Equal(model.Name, dbOption.Name);
         }
 
-        private AdminCarOptionEditBindingModel GetEditModel(string id, string name = null)
+        private OptionBindingModel GetEditModel(string id, string name = null)
         {
-            var model = new AdminCarOptionEditBindingModel()
+            var model = new OptionBindingModel()
             {
                 Id = id,
                 Name = name

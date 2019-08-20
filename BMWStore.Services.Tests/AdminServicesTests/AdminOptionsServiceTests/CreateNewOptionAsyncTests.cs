@@ -10,7 +10,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         {
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var model = new AdminOptionCreateBindingModel();
+            var model = new OptionBindingModel();
 
             await service.CreateNewOptionAsync(model);
 

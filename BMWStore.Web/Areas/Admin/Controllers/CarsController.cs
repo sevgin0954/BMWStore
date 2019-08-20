@@ -55,7 +55,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var modelTypes = await this.selectListItemsService.GetAllAsSelectListItemsAsync<ModelType>();
             var series = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Series>();
             var options = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Option>();
-            var model = new AdminCarCreateBindingModel()
+            var model = new AdminCarBindingModel()
             {
                 Engines = engines,
                 FuelTypes = fuelTypes,
@@ -68,7 +68,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(AdminCarCreateBindingModel model)
+        public async Task<IActionResult> AddNew(AdminCarBindingModel model)
         {
             if (model.Mileage > 0)
             {
@@ -98,7 +98,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var modelTypes = await this.selectListItemsService.GetAllAsSelectListItemsAsync<ModelType>();
             var series = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Series>();
             var options = await this.selectListItemsService.GetAllAsSelectListItemsAsync<Option>();
-            var model = new AdminCarEditBindingModel()
+            var model = new AdminCarBindingModel()
             {
                 Id = id,
                 Engines = engines,
@@ -114,7 +114,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AdminCarEditBindingModel model)
+        public async Task<IActionResult> Edit(AdminCarBindingModel model)
         {
             if (model.IsNew)
             {
@@ -127,8 +127,6 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
-
-        // TODO: Move to separate controller
 
         [HttpPost]
         public IActionResult ChangeSortType(AdminBaseCarSortStrategyType sortStrategyType)

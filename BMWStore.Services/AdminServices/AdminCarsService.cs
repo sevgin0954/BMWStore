@@ -45,7 +45,6 @@ namespace BMWStore.Services.AdminServices
             this.adminDeleteService = adminDeleteService;
         }
 
-        // TODO: Map totalPagesCount with one query
         public async Task<AdminCarsViewModel> GetCarsViewModelAsync(
             ICarFilterStrategy filterStrategy,
             SortStrategyDirection sortDirection,
@@ -71,7 +70,7 @@ namespace BMWStore.Services.AdminServices
             return model;
         }
 
-        public async Task CreateCarAsync<TCar>(AdminCarCreateBindingModel model) where TCar : BaseCar
+        public async Task CreateCarAsync<TCar>(AdminCarBindingModel model) where TCar : BaseCar
         {
             var dbCar = Mapper.Map<TCar>(model);
             await this.adminPicturesService.UpdateCarPicturesAsync(dbCar, model.Pictures);
@@ -82,14 +81,14 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task SetEditBindingModelPropertiesAsync(AdminCarEditBindingModel model)
+        public async Task SetEditBindingModelPropertiesAsync(AdminCarBindingModel model)
         {
             var allOptions = model.CarOptions;
             var carId = model.Id;
             var carModel = await this.carRepository
                     .GetAll()
                     .Where(c => c.Id == carId)
-                    .To<AdminCarEditBindingModel>()
+                    .To<AdminCarBindingModel>()
                     .FirstAsync();
 
             Mapper.Map(carModel, model);
@@ -104,7 +103,7 @@ namespace BMWStore.Services.AdminServices
             model.CarOptions = allOptions;
         }
 
-        public async Task EditCarAsync<TCar>(AdminCarEditBindingModel model) where TCar : BaseCar
+        public async Task EditCarAsync<TCar>(AdminCarBindingModel model) where TCar : BaseCar
         {
             var dbCar = await this.carRepository.Set<TCar>().FindAsync(model.Id);
             DataValidator.ValidateNotNull(dbCar, new ArgumentException(ErrorConstants.IncorrectId));

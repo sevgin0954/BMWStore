@@ -6,10 +6,10 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminFuelTypesService
     {
-        Task CreateNewFuelTypeAsync(FuelTypeCreateBindingModel model);
+        Task CreateNewFuelTypeAsync(FuelTypeBindingModel model);
         Task<AdminFuelTypesViewModel> GetFuelTypesViewModelAsync(int pageNumber);
-        Task<FuelTypeEditBindingModel> GetEditingModelAsync(string fuelTypeId);
-        Task EditAsync(FuelTypeEditBindingModel model);
+        Task<FuelTypeBindingModel> GetEditingModelAsync(string fuelTypeId);
+        Task EditAsync(FuelTypeBindingModel model);
         Task DeleteAsync(string fuelTypeId);
     }
 }

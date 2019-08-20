@@ -7,10 +7,10 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminEnginesService
     {
-        Task CreateEngineAsync(AdminEngineCreateBindingModel model);
+        Task CreateEngineAsync(EngineBindingModel model);
         Task<AdminEnginesViewModel> GetEnginesViewModelAsync(int pageNumber, IEngineSortStrategy engineSortStrategy);
-        Task<AdminEngineEditBindingModel> GetEditModelAsync(string engineId);
-        Task EditAsync(AdminEngineEditBindingModel model);
+        Task<EngineBindingModel> GetEditModelAsync(string engineId);
+        Task EditAsync(EngineBindingModel model);
         Task DeleteAsync(string engineId);
     }
 }

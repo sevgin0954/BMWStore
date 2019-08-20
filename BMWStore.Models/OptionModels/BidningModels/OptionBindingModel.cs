@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.OptionModels.BidningModels
 {
-    public class AdminCarOptionEditBindingModel : IMapFrom<Option>, IMapTo<Option>, IHaveCustomMappings
+    public class OptionBindingModel : IMapFrom<Option>, IMapTo<Option>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -27,7 +27,7 @@ namespace BMWStore.Models.OptionModels.BidningModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<AdminCarOptionEditBindingModel, Option>()
+            configuration.CreateMap<OptionBindingModel, Option>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }

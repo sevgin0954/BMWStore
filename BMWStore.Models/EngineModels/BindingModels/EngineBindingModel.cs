@@ -8,8 +8,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.EngineModels.BindingModels
 {
-    public class AdminEngineCreateBindingModel : IMapTo<Engine>, IHaveCustomMappings
+    public class EngineBindingModel : IMapTo<Engine>, IMapFrom<Engine>, IHaveCustomMappings
     {
+        [Required]
+        public string Id { get; set; }
+
         [MaxLength(EntitiesConstants.EngineeNameMaxLength)]
         [MinLength(EntitiesConstants.EngineNameMinLength)]
         [Required]
@@ -30,8 +33,10 @@ namespace BMWStore.Models.EngineModels.BindingModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<AdminEngineCreateBindingModel, Engine>()
-                .ForMember(dest => dest.TransmissionId, opt => opt.MapFrom(src => src.SelectedTransmissionId));
+            configuration.CreateMap<EngineBindingModel, Engine>()
+                .ForMember(dest => dest.TransmissionId, opt => opt.MapFrom(src => src.SelectedTransmissionId))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

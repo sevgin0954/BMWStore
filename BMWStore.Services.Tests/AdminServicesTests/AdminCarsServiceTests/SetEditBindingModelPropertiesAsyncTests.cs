@@ -116,9 +116,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             Assert.Single(model.ModelTypes, e => e.Selected);
         }
 
-        private AdminCarEditBindingModel GetAdminCarModel(string id)
+        private AdminCarBindingModel GetAdminCarModel(string id)
         {
-            var model = new AdminCarEditBindingModel()
+            var model = new AdminCarBindingModel()
             {
                 Id = id
             };
@@ -126,21 +126,21 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
             return model;
         }
 
-        private void AddEnginesToAdminCarModel(AdminCarEditBindingModel model, IEnumerable<Engine> engines)
+        private void AddEnginesToAdminCarModel(AdminCarBindingModel model, IEnumerable<Engine> engines)
         {
             model.Engines = engines
                 .Select(e => new SelectListItem() { Value = e.Id })
                 .ToList();
         }
 
-        private void AddFuelTypesToAdminCarModel(AdminCarEditBindingModel model, IEnumerable<FuelType> fuelTypes)
+        private void AddFuelTypesToAdminCarModel(AdminCarBindingModel model, IEnumerable<FuelType> fuelTypes)
         {
             model.FuelTypes = fuelTypes
                 .Select(e => new SelectListItem() { Value = e.Id })
                 .ToList();
         }
 
-        private void AddModelTypesToAdminCarModel(AdminCarEditBindingModel model, IEnumerable<ModelType> modelTypes)
+        private void AddModelTypesToAdminCarModel(AdminCarBindingModel model, IEnumerable<ModelType> modelTypes)
         {
             model.ModelTypes = modelTypes
                 .Select(e => new SelectListItem() { Value = e.Id })

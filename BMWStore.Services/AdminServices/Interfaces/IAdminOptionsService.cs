@@ -13,9 +13,9 @@ namespace BMWStore.Services.AdminServices.Interfaces
             OptionSortStrategyType sortStrategType,
             SortStrategyDirection sortDirection,
             int pageNumber);
-        Task CreateNewOptionAsync(AdminOptionCreateBindingModel model);
-        Task<AdminCarOptionEditBindingModel> GetEditBindingModelAsync(string carOptionId);
-        Task EditOptionAsync(AdminCarOptionEditBindingModel model);
+        Task CreateNewOptionAsync(OptionBindingModel model);
+        Task<OptionBindingModel> GetEditBindingModelAsync(string carOptionId);
+        Task EditOptionAsync(OptionBindingModel model);
         Task DeleteAsync(string optionId);
     }
 }
