@@ -56,7 +56,7 @@ namespace BMWStore.Services.AdminServices
             {
                 CurrentPage = pageNumber,
                 Options = optionModels,
-                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(allOptions),
+                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredOptions),
                 SortStrategyDirection = sortDirection,
                 SortStrategyType = sortStrategyType
             };

@@ -30,7 +30,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(
             string name,
-            AdminOptionFilterStrategy filterType = AdminOptionFilterStrategy.All, 
+            AdminOptionFilterStrategy filter = AdminOptionFilterStrategy.All, 
             int pageNumber = 1)
         {
             var cookies = this.HttpContext.Request.Cookies;
@@ -41,7 +41,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortDirectionKey = WebConstants.CookieAdminOptionsSortDirectionKey;
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
 
-            var filterStrategy = OptionFilterStrategyFactory.GetStrategy(filterType, name);
+            var filterStrategy = OptionFilterStrategyFactory.GetStrategy(filter, name);
             var model = await this.adminOptionsService.GetOptionsViewModelAsync(
                 filterStrategy,
                 sortType,
