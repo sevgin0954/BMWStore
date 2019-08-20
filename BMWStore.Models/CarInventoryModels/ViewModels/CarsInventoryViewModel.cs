@@ -2,6 +2,8 @@
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Models.PaginationModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
@@ -9,8 +11,12 @@ namespace BMWStore.Models.CarInventoryModels.ViewModels
 {
     public class CarsInventoryViewModel : BasePaginationModel
     {
-        public Enum SortStrategyType { get; set; }
+        [JsonProperty("SortStrategyType")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public virtual Enum SortStrategyType { get; set; }
 
+        [JsonProperty("SortStrategyDirection")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public SortStrategyDirection SortStrategyDirection { get; set; }
 
         public List<FilterTypeBindingModel> Years { get; set; } = new List<FilterTypeBindingModel>();

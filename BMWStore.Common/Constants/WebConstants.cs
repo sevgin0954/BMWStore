@@ -17,6 +17,9 @@
 
         public const string FormButtonsCancelLinkText = "Cancel";
 
+        public const string CacheNewInventoryPrepend = "NewInventory";
+        public const string CacheUsedInventoryPrepend = "UsedInventory";
+
         public const string CookieAdminCarsSortDirectionKey = "___AdminCarsSortDirection___";
         public const string CookieAdminCarsSortTypeKey = "___AdminCarsSortType___";
 

@@ -58,6 +58,9 @@ namespace BMWStore.Web
             // TODO: ADD ANTI FORGERY FILTER
             RegisterServiceLayer(services);
 
+            services.AddSession();
+            services.AddDistributedMemoryCache();
+
             var cloudinaryAccount = new Account(
                 this.Configuration["Cloudinary:CloudName"],
                 this.Configuration["Cloudinary:ApiKey"],
