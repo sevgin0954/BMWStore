@@ -95,11 +95,6 @@ namespace BMWStore.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "paginationIndexCars",
-                    template: "{controller}/{action=Index}/{year?}/{series?}/{modelTypes?}/{priceRange?}/{pageNumber?}"
-                );
-
-                routes.MapRoute(
                     name: "paginationIndex",
                     template: "{area:exists}/{controller}/{action=Index}/{filter?}/{name?}/{pageNumber?}"
                 );
