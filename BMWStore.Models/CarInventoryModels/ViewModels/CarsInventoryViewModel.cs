@@ -22,5 +22,7 @@ namespace BMWStore.Models.CarInventoryModels.ViewModels
         public List<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
 
         public IEnumerable<CarInventoryConciseViewModel> Cars { get; set; } = new List<CarInventoryConciseViewModel>();
+
+        public int TotalCarsCount { get; set; }
     }
 }

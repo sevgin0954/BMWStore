@@ -61,7 +61,8 @@ namespace BMWStore.Services
             var model = new CarsInventoryViewModel()
             {
                 CurrentPage = pageNumber,
-                TotalPagesCount = totalCarPages
+                TotalPagesCount = totalCarPages,
+                TotalCarsCount = allCarModels.Count()
             };
 
             this.AddAllFilterTypeModels(model);
