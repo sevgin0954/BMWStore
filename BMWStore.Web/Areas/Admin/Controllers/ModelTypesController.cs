@@ -25,13 +25,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNew()
         {
-            var model = new ModelTypeCreateBidningModel();
+            var model = new ModelTypeBindingModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(ModelTypeCreateBidningModel model)
+        public async Task<IActionResult> AddNew(ModelTypeBindingModel model)
         {
             await this.modelTypesService.CreateNewModelType(model);
 
@@ -47,7 +47,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ModelTypeEditBindingModel model)
+        public async Task<IActionResult> Edit(ModelTypeBindingModel model)
         {
             await this.modelTypesService.EditAsync(model);
 

@@ -10,7 +10,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
         {
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
-            var model = new ModelTypeCreateBidningModel();
+            var model = new ModelTypeBindingModel();
 
             await service.CreateNewModelType(model);
 

@@ -1,4 +1,4 @@
-﻿@model SeriesCreateBindingModel
+﻿@model SeriesBindingModel
 @{
     ViewData["Title"] = "Add New Series";
 }
@@ -7,11 +7,7 @@
 
 <div class="container-item-white border-radius-smooth border-grey">
     <form class="form-group" method="post">
-        <div>
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <label asp-for="Name"></label>
-        <input class="form-control" asp-for="Name" />
+        @Html.EditorForModel()
 
         <partial name="_FormButtonsPartial" />
     </form>

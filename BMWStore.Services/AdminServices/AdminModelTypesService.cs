@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
@@ -7,7 +6,6 @@ using BMWStore.Models.ModelTypeModels.BindingModels;
 using BMWStore.Models.ModelTypeModels.ViewModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -39,7 +37,7 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task CreateNewModelType(ModelTypeCreateBidningModel model)
+        public async Task CreateNewModelType(ModelTypeBindingModel model)
         {
             var dbModelType = Mapper.Map<ModelType>(model);
             this.modelTypeRepository.Add(dbModelType);
@@ -48,16 +46,16 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<ModelTypeEditBindingModel> GetEditingModelAsync(string modelTypeId)
+        public async Task<ModelTypeBindingModel> GetEditingModelAsync(string modelTypeId)
         {
-            var model = await this.readService.GetModelByIdAsync<ModelTypeEditBindingModel, ModelType>(modelTypeId);
+            var model = await this.readService.GetModelByIdAsync<ModelTypeBindingModel, ModelType>(modelTypeId);
 
             return model;
         }
 
-        public async Task EditAsync(ModelTypeEditBindingModel model)
+        public async Task EditAsync(ModelTypeBindingModel model)
         {
-            await this.adminEditService.EditAsync<ModelType, ModelTypeEditBindingModel>(model, model.Id);
+            await this.adminEditService.EditAsync<ModelType, ModelTypeBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string modelTypeId)

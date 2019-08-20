@@ -1,11 +1,12 @@
-﻿using BMWStore.Common.Constants;
+﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.OptionTypeModels.BindingModels
 {
-    public class OptionTypeEditBindingModel : IMapFrom<OptionType>, IMapTo<OptionType>
+    public class OptionTypeBindingModel : IMapFrom<OptionType>, IMapTo<OptionType>, IHaveCustomMappings
     {
         [Required]
         public string Id { get; set; }
@@ -14,5 +15,11 @@ namespace BMWStore.Models.OptionTypeModels.BindingModels
         [MinLength(EntitiesConstants.OptionTypeNameMinLength)]
         [Required]
         public string Name { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<OptionTypeBindingModel, OptionType>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+        }
     }
 }

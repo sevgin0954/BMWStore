@@ -8,9 +8,9 @@ namespace BMWStore.Services.AdminServices.Interfaces
     public interface IAdminModelTypesService
     {
         Task<IEnumerable<ModelTypeViewModel>> GetAllAsync();
-        Task CreateNewModelType(ModelTypeCreateBidningModel model);
-        Task<ModelTypeEditBindingModel> GetEditingModelAsync(string modelTypeId);
-        Task EditAsync(ModelTypeEditBindingModel model);
+        Task CreateNewModelType(ModelTypeBindingModel model);
+        Task<ModelTypeBindingModel> GetEditingModelAsync(string modelTypeId);
+        Task EditAsync(ModelTypeBindingModel model);
         Task DeleteAsync(string modelTypeId);
     }
 }

@@ -1,5 +1,4 @@
-﻿using BMWStore.Models.ModelTypeModels.BindingModels;
-using BMWStore.Models.OptionTypeModels.BindingModels;
+﻿using BMWStore.Models.OptionTypeModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -26,13 +25,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNew()
         {
-            var model = new OptionTypeCreateBindingModel();
+            var model = new OptionTypeBindingModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(OptionTypeCreateBindingModel model)
+        public async Task<IActionResult> AddNew(OptionTypeBindingModel model)
         {
             await this.adminOptionTypesService.CreateOptionTypeAsync(model);
 
@@ -48,7 +47,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(OptionTypeEditBindingModel model)
+        public async Task<IActionResult> Edit(OptionTypeBindingModel model)
         {
             await this.adminOptionTypesService.EditAsync(model);
 

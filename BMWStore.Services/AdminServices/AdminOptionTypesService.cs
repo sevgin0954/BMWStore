@@ -37,7 +37,7 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task CreateOptionTypeAsync(OptionTypeCreateBindingModel model)
+        public async Task CreateOptionTypeAsync(OptionTypeBindingModel model)
         {
             var dbOptionType = Mapper.Map<OptionType>(model);
             this.optionTypeRepository.Add(dbOptionType);
@@ -46,16 +46,16 @@ namespace BMWStore.Services.AdminServices
             UnitOfWorkValidator.ValidateUnitOfWorkCompleteChanges(rowsAffected);
         }
 
-        public async Task<OptionTypeEditBindingModel> GetEditingModelAsync(string optionTypeId)
+        public async Task<OptionTypeBindingModel> GetEditingModelAsync(string optionTypeId)
         {
-            var model = await this.readService.GetModelByIdAsync<OptionTypeEditBindingModel, OptionType>(optionTypeId);
+            var model = await this.readService.GetModelByIdAsync<OptionTypeBindingModel, OptionType>(optionTypeId);
 
             return model;
         }
 
-        public async Task EditAsync(OptionTypeEditBindingModel model)
+        public async Task EditAsync(OptionTypeBindingModel model)
         {
-            await this.adminEditService.EditAsync<OptionType, OptionTypeEditBindingModel>(model, model.Id);
+            await this.adminEditService.EditAsync<OptionType, OptionTypeBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string optionTypeId)

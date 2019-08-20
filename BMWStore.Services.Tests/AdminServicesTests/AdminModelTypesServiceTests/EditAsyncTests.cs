@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            var model = new ModelTypeEditBindingModel()
+            var model = new ModelTypeBindingModel()
             {
                 Id = Guid.NewGuid().ToString()
             };
@@ -30,7 +30,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminModelTypesServiceTests
             var service = this.GetService(dbContext);
             var dbModelType = SeedModelTypesMethods.SeedModelType(dbContext);
 
-            var model = new ModelTypeEditBindingModel()
+            var model = new ModelTypeBindingModel()
             {
                 Id = dbModelType.Id,
                 Name = Guid.NewGuid().ToString()

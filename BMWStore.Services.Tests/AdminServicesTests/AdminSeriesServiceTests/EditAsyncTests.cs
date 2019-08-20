@@ -33,9 +33,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
             Assert.Equal(model.Name, dbSeries.Name);
         }
 
-        private SeriesEditBindingModel GetModel(string id)
+        private SeriesBindingModel GetModel(string id)
         {
-            var model = new SeriesEditBindingModel()
+            var model = new SeriesBindingModel()
             {
                 Id = id,
                 Name = Guid.NewGuid().ToString()

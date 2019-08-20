@@ -30,7 +30,7 @@ namespace BMWStore.Services.AdminServices
             this.adminEditService = adminEditService;
         }
 
-        public async Task CreateNewSeriesAsync(SeriesCreateBindingModel model)
+        public async Task CreateNewSeriesAsync(SeriesBindingModel model)
         {
             var dbSeries = Mapper.Map<Series>(model);
             this.seriesRepository.Add(dbSeries);
@@ -46,16 +46,16 @@ namespace BMWStore.Services.AdminServices
             return models;
         }
 
-        public async Task<SeriesEditBindingModel> GetEditingModelAsync(string seriesId)
+        public async Task<SeriesBindingModel> GetEditingModelAsync(string seriesId)
         {
-            var model = await this.readService.GetModelByIdAsync<SeriesEditBindingModel, Series>(seriesId);
+            var model = await this.readService.GetModelByIdAsync<SeriesBindingModel, Series>(seriesId);
 
             return model;
         }
 
-        public async Task EditAsync(SeriesEditBindingModel model)
+        public async Task EditAsync(SeriesBindingModel model)
         {
-            await this.adminEditService.EditAsync<Series, SeriesEditBindingModel>(model, model.Id);
+            await this.adminEditService.EditAsync<Series, SeriesBindingModel>(model, model.Id);
         }
 
         public async Task DeleteAsync(string seriesId)

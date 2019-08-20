@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionTypesServiceTest
             var dbContext = this.GetDbContext();
             var service = this.GetService(dbContext);
 
-            var model = new OptionTypeEditBindingModel()
+            var model = new OptionTypeBindingModel()
             {
                 Id = Guid.NewGuid().ToString()
             };
@@ -30,7 +30,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionTypesServiceTest
             var service = this.GetService(dbContext);
             var dbOptionType = SeedOptionTypesMethods.SeedOptionType(dbContext);
 
-            var model = new OptionTypeEditBindingModel()
+            var model = new OptionTypeBindingModel()
             {
                 Id = dbOptionType.Id,
                 Name = Guid.NewGuid().ToString()
