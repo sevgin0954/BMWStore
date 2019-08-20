@@ -19,7 +19,7 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
-            var carModel = await this.carsService.GetCarViewModelAsync(carId);
+            var carModel = await this.carsService.GetCarViewModelAsync(carId, this.User);
             var optionTypeModels = this.optionTypeService.GetViewModels(carModel.Options);
 
             var model = new CarInventoryViewModel()

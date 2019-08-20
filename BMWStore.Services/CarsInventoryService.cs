@@ -51,7 +51,8 @@ namespace BMWStore.Services
             var totalCarPages = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
 
             var allCarModels = await this.carsService.GetCarsModelsAsync<CarInventoryConciseViewModel>(filteredCars);
-            var currentPageCarModels = await this.carsService.GetCarsInventoryViewModelAsync(filteredCars, user, pageNumber);
+            var currentPageCarModels = await this.carsService
+                .GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(filteredCars, user, pageNumber);
 
             var yearModels = await this.carYearService.GetYearFilterModelsAsync(filteredCars);
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(filteredCars);

@@ -88,7 +88,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             var service = this.GetService(signInManager, dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
 
-            var models = await service.GetCarsInventoryViewModelAsync(dbContext.BaseCars, user, pageNumber);
+            var models = await service.GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(dbContext.BaseCars, user, pageNumber);
 
             return models;
         }

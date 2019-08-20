@@ -29,15 +29,15 @@ namespace BMWStore.Services
             this.readService = readService;
         }
 
-        public async Task<CarViewModel> GetCarViewModelAsync(string carId)
+        public async Task<CarViewModel> GetCarViewModelAsync(string carId, ClaimsPrincipal user)
         {
-            var model = await this.carRepository
-                .Find(c => c.Id == carId)
-                .To<CarViewModel>()
-                .FirstOrDefaultAsync();
-            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
+            var car = this.carRepository
+                .Find(c => c.Id == carId);
+            var models = await this.GetCarScheduleViewModelAsync<CarViewModel>(car, user, 1);
+            var carModel = models.FirstOrDefault();
+            DataValidator.ValidateNotNull(carModel, new ArgumentException(ErrorConstants.IncorrectId));
 
-            return model;
+            return carModel;
         }
 
         public async Task<IEnumerable<TModel>> GetCarsModelsAsync<TModel>(IQueryable<BaseCar> cars)
@@ -58,16 +58,17 @@ namespace BMWStore.Services
             return models;
         }
 
-        public async Task<IEnumerable<CarInventoryConciseViewModel>> GetCarsInventoryViewModelAsync(
+        public async Task<IEnumerable<TModel>> GetCarScheduleViewModelAsync<TModel>(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber)
+            where TModel : BaseCarScheduleTestDriveViewModel
         {
             var isUserSignedIn = this.signInManager.IsSignedIn(user);
 
             var models = await cars
                 .GetFromPage(pageNumber)
-                .To<CarInventoryConciseViewModel>(new { isUserSignedIn })
+                .To<TModel>(new { isUserSignedIn })
                 .ToArrayAsync();
 
             return models;

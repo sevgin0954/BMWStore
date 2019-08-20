@@ -2,7 +2,6 @@
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Models.PaginationModels;
-using BMWStore.Models.TestDriveModels.BindingModels;
 using System;
 using System.Collections.Generic;
 
@@ -23,7 +22,5 @@ namespace BMWStore.Models.CarInventoryModels.ViewModels
         public List<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
 
         public IEnumerable<CarInventoryConciseViewModel> Cars { get; set; } = new List<CarInventoryConciseViewModel>();
-
-        public ScheduleTestDriveBindingModel TestDriveModel { get; set; }
     }
 }

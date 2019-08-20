@@ -15,7 +15,7 @@ namespace BMWStore.Tests.Common.MockTestMethods
     {
         public static void SetupCarsService(Mock<ICarsService> mockedCarsService)
         {
-            mockedCarsService.Setup(cs => cs.GetCarsInventoryViewModelAsync(
+            mockedCarsService.Setup(cs => cs.GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(
                     It.IsAny<IQueryable<BaseCar>>(),
                     It.IsAny<ClaimsPrincipal>(),
                     It.IsAny<int>()))

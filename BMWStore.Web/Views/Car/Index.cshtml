@@ -1,6 +1,7 @@
 ﻿@model CarInventoryViewModel
 @using CloudinaryDotNet;
 @inject CloudinaryDotNet.Cloudinary cloudinary;
+@inject Microsoft.AspNetCore.Identity.SignInManager<User> signInManager
 
 @{
     ViewData["Title"] = "Car Information";
@@ -122,6 +123,47 @@ else
     </div>
 </div>
 
+<div class="d-flex">
+    <div class="ml-auto">
+        @if (Model.Car.IsTestDriveScheduled)
+        {
+            <div class="row d-flex">
+                <div class="mx-auto">
+                    <a class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                       asp-controller="TestDrives"
+                       asp-action="Drive"
+                       asp-route-testDriveId="@Model.Car.TestDriveId">
+                        Scheduled
+                        <i class="far fa-calendar-check"></i>
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row d-flex">
+                <div class="mx-auto">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        @await Component.InvokeAsync("ScheduleTestDriveBtn", new
+                        {
+                            CarId = Model.Car.Id
+                        })
+                    }
+                    else
+                    {
+                        <a class="btn btn-lg btn-wide border-blue background-blue-hover ml-2"
+                           asp-area="Identity"
+                           asp-page="/Account/Login">
+                            Schedule A Test Drive
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 <h6 class="font-medium mt-4">Main Specifications</h6>
 <hr />
 <div class="d-flex font-medium">
@@ -210,3 +252,8 @@ else
 </div>
 
 <hr />
+
+@section Scripts {
+    <script src="~/js/datetimePickerPick.js"></script>
+    <script src="~/js/showModal.js"></script>
+}
