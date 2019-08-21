@@ -88,7 +88,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             }
 
             var keys = this.cacheKeysService.GetKeys(WebConstants.CacheCarsType);
-            await CacheHelper.RefreshCacheAsync(keys, this.cache);
+            await CacheHelper.RemoveCacheAsync(keys, this.cache);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -99,7 +99,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             await this.adminCarsService.DeleteAsync(id);
 
             var keys = this.cacheKeysService.GetKeys(WebConstants.CacheCarsType);
-            await CacheHelper.RefreshCacheAsync(keys, this.cache);
+            await CacheHelper.RemoveCacheAsync(keys, this.cache);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -140,7 +140,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             }
 
             var keys = this.cacheKeysService.GetKeys(WebConstants.CacheCarsType);
-            await CacheHelper.RefreshCacheAsync(keys, this.cache);
+            await CacheHelper.RemoveCacheAsync(keys, this.cache);
 
             return RedirectToAction("Index");
         }

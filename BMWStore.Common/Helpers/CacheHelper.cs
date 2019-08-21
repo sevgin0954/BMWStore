@@ -6,11 +6,11 @@ namespace BMWStore.Common.Helpers
 {
     public static class CacheHelper
     {
-        public static async Task RefreshCacheAsync(IEnumerable<string> keys, IDistributedCache cache)
+        public static async Task RemoveCacheAsync(IEnumerable<string> keys, IDistributedCache cache)
         {
             foreach (var key in keys)
             {
-                await cache.RefreshAsync(key);
+                await cache.RemoveAsync(key);
             }
         }
     }

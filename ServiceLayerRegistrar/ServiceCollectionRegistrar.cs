@@ -12,9 +12,12 @@ namespace ServiceLayerRegistrar
     {
         private readonly IServiceCollection services;
 
+        private readonly ICollection<Type> typesToIngore;
+
         public ServiceCollectionRegistrar(IServiceCollection services)
         {
             this.services = services;
+            this.typesToIngore = new List<Type>();
         }
 
         public void AddScopedServices(Type type)
@@ -23,6 +26,11 @@ namespace ServiceLayerRegistrar
 
             foreach (var classType in allClassesTypes)
             {
+                if (this.typesToIngore.Contains(classType))
+                {
+                    continue;
+                }
+
                 var interfaceTypes = classType.GetInterfaces();
                 this.ValidateInterfaces(interfaceTypes, classType.ToString());
                 
@@ -86,6 +94,14 @@ namespace ServiceLayerRegistrar
 
             var exceptionMessage = ErrorConstants.MatchingInterfaceNotFound + $" for ({classType})";
             throw new InvalidOperationException(exceptionMessage);
+        }
+
+        public void AddIgnored(params Type[] typesToIgnore)
+        {
+            foreach (var type in typesToIgnore)
+            {
+                this.typesToIngore.Add(type);
+            }
         }
     }
 }
