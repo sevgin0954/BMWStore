@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4B00B0CD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Services.Tests", "BMWStore.Services.Tests\BMWStore.Services.Tests.csproj", "{629CA521-4C78-476F-959F-1A4CBDCB1686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Web.Tests", "BMWStore.Web.Tests\BMWStore.Web.Tests.csproj", "{89B7C988-C683-4AB4-8351-6B4509BB6A59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Web.Tests", "BMWStore.Web.Tests\BMWStore.Web.Tests.csproj", "{89B7C988-C683-4AB4-8351-6B4509BB6A59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Tests.Common", "BMWStore.Tests.Common\BMWStore.Tests.Common.csproj", "{92C2BD79-7546-4447-9433-1B8B4E07D40B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Tests.Common", "BMWStore.Tests.Common\BMWStore.Tests.Common.csproj", "{92C2BD79-7546-4447-9433-1B8B4E07D40B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
