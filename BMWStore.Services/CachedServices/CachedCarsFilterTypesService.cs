@@ -16,13 +16,16 @@ namespace BMWStore.Services.CachedServices
     {
         private readonly IDistributedCache cache;
         private readonly ICarsFilterTypesService carsFilterTypesService;
+        private readonly ICacheKeysService cacheKeysService;
 
         public CachedCarsFilterTypesService(
             IDistributedCache cache,
-            ICarsFilterTypesService carsFilterTypesService)
+            ICarsFilterTypesService carsFilterTypesService,
+            ICacheKeysService cacheKeysService)
         {
             this.cache = cache;
             this.carsFilterTypesService = carsFilterTypesService;
+            this.cacheKeysService = cacheKeysService;
         }
 
         public async Task<CarsFilterViewModel> GetCachedCarFilterModelAsync(
@@ -48,6 +51,7 @@ namespace BMWStore.Services.CachedServices
                 AbsoluteExpiration = DateTime.MaxValue
             };
             _ = this.cache.SetAsync(cacheKey, serielizedModelAsBytes, options);
+            this.cacheKeysService.AddKey(WebConstants.CacheCarsType, cacheKey);
 
             return filterModel;
         }

@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Services;
-using BMWStore.Data.Interfaces;
 using ServiceLayerRegistrar;
 using MappingRegistrar;
 using System.Reflection;
@@ -19,6 +18,7 @@ using CloudinaryDotNet;
 using BMWStore.Data.Repositories;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.CachedServices;
+using BMWStore.Services.Interfaces;
 
 namespace BMWStore.Web
 {
@@ -123,7 +123,7 @@ namespace BMWStore.Web
 
         private void RegisterServiceLayer(IServiceCollection services)
         {
-            services.AddScoped<IBMWStoreUnitOfWork, BMWStoreUnitOfWork>();
+            services.AddSingleton<ICacheKeysService, CacheKeysService>();
 
             var serviceRegistrar = new ServiceCollectionRegistrar(services);
             serviceRegistrar.AddScopedServices(typeof(CarModelTypeService));

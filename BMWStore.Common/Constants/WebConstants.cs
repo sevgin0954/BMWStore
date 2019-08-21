@@ -20,6 +20,8 @@
         public const string CacheNewInventoryPrepend = "NewInventory";
         public const string CacheUsedInventoryPrepend = "UsedInventory";
 
+        public const string CacheCarsType = "__CarsCache__";
+
         public const string CookieAdminCarsSortDirectionKey = "___AdminCarsSortDirection___";
         public const string CookieAdminCarsSortTypeKey = "___AdminCarsSortType___";
 
