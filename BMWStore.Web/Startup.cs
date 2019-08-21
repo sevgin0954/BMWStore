@@ -123,13 +123,13 @@ namespace BMWStore.Web
 
         private void RegisterServiceLayer(IServiceCollection services)
         {
-            services.AddSingleton<ICacheKeysService, CacheKeysService>();
-
             var serviceRegistrar = new ServiceCollectionRegistrar(services);
             serviceRegistrar.AddScopedServices(typeof(CarModelTypeService));
             serviceRegistrar.AddScopedServices(typeof(CarRepository));
             serviceRegistrar.AddScopedServices(typeof(AdminCarsService));
             serviceRegistrar.AddScopedServices(typeof(CachedCarsFilterTypesService));
+
+            services.AddSingleton<ICacheKeysService, CacheKeysService>();
         }
     }
 }

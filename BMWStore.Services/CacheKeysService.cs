@@ -26,9 +26,12 @@ namespace BMWStore.Services
         {
             var keys = new List<string>();
 
-            foreach (var key in this.cacheTypeCacheKeys[cacheType])
+            if (this.cacheTypeCacheKeys.ContainsKey(cacheType))
             {
-                keys.Add(key);
+                foreach (var key in this.cacheTypeCacheKeys[cacheType])
+                {
+                    keys.Add(key);
+                }
             }
 
             return keys;
