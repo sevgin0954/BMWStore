@@ -32,12 +32,7 @@ namespace BMWStore.Services
             var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(allCars);
             var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(allCars);
 
-            var model = new HomeViewModel()
-            {
-                Years = carYears,
-                ModelTypes = carModels,
-                CarPrices = carPrices
-            };
+            var model = new HomeViewModel();
 
             return model;
         }
