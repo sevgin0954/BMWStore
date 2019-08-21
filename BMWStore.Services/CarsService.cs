@@ -22,7 +22,10 @@ namespace BMWStore.Services
         private readonly ICarRepository carRepository;
         private readonly IReadService readService;
 
-        public CarsService(SignInManager<User> signInManager, ICarRepository carRepository, IReadService readService)
+        public CarsService(
+            SignInManager<User> signInManager, 
+            ICarRepository carRepository, 
+            IReadService readService)
         {
             this.signInManager = signInManager;
             this.carRepository = carRepository;

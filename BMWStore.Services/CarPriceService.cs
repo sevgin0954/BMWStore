@@ -1,5 +1,6 @@
 ﻿using BMWStore.Data;
-using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Entities;
 using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,29 +23,29 @@ namespace BMWStore.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync<TModel>(
-            IEnumerable<TModel> carModels) where TModel : BaseCarViewModel
+        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync(IQueryable<BaseCar> cars)
         {
             var dataTable = new DataTable("BaseCars");
-            this.AddDataToDataTable(dataTable, carModels);
+            var carPrices = await cars.Select(c => c.Price).ToArrayAsync();
+            this.AddDataToDataTable(dataTable, carPrices);
 
-            var cars = new SqlParameter("cars", SqlDbType.Structured)
+            var pricesParameters = new SqlParameter("cars", SqlDbType.Structured)
             {
                 TypeName = "[dbo].[BaseCars]",
                 Value = dataTable
             };
-            var priceModels = await this.GetFilterModelsFromProcedureAsync(cars);
+            var priceModels = await this.GetFilterModelsFromProcedureAsync(pricesParameters);
 
             return priceModels;
         }
 
-        private void AddDataToDataTable(DataTable dataTable, IEnumerable<BaseCarViewModel> carModels)
+        private void AddDataToDataTable(DataTable dataTable, IEnumerable<decimal> prices)
         {
             dataTable.Columns.Add(PriceColumnName);
-            foreach (var car in carModels)
+            foreach (var price in prices)
             {
                 var row = dataTable.NewRow();
-                row[PriceColumnName] = car.Price;
+                row[PriceColumnName] = price;
                 dataTable.Rows.Add(row);
             }
         }

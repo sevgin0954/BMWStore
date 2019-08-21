@@ -8,8 +8,10 @@ using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Models.CarInventoryModels.ViewModels;
+using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
@@ -22,20 +24,23 @@ namespace BMWStore.Web.Controllers
     public class UsedInventoryController : Controller
     {
         private readonly IDistributedCache cache;
-        private readonly ICarsInventoryService carsInventoryService;
         private readonly ICookiesService cookiesService;
         private readonly IUsedCarRepository usedCarRepository;
+        private readonly ICarsService carsService;
+        private readonly ICarsFilterTypesService carsFilterTypesService;
 
         public UsedInventoryController(
             IDistributedCache cache,
-            ICarsInventoryService carsInventoryService,
             ICookiesService cookiesService,
-            IUsedCarRepository usedCarRepository)
+            IUsedCarRepository usedCarRepository,
+            ICarsService carsService,
+            ICarsFilterTypesService carsFilterTypesService)
         {
             this.cache = cache;
-            this.carsInventoryService = carsInventoryService;
             this.cookiesService = cookiesService;
             this.usedCarRepository = usedCarRepository;
+            this.carsService = carsService;
+            this.carsFilterTypesService = carsFilterTypesService;
         }
 
         [HttpGet]
@@ -68,6 +73,7 @@ namespace BMWStore.Web.Controllers
                 return View(cachedModel);
             }
 
+
             var sortStrategy = UsedCarSortStrategyFactory.GetStrategy<UsedCar>(sortType, sortDirection);
 
             var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
@@ -79,12 +85,23 @@ namespace BMWStore.Web.Controllers
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
-            var viewModel = await this.carsInventoryService
-                .GetInventoryViewModelAsync(filterMultipleStrategy, sortedAndFilteredCars, this.User, model.PageNumber);
-            this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
+            var filteredMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
 
-            viewModel.SortStrategyDirection = sortDirection;
-            viewModel.SortStrategyType = sortType;
+            var currentPageCarModels = await this.carsService
+                .GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(filteredCars, this.User, model.PageNumber);
+            var filterModel = await this.carsFilterTypesService.GetCarFilterModel(sortedAndFilteredCars, filteredMultipleCars);
+            var viewModel = new CarsInventoryViewModel()
+            {
+                SortStrategyType = sortType,
+                SortStrategyDirection = sortDirection,
+                Cars = currentPageCarModels,
+                CurrentPage = model.PageNumber,
+                FilterModel = filterModel,
+                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredMultipleCars),
+                TotalCarsCount = await filteredMultipleCars.CountAsync()
+            };
+
+            //this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             var serielizedModelAsBytes = JSonHelper.Serialize(viewModel);
             var options = new DistributedCacheEntryOptions()

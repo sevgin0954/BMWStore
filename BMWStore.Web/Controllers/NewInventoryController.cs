@@ -20,18 +20,15 @@ namespace BMWStore.Web.Controllers
     public class NewInventoryController : Controller
     {
         private readonly IDistributedCache cache;
-        private readonly ICarsInventoryService carsInventoryService;
         private readonly ICookiesService cookiesService;
         private readonly INewCarRepository newCarRepository;
 
         public NewInventoryController(
             IDistributedCache cache,
-            ICarsInventoryService carsInventoryService,
             ICookiesService cookiesService,
             INewCarRepository newCarRepository)
         {
             this.cache = cache;
-            this.carsInventoryService = carsInventoryService;
             this.cookiesService = cookiesService;
             this.newCarRepository = newCarRepository;
         }
@@ -39,59 +36,60 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(CarsInventoryBindingModel model)
         {
-            var cookie = this.HttpContext.Request.Cookies;
+            return View();
+            //var cookie = this.HttpContext.Request.Cookies;
 
-            var sortDirectionKey = WebConstants.CookieUserNewCarsSortDirectionKey;
-            var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookie, sortDirectionKey);
+            //var sortDirectionKey = WebConstants.CookieUserNewCarsSortDirectionKey;
+            //var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookie, sortDirectionKey);
 
-            var sortTypeKey = WebConstants.CookieUserNewCarsSortTypeKey;
-            var sortType = this.cookiesService.GetValueOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
+            //var sortTypeKey = WebConstants.CookieUserNewCarsSortTypeKey;
+            //var sortType = this.cookiesService.GetValueOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
 
-            var key = KeyGenerator.Generate(
-                WebConstants.CacheNewInventoryPrepend,
-                model, 
-                model.ModelTypes, 
-                model.PageNumber.ToString(), 
-                model.PriceRange, 
-                model.Series, 
-                model.Year,
-                sortDirection.ToString(),
-                sortType.ToString());
+            //var key = KeyGenerator.Generate(
+            //    WebConstants.CacheNewInventoryPrepend,
+            //    model, 
+            //    model.ModelTypes, 
+            //    model.PageNumber.ToString(), 
+            //    model.PriceRange, 
+            //    model.Series, 
+            //    model.Year,
+            //    sortDirection.ToString(),
+            //    sortType.ToString());
 
-            var cachedModelAsBytes = await this.cache.GetAsync(key);
-            if (cachedModelAsBytes != null)
-            {
-                var modelAsNewViewModel = JSonHelper.Desirialize<NewCarsInventoryViewModel>(cachedModelAsBytes);
-                var cachedModel = Mapper.Map<CarsInventoryViewModel>(modelAsNewViewModel);
-                return View(cachedModel);
-            }
+            //var cachedModelAsBytes = await this.cache.GetAsync(key);
+            //if (cachedModelAsBytes != null)
+            //{
+            //    var modelAsNewViewModel = JSonHelper.Desirialize<NewCarsInventoryViewModel>(cachedModelAsBytes);
+            //    var cachedModel = Mapper.Map<CarsInventoryViewModel>(modelAsNewViewModel);
+            //    return View(cachedModel);
+            //}
 
-            var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
+            //var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
 
-            var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
-            var filterStrategies = CarFilterStrategyFactory
-                .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series);
+            //var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
+            //var filterStrategies = CarFilterStrategyFactory
+            //    .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series);
 
-            var filteredCars = this.newCarRepository
-                .GetFiltered(filterStrategies.ToArray());
-            var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
+            //var filteredCars = this.newCarRepository
+            //    .GetFiltered(filterStrategies.ToArray());
+            //var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
-            var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
-            var viewModel = await this.carsInventoryService
-                .GetInventoryViewModelAsync(filterMultipleStrategy, sortedAndFilteredCars, this.User, model.PageNumber);
-            this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
+            //var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
+            //var viewModel = await this.carsInventoryService
+            //    .GetInventoryViewModelAsync(filterMultipleStrategy, sortedAndFilteredCars, this.User, model.PageNumber);
+            //this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
-            viewModel.SortStrategyDirection = sortDirection;
-            viewModel.SortStrategyType = sortType;
+            //viewModel.SortStrategyDirection = sortDirection;
+            //viewModel.SortStrategyType = sortType;
 
-            var serielizedModelAsBytes = JSonHelper.Serialize(viewModel);
-            var options = new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.MaxValue
-            };
-            await this.cache.SetAsync(key, serielizedModelAsBytes, options);
+            //var serielizedModelAsBytes = JSonHelper.Serialize(viewModel);
+            //var options = new DistributedCacheEntryOptions()
+            //{
+            //    AbsoluteExpiration = DateTime.MaxValue
+            //};
+            //await this.cache.SetAsync(key, serielizedModelAsBytes, options);
 
-            return View(viewModel);
+            //return View(viewModel);
         }
 
         [HttpPost]
