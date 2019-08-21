@@ -1,5 +1,6 @@
 ﻿using BMWStore.Data;
 using BMWStore.Entities;
+using System;
 
 namespace BMWStore.Tests.Common.SeedTestMethods
 {
@@ -26,8 +27,14 @@ namespace BMWStore.Tests.Common.SeedTestMethods
 
         public static Engine SeedEngineWithTransmission(ApplicationDbContext dbContext)
         {
-            var dbEngine = new Engine();
-            var transmission = new Transmission();
+            var dbEngine = new Engine()
+            {
+                Name = Guid.NewGuid().ToString()
+            };
+            var transmission = new Transmission()
+            {
+                Name = Guid.NewGuid().ToString()
+            };
             dbEngine.Transmission = transmission;
 
             AddEngine(dbContext, dbEngine);

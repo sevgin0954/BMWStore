@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class CarViewModel : BaseCarScheduleTestDriveViewModel, IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
+    public class CarViewModel : BaseCarScheduleTestDriveViewModel, IMapFrom<BaseCar>, IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
     {
         public double Acceleration_0_100Km { get; set; }
 

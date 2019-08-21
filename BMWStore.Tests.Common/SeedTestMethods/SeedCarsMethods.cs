@@ -56,24 +56,16 @@ namespace BMWStore.Tests.Common.SeedTestMethods
         {
             var pictures = new List<Picture>() { new Picture() { PublicId = "" } };
             var dbCar = new TCar();
+            var dbEngine = SeedEnginesMethods.SeedEngineWithTransmission(dbContext);
+            var dbFuelType = SeedFuelTypesMethods.SeedFuelType(dbContext);
+            var dbSeries = SeedSeriesMethods.SeedSeries(dbContext);
+            var dbModelType = SeedModelTypesMethods.SeedModelType(dbContext);
             dbCar.Name = Guid.NewGuid().ToString();
             dbCar.Pictures = pictures;
-            dbCar.ModelType = new ModelType()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
-            dbCar.Series = new Series()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
-            dbCar.Engine = new Engine()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
-            dbCar.FuelType = new FuelType()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
+            dbCar.ModelType = dbModelType;
+            dbCar.Series = dbSeries;
+            dbCar.Engine = dbEngine;
+            dbCar.FuelType = dbFuelType;
             dbCar.Options.Add(new CarOption() { Option = new Option() });
 
             SeedCar(dbContext, dbCar);

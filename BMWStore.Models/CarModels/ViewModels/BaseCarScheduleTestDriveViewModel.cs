@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public abstract class BaseCarScheduleTestDriveViewModel : BaseCarViewModel, IHaveCustomMappings
+    public abstract class BaseCarScheduleTestDriveViewModel : BaseCarViewModel, IMapFrom<BaseCar>, IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
     {
         public bool IsTestDriveScheduled { get; set; }
 
@@ -23,7 +23,7 @@ namespace BMWStore.Models.CarModels.ViewModels
                         :
                     null
                 ))
-                .ForMember(dest => dest.IsTestDriveScheduled, opt => opt.MapFrom(src => src.TestDrives
+                .ForMember(dest => dest.IsTestDriveScheduled, opt => opt.MapFrom(src => isUserSignedIn && src.TestDrives
                     .Any(td => td.Status.Name == TestDriveStatus.Upcoming.ToString())))
                 .IncludeAllDerived();
 
