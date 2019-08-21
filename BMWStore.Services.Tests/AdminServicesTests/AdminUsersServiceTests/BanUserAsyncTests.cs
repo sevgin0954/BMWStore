@@ -25,7 +25,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         {
             var dbContext = this.GetDbContext();
             var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
-            CommonMockTestMethods.SetipMockedUserManagerIsInRoleAsync(mockedUserManager, false);
+            CommonMockTestMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, false);
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
             SeedRolesMethods.SeedUserRole(dbContext);
@@ -39,7 +39,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         {
             var dbContext = this.GetDbContext();
             var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
-            CommonMockTestMethods.SetipMockedUserManagerIsInRoleAsync(mockedUserManager, true);
+            CommonMockTestMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
             this.BanUser(dbContext, dbUser);
@@ -53,7 +53,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         {
             var dbContext = this.GetDbContext();
             var mockedUserManager = CommonMockTestMethods.GetMockedUserManager();
-            CommonMockTestMethods.SetipMockedUserManagerIsInRoleAsync(mockedUserManager, true);
+            CommonMockTestMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 

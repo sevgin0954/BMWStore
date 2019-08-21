@@ -16,6 +16,14 @@ namespace BMWStore.Common.Validation
             }
         }
 
+        public static void ValidateNotNullOrEmpty(string str, Exception exception)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                throw exception;
+            }
+        }
+
         // TODO: Inconsistent parameters
         public static void ValidateNotEmptyCollection(IEnumerable enumerable, string exceptionMessage)
         {

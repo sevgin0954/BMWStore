@@ -1,8 +1,11 @@
-﻿using BMWStore.Entities;
+﻿using BMWStore.Common.Helpers;
+using BMWStore.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
 using Moq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BMWStore.Tests.Common.MockTestMethods
@@ -29,10 +32,21 @@ namespace BMWStore.Tests.Common.MockTestMethods
                 .Returns(isSignIn);
         }
 
-        public static void SetipMockedUserManagerIsInRoleAsync(Mock<UserManager<User>> mock,  bool returns)
+        public static void SetupMockedUserManagerIsInRoleAsync(Mock<UserManager<User>> mock,  bool returns)
         {
             mock.Setup(um => um.IsInRoleAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(returns));
+        }
+
+        public static void SetupMockedDistributedCacheGetAsync(Mock<IDistributedCache> mock, string key, object obj)
+        {
+            var objAsByteArray = JSonHelper.Serialize(obj);
+            if (obj == null)
+            {
+                objAsByteArray = null;
+            }
+            mock.Setup(m => m.GetAsync(key, It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(objAsByteArray));
         }
 
         public static Mock<SignInManager<User>> GetMockedSignInManager(UserManager<User> userManager)

@@ -1,4 +1,6 @@
-﻿using BMWStore.Common.Helpers;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Helpers;
+using BMWStore.Common.Validation;
 using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.CachedServices.Interfaces;
@@ -28,6 +30,8 @@ namespace BMWStore.Services.CachedServices
             IQueryable<BaseCar> cars,
             IQueryable<BaseCar> filteredByMultipleCars)
         {
+            DataValidator.ValidateNotNullOrEmpty(cacheKey, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+
             var cachedModelAsBytes = await this.cache.GetAsync(cacheKey);
             if (cachedModelAsBytes != null)
             {

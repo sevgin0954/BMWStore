@@ -2,6 +2,8 @@
 {
     public class ErrorConstants
     {
+        public const string CantBeNullOrEmpty = "String cant be null or empty";
+
         public const string EmptyCollection = "The collection was empty";
 
         public const string EmptyEnum = "Enum was empty";
