@@ -33,7 +33,7 @@ namespace BMWStore.Tests.Common.MockTestMethods
 
         public static void SetupCarPriceService(Mock<ICarPriceService> mockedCarPriceService)
         {
-            mockedCarPriceService.Setup(cps => cps.GetPriceFilterModelsAsync(It.IsAny<IEnumerable<CarInventoryConciseViewModel>>()))
+            mockedCarPriceService.Setup(cps => cps.GetPriceFilterModelsAsync(It.IsAny<IQueryable<BaseCar>>()))
                 .Returns((IEnumerable<CarInventoryConciseViewModel> input) => Task.FromResult<ICollection<FilterTypeBindingModel>>(
                     input.Select(a => new FilterTypeBindingModel()).ToList())
                 );

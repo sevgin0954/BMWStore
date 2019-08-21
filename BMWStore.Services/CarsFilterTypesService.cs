@@ -31,7 +31,7 @@ namespace BMWStore.Services
             this.filterTypesService = filterTypesService;
         }
 
-        public async Task<CarsFilterViewModel> GetCarFilterModel(
+        public async Task<CarsFilterViewModel> GetCarFilterModelAsync(
             IQueryable<BaseCar> allCars,
             IQueryable<BaseCar> filteredCars)
         {
@@ -40,14 +40,13 @@ namespace BMWStore.Services
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(filteredCars);
             var yearModels = await this.carYearService.GetYearFilterModelsAsync(filteredCars);
 
-            var model = new CarsFilterViewModel()
-            {
-                ModelTypes = modelTypeModels,
-                Prices = priceModels,
-                Series = seriesModels,
-                Years = yearModels
-            };
+            var model = new CarsFilterViewModel();
+
             this.AddAllFilterTypeModels(model);
+            model.ModelTypes.AddRange(modelTypeModels);
+            model.Prices.AddRange(priceModels);
+            model.Series.AddRange(seriesModels);
+            model.Years.AddRange(yearModels);
 
             return model;
         }

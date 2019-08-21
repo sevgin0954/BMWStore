@@ -102,13 +102,10 @@
     <script>
         $(function () {
             const aftInput = '@Html.AntiForgeryToken()';
-            const aftValue = $(aft).val();
+            const aftValue = $(aftInput).val();
             removeElementOnButtonClick('data-delete-btn', 'data-userId', '/Admin/Users/Delete', aftValue);
-        })
-    </script>
-    <script>
-        // TODO: Move to js file
-        $(function () {
+
+            // TODO: Move to js file
             const banBtns = $('[ban]');
             const unbanBtns = $('[unban]');
 
@@ -139,9 +136,9 @@
             function makePostRequest(actionName, userId, successCallback) {
                 $.ajax({
                     url: '/Admin/Users/' + actionName,
-                    data: { userId: userId },
+                    data: { id: userId, __RequestVerificationToken: aftValue },
                     method: 'post',
-                    success: function (data) {
+                    success: function () {
                         successCallback();
                     }
                 });

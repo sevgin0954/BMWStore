@@ -8,7 +8,7 @@ namespace BMWStore.Services.Interfaces
 {
     public interface ICarsFilterTypesService
     {
-        Task<CarsFilterViewModel> GetCarFilterModel(
+        Task<CarsFilterViewModel> GetCarFilterModelAsync(
             IQueryable<BaseCar> allCars,
             IQueryable<BaseCar> filteredCars);
         void SelectModelFilterItems(CarsFilterViewModel model,

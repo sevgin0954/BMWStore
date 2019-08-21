@@ -18,6 +18,7 @@ using BMWStore.Models;
 using CloudinaryDotNet;
 using BMWStore.Data.Repositories;
 using BMWStore.Services.AdminServices;
+using BMWStore.Services.CachedServices;
 
 namespace BMWStore.Web
 {
@@ -128,6 +129,7 @@ namespace BMWStore.Web
             serviceRegistrar.AddScopedServices(typeof(CarModelTypeService));
             serviceRegistrar.AddScopedServices(typeof(CarRepository));
             serviceRegistrar.AddScopedServices(typeof(AdminCarsService));
+            serviceRegistrar.AddScopedServices(typeof(CachedCarsFilterTypesService));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
+﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Common.Helpers;
 using BMWStore.Data.Factories.FilterStrategyFactory;
@@ -9,38 +8,35 @@ using BMWStore.Entities;
 using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Services.CachedServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
 {
     public class UsedInventoryController : Controller
     {
-        private readonly IDistributedCache cache;
         private readonly ICookiesService cookiesService;
         private readonly IUsedCarRepository usedCarRepository;
         private readonly ICarsService carsService;
         private readonly ICarsFilterTypesService carsFilterTypesService;
+        private readonly ICachedCarsFilterTypesService cachedCarsFilterTypesService;
 
         public UsedInventoryController(
-            IDistributedCache cache,
             ICookiesService cookiesService,
             IUsedCarRepository usedCarRepository,
             ICarsService carsService,
-            ICarsFilterTypesService carsFilterTypesService)
+            ICarsFilterTypesService carsFilterTypesService,
+            ICachedCarsFilterTypesService cachedCarsFilterTypesService)
         {
-            this.cache = cache;
             this.cookiesService = cookiesService;
             this.usedCarRepository = usedCarRepository;
             this.carsService = carsService;
             this.carsFilterTypesService = carsFilterTypesService;
+            this.cachedCarsFilterTypesService = cachedCarsFilterTypesService;
         }
 
         [HttpGet]
@@ -61,18 +57,7 @@ namespace BMWStore.Web.Controllers
                 model.PageNumber.ToString(),
                 model.PriceRange,
                 model.Series,
-                model.Year,
-                sortDirection.ToString(),
-                sortType.ToString());
-
-            var cachedModelAsBytes = await this.cache.GetAsync(key);
-            if (cachedModelAsBytes != null)
-            {
-                var modelAsUsedViewModel = JSonHelper.Desirialize<NewCarsInventoryViewModel>(cachedModelAsBytes);
-                var cachedModel = Mapper.Map<CarsInventoryViewModel>(modelAsUsedViewModel);
-                return View(cachedModel);
-            }
-
+                model.Year);
 
             var sortStrategy = UsedCarSortStrategyFactory.GetStrategy<UsedCar>(sortType, sortDirection);
 
@@ -85,11 +70,12 @@ namespace BMWStore.Web.Controllers
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
-            var filteredMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
+            var filteredByMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
 
             var currentPageCarModels = await this.carsService
-                .GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(filteredCars, this.User, model.PageNumber);
-            var filterModel = await this.carsFilterTypesService.GetCarFilterModel(sortedAndFilteredCars, filteredMultipleCars);
+                .GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(filteredByMultipleCars, this.User, model.PageNumber);
+            var filterModel = await this.cachedCarsFilterTypesService
+                .GetCachedCarFilterModelAsync(key, sortedAndFilteredCars, filteredByMultipleCars);
             var viewModel = new CarsInventoryViewModel()
             {
                 SortStrategyType = sortType,
@@ -97,18 +83,12 @@ namespace BMWStore.Web.Controllers
                 Cars = currentPageCarModels,
                 CurrentPage = model.PageNumber,
                 FilterModel = filterModel,
-                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredMultipleCars),
-                TotalCarsCount = await filteredMultipleCars.CountAsync()
+                TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredByMultipleCars),
+                TotalCarsCount = await filteredByMultipleCars.CountAsync()
             };
 
-            //this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
-
-            var serielizedModelAsBytes = JSonHelper.Serialize(viewModel);
-            var options = new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.MaxValue
-            };
-            await this.cache.SetAsync(key, serielizedModelAsBytes, options);
+            this.carsFilterTypesService
+                .SelectModelFilterItems(filterModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             return View(viewModel);
         }
