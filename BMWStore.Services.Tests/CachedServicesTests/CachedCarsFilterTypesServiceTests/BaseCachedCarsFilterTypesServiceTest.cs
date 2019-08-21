@@ -9,7 +9,8 @@ namespace BMWStore.Services.Tests.CachedServicesTests.CachedCarsFilterTypesServi
     {
         public ICachedCarsFilterTypesService GetService(IDistributedCache cache, ICarsFilterTypesService carsFilterTypesService)
         {
-            var service = new CachedCarsFilterTypesService(cache, carsFilterTypesService);
+            var cacheKeyService = new CacheKeysService();
+            var service = new CachedCarsFilterTypesService(cache, carsFilterTypesService, cacheKeyService);
 
             return service;
         }

@@ -56,4 +56,5 @@ namespace BMWStore.Services.Tests.CachedServicesTests.CachedCarsFilterTypesServi
             mockedCarsFilterTypesService
                 .Verify(cfts => cfts.GetCarFilterModelAsync(dbContext.BaseCars, dbContext.BaseCars), Times.Never);
         }
+    }
 }
