@@ -43,6 +43,9 @@
         public const string CookieAdminOptionsSortDirectionKey = "___AdminOptionsSortDirection___";
         public const string CookieAdminOptionsSortTypeKey = "___AdminOptionsSortType___";
 
+        public const string StatusMessagePrefix = "___customStatusMessage";
+        public const string MessageTypeDanger = "danger";
+
         public const int PageSize = 10;
 
         public const string ReturnControllerName = "returnController";

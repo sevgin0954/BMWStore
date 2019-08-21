@@ -19,6 +19,7 @@ using BMWStore.Data.Repositories;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.CachedServices;
 using BMWStore.Services.Interfaces;
+using BMWStore.Web.Filters;
 
 namespace BMWStore.Web
 {
@@ -73,6 +74,7 @@ namespace BMWStore.Web
             services.AddMvc(options => 
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                options.Filters.Add(new ModelStateActionFilter());
             })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
