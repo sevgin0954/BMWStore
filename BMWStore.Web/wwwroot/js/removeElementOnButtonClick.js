@@ -1,4 +1,4 @@
-﻿function removeElementOnButtonClick(btnEventStarterAttr, elementToDeleteAttr, deleteUrl) {
+﻿function removeElementOnButtonClick(btnEventStarterAttr, elementToDeleteAttr, deleteUrl, antiForgeryToken) {
     const deleteBtns = $(`[${btnEventStarterAttr}]`);
 
     deleteBtns.on('click', function (e) {
@@ -6,20 +6,20 @@
         
         const id = deleteBtn.attr(btnEventStarterAttr);
         
-        makePostRequest(deleteUrl, id, function () {
+        makePostRequest(id, function () {
             const elementToDelete = $(`[${elementToDeleteAttr}*='${id}']`);
             elementToDelete.remove();
         });
     });
-}
 
-function makePostRequest(url, id, successCallback) {
-    $.ajax({
-        url: url,
-        data: { id: id },
-        method: 'post',
-        success: function () {
-            successCallback();
-        }
-    });
+    function makePostRequest(id, successCallback) {
+        $.ajax({
+            url: deleteUrl,
+            data: { id: id, __RequestVerificationToken: antiForgeryToken },
+            method: 'post',
+            success: function () {
+                successCallback();
+            }
+        });
+    }
 }

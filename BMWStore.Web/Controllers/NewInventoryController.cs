@@ -11,10 +11,8 @@ using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
@@ -78,9 +76,9 @@ namespace BMWStore.Web.Controllers
                 .GetFiltered(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
-            var filterStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
+            var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
             var viewModel = await this.carsInventoryService
-                .GetInventoryViewModelAsync(filterStrategy, sortedAndFilteredCars, this.User, model.PageNumber);
+                .GetInventoryViewModelAsync(filterMultipleStrategy, sortedAndFilteredCars, this.User, model.PageNumber);
             this.carsInventoryService.SelectModelFilterItems(viewModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
 
             viewModel.SortStrategyDirection = sortDirection;

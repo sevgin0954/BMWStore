@@ -89,7 +89,9 @@
     <script src="~/js/removeElementOnButtonClick.js"></script>
     <script>
         $(function () {
-            removeElementOnButtonClick('data-delete-btn', 'data-delete', '/Admin/TestDrives/Delete');
+            const aft = '@Html.AntiForgeryToken()';
+            const aftValue = $(aft).val();
+            removeElementOnButtonClick('data-delete-btn', 'data-delete', '/Admin/TestDrives/Delete', aftValue);
         })
     </script>
 }

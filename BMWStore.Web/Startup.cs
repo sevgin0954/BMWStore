@@ -55,7 +55,9 @@ namespace BMWStore.Web
                 .AddDefaultTokenProviders()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            // TODO: ADD ANTI FORGERY FILTER
+
+            services.AddAntiforgery();
+
             RegisterServiceLayer(services);
 
             services.AddSession();
@@ -67,7 +69,11 @@ namespace BMWStore.Web
                 this.Configuration["Cloudinary:ApiSecret"]);
             services.AddCloudinary(cloudinaryAccount, ServiceLifetime.Singleton);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options => 
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
