@@ -1,4 +1,39 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "Home";
 }
+@using CloudinaryDotNet;
+@using Microsoft.Extensions.Configuration;
+@inject CloudinaryDotNet.Cloudinary cloudinary;
+@inject IConfiguration configuration;
 
+<div>
+    @foreach (var kvp in Model.TargetUrlsPublicIds)
+    {
+        var imageUrl = cloudinary.Api.UrlImgUp.Secure(true).Transform(
+            new Transformation()
+            ).BuildUrl(kvp.Value);
+        
+
+        <img data-src="@imageUrl" class="cld-responsive" width="100%">
+    }
+</div>
+
+<div>
+    <div>
+        <form method="get">
+            
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/node_modules/lodash/lodash.js" type="text/javascript"></script>
+    <script src="/node_modules/cloudinary-core/cloudinary-core.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        const cloudName = '@configuration["Cloudinary:CloudName"]';
+        const cl = cloudinary.Cloudinary.new({ cloud_name: cloudName, secure: true });
+
+        cl.responsive();
+    </script>
+}

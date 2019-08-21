@@ -1,22 +1,28 @@
 ﻿using BMWStore.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using BMWStore.Data;
+using BMWStore.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IHomeService homeService;
 
-        public HomeController(ApplicationDbContext dbContext)
+        public HomeController(IHomeService homeService)
         {
-            this.dbContext = dbContext;
+            this.homeService = homeService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await this.homeService.GetHomeModelAsync();
+            model.TargetUrlsPublicIds.Add(
+                "/Car?carId=8de3b45a-b5a0-4e62-9fb9-47782285ba48", 
+                "car_images/jpeelgxqaiq6beugayku");
+
+            return View(model);
         }
 
         public IActionResult Privacy()
