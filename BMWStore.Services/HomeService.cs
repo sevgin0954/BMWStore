@@ -1,6 +1,9 @@
 ﻿using BMWStore.Data.Repositories.Interfaces;
+using BMWStore.Entities;
+using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Models.HomeModels.ViewModels;
 using BMWStore.Services.Interfaces;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services
@@ -24,15 +27,31 @@ namespace BMWStore.Services
             this.carPriceService = carPriceService;
         }
 
-        public async Task<HomeViewModel> GetHomeModelAsync()
+        //public async Task<HomeViewModel> GetHomeModelAsync()
+        //{
+        //    var allCars = this.carRepository.GetAll();
+
+        //    var carYears = await this.carYearService.GetYearFilterModelsAsync(allCars);
+        //    var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(allCars);
+        //    var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(allCars);
+
+        //    var model = new HomeViewModel();
+
+        //    return model;
+        //}
+
+        public async Task<HomeSearchBindingModel> GetSearchModelAsync(IQueryable<BaseCar> cars)
         {
-            var allCars = this.carRepository.GetAll();
+            var carYears = await this.carYearService.GetYearFilterModelsAsync(cars);
+            var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
+            var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(cars);
 
-            var carYears = await this.carYearService.GetYearFilterModelsAsync(allCars);
-            var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(allCars);
-            var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(allCars);
-
-            var model = new HomeViewModel();
+            var model = new HomeSearchBindingModel()
+            {
+                Years = carYears,
+                ModelTypes = carModels,
+                CarPrices = carPrices
+            };
 
             return model;
         }

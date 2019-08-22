@@ -19,10 +19,11 @@
     }
 </div>
 
-<div>
+<div class="mt-2">
     <div>
+        <h3 class="font-medium font-weight-bolder">Search Inventory Here</h3>
         <form method="get">
-            
+            <select for="@Model.SearchModel.SelectedModelType" items="@Model.SearchModel.ModelTypes"></select>
         </form>
     </div>
 </div>
