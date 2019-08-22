@@ -15,6 +15,7 @@ namespace BMWStore.Models.HomeModels.BindingModel
         public string SelectedModelType { get; set; }
         public IEnumerable<FilterTypeBindingModel> ModelTypes { get; set; } = new List<FilterTypeBindingModel>();
 
-        public IEnumerable<FilterTypeBindingModel> CarPrices { get; set; } = new List<FilterTypeBindingModel>();
+        public string SelectedPrice { get; set; }
+        public IEnumerable<FilterTypeBindingModel> Prices { get; set; } = new List<FilterTypeBindingModel>();
     }
 }

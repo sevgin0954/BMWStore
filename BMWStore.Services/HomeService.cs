@@ -50,7 +50,7 @@ namespace BMWStore.Services
             {
                 Years = carYears,
                 ModelTypes = carModels,
-                CarPrices = carPrices
+                Prices = carPrices
             };
 
             return model;

@@ -19,12 +19,48 @@
     }
 </div>
 
-<div class="mt-2">
-    <div>
+@{ var searchModel = Model.SearchModel; }
+<div class="mt-2 row">
+    <div class="col">
         <h3 class="font-medium font-weight-bolder">Search Inventory Here</h3>
+        <hr />
+
         <form method="get">
-            <select for="@Model.SearchModel.SelectedModelType" items="@Model.SearchModel.ModelTypes"></select>
+            <select class="form-control mb-2" for="@searchModel.SelectedCarInventory" items="@searchModel.CarInverntories">
+            </select>
+
+            <select class="form-control mb-2" for="@searchModel.SelectedModelType" items="@searchModel.ModelTypes">
+                <option selected disabled hidden>Select model type</option>
+            </select>
+
+            <select class="form-control mb-2" for="@searchModel.SelectedYear" items="@searchModel.Years">
+                <option selected disabled>Select year</option>
+            </select>
+
+            <select class="form-control mb-2" for="@searchModel.SelectedPrice" items="@searchModel.Prices">
+                <option selected disabled>Select price range</option>
+            </select>
+
+            <button class="btn background-blue-hover border-blue">Search</button>
         </form>
+    </div>
+
+    <div class="col">
+        <h3 class="font-medium font-weight-bolder">I just want to browse.</h3>
+        <hr />
+
+        <div class="mb-2 font-medium">
+            <a class="no-text-decorator color-black" asp-controller="NewInventory" asp-action="Index">
+                <i class="fas fa-arrow-right"></i>
+                New Inventory
+            </a>
+        </div>
+        <div class="font-medium">
+            <a class="no-text-decorator color-black" asp-controller="UsedInventory" asp-action="Index">
+                <i class="fas fa-arrow-right"></i>
+                Pre-owned
+            </a>
+        </div>
     </div>
 </div>
 
