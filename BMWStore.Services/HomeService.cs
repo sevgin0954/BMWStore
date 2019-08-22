@@ -1,8 +1,10 @@
-﻿using BMWStore.Data.Repositories.Interfaces;
+﻿using BMWStore.Common.Enums;
+using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Models.HomeModels.ViewModels;
 using BMWStore.Services.Interfaces;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,12 +44,14 @@ namespace BMWStore.Services
 
         public async Task<HomeSearchBindingModel> GetSearchModelAsync(IQueryable<BaseCar> cars)
         {
+            var carInventories = Enum.GetValues(typeof(CarInventory));
             var carYears = await this.carYearService.GetYearFilterModelsAsync(cars);
             var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
             var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(cars);
 
             var model = new HomeSearchBindingModel()
             {
+                CarInverntories = carInventories,
                 Years = carYears,
                 ModelTypes = carModels,
                 Prices = carPrices
