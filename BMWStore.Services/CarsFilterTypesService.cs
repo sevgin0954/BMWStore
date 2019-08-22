@@ -1,7 +1,5 @@
-﻿using BMWStore.Common.Constants;
-using BMWStore.Entities;
+﻿using BMWStore.Entities;
 using BMWStore.Models.CarModels.ViewModels;
-using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,26 +40,12 @@ namespace BMWStore.Services
 
             var model = new CarsFilterViewModel();
 
-            this.AddAllFilterTypeModels(model);
             model.ModelTypes.AddRange(modelTypeModels);
             model.Prices.AddRange(priceModels);
             model.Series.AddRange(seriesModels);
             model.Years.AddRange(yearModels);
 
             return model;
-        }
-
-        private void AddAllFilterTypeModels(CarsFilterViewModel model)
-        {
-            var allFilterModel = new FilterTypeBindingModel()
-            {
-                Text = WebConstants.AllFilterTypeModelText,
-                Value = WebConstants.AllFilterTypeModelValue
-            };
-
-            model.Years.Add(allFilterModel);
-            model.Series.Add(allFilterModel);
-            model.Prices.Add(allFilterModel);
         }
 
         public void SelectModelFilterItems(CarsFilterViewModel model,

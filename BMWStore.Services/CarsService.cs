@@ -3,6 +3,7 @@ using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Helpers;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using MappingRegistrar;

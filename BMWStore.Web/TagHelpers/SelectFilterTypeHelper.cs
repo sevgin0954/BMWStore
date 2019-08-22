@@ -18,7 +18,8 @@ namespace BMWStore.Web.TagHelpers
             foreach (var item in this.Items)
             {
                 var selected = item.IsSelected ? "selected" : "";
-                output.PostContent.AppendHtml($"<option {selected} value=\"{item.Value}\" >{item.Text}</option>");
+                var text = $"{item.Text} ({item.CarsCount})";
+                output.PostContent.AppendHtml($"<option {selected} value=\"{item.Value}\" >{text}</option>");
             }
         }
     }

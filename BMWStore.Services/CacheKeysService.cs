@@ -1,4 +1,5 @@
 ﻿using BMWStore.Services.Interfaces;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace BMWStore.Services
@@ -9,7 +10,7 @@ namespace BMWStore.Services
 
         public CacheKeysService()
         {
-            this.cacheTypeCacheKeys = new Dictionary<string, HashSet<string>>();
+            this.cacheTypeCacheKeys = new ConcurrentDictionary<string, HashSet<string>>();
         }
 
         public void AddKey(string cacheType, string key)

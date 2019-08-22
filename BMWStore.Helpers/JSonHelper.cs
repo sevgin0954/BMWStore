@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
 
-namespace BMWStore.Common.Helpers
+namespace BMWStore.Helpers
 {
     public static class JSonHelper
     {

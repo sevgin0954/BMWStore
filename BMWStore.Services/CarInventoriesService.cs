@@ -13,11 +13,12 @@ namespace BMWStore.Services
         public async Task<ICollection<FilterTypeBindingModel>> GetInventoryFilterModelsAsync(IQueryable<BaseCar> cars)
         {
             var filterTypesModels = await cars
-                .GroupBy(c => new { TypeName = c.GetType() })
+                .GroupBy(c => new { TypeName = c.GetType().Name })
                 .Select(c => new FilterTypeBindingModel()
                 {
-                    Value = c.Key.TypeName.ToString(),
-                    Text = $"{c.Key.TypeName} ({c.Count()})"
+                    Value = c.Key.TypeName,
+                    Text = c.Key.TypeName,
+                    CarsCount = c.Count()
                 })
                 .ToListAsync();
 

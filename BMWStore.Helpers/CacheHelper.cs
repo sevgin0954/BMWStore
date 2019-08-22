@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BMWStore.Common.Helpers
+namespace BMWStore.Helpers
 {
     public static class CacheHelper
     {

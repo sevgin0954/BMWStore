@@ -10,6 +10,14 @@
                     <div>
                         YEAR
                     </div>
+                    <div>
+                        <input data-click
+                               name="year"
+                               value="All"
+                               type="radio"
+                               checked="checked" />
+                        <span>All</span>
+                    </div>
                     @foreach (var modelType in Model.Years)
                     {
                         <div>
@@ -18,7 +26,7 @@
                                    value="@modelType.Value"
                                    type="radio"
                                    checked="@modelType.IsSelected" />
-                            <span>@modelType.Text</span>
+                            <span>@($"{@modelType.Text} ({@modelType.CarsCount})")</span>
                         </div>
                     }
                 </div>
@@ -26,6 +34,14 @@
                 <div class="mb-4">
                     <div>
                         SERIES
+                    </div>
+                    <div>
+                        <input data-click
+                               name="series"
+                               value="All"
+                               type="radio"
+                               checked="checked" />
+                        <span>All</span>
                     </div>
                     @foreach (var modelType in Model.Series)
                     {
@@ -35,7 +51,7 @@
                                    value="@modelType.Value"
                                    type="radio"
                                    checked="@modelType.IsSelected" />
-                            <span>@modelType.Text</span>
+                            <span>@($"{@modelType.Text} ({@modelType.CarsCount})")</span>
                         </div>
                     }
                 </div>
@@ -52,7 +68,7 @@
                                    value="@modelType.Value"
                                    type="checkbox"
                                    checked="@modelType.IsSelected" />
-                            <span>@modelType.Text</span>
+                            <span>@($"{@modelType.Text} ({@modelType.CarsCount})")</span>
                         </div>
                     }
                 </div>
@@ -60,6 +76,14 @@
                 <div class="mb-4">
                     <div>
                         PRICE
+                    </div>
+                    <div>
+                        <input data-click
+                               name="priceRange"
+                               value="All"
+                               type="radio"
+                               checked="checked" />
+                        <span>All</span>
                     </div>
                     @foreach (var modelType in Model.Prices)
                     {
@@ -69,7 +93,7 @@
                                    value="@modelType.Value"
                                    type="radio"
                                    checked="@modelType.IsSelected" />
-                            <span>@modelType.Text</span>
+                            <span>@($"{@modelType.Text} ({@modelType.CarsCount})")</span>
                         </div>
                     }
                 </div>

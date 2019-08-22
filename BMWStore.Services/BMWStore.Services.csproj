@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BMWStore.Data\BMWStore.Data.csproj" />
+    <ProjectReference Include="..\BMWStore.Helpers\BMWStore.Helpers.csproj" />
     <ProjectReference Include="..\BMWStore.Models\BMWStore.Models.csproj" />
   </ItemGroup>
 

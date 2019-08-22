@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace BMWStore.Common.Helpers
+namespace BMWStore.Helpers
 {
     public static class FileHelper
     {

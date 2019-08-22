@@ -17,7 +17,8 @@ namespace BMWStore.Services
                 .Select(c => new FilterTypeBindingModel()
                 {
                     Value = c.Key.Name,
-                    Text = $"{c.Key.Name} ({c.Count()})"
+                    Text = c.Key.Name,
+                    CarsCount = c.Count()
                 })
                 .ToListAsync();
 

@@ -1,7 +1,7 @@
 ﻿using BMWStore.Common.Constants;
 using System;
 
-namespace BMWStore.Common.Helpers
+namespace BMWStore.Helpers
 {
     public static class ParameterParser
     {

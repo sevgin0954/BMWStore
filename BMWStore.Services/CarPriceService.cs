@@ -54,7 +54,12 @@ namespace BMWStore.Services
         {
             var priceModels = await this.dbContext.Query<FilterTypeBindingModel>()
                 .FromSql($"EXECUTE usp_GetCarPriceRangesCount @{cars.ParameterName}=@cars", cars)
-                .Select(c => new FilterTypeBindingModel() { Value = c.Value, Text = $"{c.Text} ({c.CarsCount})" })
+                .Select(c => new FilterTypeBindingModel()
+                {
+                    Value = c.Value,
+                    Text = c.Text,
+                    CarsCount = c.CarsCount
+                })
                 .ToListAsync();
 
             return priceModels;
