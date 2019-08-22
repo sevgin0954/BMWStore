@@ -2,8 +2,8 @@
 using BMWStore.Common.Validation;
 using BMWStore.Data.FilterStrategies.CarStrategies;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BMWStore.Data.Factories.FilterStrategyFactory
 {
@@ -57,6 +57,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
 
         private static ICarFilterStrategy CreateSeriesStrategy(string seriesName)
         {
+            DataValidator.ValidateNotNullOrEmpty(seriesName, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
             var filterStrategy = new FilterCarsByPredicateStrategy(c => c.Series.Name == seriesName);
 
             return filterStrategy;

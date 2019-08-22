@@ -24,20 +24,30 @@
         <h3 class="font-medium font-weight-bolder">Search Inventory Here</h3>
         <hr />
 
+        <div error-container class="text-danger" hidden>Some error occurred</div>
+
         <form method="get" asp-action="Search">
-            <select name="inventory" class="form-control mb-2" for="@searchModel.SelectedCarInventory" items="@searchModel.CarInverntories">
+            <select data-search-select car-type name="inventory" class="form-control mb-2" 
+                    for="@searchModel.SelectedCarType" 
+                    items="@searchModel.CarTypes">
             </select>
 
-            <select name="modelTypes" class="form-control mb-2" for="@searchModel.SelectedModelType" items="@searchModel.ModelTypes">
-                <option value="" selected>All model type</option>
+            <select data-search-select car-model-type name="modelTypes" class="form-control mb-2" 
+                    for="@searchModel.SelectedModelType" 
+                    items="@searchModel.ModelTypes">
+                <option value="@WebConstants.AllFilterTypeModelValue" selected>All model type</option>
             </select>
 
-            <select name="year" class="form-control mb-2" for="@searchModel.SelectedYear" items="@searchModel.Years">
-                <option value="All" selected>All year</option>
+            <select data-search-select car-year name="year" class="form-control mb-2" 
+                    for="@searchModel.SelectedYear" 
+                    items="@searchModel.Years">
+                <option value="@WebConstants.AllFilterTypeModelValue" selected>All year</option>
             </select>
 
-            <select name="priceRange" class="form-control mb-2" for="@searchModel.SelectedPrice" items="@searchModel.Prices">
-                <option value="All" selected>All price ranges</option>
+            <select data-search-select car-price-range name="priceRange" class="form-control mb-2" 
+                    for="@searchModel.SelectedPriceRange" 
+                    items="@searchModel.PriceRanges">
+                <option value="@WebConstants.AllFilterTypeModelValue" selected>All price ranges</option>
             </select>
 
             <button class="btn background-blue-hover border-blue" type="submit">Search</button>
@@ -67,9 +77,78 @@
     <script src="/node_modules/lodash/lodash.js" type="text/javascript"></script>
     <script src="/node_modules/cloudinary-core/cloudinary-core.js" type="text/javascript"></script>
     <script type="text/javascript">
-        const cloudName = '@configuration["Cloudinary:CloudName"]';
-        const cl = cloudinary.Cloudinary.new({ cloud_name: cloudName, secure: true });
+        $(function () {
+            const cloudName = '@configuration["Cloudinary:CloudName"]';
+            const cl = cloudinary.Cloudinary.new({ cloud_name: cloudName, secure: true });
 
-        cl.responsive();
+            cl.responsive();
+        })
+    </script>
+
+    <script>
+        $(function () {
+            const selectItems = $('[data-search-select]');
+            selectItems.on('change', function (e) {
+                selectItems.attr('disabled', 'disabled');
+
+                const type = $('[car-type]');
+                const modelType = $('[car-model-type]');
+                const year = $('[car-year]');
+                const priceRange = $('[car-price-range]');
+
+                $.ajax({
+                    url: '/Home/Filter',
+                    method: 'get',
+                    data: {
+                        SelectedCarType: type.val(),
+                        SelectedYear: year.val(),
+                        SelectedModelType: modelType.val(),
+                        SelectedPriceRange: priceRange.val()
+                    },
+                    success: function (data) {
+                        updateSelectOptions(type, data.carTypes);
+                        updateSelectOptions(modelType, data.modelTypes);
+                        updateSelectOptions(year, data.years);
+                        updateSelectOptions(priceRange, data.priceRanges);
+
+                        selectItems.removeAttr('disabled');
+                    },
+                    error: function () {
+                        const errorElement = $('[error-container]');
+                        errorElement.removeAttr('hidden');
+                    }
+                })
+
+                function updateSelectOptions(select, data) {
+                    const options = $(select).find('option');
+                    for (let i = 0; i < options.length; i++) {
+                        const currentOption = $(options[i]);
+                        console.log(currentOption.val())
+                        if (currentOption.val() === '@WebConstants.AllFilterTypeModelValue') {
+                            continue;
+                        }
+
+                        const currentData = getByValue(data, currentOption.val());
+                        if (currentData === undefined) {
+                            currentOption.attr('hidden', 'hidden');
+                        }
+                        else {
+                            currentOption.removeAttr('hidden');
+                            $(currentOption).text(`${currentData.text} (${currentData.carsCount})`);
+                        }
+                    }
+                }
+
+                function getByValue(elements, value) {
+                    for (let i = 0; i < elements.length; i++) {
+                        const currentElement = elements[i];
+
+                        if (currentElement.value === value) {
+                            return currentElement;
+                        }
+                    }
+                }
+            })
+        })
     </script>
 }

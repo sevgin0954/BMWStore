@@ -1,11 +1,9 @@
-﻿using BMWStore.Common.Helpers;
+﻿using BMWStore.Common.Enums;
+using BMWStore.Common.Helpers;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
-using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,31 +31,26 @@ namespace BMWStore.Services
             this.carPriceService = carPriceService;
         }
 
-        public async Task<HomeSearchBindingModel> GetSearchModelAsync(IQueryable<BaseCar> cars)
+        public async Task<HomeSearchBindingModel> GetSearchModelAsync(IQueryable<BaseCar> cars, CarType carType)
         {
-            var allCars = this.carRepository.GetAll();
-            var carInventories = await this.carInventoriesService.GetInventoryFilterModelsAsync(allCars);
-            await this.SelectInventoryAsync(carInventories, cars);
+            var carsOfType = cars.Where(c => c.GetType().Name == carType.ToString());
 
-            var carYears = await this.carYearService.GetYearFilterModelsAsync(cars);
-            var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(cars);
-            var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(cars);
+            var carYears = await this.carYearService.GetYearFilterModelsAsync(carsOfType);
+            var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(carsOfType);
+            var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(carsOfType);
+
+            var carInventories = await this.carInventoriesService.GetInventoryFilterModelsAsync(cars);
+            FilterTypeHelper.SelectFilterTypes(carInventories, carType.ToString());
 
             var model = new HomeSearchBindingModel()
             {
-                CarInverntories = carInventories,
+                CarTypes = carInventories,
                 Years = carYears,
                 ModelTypes = carModels,
-                Prices = carPrices
+                PriceRanges = carPrices
             };
 
             return model;
-        }
-
-        private async Task SelectInventoryAsync(IEnumerable<FilterTypeBindingModel> carInventories, IQueryable<BaseCar> cars)
-        {
-            var carsType = await cars.Select(c => c.GetType().Name).FirstOrDefaultAsync();
-            FilterTypeHelper.SelectFilterTypes(carInventories, carsType);
         }
     }
 }
