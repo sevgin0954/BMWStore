@@ -179,6 +179,15 @@
     height: 130px;
 }
 
+.img-home {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
 .list-group-item:first-child {
     border-top-left-radius: 10px;
 }

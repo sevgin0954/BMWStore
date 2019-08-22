@@ -7,18 +7,16 @@
 @inject CloudinaryDotNet.Cloudinary cloudinary;
 @inject IConfiguration configuration;
 
-<div>
-    @foreach (var kvp in Model.TargetUrlsPublicIds)
-    {
-        var imageUrl = cloudinary.Api.UrlImgUp.Secure(true).Transform(
-            new Transformation()
-            ).BuildUrl(kvp.Value);
+@foreach (var kvp in Model.TargetUrlsPublicIds)
+{
+    var imageUrl = cloudinary.Api.UrlImgUp.Secure(true).Transform(
+        new Transformation()
+        ).BuildUrl(kvp.Value);
 
-        <a href="@kvp.Key">
-            <img data-src="@imageUrl" class="cld-responsive" width="100%">
-        </a>
-    }
-</div>
+    <a href="@kvp.Key">
+        <img data-src="@imageUrl" class="cld-responsive img-home">
+    </a>
+}
 
 @{ var searchModel = Model.SearchModel; }
 <div class="mt-2 row">
