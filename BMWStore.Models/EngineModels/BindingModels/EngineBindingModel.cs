@@ -10,7 +10,6 @@ namespace BMWStore.Models.EngineModels.BindingModels
 {
     public class EngineBindingModel : IMapTo<Engine>, IMapFrom<Engine>, IHaveCustomMappings
     {
-        [Required]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.EngineeNameMaxLength)]

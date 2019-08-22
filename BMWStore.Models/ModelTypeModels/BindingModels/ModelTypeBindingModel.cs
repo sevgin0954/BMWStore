@@ -8,7 +8,6 @@ namespace BMWStore.Models.ModelTypeModels.BindingModels
 {
     public class ModelTypeBindingModel : IMapTo<ModelType>, IMapFrom<ModelType>, IHaveCustomMappings
     {
-        [Required]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.ModelTypeNameMaxLength)]

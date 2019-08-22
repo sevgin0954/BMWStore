@@ -7,6 +7,8 @@ using BMWStore.Models.HomeModels.ViewModels;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using System.Linq;
+using BMWStore.Common.Enums;
+using BMWStore.Models.CarInventoryModels.BindingModels;
 
 namespace BMWStore.Web.Controllers
 {
@@ -21,6 +23,7 @@ namespace BMWStore.Web.Controllers
             this.carRepository = carRepository;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var newCars = this.carRepository.Set<NewCar>().AsQueryable();
@@ -29,10 +32,18 @@ namespace BMWStore.Web.Controllers
             var model = new HomeViewModel();
             model.SearchModel = searchModel;
             model.TargetUrlsPublicIds.Add(
-                "/Car?carId=8de3b45a-b5a0-4e62-9fb9-47782285ba48", 
-                "car_images/jpeelgxqaiq6beugayku");
+                "/Car?carId=34afd512-e702-4eb5-bb64-a1ac7dd3863e",
+                "nsgkdld26bxsjsdg2cpv");
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Search(CarType inventory, CarsInventoryBindingModel model)
+        {
+            var controllerName = CarType.NewCar == inventory ? "NewInventory" : "UsedInventory";
+
+            return RedirectToAction("Index", controllerName, model);
         }
 
         public IActionResult Privacy()

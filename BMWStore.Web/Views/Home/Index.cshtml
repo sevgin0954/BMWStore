@@ -13,9 +13,10 @@
         var imageUrl = cloudinary.Api.UrlImgUp.Secure(true).Transform(
             new Transformation()
             ).BuildUrl(kvp.Value);
-        
 
-        <img data-src="@imageUrl" class="cld-responsive" width="100%">
+        <a href="@kvp.Key">
+            <img data-src="@imageUrl" class="cld-responsive" width="100%">
+        </a>
     }
 </div>
 
@@ -25,20 +26,20 @@
         <h3 class="font-medium font-weight-bolder">Search Inventory Here</h3>
         <hr />
 
-        <form method="get">
-            <select class="form-control mb-2" for="@searchModel.SelectedCarInventory" items="@searchModel.CarInverntories">
+        <form method="get" asp-action="Search">
+            <select name="inventory" class="form-control mb-2" for="@searchModel.SelectedCarInventory" items="@searchModel.CarInverntories">
             </select>
 
-            <select class="form-control mb-2" for="@searchModel.SelectedModelType" items="@searchModel.ModelTypes">
-                <option selected disabled hidden>Select model type</option>
+            <select name="modelTypes" class="form-control mb-2" for="@searchModel.SelectedModelType" items="@searchModel.ModelTypes">
+                <option value="" selected>All model type</option>
             </select>
 
-            <select class="form-control mb-2" for="@searchModel.SelectedYear" items="@searchModel.Years">
-                <option selected disabled>Select year</option>
+            <select name="year" class="form-control mb-2" for="@searchModel.SelectedYear" items="@searchModel.Years">
+                <option value="All" selected>All year</option>
             </select>
 
-            <select class="form-control mb-2" for="@searchModel.SelectedPrice" items="@searchModel.Prices">
-                <option selected disabled>Select price range</option>
+            <select name="priceRange" class="form-control mb-2" for="@searchModel.SelectedPrice" items="@searchModel.Prices">
+                <option value="All" selected>All price ranges</option>
             </select>
 
             <button class="btn background-blue-hover border-blue" type="submit">Search</button>

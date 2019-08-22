@@ -8,7 +8,6 @@ namespace BMWStore.Models.OptionTypeModels.BindingModels
 {
     public class OptionTypeBindingModel : IMapFrom<OptionType>, IMapTo<OptionType>, IHaveCustomMappings
     {
-        [Required]
         public string Id { get; set; }
 
         [MaxLength(EntitiesConstants.OptionTypeNameMaxLength)]
