@@ -1,7 +1,7 @@
 ﻿using BMWStore.Models.FilterModels.BindingModels;
 using System.Collections.Generic;
 
-namespace BMWStore.Common.Helpers
+namespace BMWStore.Helpers
 {
     public static class FilterTypeHelper
     {

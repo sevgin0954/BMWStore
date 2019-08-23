@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.EngineStrategies.Interfaces;

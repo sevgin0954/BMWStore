@@ -1,7 +1,7 @@
 ﻿using BMWStore.Common.Enums;
-using BMWStore.Common.Helpers;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Helpers;
 using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Services.Interfaces;
 using System.Linq;
@@ -40,6 +40,7 @@ namespace BMWStore.Services
             var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(carsOfType);
 
             var carInventories = await this.carInventoriesService.GetInventoryFilterModelsAsync(cars);
+            FilterTypeHelper.SelectFilterTypes(carInventories, carType.ToString());
 
             var model = new HomeSearchBindingModel()
             {

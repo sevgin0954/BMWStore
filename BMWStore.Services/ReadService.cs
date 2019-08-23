@@ -1,6 +1,5 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Extensions;
-using BMWStore.Common.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data;
 using BMWStore.Helpers;

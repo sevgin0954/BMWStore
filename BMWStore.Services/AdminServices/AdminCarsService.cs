@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
-using BMWStore.Common.Helpers;
+using BMWStore.Helpers;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
-using BMWStore.Helpers;
 using BMWStore.Models.AdminModels.ViewModels;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Models.CarModels.ViewModels;

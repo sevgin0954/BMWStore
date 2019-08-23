@@ -12,7 +12,6 @@ using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Models.AdminModels.ViewModels;
-using BMWStore.Common.Helpers;
 using BMWStore.Data.FilterStrategies.TestDrives.Interfaces;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Helpers;
