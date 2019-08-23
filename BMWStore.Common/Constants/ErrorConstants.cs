@@ -3,6 +3,7 @@
     public class ErrorConstants
     {
         public const string CantBeNullOrEmpty = "String cant be null or empty";
+        public const string CantBeNullParameter = "Parameter cant be null";
 
         public const string EmptyCollection = "The collection was empty";
 

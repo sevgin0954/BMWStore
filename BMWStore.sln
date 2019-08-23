@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Web.Tests", "BMWSt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Tests.Common", "BMWStore.Tests.Common\BMWStore.Tests.Common.csproj", "{92C2BD79-7546-4447-9433-1B8B4E07D40B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Helpers", "BMWStore.Helpers\BMWStore.Helpers.csproj", "{8FD2EB80-2A24-418F-951C-3A29E259BB5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMWStore.Helpers", "BMWStore.Helpers\BMWStore.Helpers.csproj", "{8FD2EB80-2A24-418F-951C-3A29E259BB5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMWStore.Helpers.Tests", "BMWStore.Helpers.Tests\BMWStore.Helpers.Tests.csproj", "{0BE8E492-EC31-4351-9FF8-6842689053D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{8FD2EB80-2A24-418F-951C-3A29E259BB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FD2EB80-2A24-418F-951C-3A29E259BB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FD2EB80-2A24-418F-951C-3A29E259BB5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BE8E492-EC31-4351-9FF8-6842689053D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE8E492-EC31-4351-9FF8-6842689053D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE8E492-EC31-4351-9FF8-6842689053D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE8E492-EC31-4351-9FF8-6842689053D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{629CA521-4C78-476F-959F-1A4CBDCB1686} = {4B00B0CD-C39E-4F6F-B92E-F83BE4B48FD8}
 		{89B7C988-C683-4AB4-8351-6B4509BB6A59} = {4B00B0CD-C39E-4F6F-B92E-F83BE4B48FD8}
 		{92C2BD79-7546-4447-9433-1B8B4E07D40B} = {4B00B0CD-C39E-4F6F-B92E-F83BE4B48FD8}
+		{0BE8E492-EC31-4351-9FF8-6842689053D6} = {4B00B0CD-C39E-4F6F-B92E-F83BE4B48FD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A36F469B-254E-43CC-BA45-43ABEBA73A95}
