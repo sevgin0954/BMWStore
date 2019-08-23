@@ -5,14 +5,12 @@ using BMWStore.Services.Interfaces;
 using System.Threading.Tasks;
 using BMWStore.Models.HomeModels.ViewModels;
 using BMWStore.Data.Repositories.Interfaces;
-using BMWStore.Entities;
 using System.Linq;
 using BMWStore.Common.Enums;
 using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Helpers;
-using BMWStore.Common.Helpers;
 using BMWStore.Common.Constants;
 
 namespace BMWStore.Web.Controllers
@@ -21,8 +19,6 @@ namespace BMWStore.Web.Controllers
     {
         private readonly IHomeService homeService;
         private readonly ICarRepository carRepository;
-        private readonly INewCarRepository newCarRepository;
-        private readonly IUsedCarRepository usedCarRepository;
 
         public HomeController(
             IHomeService homeService, 
@@ -32,8 +28,6 @@ namespace BMWStore.Web.Controllers
         {
             this.homeService = homeService;
             this.carRepository = carRepository;
-            this.newCarRepository = newCarRepository;
-            this.usedCarRepository = usedCarRepository;
         }
 
         [HttpGet]
@@ -57,7 +51,6 @@ namespace BMWStore.Web.Controllers
             var priceRanges = ParameterParser.ParsePriceRange(model.SelectedPriceRange);
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.SelectedYear, priceRanges[0], priceRanges[1], WebConstants.AllFilterTypeModelValue);
-
             var mutipleFilterStrategy = CarMultipleFilterStrategyFactory.GetStrategy(new string[] { model.SelectedModelType });
 
             var filteredCars = this.carRepository.GetFiltered(filterStrategies.ToArray());

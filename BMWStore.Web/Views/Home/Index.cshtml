@@ -111,6 +111,11 @@
                         updateSelectOptions(year, data.years);
                         updateSelectOptions(priceRange, data.priceRanges);
 
+                        addSelectOptions(type, data.carTypes);
+                        addSelectOptions(modelType, data.modelTypes);
+                        addSelectOptions(year, data.years);
+                        addSelectOptions(priceRange, data.priceRanges);
+
                         selectItems.removeAttr('disabled');
                     },
                     error: function () {
@@ -123,7 +128,6 @@
                     const options = $(select).find('option');
                     for (let i = 0; i < options.length; i++) {
                         const currentOption = $(options[i]);
-                        console.log(currentOption.val())
                         if (currentOption.val() === '@WebConstants.AllFilterTypeModelValue') {
                             continue;
                         }
@@ -139,6 +143,17 @@
                     }
                 }
 
+                function addSelectOptions(select, data) {
+                    const options = $(select).find('option');
+                    for (let i = 0; i < data.length; i++) {
+                        const currentData = data[i];
+                        const currentOption = getByValue(options, currentData.value);
+                        if (currentOption === undefined) {
+                            addOption(select, currentData);
+                        }
+                    }
+                }
+
                 function getByValue(elements, value) {
                     for (let i = 0; i < elements.length; i++) {
                         const currentElement = elements[i];
@@ -147,6 +162,12 @@
                             return currentElement;
                         }
                     }
+                }
+
+                function addOption(select, data) {
+                    console.log(data)
+                    const optionHtml = `<option value='${data.value}'>${data.text} (${data.carsCount})</option>`;
+                    $(select).append(optionHtml);
                 }
             })
         })
