@@ -1,10 +1,12 @@
 ﻿using BMWStore.Data;
 using BMWStore.Data.Repositories;
 using BMWStore.Services.Interfaces;
+using BMWStore.Tests.Common.MockTestMethods;
+using Moq;
 
 namespace BMWStore.Services.Tests.HomeServiceTests
 {
-    public abstract class BaseGetSearchModelAsyncTest
+    public abstract class BaseGetSearchModelAsyncTest : BaseTest
     {
 
         public IHomeService GetService(ApplicationDbContext dbContext)
@@ -13,13 +15,14 @@ namespace BMWStore.Services.Tests.HomeServiceTests
             var carInventoriesService = new CarInventoriesService();
             var carYearService = new CarYearService();
             var carModelTypeService = new CarModelTypeService();
-            var carPriceService = new CarPriceService(dbContext);
+            var mockedCarPriceService = new Mock<ICarPriceService>();
+            CommonMockServicesTestMethods.SetupCarPriceService(mockedCarPriceService);
             var service = new HomeService(
                 carRepository, 
                 carInventoriesService, 
                 carYearService, 
                 carModelTypeService, 
-                carPriceService);
+                mockedCarPriceService.Object);
 
             return service;
         }

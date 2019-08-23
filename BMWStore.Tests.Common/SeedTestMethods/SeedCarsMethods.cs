@@ -7,9 +7,12 @@ namespace BMWStore.Tests.Common.SeedTestMethods
 {
     public static class SeedCarsMethods
     {
-        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext) where TCar : BaseCar, new()
+        public static TCar SeedCar<TCar>(ApplicationDbContext dbContext, string year = "") where TCar : BaseCar, new()
         {
-            var dbCar = new TCar();
+            var dbCar = new TCar()
+            {
+                Year = year
+            };
             SeedCar(dbContext, dbCar);
 
             return dbCar;
