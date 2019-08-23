@@ -19,6 +19,7 @@
 
         public const string CacheNewInventoryPrepend = "NewInventory";
         public const string CacheUsedInventoryPrepend = "UsedInventory";
+        public const string CacheHomeFilterPrepend = "HomeFilter";
 
         public const string CacheCarsType = "__CarsCache__";
 

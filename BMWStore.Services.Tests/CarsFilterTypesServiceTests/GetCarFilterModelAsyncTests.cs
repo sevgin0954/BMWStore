@@ -1,47 +1,13 @@
-﻿using BMWStore.Common.Constants;
-using BMWStore.Data;
+﻿using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Tests.Common.SeedTestMethods;
+using System.Linq;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CarsFilterTypesServiceTests
 {
     public class GetCarFilterModelAsyncTests : BaseCarsFilterTypesServiceTest
     {
-        [Fact]
-        public async void WithoutCars_ShouldReturnModelWithSingleDefaultFilterModels()
-        {
-            var dbContext = this.GetDbContext();
-            var service = this.GetService(dbContext);
-
-            var model = await service.GetCarFilterModelAsync(dbContext.BaseCars, dbContext.BaseCars);
-
-            Assert.Single(model.Prices);
-            Assert.Single(model.Series);
-            Assert.Single(model.Years);
-        }
-
-        [Fact]
-        public async void WithoutCars_ShouldReturnModelWithCorrectDefaultFilterModels()
-        {
-            var dbContext = this.GetDbContext();
-            var service = this.GetService(dbContext);
-
-            var model = await service.GetCarFilterModelAsync(dbContext.BaseCars, dbContext.BaseCars);
-
-            Assert.Contains(model.Prices, p =>
-                p.Text == WebConstants.AllFilterTypeModelText &&
-                p.Value == WebConstants.AllFilterTypeModelValue);
-
-            Assert.Contains(model.Series, s =>
-                s.Text == WebConstants.AllFilterTypeModelText &&
-                s.Value == WebConstants.AllFilterTypeModelValue);
-
-            Assert.Contains(model.Years, y =>
-                y.Text == WebConstants.AllFilterTypeModelText &&
-                y.Value == WebConstants.AllFilterTypeModelValue);
-        }
-
         [Fact]
         public async void WithAllCarsWithDifferentModelTypes_ShouldReturnModelWithCorrectModelTypes()
         {
@@ -53,8 +19,9 @@ namespace BMWStore.Services.Tests.CarsFilterTypesServiceTests
             var model = await service.GetCarFilterModelAsync(dbContext.BaseCars, dbContext.BaseCars);
 
             Assert.Equal(2, model.ModelTypes.Count);
-            Assert.Contains(model.ModelTypes, mt => mt.Value == dbCar1.ModelType.Name && mt.Text == dbCar1.ModelType.Name + " (1)");
-            Assert.Contains(model.ModelTypes, mt => mt.Value == dbCar2.ModelType.Name && mt.Text == dbCar2.ModelType.Name + " (1)");
+            Assert.Contains(model.ModelTypes, mt => mt.Value == dbCar1.ModelType.Name && mt.Text == dbCar1.ModelType.Name);
+            Assert.Contains(model.ModelTypes, mt => mt.Value == dbCar2.ModelType.Name && mt.Text == dbCar2.ModelType.Name);
+            Assert.True(model.ModelTypes.All(s => s.CarsCount == 1));
         }
 
         [Fact]
@@ -67,9 +34,10 @@ namespace BMWStore.Services.Tests.CarsFilterTypesServiceTests
 
             var model = await service.GetCarFilterModelAsync(dbContext.BaseCars, dbContext.BaseCars);
 
-            Assert.Equal(3, model.Series.Count);
-            Assert.Contains(model.Series, mt => mt.Value == dbCar1.Series.Name && mt.Text == dbCar1.Series.Name + " (1)");
-            Assert.Contains(model.Series, mt => mt.Value == dbCar2.Series.Name && mt.Text == dbCar2.Series.Name + " (1)");
+            Assert.Equal(2, model.Series.Count);
+            Assert.Contains(model.Series, mt => mt.Value == dbCar1.Series.Name && mt.Text == dbCar1.Series.Name);
+            Assert.Contains(model.Series, mt => mt.Value == dbCar2.Series.Name && mt.Text == dbCar2.Series.Name);
+            Assert.True(model.Series.All(s => s.CarsCount == 1));
         }
 
         [Fact]
@@ -84,9 +52,10 @@ namespace BMWStore.Services.Tests.CarsFilterTypesServiceTests
 
             var model = await service.GetCarFilterModelAsync(dbContext.BaseCars, dbContext.BaseCars);
 
-            Assert.Equal(3, model.Years.Count);
-            Assert.Contains(model.Years, mt => mt.Value == dbCar1.Year && mt.Text == dbCar1.Year + " (1)");
-            Assert.Contains(model.Years, mt => mt.Value == dbCar2.Year && mt.Text == dbCar2.Year + " (1)");
+            Assert.Equal(2, model.Years.Count);
+            Assert.Contains(model.Years, mt => mt.Value == dbCar1.Year && mt.Text == dbCar1.Year);
+            Assert.Contains(model.Years, mt => mt.Value == dbCar2.Year && mt.Text == dbCar2.Year);
+            Assert.True(model.Years.All(s => s.CarsCount == 1));
         }
 
         private void AddYearToCar(ApplicationDbContext dbContext, BaseCar car, string year)

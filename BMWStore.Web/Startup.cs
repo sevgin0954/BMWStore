@@ -17,7 +17,6 @@ using BMWStore.Models;
 using CloudinaryDotNet;
 using BMWStore.Data.Repositories;
 using BMWStore.Services.AdminServices;
-using BMWStore.Services.CachedServices;
 using BMWStore.Services.Interfaces;
 using BMWStore.Web.Filters;
 
@@ -125,14 +124,13 @@ namespace BMWStore.Web
 
         private void RegisterServiceLayer(IServiceCollection services)
         {
-            services.AddSingleton<ICacheKeysService, CacheKeysService>();
+            services.AddSingleton<ICacheService, CacheService>();
 
             var serviceRegistrar = new ServiceCollectionRegistrar(services);
-            serviceRegistrar.AddIgnored(typeof(CacheKeysService));
+            serviceRegistrar.AddIgnored(typeof(CacheService));
             serviceRegistrar.AddScopedServices(typeof(CarModelTypeService));
             serviceRegistrar.AddScopedServices(typeof(CarRepository));
             serviceRegistrar.AddScopedServices(typeof(AdminCarsService));
-            serviceRegistrar.AddScopedServices(typeof(CachedCarsFilterTypesService));
         }
     }
 }

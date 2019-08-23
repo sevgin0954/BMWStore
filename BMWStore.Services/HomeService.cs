@@ -40,7 +40,6 @@ namespace BMWStore.Services
             var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(carsOfType);
 
             var carInventories = await this.carInventoriesService.GetInventoryFilterModelsAsync(cars);
-            FilterTypeHelper.SelectFilterTypes(carInventories, carType.ToString());
 
             var model = new HomeSearchBindingModel()
             {

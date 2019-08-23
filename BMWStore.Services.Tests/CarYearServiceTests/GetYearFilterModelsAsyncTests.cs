@@ -25,12 +25,13 @@ namespace BMWStore.Services.Tests.CarYearServiceTests
 
             var dbContext = this.GetDbContext();
             this.SeedCarWithYear(dbContext, year);
+            this.SeedCarWithYear(dbContext, year);
             var service = this.GetService();
 
             var models = await service.GetYearFilterModelsAsync(dbContext.BaseCars);
 
             Assert.Single(models);
-            Assert.Contains(models, m => m.Text == $"{year} ({1})");
+            Assert.Contains(models, m => m.Text == year && m.CarsCount == 2);
         }
 
         [Fact]
@@ -47,8 +48,8 @@ namespace BMWStore.Services.Tests.CarYearServiceTests
             var models = await service.GetYearFilterModelsAsync(dbContext.BaseCars);
 
             Assert.Equal(2, models.Count);
-            Assert.Contains(models, m => m.Text == $"{year1} ({1})");
-            Assert.Contains(models, m => m.Text == $"{year2} ({1})");
+            Assert.Contains(models, m => m.Text == year1 && m.CarsCount == 1);
+            Assert.Contains(models, m => m.Text == year2 && m.CarsCount == 1);
         }
 
         private void SeedCarWithYear(ApplicationDbContext dbContext, string year)

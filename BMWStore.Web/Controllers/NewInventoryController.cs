@@ -1,6 +1,5 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
-using BMWStore.Common.Helpers;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
@@ -9,7 +8,6 @@ using BMWStore.Helpers;
 using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Models.CarModels.ViewModels;
-using BMWStore.Services.CachedServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,25 +22,33 @@ namespace BMWStore.Web.Controllers
         private readonly INewCarRepository newCarRepository;
         private readonly ICarsService carsService;
         private readonly ICarsFilterTypesService carsFilterTypesService;
-        private readonly ICachedCarsFilterTypesService cachedCarsFilterTypesService;
+        private readonly ICacheService cacheService;
 
         public NewInventoryController(
             ICookiesService cookiesService,
             INewCarRepository newCarRepository,
             ICarsService carsService,
             ICarsFilterTypesService carsFilterTypesService,
-            ICachedCarsFilterTypesService cachedCarsFilterTypesService)
+            ICacheService cacheService)
         {
             this.cookiesService = cookiesService;
             this.newCarRepository = newCarRepository;
             this.carsService = carsService;
             this.carsFilterTypesService = carsFilterTypesService;
-            this.cachedCarsFilterTypesService = cachedCarsFilterTypesService;
+            this.cacheService = cacheService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(CarsInventoryBindingModel model)
         {
+            var key = KeyGenerator.Generate(
+                WebConstants.CacheNewInventoryPrepend,
+                model.ModelTypes,
+                model.PageNumber.ToString(),
+                model.PriceRange,
+                model.Series,
+                model.Year);
+
             var cookie = this.HttpContext.Request.Cookies;
 
             var sortDirectionKey = WebConstants.CookieUserNewCarsSortDirectionKey;
@@ -50,15 +56,6 @@ namespace BMWStore.Web.Controllers
 
             var sortTypeKey = WebConstants.CookieUserNewCarsSortTypeKey;
             var sortType = this.cookiesService.GetValueOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
-
-            var key = KeyGenerator.Generate(
-                WebConstants.CacheNewInventoryPrepend,
-                model,
-                model.ModelTypes,
-                model.PageNumber.ToString(),
-                model.PriceRange,
-                model.Series,
-                model.Year);
 
             var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
 
@@ -75,8 +72,19 @@ namespace BMWStore.Web.Controllers
 
             var currentPageCarModels = await this.carsService
                 .GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(filteredByMultipleCars, this.User, model.PageNumber);
-            var filterModel = await this.cachedCarsFilterTypesService
-                .GetCachedCarFilterModelAsync(key, sortedAndFilteredCars, filteredByMultipleCars);
+
+            CarsFilterViewModel filterModel;
+            var cachedModel = await this.cacheService.GetOrDefaultAsync<CarsFilterViewModel>(key);
+            if (cachedModel != null)
+            {
+                filterModel = cachedModel;
+            }
+            else
+            {
+                filterModel = await this.carsFilterTypesService
+                .GetCarFilterModelAsync(sortedAndFilteredCars, filteredByMultipleCars);
+            }
+
             var viewModel = new CarsInventoryViewModel()
             {
                 SortStrategyType = sortType,
@@ -90,6 +98,8 @@ namespace BMWStore.Web.Controllers
 
             this.carsFilterTypesService
                 .SelectModelFilterItems(filterModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
+
+            _ = this.cacheService.AddInfinityCacheAsync(filterModel, key, WebConstants.CacheCarsType);
 
             return View(viewModel);
         }

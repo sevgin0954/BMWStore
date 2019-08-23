@@ -1,15 +1,12 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.FilterStrategies;
 using BMWStore.Common.Enums.SortStrategies;
-using BMWStore.Common.Helpers;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Entities;
-using BMWStore.Helpers;
 using BMWStore.Models.CarModels.BindingModels;
 using BMWStore.Services.AdminServices.Interfaces;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
@@ -19,21 +16,18 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         private readonly IAdminCarsService adminCarsService;
         private readonly ICookiesService cookiesService;
         private readonly ISelectListItemsService selectListItemsService;
-        private readonly IDistributedCache cache;
-        private readonly ICacheKeysService cacheKeysService;
+        private readonly ICacheService cacheService;
 
         public CarsController(
             IAdminCarsService adminCarsService,
             ICookiesService cookiesService,
             ISelectListItemsService selectListItemsService,
-            IDistributedCache cache,
-            ICacheKeysService cacheKeysService)
+            ICacheService cacheService)
         {
             this.adminCarsService = adminCarsService;
             this.cookiesService = cookiesService;
             this.selectListItemsService = selectListItemsService;
-            this.cache = cache;
-            this.cacheKeysService = cacheKeysService;
+            this.cacheService = cacheService;
         }
 
         [HttpGet]
@@ -88,8 +82,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
                 await this.adminCarsService.CreateCarAsync<NewCar>(model);
             }
 
-            var keys = this.cacheKeysService.GetKeys(WebConstants.CacheCarsType);
-            await CacheHelper.RemoveCacheAsync(keys, this.cache);
+            await this.cacheService.RemoveAsync(WebConstants.CacheCarsType);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -99,8 +92,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         {
             await this.adminCarsService.DeleteAsync(id);
 
-            var keys = this.cacheKeysService.GetKeys(WebConstants.CacheCarsType);
-            await CacheHelper.RemoveCacheAsync(keys, this.cache);
+            await this.cacheService.RemoveAsync(WebConstants.CacheCarsType);
 
             return Redirect(WebConstants.AdminCarsUrl);
         }
@@ -122,8 +114,8 @@ namespace BMWStore.Web.Areas.Admin.Controllers
                 Series = series,
                 CarOptions = options
             };
-            await this.adminCarsService.SetEditBindingModelPropertiesAsync(model);
 
+            await this.adminCarsService.SetEditBindingModelPropertiesAsync(model);
 
             return View(model);
         }
@@ -140,8 +132,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
                 await this.adminCarsService.EditCarAsync<UsedCar>(model);
             }
 
-            var keys = this.cacheKeysService.GetKeys(WebConstants.CacheCarsType);
-            await CacheHelper.RemoveCacheAsync(keys, this.cache);
+            await this.cacheService.RemoveAsync(WebConstants.CacheCarsType);
 
             return RedirectToAction("Index");
         }

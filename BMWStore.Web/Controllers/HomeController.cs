@@ -19,15 +19,16 @@ namespace BMWStore.Web.Controllers
     {
         private readonly IHomeService homeService;
         private readonly ICarRepository carRepository;
+        private readonly ICacheService cacheService;
 
         public HomeController(
             IHomeService homeService, 
             ICarRepository carRepository,
-            INewCarRepository newCarRepository,
-            IUsedCarRepository usedCarRepository)
+            ICacheService cacheService)
         {
             this.homeService = homeService;
             this.carRepository = carRepository;
+            this.cacheService = cacheService;
         }
 
         [HttpGet]
@@ -48,6 +49,19 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<JsonResult> Filter(HomeSearchBindingModel model)
         {
+            var cacheKey = KeyGenerator.Generate(
+                WebConstants.CacheHomeFilterPrepend,
+                model.SelectedCarType.ToString(),
+                model.SelectedModelType,
+                model.SelectedPriceRange,
+                model.SelectedYear);
+
+            var cachedModel = await this.cacheService.GetOrDefaultAsync<HomeSearchBindingModel>(cacheKey);
+            if (cachedModel != null)
+            {
+                return Json(cachedModel);
+            }
+
             var priceRanges = ParameterParser.ParsePriceRange(model.SelectedPriceRange);
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.SelectedYear, priceRanges[0], priceRanges[1], WebConstants.AllFilterTypeModelValue);
@@ -57,6 +71,8 @@ namespace BMWStore.Web.Controllers
             filteredCars = mutipleFilterStrategy.Filter(filteredCars);
 
             var searchModel = await this.homeService.GetSearchModelAsync(filteredCars, model.SelectedCarType);
+
+            _ = this.cacheService.AddInfinityCacheAsync(searchModel, cacheKey, WebConstants.CacheCarsType);
 
             return Json(searchModel);
         }

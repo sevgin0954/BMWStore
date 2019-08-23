@@ -1,5 +1,5 @@
-﻿using BMWStore.Common.Helpers;
-using BMWStore.Entities;
+﻿using BMWStore.Entities;
+using BMWStore.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
