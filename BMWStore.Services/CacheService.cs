@@ -1,4 +1,6 @@
-﻿using BMWStore.Helpers;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Validation;
+using BMWStore.Helpers;
 using BMWStore.Services.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
@@ -21,6 +23,9 @@ namespace BMWStore.Services
 
         public async Task AddInfinityCacheAsync(object obj, string cacheKey, string cacheType)
         {
+            DataValidator.ValidateNotNullOrEmpty(cacheKey, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+            DataValidator.ValidateNotNullOrEmpty(cacheType, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+
             var serielizedModelAsBytes = JSonHelper.Serialize(obj);
             var options = new DistributedCacheEntryOptions()
             {
@@ -32,6 +37,8 @@ namespace BMWStore.Services
 
         public async Task<TResult> GetOrDefaultAsync<TResult>(string cacheKey) where TResult : class
         {
+            DataValidator.ValidateNotNullOrEmpty(cacheKey, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+
             var cachedResultAsBytes = await this.cache.GetAsync(cacheKey);
             if (cachedResultAsBytes == null)
             {
@@ -45,6 +52,8 @@ namespace BMWStore.Services
 
         public async Task RemoveAsync(string cacheType)
         {
+            DataValidator.ValidateNotNullOrEmpty(cacheType, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+
             if (this.cacheTypeCacheKeys.ContainsKey(cacheType))
             {
                 var keys = this.cacheTypeCacheKeys[cacheType];
