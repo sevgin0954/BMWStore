@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190702202924_addedUserEntitiesMigration.cs" />
+    <Compile Remove="Migrations\20190702202924_addedUserEntitiesMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190702224035_addedUserEntitiesMigration.cs" />
+    <Compile Remove="Migrations\20190702224035_addedUserEntitiesMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190707172539_addedNewUserColumsMigration.cs" />
+    <Compile Remove="Migrations\20190707172539_addedNewUserColumsMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190707172644_addedUserPropertiesMigration.cs" />
+    <Compile Remove="Migrations\20190707172644_addedUserPropertiesMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190707203835_addedRolesPropertiesToUserMigration.cs" />
+    <Compile Remove="Migrations\20190707203835_addedRolesPropertiesToUserMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190718224651_addedCarOptionMappingEntityMigration.cs" />
+    <Compile Remove="Migrations\20190718224651_addedCarOptionMappingEntityMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190731200726_changeCascadeDeleteOnBaseCarMigration.cs" />
+    <Compile Remove="Migrations\20190731200726_changeCascadeDeleteOnBaseCarMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190731202501_changeCascadeDeleteOnBaseCarAndAddedStoredProcMigration.cs" />
+    <Compile Remove="Migrations\20190731202501_changeCascadeDeleteOnBaseCarAndAddedStoredProcMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190801111019_makeOptionCascadeDeleteMigration.cs" />
+    <Compile Remove="Migrations\20190801111019_makeOptionCascadeDeleteMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Web\BMWStore.Models\BMWStore.Models.csproj" />
+    <ProjectReference Include="..\BMWStore.Entities\BMWStore.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
