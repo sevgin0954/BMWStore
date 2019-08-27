@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
-using BMWStore.Entities;
+using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.EngineModels.BindingModels
 {
-    public class EngineBindingModel : IMapTo<Engine>, IMapFrom<Engine>, IHaveCustomMappings
+    public class EngineBindingModel : IMapTo<EngineServiceModel>, IMapFrom<EngineServiceModel>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -32,9 +32,8 @@ namespace BMWStore.Models.EngineModels.BindingModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<EngineBindingModel, Engine>()
+            configuration.CreateMap<EngineBindingModel, EngineServiceModel>()
                 .ForMember(dest => dest.TransmissionId, opt => opt.MapFrom(src => src.SelectedTransmissionId))
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ReverseMap();
         }
     }

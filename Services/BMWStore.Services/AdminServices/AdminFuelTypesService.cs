@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,18 +20,29 @@ namespace BMWStore.Services.AdminServices
         private readonly IFuelTypeRepository fuelTypeRepository;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly IAdminEditService adminEditService;
-        private readonly IReadService readService;
 
         public AdminFuelTypesService(
             IFuelTypeRepository fuelTypeRepository,
             IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService,
-            IReadService readService)
+            IAdminEditService adminEditService)
         {
             this.fuelTypeRepository = fuelTypeRepository;
             this.adminDeleteService = adminDeleteService;
             this.adminEditService = adminEditService;
-            this.readService = readService;
+        }
+
+        public async Task CreateNewAsync(FuelTypeServiceModel model)
+        {
+            var dbFuelType = Mapper.Map<FuelType>(model);
+            this.fuelTypeRepository.Add(dbFuelType);
+
+            var rowsAffected = await this.fuelTypeRepository.CompleteAsync();
+            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+        }
+
+        public async Task DeleteAsync(string fuelTypeId)
+        {
+            await this.adminDeleteService.DeleteAsync<FuelType>(fuelTypeId);
         }
 
         public IQueryable<FuelTypeServiceModel> GetAll()
@@ -49,30 +63,21 @@ namespace BMWStore.Services.AdminServices
 
             return models;
         }
-        public async Task<TModel> GetByIdAsync<TModel>(string id) where TModel : class
+
+        public async Task<FuelTypeServiceModel> GetByIdAsync(string id)
         {
-            var model = await this.readService.GetModelByIdAsync<TModel, FuelType>(id);
+            var model = await this.fuelTypeRepository
+                .FindAll(id)
+                .To<FuelTypeServiceModel>()
+                .FirstOrDefaultAsync();
+            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
 
             return model;
-        }
-
-        public async Task CreateNewAsync(FuelTypeServiceModel model)
-        {
-            var dbFuelType = Mapper.Map<FuelType>(model);
-            this.fuelTypeRepository.Add(dbFuelType);
-
-            var rowsAffected = await this.fuelTypeRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
         }
 
         public async Task EditAsync(FuelTypeServiceModel model)
         {
             await this.adminEditService.EditAsync<FuelType, FuelTypeServiceModel>(model, model.Id);
-        }
-
-        public async Task DeleteAsync(string fuelTypeId)
-        {
-            await this.adminDeleteService.DeleteAsync<FuelType>(fuelTypeId);
         }
     }
 }

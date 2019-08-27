@@ -8,11 +8,11 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminTestDrivesService
     {
+        Task ChangeTestDriveStatusToPassedAsync(string testDriveId);
+        Task DeleteAsync(string testDriveId);
         IQueryable<TestDriveServiceModel> GetAllSorted(
             IQueryable<TestDrive> testDrives,
             ITestDriveSortStrategy sortStrategy,
             int pageNumber);
-        Task ChangeTestDriveStatusToPassedAsync(string testDriveId);
-        Task DeleteAsync(string testDriveId);
     }
 }

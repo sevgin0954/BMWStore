@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace BMWStore.Data.Repositories.Generic.Interfaces
         Task<int> CountAllAsync();
         Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        IEntityType FindEntityType(Type type);
         Task<TEntity> GetByIdAsync(params object[] keyValues);
         IQueryable<TEntity> GetAll();
         void Remove(TEntity entity);

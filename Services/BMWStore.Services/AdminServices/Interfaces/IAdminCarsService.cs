@@ -7,7 +7,7 @@ namespace BMWStore.Services.AdminServices.Interfaces
     public interface IAdminCarsService
     {
         Task CreateNewAsync<TCar>(CarServiceModel model) where TCar : BaseCar, new();
-        Task EditAsync<TCar>(CarServiceModel model) where TCar : BaseCar;
         Task DeleteAsync(string carId);
+        Task EditAsync<TCar>(CarServiceModel model) where TCar : BaseCar;
     }
 }

@@ -1,4 +1,5 @@
-﻿using BMWStore.Common.Constants;
+﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
@@ -59,9 +60,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Account(string id)
         {
-            var model = await this.adminUsersService.GetUserByIdAsync<UserAdminViewModel>(id);
+            var serviceModel = await this.adminUsersService.GetUserByIdAsync(id);
+            var viewModel = Mapper.Map<UserAdminViewModel>(serviceModel);
 
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]

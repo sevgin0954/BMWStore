@@ -30,7 +30,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
             var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
             SeedRolesMethods.SeedUserRole(dbContext);
 
-            var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await service.UnbanUserAsync(dbAdmin.Id));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await service.UnbanUserAsync(dbAdmin.Id));
             Assert.Equal(ErrorConstants.IncorrectUser, exception.Message);
         }
 
@@ -43,7 +43,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 
-            var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await service.UnbanUserAsync(dbUser.Id));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await service.UnbanUserAsync(dbUser.Id));
             Assert.Equal(ErrorConstants.IncorrectUser, exception.Message);
         }
 

@@ -10,12 +10,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
         protected IAdminOptionsService GetService(ApplicationDbContext dbContext)
         {
             var optionRepository = new OptionRepository(dbContext);
-            var readService = new ReadService(dbContext);
             var adminDeleteService = new AdminDeleteService(dbContext);
             var adminEditService = new AdminEditService(dbContext);
             var service = new AdminOptionsService(
-                optionRepository, 
-                readService, 
+                optionRepository,
                 adminDeleteService,
                 adminEditService);
 

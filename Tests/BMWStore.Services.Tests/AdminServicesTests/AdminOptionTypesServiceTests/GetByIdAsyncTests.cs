@@ -1,5 +1,4 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Models.OptionTypeModels.ViewModels;
 using BMWStore.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
@@ -16,7 +15,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionTypesServiceTest
             var incorrectId = Guid.NewGuid().ToString();
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => 
-                await service.GetByIdAsync<OptionTypeConciseViewModel>(incorrectId));
+                await service.GetByIdAsync(incorrectId));
             Assert.Equal(ErrorConstants.IncorrectId, exception.Message);
         }
 
@@ -27,7 +26,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionTypesServiceTest
             var dbOptionType = SeedOptionTypesMethods.SeedOptionType(dbContext);
             var service = this.GetService(dbContext);
 
-            var model = await service.GetByIdAsync<OptionTypeConciseViewModel>(dbOptionType.Id);
+            var model = await service.GetByIdAsync(dbOptionType.Id);
 
             Assert.NotNull(model);
         }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Entities;
 using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 
@@ -19,7 +18,7 @@ namespace BMWStore.Models.OptionModels.ViewModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Option, OptionViewModel>()
+            configuration.CreateMap<OptionServiceModel, OptionViewModel>()
                 .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(src => src.CarsOptions.Count))
                 .ForMember(dest => dest.OptionTypeName, opt => opt.MapFrom(src => src.OptionType.Name));
         }

@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.EngineStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,18 +21,29 @@ namespace BMWStore.Services.AdminServices
         private readonly IEngineRepository engineRepository;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly IAdminEditService adminEditService;
-        private readonly IReadService readService;
 
         public AdminEnginesService(
             IEngineRepository engineRepository,
             IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService,
-            IReadService readService)
+            IAdminEditService adminEditService)
         {
             this.engineRepository = engineRepository;
             this.adminDeleteService = adminDeleteService;
             this.adminEditService = adminEditService;
-            this.readService = readService;
+        }
+
+        public async Task CreateNewAsync(EngineServiceModel model)
+        {
+            var dbEngine = Mapper.Map<Engine>(model);
+            this.engineRepository.Add(dbEngine);
+
+            var rowsAffected = await this.engineRepository.CompleteAsync();
+            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+        }
+
+        public async Task DeleteAsync(string engineId)
+        {
+            await this.adminDeleteService.DeleteAsync<Engine>(engineId);
         }
 
         public IQueryable<EngineServiceModel> GetAll()
@@ -48,19 +62,13 @@ namespace BMWStore.Services.AdminServices
             return engineModels;
         }
 
-        public async Task CreateNewAsync(EngineServiceModel model)
+        public async Task<EngineServiceModel> GetByIdAsync(string id)
         {
-            var dbEngine = Mapper.Map<Engine>(model);
-            this.engineRepository.Add(dbEngine);
-
-            var rowsAffected = await this.engineRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
-        }
-
-        public async Task<TModel> GetEngineByIdAsync<TModel>(string id)
-            where TModel : class
-        {
-            var model = await this.readService.GetModelByIdAsync<TModel, Engine>(id);
+            var model = await this.engineRepository
+                .FindAll(id)
+                .To<EngineServiceModel>()
+                .FirstOrDefaultAsync();
+            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
 
             return model;
         }
@@ -68,11 +76,6 @@ namespace BMWStore.Services.AdminServices
         public async Task EditAsync(EngineServiceModel model)
         {
             await this.adminEditService.EditAsync<Engine, EngineServiceModel>(model, model.Id);
-        }
-
-        public async Task DeleteAsync(string engineId)
-        {
-            await this.adminDeleteService.DeleteAsync<Engine>(engineId);
         }
     }
 }

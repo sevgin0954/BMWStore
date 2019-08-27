@@ -1,12 +1,11 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Models.SeriesModels.ViewModels;
 using BMWStore.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
 {
-    public class GetByIdAsyncTests : BaseAdminSeriesServiceTest
+    public class GetByIdAsyncTests : BaseAdminSeriesServiceTest, IClassFixture<MapperFixture>
     {
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
@@ -16,7 +15,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
             var incorrectId = Guid.NewGuid().ToString();
 
             var exception = await Assert
-                .ThrowsAsync<ArgumentException>(async () => await service.GetByIdAsync<SeriesViewModel>(incorrectId));
+                .ThrowsAsync<ArgumentException>(async () => await service.GetByIdAsync(incorrectId));
             Assert.Equal(ErrorConstants.IncorrectId, exception.Message);
         }
 
@@ -27,7 +26,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
             var dbSeries = SeedSeriesMethods.SeedSeries(dbContext);
             var service = this.GetService(dbContext);
 
-            var model = await service.GetByIdAsync<SeriesViewModel>(dbSeries.Id);
+            var model = await service.GetByIdAsync(dbSeries.Id);
 
             Assert.NotNull(model);
         }

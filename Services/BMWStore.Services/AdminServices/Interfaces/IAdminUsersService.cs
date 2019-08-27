@@ -7,12 +7,12 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminUsersService
     {
-        Task<TModel> GetUserByIdAsync<TModel>(string id) where TModel : class;
+        Task BanUserAsync(string userId);
+        Task DeleteAsync(string userId);
         Task<IQueryable<UserServiceModel>> GetSortedUsersAsync(
             IUserSortStrategy sortStrategy,
             int pageNumber);
-        Task BanUserAsync(string userId);
+        Task<UserServiceModel> GetUserByIdAsync(string id);
         Task UnbanUserAsync(string userId);
-        Task DeleteAsync(string userId);
     }
 }

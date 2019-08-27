@@ -6,6 +6,7 @@ using BMWStore.Services.Models;
 using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
@@ -22,11 +23,11 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var models = await this.seriesService.GetAll()
-                .To<SeriesViewModel>()
+            var serviceModels = await this.seriesService.GetAll()
                 .ToArrayAsync();
+            var viewModels = Mapper.Map<IEnumerable<SeriesViewModel>>(serviceModels);
 
-            return View(models);
+            return View(viewModels);
         }
 
         [HttpGet]
@@ -49,9 +50,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await this.seriesService.GetByIdAsync<SeriesBindingModel>(id);
+            var serviceModel = await this.seriesService.GetByIdAsync(id);
+            var editingModel = Mapper.Map<SeriesBindingModel>(serviceModel);
 
-            return View(model);
+            return View(editingModel);
         }
 
         [HttpPost]

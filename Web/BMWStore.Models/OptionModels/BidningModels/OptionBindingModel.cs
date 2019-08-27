@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.OptionModels.BidningModels
 {
-    public class OptionBindingModel : IMapTo<OptionServiceModel>
+    public class OptionBindingModel : IMapTo<OptionServiceModel>, IMapFrom<OptionServiceModel>
     {
         public string Id { get; set; }
 

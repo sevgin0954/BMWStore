@@ -1,13 +1,13 @@
-﻿using BMWStore.Entities;
-using BMWStore.Models.CarModels.ViewModels;
+﻿using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.UserModels.ViewModels;
 using MappingRegistrar.Interfaces;
 using System;
 using BMWStore.Models.TestDriveStatusModels.ViewModels;
+using BMWStore.Services.Models;
 
 namespace BMWStore.Models.TestDriveModels.ViewModels
 {
-    public class TestDriveViewModel : IMapFrom<TestDrive>
+    public class TestDriveViewModel : IMapFrom<TestDriveServiceModel>
     {
         public string Id { get; set; }
 

@@ -1,18 +1,23 @@
-﻿using BMWStore.Entities;
+﻿using AutoMapper;
+using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace BMWStore.Services.Models
 {
-    public class UserServiceModel : IdentityUser, IMapFrom<User>
+    public class UserServiceModel : IdentityUser, IMapFrom<User>, IHaveCustomMappings
     {
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public ICollection<TestDriveServiceModel> TestDrives { get; set; } = new List<TestDriveServiceModel>();
+        public int TestDrivesCount { get; set; }
 
-        public ICollection<IdentityUserRole<string>> Roles { get; set; } = new List<IdentityUserRole<string>>();
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<User, UserServiceModel>()
+                .ForMember(dest => dest.TestDrivesCount, opt => opt.MapFrom(src => src.TestDrives.Count()));
+        }
     }
 }

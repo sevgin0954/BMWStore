@@ -2,6 +2,7 @@
 using BMWStore.Entities;
 using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
+using System.Linq;
 
 namespace BMWStore.Models.SeriesModels.ViewModels
 {
@@ -16,7 +17,7 @@ namespace BMWStore.Models.SeriesModels.ViewModels
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Series, SeriesViewModel>()
-                .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(dest => dest.Cars.Count));
+                .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(dest => dest.Cars.Count()));
         }
     }
 }

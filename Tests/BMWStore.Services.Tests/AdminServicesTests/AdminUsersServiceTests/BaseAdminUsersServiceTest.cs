@@ -24,12 +24,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         {
             var roleRepository = new RoleRepository(dbContext);
             var userRepository = new UserRepository(dbContext);
-            var readService = new ReadService(dbContext);
             var service = new AdminUsersService(
                 userManager,
                 roleRepository,
-                userRepository,
-                readService);
+                userRepository);
 
             return service;
         }

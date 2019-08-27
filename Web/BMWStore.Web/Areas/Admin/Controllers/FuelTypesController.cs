@@ -60,9 +60,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await this.fuelTypesService.GetByIdAsync<FuelTypeBindingModel>(id);
+            var serviceModel = await this.fuelTypesService.GetByIdAsync(id);
+            var bindingModel = Mapper.Map<FuelTypeBindingModel>(serviceModel);
 
-            return View(model);
+            return View(bindingModel);
         }
 
         [HttpPost]

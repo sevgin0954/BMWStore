@@ -1,22 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BMWStore.Data.Repositories.Generic.Interfaces;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace BMWStore.Common.Extensions
+namespace BMWStore.Data.Repositories.Extensions
 {
-    // TODO: Remove
     public static class DbContextFindAllExtensions
     {
         private static readonly MethodInfo ContainsMethod = typeof(Enumerable).GetMethods()
             .FirstOrDefault(m => m.Name == "Contains" && m.GetParameters().Length == 2)
             .MakeGenericMethod(typeof(object));
 
-        public static IQueryable<TEntity> FindAll<TEntity>(this DbContext dbContext, params object[] keyValues)
+        public static IQueryable<TEntity> FindAll<TEntity>(this IRepository<TEntity> repository, params object[] keyValues)
             where TEntity : class
         {
-            var entityType = dbContext.Model.FindEntityType(typeof(TEntity));
+            var entityType = repository.FindEntityType(typeof(TEntity));
             var primaryKey = entityType.FindPrimaryKey();
             if (primaryKey.Properties.Count != 1)
                 throw new NotSupportedException("Only a single primary key is supported");
@@ -44,7 +43,7 @@ namespace BMWStore.Common.Extensions
             var predicateExpression = Expression.Lambda<Func<TEntity, bool>>(body, parameter);
 
             // run query
-            return dbContext.Set<TEntity>().Where(predicateExpression);
+            return repository.Find(predicateExpression);
         }
     }
 }

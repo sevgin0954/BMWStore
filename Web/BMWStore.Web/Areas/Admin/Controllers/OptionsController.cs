@@ -16,6 +16,7 @@ using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
@@ -25,15 +26,18 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         private readonly IAdminOptionsService adminOptionsService;
         private readonly ICookiesService cookiesService;
         private readonly IOptionRepository optionRepository;
+        private readonly IAdminOptionTypesService adminOptionTypesService;
 
         public OptionsController(
             IAdminOptionsService adminOptionsService,
             ICookiesService cookiesService,
-            IOptionRepository optionRepository)
+            IOptionRepository optionRepository,
+            IAdminOptionTypesService adminOptionTypesService)
         {
             this.adminOptionsService = adminOptionsService;
             this.cookiesService = cookiesService;
             this.optionRepository = optionRepository;
+            this.adminOptionTypesService = adminOptionTypesService;
         }
 
         [HttpGet]
@@ -55,14 +59,15 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var allOptions = this.optionRepository.GetAll();
             var filteredOptions = filterStrategy.Filter(allOptions);
 
-            var optionModels = await this.adminOptionsService.GetAllSorted(filteredOptions, sortStrategy, pageNumber)
-                .To<OptionViewModel>()
+            var optionServiceModels = await this.adminOptionsService
+                .GetAllSorted(filteredOptions, sortStrategy, pageNumber)
                 .ToArrayAsync();
+            var optionViewModels = Mapper.Map<IEnumerable<OptionViewModel>>(optionServiceModels);
 
             var model = new AdminOptionsViewModel()
             {
                 CurrentPage = pageNumber,
-                Options = optionModels,
+                Options = optionViewModels,
                 TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredOptions),
                 SortStrategyDirection = sortDirection,
                 SortStrategyType = sortType
@@ -105,9 +110,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await this.adminOptionsService.GetByIdAsync<OptionBindingModel>(id);
+            var optionServiceModel = await this.adminOptionsService.GetByIdAsync(id);
+            var optionBindingModel = Mapper.Map<OptionBindingModel>(optionServiceModel);
+            var optionTypes = await this.adminOptionTypesService.GetAll().To<SelectListItem>().ToArrayAsync();
+            optionBindingModel.OptionTypes = optionTypes;
+            SelectListItemHelper.SelectItemsWithValues(optionBindingModel.OptionTypes, optionBindingModel.OptionTypeId);
 
-            return View(model);
+            return View(optionBindingModel);
         }
 
         [HttpPost]

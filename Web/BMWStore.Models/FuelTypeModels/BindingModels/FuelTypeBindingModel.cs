@@ -1,12 +1,11 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
-using BMWStore.Entities;
+﻿using BMWStore.Common.Constants;
+using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.FuelTypeModels.BindingModels
 {
-    public class FuelTypeBindingModel : IMapTo<FuelType>, IMapFrom<FuelType>, IHaveCustomMappings
+    public class FuelTypeBindingModel : IMapTo<FuelTypeServiceModel>, IMapFrom<FuelTypeServiceModel>
     {
         public string Id { get; set; }
 
@@ -14,11 +13,5 @@ namespace BMWStore.Models.FuelTypeModels.BindingModels
         [MinLength(EntitiesConstants.FuelTypeNameMinLength)]
         [Required]
         public string Name { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<FuelTypeBindingModel, FuelType>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
-        }
     }
 }

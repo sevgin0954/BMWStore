@@ -1,4 +1,5 @@
-﻿using BMWStore.Common.Constants;
+﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.FilterStrategies;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
@@ -12,6 +13,7 @@ using BMWStore.Services.Interfaces;
 using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Areas.Admin.Controllers
@@ -51,14 +53,14 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
             var allTestDrives = this.testDriveRepository.GetAll();
             var filteredTestDrives = filterStrategy.Filter(allTestDrives);
-            var testDriveModels = await this.adminTestDrivesService
-                .GetAllSorted(filteredTestDrives, sortStrategy, pageNumber)
-                .To<TestDriveViewModel>()
-                .ToArrayAsync();
+
+            var testDriveServiceModels = await this.adminTestDrivesService
+                .GetAllSorted(filteredTestDrives, sortStrategy, pageNumber).ToArrayAsync();
+            var testDriveViewModels = Mapper.Map<IEnumerable<TestDriveViewModel>> (testDriveServiceModels);
             var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredTestDrives);
             var model = new AdminTestDrivesViewModel()
             {
-                TestDrives = testDriveModels,
+                TestDrives = testDriveViewModels,
                 SortDirection = sortDirection,
                 SortStrategyType = sortType,
                 CurrentPage = pageNumber,

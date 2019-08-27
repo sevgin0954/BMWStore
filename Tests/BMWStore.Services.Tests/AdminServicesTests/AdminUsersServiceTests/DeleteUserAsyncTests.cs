@@ -31,7 +31,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
             var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
             SeedRolesMethods.SeedUserRole(dbContext);
 
-            var exception = await Assert.ThrowsAsync<ArgumentException>(async () => 
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => 
                 await service.DeleteAsync(dbAdmin.Id));
             Assert.Equal(ErrorConstants.IncorrectUser, exception.Message);
         }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BMWStore.Entities;
 using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 using System;
@@ -22,8 +21,8 @@ namespace BMWStore.Models.UserModels.ViewModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<User, UserAdminViewModel>()
-                .ForMember(dest => dest.TestDrivesCount, opt => opt.MapFrom(src => src.TestDrives.Count))
+            configuration.CreateMap<UserServiceModel, UserAdminViewModel>()
+                .ForMember(dest => dest.TestDrivesCount, opt => opt.MapFrom(src => src.TestDrivesCount))
                 .ForMember(dest => dest.IsBanned, opt => opt.MapFrom(src => src.LockoutEnd > DateTime.UtcNow));
         }
     }

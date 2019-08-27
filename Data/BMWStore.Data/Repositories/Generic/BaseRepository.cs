@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BMWStore.Data.Repositories.Generic.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BMWStore.Data.Repositories.Generic
 {
@@ -54,6 +55,11 @@ namespace BMWStore.Data.Repositories.Generic
                 .Where(predicate);
 
             return result;
+        }
+
+        public IEntityType FindEntityType(Type type)
+        {
+            return this.dbContext.Model.FindEntityType(type);
         }
 
         public IQueryable<TEntity> GetAll()

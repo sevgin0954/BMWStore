@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.OptionStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,27 +19,39 @@ namespace BMWStore.Services.AdminServices
     public class AdminOptionsService : IAdminOptionsService
     {
         private readonly IOptionRepository optionRepository;
-        private readonly IReadService readService;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly IAdminEditService adminEditService;
 
         public AdminOptionsService(
             IOptionRepository optionRepository, 
-            IReadService readService,
             IAdminDeleteService adminDeleteService,
             IAdminEditService adminEditService)
         {
             this.optionRepository = optionRepository;
-            this.readService = readService;
             this.adminDeleteService = adminDeleteService;
             this.adminEditService = adminEditService;
         }
 
-        public async Task<TModel> GetByIdAsync<TModel>(string id) where TModel : class
+        public async Task CreateNewAsync(OptionServiceModel model)
         {
-            var model = await this.readService.GetModelByIdAsync<TModel, Option>(id);
+            var dbOption = Mapper.Map<Option>(model);
+            this.optionRepository.Add(dbOption);
 
-            return model;
+            var rowsAffected = await this.optionRepository.CompleteAsync();
+            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+        }
+
+        public async Task DeleteAsync(string optionId)
+        {
+            await this.adminDeleteService.DeleteAsync<Option>(optionId);
+        }
+
+        public IQueryable<OptionServiceModel> GetAll()
+        {
+            var optionModels = this.optionRepository.GetAll()
+                .To<OptionServiceModel>();
+
+            return optionModels;
         }
 
         public IQueryable<OptionServiceModel> GetAllSorted(
@@ -52,31 +67,20 @@ namespace BMWStore.Services.AdminServices
             return currentPageOptionModels;
         }
 
-        public IQueryable<OptionServiceModel> GetAll()
+        public async Task<OptionServiceModel> GetByIdAsync(string id)
         {
-            var optionModels = this.optionRepository.GetAll()
-                .To<OptionServiceModel>();
+            var model = await this.optionRepository
+                .FindAll(id)
+                .To<OptionServiceModel>()
+                .FirstOrDefaultAsync();
+            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
 
-            return optionModels;
-        }
-
-        public async Task CreateNewAsync(OptionServiceModel model)
-        {
-            var dbOption = Mapper.Map<Option>(model);
-            this.optionRepository.Add(dbOption);
-
-            var rowsAffected = await this.optionRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+            return model;
         }
 
         public async Task EditAsync(OptionServiceModel model)
         {
             await this.adminEditService.EditAsync<Option, OptionServiceModel>(model, model.Id);
-        }
-
-        public async Task DeleteAsync(string optionId)
-        {
-            await this.adminDeleteService.DeleteAsync<Option>(optionId);
         }
     }
 }

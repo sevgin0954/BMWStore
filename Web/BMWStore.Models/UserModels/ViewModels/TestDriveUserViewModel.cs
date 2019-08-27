@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using BMWStore.Entities;
+﻿using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 
 namespace BMWStore.Models.UserModels.ViewModels
 {
-    public class TestDriveUserViewModel : IMapFrom<User>
+    public class TestDriveUserViewModel : IMapFrom<UserServiceModel>
     {
         public string Id { get; set; }
 

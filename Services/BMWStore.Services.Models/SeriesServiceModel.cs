@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace BMWStore.Services.Models
 {
@@ -9,13 +9,16 @@ namespace BMWStore.Services.Models
     {
         public string Id { get; set; }
 
-        public ICollection<CarServiceModel> Cars { get; set; } = new List<CarServiceModel>();
+        public int CarsCount { get; set; }
 
         public string Name { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Series, SeriesServiceModel>()
+                .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(src => src.Cars.Count()));
+
+            configuration.CreateMap<SeriesServiceModel, Series>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }

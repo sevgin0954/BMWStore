@@ -2,7 +2,7 @@
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace BMWStore.Services.Models
 {
@@ -10,7 +10,7 @@ namespace BMWStore.Services.Models
     {
         public string Id { get; set; }
 
-        public ICollection<CarServiceModel> Cars { get; set; } = new List<CarServiceModel>();
+        public int CarsCount { get; set; }
 
         public string Name { get; set; }
 
@@ -29,6 +29,9 @@ namespace BMWStore.Services.Models
 
             configuration.CreateMap<EngineServiceModel, Engine>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            configuration.CreateMap<Engine, EngineServiceModel>()
+                .ForMember(dest => dest.CarsCount, opt => opt.MapFrom(src => src.Cars.Count()));
         }
     }
 }

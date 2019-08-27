@@ -21,11 +21,8 @@ namespace BMWStore.Tests.Common.CreateMethods
             var model = Create(id);
             model.Options = options.Select(o => new CarOptionServiceModel()
             {
-                Option = new OptionServiceModel()
-                {
-                    Id = o.Id,
-                    Name = o.Name
-                }
+                OptionId = o.Id,
+                OptionName = o.Name
             }).ToList();
 
             return model;

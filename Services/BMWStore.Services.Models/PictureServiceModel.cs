@@ -9,7 +9,6 @@ namespace BMWStore.Services.Models
         public string Id { get; set; }
 
         public string CarId { get; set; }
-        public CarServiceModel Car { get; set; }
 
         public string PublicId { get; set; }
 

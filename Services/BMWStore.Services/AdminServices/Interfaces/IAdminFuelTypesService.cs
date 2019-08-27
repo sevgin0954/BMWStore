@@ -6,11 +6,11 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminFuelTypesService
     {
+        Task CreateNewAsync(FuelTypeServiceModel model);
+        Task DeleteAsync(string fuelTypeId);
         IQueryable<FuelTypeServiceModel> GetAll();
         IQueryable<FuelTypeServiceModel> GetAll(int pageNumber);
-        Task<TModel> GetByIdAsync<TModel>(string id) where TModel : class;
-        Task CreateNewAsync(FuelTypeServiceModel model);
+        Task<FuelTypeServiceModel> GetByIdAsync(string id);
         Task EditAsync(FuelTypeServiceModel model);
-        Task DeleteAsync(string fuelTypeId);
     }
 }

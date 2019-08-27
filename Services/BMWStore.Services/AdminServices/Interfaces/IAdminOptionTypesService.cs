@@ -6,10 +6,10 @@ namespace BMWStore.Services.AdminServices.Interfaces
 {
     public interface IAdminOptionTypesService
     {
-        Task<TModel> GetByIdAsync<TModel>(string id) where TModel : class;
-        IQueryable<OptionTypeServiceModel> GetAll();
         Task CreateNewAsync(OptionTypeServiceModel model);
-        Task EditAsync(OptionTypeServiceModel model);
         Task DeleteAsync(string optionTypeId);
+        IQueryable<OptionTypeServiceModel> GetAll();
+        Task<OptionTypeServiceModel> GetByIdAsync(string id);
+        Task EditAsync(OptionTypeServiceModel model);
     }
 }

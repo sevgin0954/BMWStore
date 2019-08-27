@@ -1,14 +1,15 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
+using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,39 +21,15 @@ namespace BMWStore.Services.AdminServices
         private readonly UserManager<User> userManager;
         private readonly IRoleRepository roleRepository;
         private readonly IUserRepository userRepository;
-        private readonly IReadService readService;
 
         public AdminUsersService(
             UserManager<User> userManager,
             IRoleRepository roleRepository,
-            IUserRepository userRepository,
-            IReadService readService)
+            IUserRepository userRepository)
         {
             this.userManager = userManager;
             this.roleRepository = roleRepository;
             this.userRepository = userRepository;
-            this.readService = readService;
-        }
-
-        public async Task<TModel> GetUserByIdAsync<TModel>(string id) where TModel : class
-        {
-            var model = await this.readService.GetModelByIdAsync<TModel, User>(id);
-
-            return model;
-        }
-
-        public async Task<IQueryable<UserServiceModel>> GetSortedUsersAsync(
-            IUserSortStrategy sortStrategy, 
-            int pageNumber)
-        {
-            var dbUserRoleId = await this.roleRepository
-                .GetIdByNameAsync(WebConstants.UserRoleName);
-
-            var sortedUserModels = this.userRepository.GetSortedWithRole(sortStrategy, dbUserRoleId)
-                .To<UserServiceModel>()
-                .GetFromPage(pageNumber);
-
-            return sortedUserModels;
         }
 
         public async Task BanUserAsync(string userId)
@@ -60,7 +37,7 @@ namespace BMWStore.Services.AdminServices
             var dbUser = await this.GetValidatedUser(userId);
             if (this.IsUserBanned(dbUser))
             {
-                throw new ArgumentException(ErrorConstants.IncorrectUser);
+                throw new InvalidOperationException(ErrorConstants.IncorrectUser);
             }
 
             dbUser.LockoutEnd = DateTimeOffset.UtcNow.AddDays(WebConstants.UserBanDays);
@@ -69,12 +46,49 @@ namespace BMWStore.Services.AdminServices
             RepositoryValidator.ValidateCompleteChanges(rowsAffected);
         }
 
+        public async Task DeleteAsync(string userId)
+        {
+            var dbUser = await this.userRepository.GetByIdAsync(userId);
+            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
+            await this.ValidateUserRoleAsync(dbUser);
+
+            this.userRepository.Remove(dbUser);
+
+            var rowsAffected = await userRepository.CompleteAsync();
+            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+        }
+
+        public async Task<IQueryable<UserServiceModel>> GetSortedUsersAsync(
+            IUserSortStrategy sortStrategy,
+            int pageNumber)
+        {
+            var dbUserRoleId = await this.roleRepository
+                .GetIdByNameAsync(WebConstants.UserRoleName);
+
+            var sortedUserModels = this.userRepository.GetSortedWithRole(sortStrategy, dbUserRoleId)
+                .GetFromPage(pageNumber)
+                .To<UserServiceModel>();
+
+            return sortedUserModels;
+        }
+
+        public async Task<UserServiceModel> GetUserByIdAsync(string id)
+        {
+            var model = await this.userRepository
+                .FindAll(id)
+                .To<UserServiceModel>()
+                .FirstOrDefaultAsync();
+            DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
+
+            return model;
+        }
+
         public async Task UnbanUserAsync(string userId)
         {
             var dbUser = await this.GetValidatedUser(userId);
             if (this.IsUserBanned(dbUser) == false)
             {
-                throw new ArgumentException(ErrorConstants.IncorrectUser);
+                throw new InvalidOperationException(ErrorConstants.IncorrectUser);
             }
 
             dbUser.LockoutEnd = null;
@@ -92,6 +106,14 @@ namespace BMWStore.Services.AdminServices
             return dbUser;
         }
 
+        private async Task ValidateUserRoleAsync(User user)
+        {
+            if (await this.userManager.IsInRoleAsync(user, WebConstants.UserRoleName) == false)
+            {
+                throw new InvalidOperationException(ErrorConstants.IncorrectUser);
+            }
+        }
+
         private bool IsUserBanned(User user)
         {
             if (user.LockoutEnd > DateTimeOffset.UtcNow)
@@ -100,26 +122,6 @@ namespace BMWStore.Services.AdminServices
             }
 
             return false;
-        }
-
-        public async Task DeleteAsync(string userId)
-        {
-            var dbUser = await this.userRepository.GetByIdAsync(userId);
-            DataValidator.ValidateNotNull(dbUser, new ArgumentException(ErrorConstants.IncorrectId));
-            await this.ValidateUserRoleAsync(dbUser);
-
-            this.userRepository.Remove(dbUser);
-
-            var rowsAffected = await userRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
-        }
-
-        private async Task ValidateUserRoleAsync(User user)
-        {
-            if (await this.userManager.IsInRoleAsync(user, WebConstants.UserRoleName) == false)
-            {
-                throw new ArgumentException(ErrorConstants.IncorrectUser);
-            }
         }
     }
 }

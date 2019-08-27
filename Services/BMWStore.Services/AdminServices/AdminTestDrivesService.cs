@@ -31,20 +31,6 @@ namespace BMWStore.Services.AdminServices
             this.adminDeleteService = adminDeleteService;
         }
 
-        public IQueryable<TestDriveServiceModel> GetAllSorted(
-            IQueryable<TestDrive> testDrives,
-            ITestDriveSortStrategy sortStrategy,
-            int pageNumber)
-        {
-            var sortedTestDrives = sortStrategy.Sort(testDrives);
-
-            var testDriveModels = sortedTestDrives
-                .GetFromPage(pageNumber)
-                .To<TestDriveServiceModel>();
-
-            return testDriveModels;
-        }
-
         public async Task ChangeTestDriveStatusToPassedAsync(string testDriveId)
         {
             var dbTestDrive = await this.testDriveRepository.GetByIdAsync(testDriveId);
@@ -61,6 +47,25 @@ namespace BMWStore.Services.AdminServices
             RepositoryValidator.ValidateCompleteChanges(rowsAffected);
         }
 
+        public async Task DeleteAsync(string testDriveId)
+        {
+            await this.adminDeleteService.DeleteAsync<TestDrive>(testDriveId);
+        }
+
+        public IQueryable<TestDriveServiceModel> GetAllSorted(
+            IQueryable<TestDrive> testDrives,
+            ITestDriveSortStrategy sortStrategy,
+            int pageNumber)
+        {
+            var sortedTestDrives = sortStrategy.Sort(testDrives);
+
+            var testDriveModels = sortedTestDrives
+                .GetFromPage(pageNumber)
+                .To<TestDriveServiceModel>();
+
+            return testDriveModels;
+        }
+
         private async Task ValidateTestDriveStatus(TestDrive dbTestDrive)
         {
             var dbUpcomingStatusId = await this.statusRepository
@@ -72,11 +77,6 @@ namespace BMWStore.Services.AdminServices
             {
                 throw new InvalidOperationException(ErrorConstants.StatusIsNotUpcoming);
             }
-        }
-
-        public async Task DeleteAsync(string testDriveId)
-        {
-            await this.adminDeleteService.DeleteAsync<TestDrive>(testDriveId);
         }
     }
 }

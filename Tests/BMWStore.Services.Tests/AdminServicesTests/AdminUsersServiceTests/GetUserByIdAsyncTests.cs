@@ -3,9 +3,9 @@ using BMWStore.Tests.Common.SeedTestMethods;
 using System;
 using Xunit;
 
-namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
+namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
 {
-    public class GetByIdAsyncTests : BaseAdminOptionsServiceTest, IClassFixture<MapperFixture>
+    public class GetUserByIdAsyncTests : BaseAdminUsersServiceTest, IClassFixture<MapperFixture>
     {
         [Fact]
         public async void WithIncorrectId_ShouldThrowException()
@@ -14,19 +14,19 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminOptionsServiceTests
             var service = this.GetService(dbContext);
             var incorrectId = Guid.NewGuid().ToString();
 
-            var exception = await Assert.ThrowsAsync<ArgumentException>(async () =>
-                await service.GetByIdAsync(incorrectId));
+            var exception = await Assert
+                .ThrowsAsync<ArgumentException>(async () => await service.GetUserByIdAsync(incorrectId));
             Assert.Equal(ErrorConstants.IncorrectId, exception.Message);
         }
 
         [Fact]
-        public async void WithCorrectId_ShouldReturnOption()
+        public async void WithCorrectId_ShouldReturnUser()
         {
             var dbContext = this.GetDbContext();
-            var dbOption = SeedOptionsMethods.SeedOptionWithOptionType(dbContext);
+            var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
             var service = this.GetService(dbContext);
 
-            var model = await service.GetByIdAsync(dbOption.Id);
+            var model = await service.GetUserByIdAsync(dbUser.Id);
 
             Assert.NotNull(model);
         }

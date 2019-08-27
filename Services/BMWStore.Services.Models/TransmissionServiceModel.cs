@@ -2,15 +2,12 @@
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 
 namespace BMWStore.Services.Models
 {
     public class TransmissionServiceModel : IMapTo<SelectListItem>, IMapFrom<Transmission>, IHaveCustomMappings
     {
         public string Id { get; set; }
-
-        public ICollection<EngineServiceModel> Engines { get; set; } = new List<EngineServiceModel>();
 
         public string Name { get; set; }
 

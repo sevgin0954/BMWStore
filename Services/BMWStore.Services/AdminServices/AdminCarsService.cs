@@ -42,6 +42,11 @@ namespace BMWStore.Services.AdminServices
             RepositoryValidator.ValidateCompleteChanges(rowsAffected);
         }
 
+        public async Task DeleteAsync(string carId)
+        {
+            await this.adminDeleteService.DeleteAsync<BaseCar>(carId);
+        }
+
         public async Task EditAsync<TCar>(CarServiceModel model) where TCar : BaseCar
         {
             var dbCar = await this.carRepository.Set<TCar>().FindAsync(model.Id);
@@ -62,11 +67,6 @@ namespace BMWStore.Services.AdminServices
 
             var rowsAffected = await this.carOptionRepository.CompleteAsync();
             RepositoryValidator.ValidateCompleteChanges(rowsAffected);
-        }
-
-        public async Task DeleteAsync(string carId)
-        {
-            await this.adminDeleteService.DeleteAsync<BaseCar>(carId);
         }
     }
 }

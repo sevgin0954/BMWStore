@@ -14,6 +14,7 @@ using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,13 +50,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortType = this.cookiesService.GetValueOrDefault<EngineSortStrategy>(cookies, sortTypeKey);
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
             var sortStrategy = EnginesSortStrategyFactory.GetStrategy(sortType, sortDirection);
-            var sortedEngines = this.enginesService.GetSorted(sortStrategy, pageNumber);
-            var engineModels = await sortedEngines.To<EngineViewModel>().ToArrayAsync();
+            var engineServiceModels = await this.enginesService.GetSorted(sortStrategy, pageNumber).ToArrayAsync();
+            var engineViewModels = Mapper.Map<IEnumerable<EngineViewModel>>(engineServiceModels);
 
             var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(this.engineRepository.GetAll());
             var model = new AdminEnginesViewModel()
             {
-                Engines = engineModels,
+                Engines = engineViewModels,
                 CurrentPage = pageNumber,
                 TotalPagesCount = totalPagesCount,
                 SortStrategyDirection = sortDirection,
@@ -96,14 +97,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var bindingModel = await this.enginesService.GetEngineByIdAsync<EngineBindingModel>(id);
-
+            var serviceModel = await this.enginesService.GetByIdAsync(id);
+            var bindingModel = Mapper.Map<EngineBindingModel>(serviceModel);
             var allTransmissions = await this.adminTransmissionsService.GetAll().To<SelectListItem>().ToArrayAsync();
+            bindingModel.Transmissions = allTransmissions;
 
             var selectedTransmissionsId = bindingModel.Transmissions.Select(t => t.Value).First();
-            SelectListItemHelper.SelectItemsWithValues(allTransmissions, selectedTransmissionsId);
-
-            bindingModel.Transmissions = allTransmissions;
+            SelectListItemHelper.SelectItemsWithValues(bindingModel.Transmissions, selectedTransmissionsId);
 
             return View(bindingModel);
         }
