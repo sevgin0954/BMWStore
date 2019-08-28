@@ -1,10 +1,8 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Tests.Common.CreateMethods;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
-using System.Threading;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CacheServiceTests
@@ -22,7 +20,8 @@ namespace BMWStore.Services.Tests.CacheServiceTests
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () => 
                 await service.AddInfinityCacheAsync(new object(), cacheKey, cacheType));
-            Assert.Equal(ErrorConstants.CantBeNullOrEmpty, exception.Message);
+            var expectedExceptionMessage = ErrorConstants.CantBeNullOrEmptyParameter + "\r\nParameter name: cacheKey";
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
 
         [Theory]
@@ -36,7 +35,8 @@ namespace BMWStore.Services.Tests.CacheServiceTests
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(async () =>
                 await service.AddInfinityCacheAsync(new object(), cacheKey, cacheType));
-            Assert.Equal(ErrorConstants.CantBeNullOrEmpty, exception.Message);
+            var expectedExceptionMessage = ErrorConstants.CantBeNullOrEmptyParameter + "\r\nParameter name: cacheType";
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
 
         [Fact]

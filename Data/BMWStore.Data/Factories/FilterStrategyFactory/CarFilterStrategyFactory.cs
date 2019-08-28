@@ -57,7 +57,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
 
         private static ICarFilterStrategy CreateSeriesStrategy(string seriesName)
         {
-            DataValidator.ValidateNotNullOrEmpty(seriesName, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+            DataValidator.ValidateNotNullOrEmpty(seriesName, new ArgumentException(ErrorConstants.CantBeNullOrEmptyParameter));
             var filterStrategy = new FilterCarsByPredicateStrategy(c => c.Series.Name == seriesName);
 
             return filterStrategy;

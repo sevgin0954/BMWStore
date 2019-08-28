@@ -2,8 +2,8 @@
 {
     public class ErrorConstants
     {
-        public const string CantBeNullOrEmpty = "String cant be null or empty";
         public const string CantBeNullParameter = "Parameter cant be null";
+        public const string CantBeNullOrEmptyParameter = "Parameter cant be null or empty";
 
         public const string EmptyCollection = "The collection was empty";
 
@@ -15,6 +15,8 @@
         public const string IncorrectUser = "You cant do that action on that user";
 
         public const string IncorrectGenericType = "Incorrect generic type";
+
+        public const string InvalidDateTime = "Invalid datetime";
 
         public const string UnitOfWorkNoRowsAffected = "No rows affected in unit of work complete";
 

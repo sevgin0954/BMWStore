@@ -21,7 +21,8 @@ namespace BMWStore.Services.Tests.CacheServiceTests
 
             var exception = await Assert
                 .ThrowsAsync<ArgumentException>(async () => await service.GetOrDefaultAsync<object>(cacheKey));
-            Assert.Equal(ErrorConstants.CantBeNullOrEmpty, exception.Message);
+            var expectedExceptionMessage = ErrorConstants.CantBeNullOrEmptyParameter + "\r\nParameter name: cacheKey";
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
 
         [Fact]

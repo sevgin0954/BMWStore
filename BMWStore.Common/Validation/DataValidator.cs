@@ -7,7 +7,14 @@ namespace BMWStore.Common.Validation
 {
     public class DataValidator
     {
-        // TODO: Inconsistent parameters
+        public static void ValidateMinDateTime(DateTime dateTimeToValidate, DateTime minDateTime)
+        {
+            if (dateTimeToValidate < minDateTime)
+            {
+                throw new InvalidOperationException(ErrorConstants.InvalidDateTime);
+            }
+        }
+
         public static void ValidateNotNull(object obj, Exception exception)
         {
             if (obj == null)
@@ -24,7 +31,6 @@ namespace BMWStore.Common.Validation
             }
         }
 
-        // TODO: Inconsistent parameters
         public static void ValidateNotEmptyCollection(IEnumerable enumerable, string exceptionMessage)
         {
             if (enumerable.GetEnumerator().MoveNext() == false)

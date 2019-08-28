@@ -18,8 +18,9 @@ namespace BMWStore.Services.Tests.CacheServiceTests
             var service = this.GetService(mockedCache.Object);
 
             var exception = await Assert
-                .ThrowsAsync<ArgumentException>(async () => await service.GetOrDefaultAsync<object>(cacheType));
-            Assert.Equal(ErrorConstants.CantBeNullOrEmpty, exception.Message);
+                .ThrowsAsync<ArgumentException>(async () => await service.RemoveAsync(cacheType));
+            var expectedExceptionMessage = ErrorConstants.CantBeNullOrEmptyParameter + "\r\nParameter name: cacheType";
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
 
         [Fact]
@@ -32,7 +33,6 @@ namespace BMWStore.Services.Tests.CacheServiceTests
             await service.RemoveAsync(cacheType);
 
             mockedCache.Verify(c => c.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
-
         }
 
         [Fact]

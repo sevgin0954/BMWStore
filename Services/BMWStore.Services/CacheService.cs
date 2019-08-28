@@ -21,46 +21,54 @@ namespace BMWStore.Services
             this.cache = cache;
         }
 
-        public async Task AddTimedCacheAsync(object obj, string cacheKey, string cacheType, DateTime dateTime)
+        public async Task AddTimedCacheAsync(object obj, string cacheKey, string cacheType, DateTime expirationDate)
         {
-            var options = new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = dateTime
-            };
-            var serielizedModelAsBytes = await this.SerializeModelAsync(options, obj, cacheKey, cacheType);
+            this.ValidateCacheKey(cacheKey);
+            this.ValidateCacheType(cacheType);
+            DataValidator.ValidateMinDateTime(expirationDate, DateTime.UtcNow);
+
+            var options = this.CreateOptions(expirationDate);
+            var serielizedModelAsBytes = JSonHelper.Serialize(obj);
+            await this.cache.SetAsync(cacheKey, serielizedModelAsBytes, options);
 
             this.AddKey(cacheType, cacheKey);
         }
 
         public async Task AddInfinityCacheAsync(object obj, string cacheKey, string cacheType)
         {
-            var options = new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.MaxValue
-            };
-            var serielizedModelAsBytes = await this.SerializeModelAsync(options, obj, cacheKey, cacheType);
+            this.ValidateCacheKey(cacheKey);
+            this.ValidateCacheType(cacheType);
+
+            var options = this.CreateOptions(DateTime.MaxValue);
+            var serielizedModelAsBytes = JSonHelper.Serialize(obj);
+            await this.cache.SetAsync(cacheKey, serielizedModelAsBytes, options);
 
             this.AddKey(cacheType, cacheKey);
         }
 
-        private async Task<byte[]> SerializeModelAsync(
-            DistributedCacheEntryOptions options, 
-            object obj, 
-            string cacheKey, 
-            string cacheType)
+        private void AddKey(string cacheType, string key)
         {
-            DataValidator.ValidateNotNullOrEmpty(cacheKey, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
-            DataValidator.ValidateNotNullOrEmpty(cacheType, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+            if (this.cacheTypeCacheKeys.ContainsKey(cacheType) == false)
+            {
+                this.cacheTypeCacheKeys[cacheType] = new HashSet<string>();
+            }
 
-            var serielizedModelAsBytes = JSonHelper.Serialize(obj);
-            await this.cache.SetAsync(cacheKey, serielizedModelAsBytes, options);
+            this.cacheTypeCacheKeys[cacheType].Add(key);
+        }
 
-            return serielizedModelAsBytes;
+        private DistributedCacheEntryOptions CreateOptions(DateTime dateTime)
+        {
+            var options = new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = dateTime
+            };
+
+            return options;
         }
 
         public async Task<TResult> GetOrDefaultAsync<TResult>(string cacheKey) where TResult : class
         {
-            DataValidator.ValidateNotNullOrEmpty(cacheKey, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+            this.ValidateCacheKey(cacheKey);
 
             var cachedResultAsBytes = await this.cache.GetAsync(cacheKey);
             if (cachedResultAsBytes == null)
@@ -73,9 +81,15 @@ namespace BMWStore.Services
             return result;
         }
 
+        private void ValidateCacheKey(string cacheKey)
+        {
+            var exception = new ArgumentException(ErrorConstants.CantBeNullOrEmptyParameter, nameof(cacheKey));
+            DataValidator.ValidateNotNullOrEmpty(cacheKey, exception);
+        }
+
         public async Task RemoveAsync(string cacheType)
         {
-            DataValidator.ValidateNotNullOrEmpty(cacheType, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
+            this.ValidateCacheType(cacheType);
 
             if (this.cacheTypeCacheKeys.ContainsKey(cacheType))
             {
@@ -87,14 +101,10 @@ namespace BMWStore.Services
             }
         }
 
-        private void AddKey(string cacheType, string key)
+        private void ValidateCacheType(string cacheType)
         {
-            if (this.cacheTypeCacheKeys.ContainsKey(cacheType) == false)
-            {
-                this.cacheTypeCacheKeys[cacheType] = new HashSet<string>();
-            }
-
-            this.cacheTypeCacheKeys[cacheType].Add(key);
+            var exception = new ArgumentException(ErrorConstants.CantBeNullOrEmptyParameter, nameof(cacheType));
+            DataValidator.ValidateNotNullOrEmpty(cacheType, exception);
         }
     }
 }
