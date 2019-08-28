@@ -5,7 +5,6 @@ using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
 using Microsoft.EntityFrameworkCore;
@@ -20,24 +19,23 @@ namespace BMWStore.Services.AdminServices
         private readonly ITransmissionRepository transmissionRepository;
         private readonly IAdminEditService adminEditService;
         private readonly IAdminDeleteService adminDeleteService;
+        private readonly IAdminCreateService adminCreateService;
 
         public AdminTransmissionsService(
             ITransmissionRepository transmissionRepository,
             IAdminEditService adminEditService,
-            IAdminDeleteService adminDeleteService)
+            IAdminDeleteService adminDeleteService,
+            IAdminCreateService adminCreateService)
         {
             this.transmissionRepository = transmissionRepository;
             this.adminEditService = adminEditService;
             this.adminDeleteService = adminDeleteService;
+            this.adminCreateService = adminCreateService;
         }
 
         public async Task CreateNewAsync(TransmissionServiceModel model)
         {
-            var dbTransmission = Mapper.Map<Transmission>(model);
-
-            this.transmissionRepository.Add(dbTransmission);
-            var rowsAffected = await this.transmissionRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+            await this.adminCreateService.CreateAsync<Transmission, TransmissionServiceModel>(model);
         }
 
         public async Task DeleteAsync(string transmissionId)

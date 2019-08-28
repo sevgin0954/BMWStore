@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
+﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
@@ -21,24 +20,23 @@ namespace BMWStore.Services.AdminServices
         private readonly IEngineRepository engineRepository;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly IAdminEditService adminEditService;
+        private readonly IAdminCreateService adminCreateService;
 
         public AdminEnginesService(
             IEngineRepository engineRepository,
             IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService)
+            IAdminEditService adminEditService,
+            IAdminCreateService adminCreateService)
         {
             this.engineRepository = engineRepository;
             this.adminDeleteService = adminDeleteService;
             this.adminEditService = adminEditService;
+            this.adminCreateService = adminCreateService;
         }
 
         public async Task CreateNewAsync(EngineServiceModel model)
         {
-            var dbEngine = Mapper.Map<Engine>(model);
-            this.engineRepository.Add(dbEngine);
-
-            var rowsAffected = await this.engineRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+            await this.adminCreateService.CreateAsync<Engine, EngineServiceModel>(model);
         }
 
         public async Task DeleteAsync(string engineId)

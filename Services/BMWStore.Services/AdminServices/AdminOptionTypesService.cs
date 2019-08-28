@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
+﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
@@ -19,15 +18,18 @@ namespace BMWStore.Services.AdminServices
         private readonly IOptionTypeRepository optionTypeRepository;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly IAdminEditService adminEditService;
+        private readonly IAdminCreateService adminCreateService;
 
         public AdminOptionTypesService(
             IOptionTypeRepository optionTypeRepository,
             IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService)
+            IAdminEditService adminEditService,
+            IAdminCreateService adminCreateService)
         {
             this.optionTypeRepository = optionTypeRepository;
             this.adminDeleteService = adminDeleteService;
             this.adminEditService = adminEditService;
+            this.adminCreateService = adminCreateService;
         }
 
         public IQueryable<OptionTypeServiceModel> GetAll()
@@ -39,11 +41,7 @@ namespace BMWStore.Services.AdminServices
 
         public async Task CreateNewAsync(OptionTypeServiceModel model)
         {
-            var dbOptionType = Mapper.Map<OptionType>(model);
-            this.optionTypeRepository.Add(dbOptionType);
-
-            var rowsAffected = await this.optionTypeRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+            await this.adminCreateService.CreateAsync<OptionType, OptionTypeServiceModel>(model);
         }
 
         public async Task DeleteAsync(string optionTypeId)

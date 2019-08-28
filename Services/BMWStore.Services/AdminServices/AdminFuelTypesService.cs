@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
+﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
@@ -20,24 +19,23 @@ namespace BMWStore.Services.AdminServices
         private readonly IFuelTypeRepository fuelTypeRepository;
         private readonly IAdminDeleteService adminDeleteService;
         private readonly IAdminEditService adminEditService;
+        private readonly IAdminCreateService adminCreateService;
 
         public AdminFuelTypesService(
             IFuelTypeRepository fuelTypeRepository,
             IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService)
+            IAdminEditService adminEditService,
+            IAdminCreateService adminCreateService)
         {
             this.fuelTypeRepository = fuelTypeRepository;
             this.adminDeleteService = adminDeleteService;
             this.adminEditService = adminEditService;
+            this.adminCreateService = adminCreateService;
         }
 
         public async Task CreateNewAsync(FuelTypeServiceModel model)
         {
-            var dbFuelType = Mapper.Map<FuelType>(model);
-            this.fuelTypeRepository.Add(dbFuelType);
-
-            var rowsAffected = await this.fuelTypeRepository.CompleteAsync();
-            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
+            await this.adminCreateService.CreateAsync<FuelType, FuelTypeServiceModel>(model);
         }
 
         public async Task DeleteAsync(string fuelTypeId)

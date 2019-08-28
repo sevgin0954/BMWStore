@@ -12,10 +12,12 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminFuelTypesServiceTests
             var fuelTypeRepository = new FuelTypeRepository(dbContext);
             var adminDeleteService = new AdminDeleteService(dbContext);
             var adminEditService = new AdminEditService(dbContext);
+            var adminCreateService = new AdminCreateService(dbContext);
             var service = new AdminFuelTypesService(
                 fuelTypeRepository, 
                 adminDeleteService,
-                adminEditService);
+                adminEditService,
+                adminCreateService);
 
             return service;
         }
