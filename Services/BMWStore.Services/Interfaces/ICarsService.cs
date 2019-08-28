@@ -16,7 +16,8 @@ namespace BMWStore.Services.Interfaces
             ICarSortStrategy<BaseCar> sortStrategy,
             params ICarFilterStrategy[] filterStrategies);
         Task<CarServiceModel> GetByIdAsync(string carId);
-        Task<CarServiceModel> GetCarTestDriveModelById(string id, ClaimsPrincipal user);
+        Task<TModel> GetCarTestDriveModelById<TModel>(string id, ClaimsPrincipal user)
+             where TModel : BaseCarTestDriveServiceModel;
         Task<IEnumerable<TModel>> GetCarTestDriveModelAsync<TModel>(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,

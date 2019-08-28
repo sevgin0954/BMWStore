@@ -2,7 +2,7 @@
 using BMWStore.Common.Enums;
 using BMWStore.Data;
 using BMWStore.Entities;
-using BMWStore.Models.TestDriveModels.BindingModels;
+using BMWStore.Services.Models;
 using BMWStore.Tests.Common.MockMethods;
 using BMWStore.Tests.Common.SeedTestMethods;
 using Moq;
@@ -21,7 +21,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         {
             var dbContext = this.GetDbContext();
             var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
-            var model = this.GetModel(dbContext, dbCar.Id);
+            var model = this.GetModel(dbCar.Id);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => 
                 await this.CallScheduleTestDriveAsync(model, dbContext, null));
@@ -34,7 +34,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             var dbContext = this.GetDbContext();
             var dbUser = SeedUsersMethods.SeedUser(dbContext);
             var carIncorrectId = Guid.NewGuid().ToString();
-            var model = this.GetModel(dbContext, carIncorrectId);
+            var model = this.GetModel(carIncorrectId);
 
             var exception = await Assert.ThrowsAnyAsync<ArgumentException>(async () => 
                 await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id));
@@ -47,7 +47,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             var dbContext = this.GetDbContext();
             var dbUser = SeedUsersMethods.SeedUser(dbContext);
             var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
-            var model = this.GetModel(dbContext, dbCar.Id);
+            var model = this.GetModel(dbCar.Id);
 
             await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id);
 
@@ -61,7 +61,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             var dbUser = SeedUsersMethods.SeedUser(dbContext);
             this.SheduleTestDrive(dbContext, dbUser.Id);
             var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
-            var model = this.GetModel(dbContext, dbCar.Id);
+            var model = this.GetModel(dbCar.Id);
 
             await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id);
 
@@ -75,7 +75,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             this.SheduleTestDrive(dbContext);
             var dbUser = SeedUsersMethods.SeedUser(dbContext);
             var dbCar = SeedCarsMethods.SeedCar<NewCar>(dbContext);
-            var model = this.GetModel(dbContext, dbCar.Id);
+            var model = this.GetModel(dbCar.Id);
 
             await this.CallScheduleTestDriveAsync(model, dbContext, dbUser.Id);
 
@@ -83,7 +83,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         }
 
         private async Task CallScheduleTestDriveAsync(
-            ScheduleTestDriveBindingModel model, 
+            ScheduleTestDriveServiceModel model, 
             ApplicationDbContext dbContext,
             string userId)
         {
@@ -96,9 +96,9 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             await service.ScheduleTestDriveAsync(model, user);
         }
 
-        private ScheduleTestDriveBindingModel GetModel(ApplicationDbContext dbContext, string carId)
+        private ScheduleTestDriveServiceModel GetModel(string carId)
         {
-            var model = new ScheduleTestDriveBindingModel()
+            var model = new ScheduleTestDriveServiceModel()
             {
                 CarId = carId,
                 ScheduleDate = DateTime.UtcNow

@@ -57,11 +57,12 @@ namespace BMWStore.Services
         }
 
 
-        public async Task<CarServiceModel> GetCarTestDriveModelById(string id, ClaimsPrincipal user)
+        public async Task<TModel> GetCarTestDriveModelById<TModel>(string id, ClaimsPrincipal user)
+             where TModel : BaseCarTestDriveServiceModel
         {
             var car = this.carRepository
                 .Find(c => c.Id == id);
-            var models = await this.GetCarTestDriveModelAsync<CarServiceModel>(car, user, 1);
+            var models = await this.GetCarTestDriveModelAsync<TModel>(car, user, 1);
             var carModel = models.FirstOrDefault();
             DataValidator.ValidateNotNull(carModel, new ArgumentException(ErrorConstants.IncorrectId));
 

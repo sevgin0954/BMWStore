@@ -18,17 +18,6 @@ namespace BMWStore.Helpers.Tests.FilterTypeHelperTests
             Assert.Equal(ErrorConstants.CantBeNullParameter, exception.Message);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        public void WithNullOrEmptyValue_ShouldThrowException(string value)
-        {
-            var filterTypes = new List<FilterTypeBindingModel>();
-
-            var exception = Assert.Throws<ArgumentException>(() => FilterTypeHelper.SelectFilterTypes(filterTypes, value));
-            Assert.Equal(ErrorConstants.CantBeNullOrEmpty, exception.Message);
-        }
-
         [Fact]
         public void WithNotExistingValue_ShouldNotSelectAnything()
         {

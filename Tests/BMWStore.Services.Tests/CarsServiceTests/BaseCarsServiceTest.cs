@@ -21,9 +21,8 @@ namespace BMWStore.Services.Tests.CarsServiceTests
 
         protected ICarsService GetService(SignInManager<User> signInManager, ApplicationDbContext dbContext)
         {
-            var readService = new ReadService(dbContext);
             var carRepository = new CarRepository(dbContext);
-            var service = new CarsService(signInManager, carRepository, readService);
+            var service = new CarsService(signInManager, carRepository);
 
             return service;
         }

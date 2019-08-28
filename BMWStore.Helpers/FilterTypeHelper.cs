@@ -12,7 +12,6 @@ namespace BMWStore.Helpers
         public static void SelectFilterTypes(IEnumerable<FilterTypeBindingModel> filterTypes, params string[] values)
         {
             DataValidator.ValidateNotNull(filterTypes, new ArgumentException(ErrorConstants.CantBeNullParameter));
-            DataValidator.ValidateNotNull(filterTypes, new ArgumentException(ErrorConstants.CantBeNullParameter));
 
             foreach (var filterType in filterTypes)
             {

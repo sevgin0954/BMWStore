@@ -1,7 +1,7 @@
 ﻿using BMWStore.Common.Enums;
 using BMWStore.Data;
 using BMWStore.Entities;
-using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Services.Models;
 using BMWStore.Tests.Common.MockMethods;
 using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +15,7 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.CarsServiceTests
 {
-    public class GetCarsInventoryViewModelAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
+    public class GetCarTestDriveModelAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
     {
         [Fact]
         public async void WithoutSignInUserAndCar_ShouldReturnModelWithFalseIsTestDriveScheduled()
@@ -79,7 +79,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             Assert.True(models.All(m => m.TestDriveId == dbTestDrive.Id));
         }
 
-        private async Task<IEnumerable<CarInventoryConciseViewModel>> CallGetCarsInventoryViewModelAsync(
+        private async Task<IEnumerable<CarServiceModel>> CallGetCarsInventoryViewModelAsync(
             ApplicationDbContext dbContext,
             bool isUserSignIn,
             int pageNumber = 1)
@@ -88,7 +88,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             var service = this.GetService(signInManager, dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
 
-            var models = await service.GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(dbContext.BaseCars, user, pageNumber);
+            var models = await service.GetCarTestDriveModelAsync<CarServiceModel>(dbContext.BaseCars, user, pageNumber);
 
             return models;
         }

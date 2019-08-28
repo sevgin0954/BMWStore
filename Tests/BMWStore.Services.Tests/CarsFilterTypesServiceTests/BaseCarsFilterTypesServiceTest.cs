@@ -13,13 +13,11 @@ namespace BMWStore.Services.Tests.CarsFilterTypesServiceTests
             var carYearService = new CarYearService();
             var carSeriesService = new CarSeriesService();
             var carPriceService = this.GetMockedCarPriceService();
-            var filterTypeService = new FilterTypesService();
             var service = new CarsFilterTypesService(
                 carModelTypeService,
                 carYearService,
                 carSeriesService,
-                carPriceService,
-                filterTypeService);
+                carPriceService);
 
             return service;
         }

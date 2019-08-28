@@ -2,7 +2,7 @@
 using BMWStore.Common.Enums;
 using BMWStore.Data;
 using BMWStore.Entities;
-using BMWStore.Models.CarModels.ViewModels;
+using BMWStore.Services.Models;
 using BMWStore.Tests.Common.MockMethods;
 using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +15,7 @@ using Xunit;
 
 namespace BMWStore.Services.Tests.CarsServiceTests
 {
-    public class GetCarViewModelAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
+    public class GetCarTestDriveModelByIdTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
     {
         [Fact]
         public async void WithIncorrectCarId_ShouldThrowException()
@@ -70,23 +70,23 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             Assert.Equal(dbCar.TestDrives.First().Id, model.TestDriveId);
         }
 
-        private async Task<CarViewModel> CallGetCarViewModelAsync(
+        private async Task<CarServiceModel> CallGetCarViewModelAsync(
             ApplicationDbContext dbContext, 
             SignInManager<User> signInManager, 
             string carId)
         {
             var service = this.GetService(signInManager, dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
-            var model = await service.GetCarViewModelAsync(carId, user);
+            var model = await service.GetCarTestDriveModelById<CarServiceModel>(carId, user);
 
             return model;
         }
 
-        private async Task<CarViewModel> CallGetCarViewModelAsync(ApplicationDbContext dbContext, string carId)
+        private async Task<CarServiceModel> CallGetCarViewModelAsync(ApplicationDbContext dbContext, string carId)
         {
             var service = this.GetService(dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
-            var model = await service.GetCarViewModelAsync(carId, user);
+            var model = await service.GetCarTestDriveModelById<CarServiceModel>(carId, user);
 
             return model;
         }

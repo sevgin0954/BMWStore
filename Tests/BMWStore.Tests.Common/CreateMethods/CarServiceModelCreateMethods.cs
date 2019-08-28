@@ -22,7 +22,10 @@ namespace BMWStore.Tests.Common.CreateMethods
             model.Options = options.Select(o => new CarOptionServiceModel()
             {
                 OptionId = o.Id,
-                OptionName = o.Name
+                Option = new OptionServiceModel()
+                {
+                    Name = o.Name
+                }
             }).ToList();
 
             return model;
