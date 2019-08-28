@@ -40,7 +40,7 @@ namespace BMWStore.Services.Tests.CacheServiceTests
         }
 
         [Fact]
-        public async void WithCacheKeyAndType_ShouldSetCache()
+        public async void WithCacheKeyAndType_ShouldCacheObj()
         {
             var cache = ServicesCreateMethods.CreateCache();
             var service = this.GetService(cache);
@@ -50,6 +50,24 @@ namespace BMWStore.Services.Tests.CacheServiceTests
             await service.AddInfinityCacheAsync(new object(), cacheKey, cacheType);
 
             Assert.True(cache.Get(cacheKey).Length > 0);
+        }
+
+        [Fact]
+        public async void WithCorrectParameters_ShouldAddNewKeyToDictionary()
+        {
+            var cache = new Mock<IDistributedCache>().Object;
+            var service = this.GetService(cache);
+
+            var obj = Guid.NewGuid().ToString();
+            var cacheKey = Guid.NewGuid().ToString();
+            var cacheType = Guid.NewGuid().ToString();
+
+            await service.AddInfinityCacheAsync(obj, cacheKey, cacheType);
+
+            var dictionary = this.GetDictionary(service);
+
+            Assert.True(dictionary.ContainsKey(cacheType));
+            Assert.Contains(dictionary[cacheType], value => value == cacheKey);
         }
     }
 }

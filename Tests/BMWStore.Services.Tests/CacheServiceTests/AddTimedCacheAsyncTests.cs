@@ -1,11 +1,8 @@
 ﻿using BMWStore.Common.Constants;
-using BMWStore.Services.Interfaces;
 using BMWStore.Tests.Common.CreateMethods;
-using BMWStore.Tests.Common.GetMethods;
 using Microsoft.Extensions.Caching.Distributed;
 using Moq;
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CacheServiceTests
@@ -98,14 +95,6 @@ namespace BMWStore.Services.Tests.CacheServiceTests
 
             Assert.True(dictionary.ContainsKey(cacheType));
             Assert.Contains(dictionary[cacheType], value => value == cacheKey);
-        }
-
-        private IDictionary<string, HashSet<string>> GetDictionary(ICacheService service)
-        {
-            var fieldName = "cacheTypeCacheKeys";
-            var dictionary = GetPrivateMethods.GetField(service, fieldName);
-
-            return (IDictionary<string, HashSet<string>>)dictionary;
         }
     }
 }
