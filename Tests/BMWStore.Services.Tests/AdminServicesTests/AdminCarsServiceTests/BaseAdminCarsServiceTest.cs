@@ -1,10 +1,8 @@
 ﻿using BMWStore.Data;
 using BMWStore.Data.Repositories;
-using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
-using BMWStore.Services.Interfaces;
-using BMWStore.Tests.Common.MockMethods;
+using BMWStore.Services.Tests.Common;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
 {
@@ -23,15 +21,6 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
                 adminDeleteService);
 
             return service;
-        }
-
-        private ICarsService GetCarService(ApplicationDbContext dbContext, ICarRepository carRepository)
-        {
-            var userManager = CommonMockMethods.GetMockedUserManager().Object;
-            var signInManager = CommonMockMethods.GetMockedSignInManager(userManager).Object;
-            var carsService = new CarsService(signInManager, carRepository);
-
-            return carsService;
         }
     }
 }

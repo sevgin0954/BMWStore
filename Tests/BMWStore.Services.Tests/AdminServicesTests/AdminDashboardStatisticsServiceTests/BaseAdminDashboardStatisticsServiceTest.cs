@@ -2,6 +2,7 @@
 using BMWStore.Data.Repositories;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Tests.Common;
 using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.AspNetCore.Identity;
 

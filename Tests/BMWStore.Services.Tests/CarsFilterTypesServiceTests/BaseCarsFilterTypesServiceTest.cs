@@ -1,5 +1,6 @@
 ﻿using BMWStore.Data;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Tests.Common;
 using BMWStore.Tests.Common.MockTestMethods;
 using Moq;
 

@@ -4,6 +4,7 @@ using BMWStore.Data.Repositories;
 using BMWStore.Entities;
 using BMWStore.Services.AdminServices;
 using BMWStore.Services.AdminServices.Interfaces;
+using BMWStore.Services.Tests.Common;
 using BMWStore.Tests.Common.SeedTestMethods;
 
 namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests

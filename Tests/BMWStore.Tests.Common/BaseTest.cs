@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace BMWStore.Services.Tests
+namespace BMWStore.Services.Tests.Common
 {
     public abstract class BaseTest
     {

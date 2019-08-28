@@ -2,6 +2,7 @@
 using BMWStore.Data.Repositories;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Tests.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace BMWStore.Services.Tests.TestDriveServiceTests
