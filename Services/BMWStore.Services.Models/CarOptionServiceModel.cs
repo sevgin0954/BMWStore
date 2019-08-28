@@ -12,8 +12,7 @@ namespace BMWStore.Services.Models
         public string CarId { get; set; }
 
         public string OptionId { get; set; }
-
-        public string OptionName { get; set; }
+        public OptionServiceModel Option { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

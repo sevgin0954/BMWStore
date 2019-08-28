@@ -1,4 +1,5 @@
-﻿using BMWStore.Common.Constants;
+﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
@@ -9,8 +10,11 @@ using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,14 +45,6 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(CarsInventoryBindingModel model)
         {
-            var key = KeyGenerator.Generate(
-                WebConstants.CacheUsedInventoryPrepend,
-                model.ModelTypes,
-                model.PageNumber.ToString(),
-                model.PriceRange,
-                model.Series,
-                model.Year);
-
             var cookie = this.HttpContext.Request.Cookies;
 
             var sortDirectionKey = WebConstants.CookieUserUsedCarsSortDirectionKey;
@@ -70,36 +66,47 @@ namespace BMWStore.Web.Controllers
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
             var filteredByMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
 
-            var currentPageCarModels = await this.carsService
-                .GetCarScheduleViewModelAsync<CarInventoryConciseViewModel>(filteredByMultipleCars, this.User, model.PageNumber);
+            var currentPageCarServiceModels = await this.carsService
+                .GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber);
+            var currentPageViewModels = Mapper.Map<IEnumerable<CarInventoryConciseViewModel>>(currentPageCarServiceModels);
 
-            CarsFilterViewModel filterModel;
+            var key = KeyGenerator.Generate(
+                WebConstants.CacheUsedInventoryPrepend,
+                model.ModelTypes,
+                model.PageNumber.ToString(),
+                model.PriceRange,
+                model.Series,
+                model.Year);
+            CarsFilterViewModel filterViewModel;
             var cachedModel = await this.cacheService.GetOrDefaultAsync<CarsFilterViewModel>(key);
             if (cachedModel != null)
             {
-                filterModel = cachedModel;
+                filterViewModel = cachedModel;
             }
             else
             {
-                filterModel = await this.carsFilterTypesService
-                .GetCarFilterModelAsync(sortedAndFilteredCars, filteredByMultipleCars);
+                var filterServiceModel = await this.carsFilterTypesService
+                    .GetCarFilterModelAsync(sortedAndFilteredCars, filteredByMultipleCars);
+                filterViewModel = Mapper.Map<CarsFilterViewModel>(filterServiceModel);
             }
 
             var viewModel = new CarsInventoryViewModel()
             {
                 SortStrategyType = sortType,
                 SortStrategyDirection = sortDirection,
-                Cars = currentPageCarModels,
+                Cars = currentPageViewModels,
                 CurrentPage = model.PageNumber,
-                FilterModel = filterModel,
+                FilterModel = filterViewModel,
                 TotalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredByMultipleCars),
                 TotalCarsCount = await filteredByMultipleCars.CountAsync()
             };
 
-            this.carsFilterTypesService
-                .SelectModelFilterItems(filterModel, model.Year, model.PriceRange, model.Series, model.ModelTypes);
+            FilterTypeHelper.SelectFilterTypes(filterViewModel.Years, model.Year);
+            FilterTypeHelper.SelectFilterTypes(filterViewModel.Series, model.Series);
+            FilterTypeHelper.SelectFilterTypes(filterViewModel.ModelTypes, model.ModelTypes.ToArray());
+            FilterTypeHelper.SelectFilterTypes(filterViewModel.Prices, model.PriceRange);
 
-            _ = this.cacheService.AddInfinityCacheAsync(filterModel, key, WebConstants.CacheCarsType);
+            _ = this.cacheService.AddInfinityCacheAsync(filterViewModel, key, WebConstants.CacheCarsType);
 
             return View(viewModel);
         }

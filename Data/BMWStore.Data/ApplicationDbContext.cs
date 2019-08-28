@@ -1,5 +1,6 @@
 ﻿using BMWStore.Entities;
 using BMWStore.Models.FilterModels.BindingModels;
+using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,7 +27,7 @@ namespace BMWStore.Data
         public DbSet<Transmission> Transmissions { get; set; }
         public DbSet<UsedCar> UsedCars { get; set; }
         public new DbSet<User> Users { get; set; }
-        public DbQuery<FilterTypeBindingModel> FilterTypeModels { get; set; }
+        public DbQuery<FilterTypeServiceModel> FilterTypeModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

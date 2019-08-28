@@ -4,7 +4,6 @@ using BMWStore.Common.Enums.FilterStrategies;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
-using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Exceptions.Repositories;
 using BMWStore.Helpers;
@@ -31,7 +30,6 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         private readonly ICacheService cacheService;
         private readonly ICloudinaryService cloudinaryService;
         private readonly ICarsService carsService;
-        private readonly ICarRepository carRepository;
         private readonly IAdminEnginesService adminEnginesService;
         private readonly IAdminFuelTypesService adminFuelTypesService;
         private readonly IAdminModelTypesService adminModelTypesService;
@@ -44,7 +42,6 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             ICacheService cacheService,
             ICloudinaryService cloudinaryService,
             ICarsService carsService,
-            ICarRepository carRepository,
             IAdminEnginesService adminEnginesService,
             IAdminFuelTypesService adminFuelTypesService,
             IAdminModelTypesService adminModelTypesService,
@@ -56,7 +53,6 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             this.cacheService = cacheService;
             this.cloudinaryService = cloudinaryService;
             this.carsService = carsService;
-            this.carRepository = carRepository;
             this.adminEnginesService = adminEnginesService;
             this.adminFuelTypesService = adminFuelTypesService;
             this.adminModelTypesService = adminModelTypesService;
@@ -81,13 +77,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var filterStrategy = AdminCarFilterStrategyFactory.GetStrategy(filter, name);
             var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
 
-            var filteredCars = this.carRepository.GetFiltered(filterStrategy);
-            var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
-            var cars = await this.carsService.GetCarsModelsAsync<CarConciseViewModel>(filteredAndSortedCars, pageNumber);
-            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredAndSortedCars);
+            var carServiceModels = this.carsService.GetCars(sortStrategy, filterStrategy);
+            var carServiceModelsFromCurrentPage = carServiceModels.GetFromPage(pageNumber);
+            var carViewModels = Mapper.Map<IEnumerable<CarConciseViewModel>>(carServiceModelsFromCurrentPage);
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(carServiceModels);
             var model = new AdminCarsViewModel()
             {
-                Cars = cars,
+                Cars = carViewModels,
                 SortStrategyDirection = sortDirection,
                 SortStrategyType = sortType,
                 CurrentPage = pageNumber,
@@ -156,7 +152,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var modelTypes = await this.adminModelTypesService.GetAll().To<SelectListItem>().ToArrayAsync();
             var series = await this.adminSeriesService.GetAll().To<SelectListItem>().ToArrayAsync();
             var options = await this.adminOptionsService.GetAll().To<SelectListItem>().ToArrayAsync();
-            var carServiceModel = await this.carsService.GetByIdAsync<CarServiceModel>(id);
+            var carServiceModel = await this.carsService.GetByIdAsync(id);
             var carBindingModel = Mapper.Map<AdminCarBindingModel>(carServiceModel);
 
             SelectListItemHelper.SelectItemsWithValues(engines, carServiceModel.EngineId);

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using BMWStore.Entities;
 using BMWStore.Models.OptionModels.ViewModels;
+using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class CarViewModel : BaseCarScheduleTestDriveViewModel, IMapFrom<BaseCar>, IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
+    public class CarViewModel : BaseCarTestDriveViewModel, IMapFrom<CarServiceModel>, IHaveCustomMappings
     {
         public double Acceleration_0_100Km { get; set; }
 
@@ -45,8 +45,8 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public override void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<BaseCar, CarViewModel>()
-                .ForMember(dest => dest.PicturePublicIds, opt => opt.MapFrom(src => src.Pictures.Select(p => p.PublicId)))
+            configuration.CreateMap<CarServiceModel, CarViewModel>()
+                .ForMember(dest => dest.PicturePublicIds, opt => opt.MapFrom(src => src.Pictures.Select(p => p.PublicId).ToList()))
                 .ForMember(dest => dest.TransmissionName, opt => opt.MapFrom(src => src.Engine.Transmission.Name))
                 .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.Options.Select(co => co.Option)));
 

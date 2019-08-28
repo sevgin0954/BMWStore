@@ -1,9 +1,13 @@
-﻿using BMWStore.Common.Enums;
+﻿using AutoMapper;
+using BMWStore.Common.Enums;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
+using BMWStore.Models.CarInventoryModels.BindingModels;
+using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Services.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,19 +39,26 @@ namespace BMWStore.Services
         {
             var carsOfType = cars.Where(c => c.GetType().Name == carType.ToString());
 
-            var carYears = await this.carYearService.GetYearFilterModelsAsync(carsOfType);
-            var carModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(carsOfType);
-            var carPrices = await this.carPriceService.GetPriceFilterModelsAsync(carsOfType);
+            var carYearServiceModels = await this.carYearService.GetYearFilterModelsAsync(carsOfType);
+            var carYearBindingModel = Mapper.Map<IEnumerable<FilterTypeBindingModel>>(carYearServiceModels);
 
-            var carInventories = await this.carInventoriesService.GetInventoryFilterModelsAsync(cars);
-            FilterTypeHelper.SelectFilterTypes(carInventories, carType.ToString());
+            var carModelServiceModels = await this.carModelTypeService.GetModelTypeFilterModelsAsync(carsOfType);
+            var carModelBindingModels = Mapper.Map<IEnumerable<FilterTypeBindingModel>>(carModelServiceModels);
+
+            var carPriceServiceModels = await this.carPriceService.GetPriceFilterModelsAsync(carsOfType);
+            var carPriceBindingModels = Mapper.Map<IEnumerable<FilterTypeBindingModel>>(carPriceServiceModels);
+
+            var filterTypeServiceModels = await this.carInventoriesService.GetInventoryFilterModelsAsync(cars);
+            var filterTypeBindingModel = Mapper
+                .Map<IEnumerable<FilterTypeBindingModel>>(filterTypeServiceModels);
+            FilterTypeHelper.SelectFilterTypes(filterTypeBindingModel, carType.ToString());
 
             var model = new HomeSearchBindingModel()
             {
-                CarTypes = carInventories,
-                Years = carYears,
-                ModelTypes = carModels,
-                PriceRanges = carPrices
+                CarTypes = filterTypeBindingModel,
+                Years = carYearBindingModel,
+                ModelTypes = carModelBindingModels,
+                PriceRanges = carPriceBindingModels
             };
 
             return model;

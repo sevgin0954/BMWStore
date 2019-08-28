@@ -3,7 +3,7 @@ using MappingRegistrar.Interfaces;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class CarTestDriveViewModel : IMapFrom<CarConciseServiceModel>
+    public class CarTestDriveViewModel : IMapFrom<BaseCarServiceModel>
     {
         public string Id { get; set; }
 

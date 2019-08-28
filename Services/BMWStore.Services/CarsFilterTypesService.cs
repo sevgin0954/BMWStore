@@ -1,7 +1,6 @@
 ﻿using BMWStore.Entities;
-using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
-using System.Collections.Generic;
+using BMWStore.Services.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,23 +12,20 @@ namespace BMWStore.Services
         private readonly ICarYearService carYearService;
         private readonly ICarSeriesService carSeriesService;
         private readonly ICarPriceService carPriceService;
-        private readonly IFilterTypesService filterTypesService;
 
         public CarsFilterTypesService(
             ICarModelTypeService carModelTypeService,
             ICarYearService carYearService,
             ICarSeriesService carSeriesService,
-            ICarPriceService carPriceService,
-            IFilterTypesService filterTypesService)
+            ICarPriceService carPriceService)
         {
             this.carModelTypeService = carModelTypeService;
             this.carYearService = carYearService;
             this.carSeriesService = carSeriesService;
             this.carPriceService = carPriceService;
-            this.filterTypesService = filterTypesService;
         }
 
-        public async Task<CarsFilterViewModel> GetCarFilterModelAsync(
+        public async Task<CarsFilterServiceModel> GetCarFilterModelAsync(
             IQueryable<BaseCar> allCars,
             IQueryable<BaseCar> filteredCars)
         {
@@ -38,7 +34,7 @@ namespace BMWStore.Services
             var seriesModels = await this.carSeriesService.GetSeriesFilterModelsAsync(filteredCars);
             var yearModels = await this.carYearService.GetYearFilterModelsAsync(filteredCars);
 
-            var model = new CarsFilterViewModel();
+            var model = new CarsFilterServiceModel();
 
             model.ModelTypes.AddRange(modelTypeModels);
             model.Prices.AddRange(priceModels);
@@ -46,18 +42,6 @@ namespace BMWStore.Services
             model.Years.AddRange(yearModels);
 
             return model;
-        }
-
-        public void SelectModelFilterItems(CarsFilterViewModel model,
-            string year,
-            string priceRange,
-            string series,
-            IEnumerable<string> modelTypes)
-        {
-            this.filterTypesService.SelectFilterTypeModelsWithValues(model.Years, year);
-            this.filterTypesService.SelectFilterTypeModelsWithValues(model.Series, series);
-            this.filterTypesService.SelectFilterTypeModelsWithValues(model.ModelTypes, modelTypes.ToArray());
-            this.filterTypesService.SelectFilterTypeModelsWithValues(model.Prices, priceRange);
         }
     }
 }

@@ -1,7 +1,12 @@
-﻿using BMWStore.Models.TestDriveModels.BindingModels;
+﻿using AutoMapper;
+using BMWStore.Models.TestDriveModels.BindingModels;
+using BMWStore.Models.TestDriveModels.ViewModels;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
@@ -16,25 +21,28 @@ namespace BMWStore.Web.Controllers
             this.testDriveService = testDriveService;
         }
 
-        public async Task<IActionResult> Index(int pageNumber = 1)
+        public async Task<IActionResult> Index()
         {
-            var models = await this.testDriveService.GetAllTestDrivesAsync(this.User);
+            var serviceModels = await this.testDriveService.GetAll(this.User).ToArrayAsync();
+            var viewModels = Mapper.Map<IEnumerable<TestDriveViewModel>>(serviceModels);
 
-            return View(models);
+            return View(viewModels);
         }
 
         [HttpGet]
         public async Task<IActionResult> Drive(string testDriveId)
         {
-            var model = await this.testDriveService.GetTestDriveAsync(testDriveId, this.User);
+            var serviceModel = await this.testDriveService.GetByIdAsync(testDriveId, this.User);
+            var viewModel = Mapper.Map<TestDriveViewModel>(serviceModel);
 
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Schedule(ScheduleTestDriveBindingModel model)
         {
-            var testDriveId = await this.testDriveService.ScheduleTestDriveAsync(model, this.User);
+            var serviceModel = Mapper.Map<ScheduleTestDriveServiceModel>(model);
+            var testDriveId = await this.testDriveService.ScheduleTestDriveAsync(serviceModel, this.User);
 
             return RedirectToAction("Drive", new { testDriveId });
         }

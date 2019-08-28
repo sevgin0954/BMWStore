@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BMWStore.Entities;
+using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 
 namespace BMWStore.Models.OptionModels.ViewModels
 {
-    public class OptionConciseViewModel : IMapFrom<Option>, IHaveCustomMappings
+    public class OptionConciseViewModel : IMapFrom<OptionServiceModel>, IHaveCustomMappings
     {
         public string Name { get; set; }
 
@@ -12,7 +12,7 @@ namespace BMWStore.Models.OptionModels.ViewModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Option, OptionConciseViewModel>()
+            configuration.CreateMap<OptionServiceModel, OptionConciseViewModel>()
                 .ForMember(dest => dest.OptionTypeName, opt => opt.MapFrom(src => src.OptionType.Name));
         }
     }

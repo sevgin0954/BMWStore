@@ -64,7 +64,7 @@
         </div>
 
         <div class="ml-auto">
-            <a href="#">
+            <a asp-controller="Car" asp-action="Index" asp-route-carId="@Model.Car.Id">
                 <div class="">
                     @cloudinary.Api.UrlImgUp.Secure(true).Transform(
                         new Transformation().Quality("auto").Width(250).Height(150).Crop("fill")

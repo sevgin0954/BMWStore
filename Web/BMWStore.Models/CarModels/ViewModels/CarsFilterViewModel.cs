@@ -1,9 +1,11 @@
 ﻿using BMWStore.Models.FilterModels.BindingModels;
+using BMWStore.Services.Models;
+using MappingRegistrar.Interfaces;
 using System.Collections.Generic;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public class CarsFilterViewModel
+    public class CarsFilterViewModel : IMapFrom<CarsFilterServiceModel>
     {
         public List<FilterTypeBindingModel> Years { get; set; } = new List<FilterTypeBindingModel>();
 

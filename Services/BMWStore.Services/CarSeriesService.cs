@@ -1,6 +1,6 @@
 ﻿using BMWStore.Entities;
-using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace BMWStore.Services
 {
     public class CarSeriesService : ICarSeriesService
     {
-        public async Task<ICollection<FilterTypeBindingModel>> GetSeriesFilterModelsAsync(IQueryable<BaseCar> cars)
+        public async Task<ICollection<FilterTypeServiceModel>> GetSeriesFilterModelsAsync(IQueryable<BaseCar> cars)
         {
             var seriesModels = await cars
                 .GroupBy(c => new { Name = c.Series.Name })
-                .Select(c => new FilterTypeBindingModel()
+                .Select(c => new FilterTypeServiceModel()
                 {
                     Value = c.Key.Name,
                     Text = c.Key.Name,

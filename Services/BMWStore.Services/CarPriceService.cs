@@ -1,8 +1,7 @@
 ﻿using BMWStore.Data;
-using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
-using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
@@ -23,7 +22,7 @@ namespace BMWStore.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<ICollection<FilterTypeBindingModel>> GetPriceFilterModelsAsync(IQueryable<BaseCar> cars)
+        public async Task<ICollection<FilterTypeServiceModel>> GetPriceFilterModelsAsync(IQueryable<BaseCar> cars)
         {
             var dataTable = new DataTable("BaseCars");
             var carPrices = await cars.Select(c => c.Price).ToArrayAsync();
@@ -50,11 +49,11 @@ namespace BMWStore.Services
             }
         }
 
-        private async Task<ICollection<FilterTypeBindingModel>> GetFilterModelsFromProcedureAsync(SqlParameter cars)
+        private async Task<ICollection<FilterTypeServiceModel>> GetFilterModelsFromProcedureAsync(SqlParameter cars)
         {
-            var priceModels = await this.dbContext.Query<FilterTypeBindingModel>()
+            var priceModels = await this.dbContext.Query<FilterTypeServiceModel>()
                 .FromSql($"EXECUTE usp_GetCarPriceRangesCount @{cars.ParameterName}=@cars", cars)
-                .Select(c => new FilterTypeBindingModel()
+                .Select(c => new FilterTypeServiceModel()
                 {
                     Value = c.Value,
                     Text = c.Text,

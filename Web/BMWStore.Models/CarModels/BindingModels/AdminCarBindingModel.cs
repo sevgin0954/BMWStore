@@ -119,7 +119,6 @@ namespace BMWStore.Models.CarModels.BindingModels
                 .ForMember(dest => dest.FuelTypeId, opt => opt.MapFrom(src => src.SelectedFuelTypeId))
                 .ForMember(dest => dest.ModelTypeId, opt => opt.MapFrom(src => src.SelectedModelTypeId))
                 .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.SelectedSeriesId))
-                .ForMember(dest => dest.Series, opt => opt.Ignore())
                 .ForMember(dest => dest.Pictures, opt => opt.Ignore())
                 .IncludeAllDerived();
 
@@ -129,7 +128,7 @@ namespace BMWStore.Models.CarModels.BindingModels
                 .ForMember(dest => dest.SelectedModelTypeId, opt => opt.MapFrom(src => src.ModelTypeId))
                 .ForMember(dest => dest.SelectedSeriesId, opt => opt.MapFrom(src => src.SeriesId))
                 .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.Options.Select(o => new SelectListItem()
-                    { Value = o.OptionId, Text = o.OptionName, Selected = true })))
+                    { Value = o.OptionId, Text = o.Option.Name, Selected = true })))
                 .ForMember(dest => dest.IsNew, opt => opt.MapFrom(src => src.CarType == typeof(NewCar)))
                 .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src.CarType == typeof(UsedCar) ? src.Mileage : 0))
                 .ForMember(dest => dest.Pictures, opt => opt.Ignore())

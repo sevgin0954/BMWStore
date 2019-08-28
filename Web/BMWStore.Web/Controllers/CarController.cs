@@ -1,4 +1,6 @@
-﻿using BMWStore.Models.CarInventoryModels.ViewModels;
+﻿using AutoMapper;
+using BMWStore.Models.CarInventoryModels.ViewModels;
+using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -19,12 +21,13 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
-            var carModel = await this.carsService.GetCarViewModelAsync(carId, this.User);
-            var optionTypeModels = this.optionTypeService.GetViewModels(carModel.Options);
+            var carServiceModel = await this.carsService.GetCarTestDriveModelById(carId, this.User);
+            var carViewModel = Mapper.Map<CarViewModel>(carServiceModel);
+            var optionTypeModels = this.optionTypeService.GetViewModels(carViewModel.Options);
 
             var model = new CarInventoryViewModel()
             {
-                Car = carModel,
+                Car = carViewModel,
                 OptionTypes = optionTypeModels
             };
 

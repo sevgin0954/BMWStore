@@ -4,9 +4,9 @@ using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
 using System.Linq;
 
-namespace BMWStore.Models.CarModels.ViewModels
+namespace BMWStore.Services.Models
 {
-    public abstract class BaseCarScheduleTestDriveViewModel : BaseCarViewModel, IMapFrom<BaseCar>, IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
+    public abstract class BaseCarTestDriveServiceModel : BaseCarServiceModel, IMapFrom<BaseCar>, IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
     {
         public bool IsTestDriveScheduled { get; set; }
 
@@ -15,7 +15,7 @@ namespace BMWStore.Models.CarModels.ViewModels
         public override void CreateMappings(IProfileExpression configuration)
         {
             var isUserSignedIn = false;
-            configuration.CreateMap<BaseCar, BaseCarScheduleTestDriveViewModel>()
+            configuration.CreateMap<BaseCar, BaseCarTestDriveServiceModel>()
                 .ForMember(dest => dest.TestDriveId, opt => opt.MapFrom(src => isUserSignedIn ?
                     src.TestDrives
                     .Where(td => td.Status.Name == TestDriveStatus.Upcoming.ToString())

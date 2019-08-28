@@ -23,7 +23,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             var service = this.GetService(dbContext, dbUser.Id);
             var user = new Mock<ClaimsPrincipal>().Object;
 
-            await Assert.ThrowsAnyAsync<Exception>(async () => await service.GetTestDriveAsync(dbTestDrive.Id, user));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await service.GetByIdAsync(dbTestDrive.Id, user));
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             var user = new Mock<ClaimsPrincipal>().Object;
             var incorrectId = Guid.NewGuid().ToString();
 
-            await Assert.ThrowsAnyAsync<Exception>(async () => await service.GetTestDriveAsync(incorrectId, user));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await service.GetByIdAsync(incorrectId, user));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             var service = this.GetService(dbContext, dbUser.Id);
             var user = new Mock<ClaimsPrincipal>().Object;
 
-            var model = await service.GetTestDriveAsync(dbTestDrive.Id, user);
+            var model = await service.GetByIdAsync(dbTestDrive.Id, user);
 
             Assert.Equal(dbTestDrive.Id, model.Id);
         }

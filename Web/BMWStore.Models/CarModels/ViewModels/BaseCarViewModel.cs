@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using BMWStore.Entities;
+using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 
 namespace BMWStore.Models.CarModels.ViewModels
 {
-    public abstract class BaseCarViewModel : IMapFrom<UsedCar>, IMapFrom<NewCar>, IHaveCustomMappings
+    public abstract class BaseCarViewModel : IMapFrom<BaseCarServiceModel>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -28,9 +29,8 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public virtual void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<BaseCar, BaseCarViewModel>()
-                .ForMember(dest => dest.IsNew, opt => opt.MapFrom(src => src is NewCar))
-                .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src is UsedCar ? (src as UsedCar).Mileage : 0))
+            configuration.CreateMap<BaseCarServiceModel, BaseCarViewModel>()
+                .ForMember(dest => dest.IsNew, opt => opt.MapFrom(src => src.CarType == typeof(NewCar)))
                 .IncludeAllDerived();
         }
     }
