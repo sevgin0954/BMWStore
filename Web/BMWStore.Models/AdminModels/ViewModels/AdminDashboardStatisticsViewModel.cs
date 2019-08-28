@@ -1,5 +1,6 @@
 ﻿using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
+using System;
 
 namespace BMWStore.Models.AdminModels.ViewModels
 {
@@ -20,5 +21,7 @@ namespace BMWStore.Models.AdminModels.ViewModels
         public int NewCarsCount { get; set; }
 
         public int UsedCarsCount { get; set; }
+
+        public DateTime LastUpdate { get; set; } = DateTime.UtcNow;
     }
 }

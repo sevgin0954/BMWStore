@@ -2,6 +2,17 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+
+<div class="container-item-white border-grey border-radius-smooth d-flex">
+    <div class="mx-auto">
+        Last updated: @Model.LastUpdate.ToString("HH:mm:ss")
+        <button class="btn border-blue-hover">
+            <i class="fas fa-sync-alt"></i>
+            Refresh
+        </button>
+    </div>
+</div>
+
 <h5>Test Drives</h5>
 <div class="container-item-white border-grey border-radius-smooth">
     <h6>New Cars</h6>

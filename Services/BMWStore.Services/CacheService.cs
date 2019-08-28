@@ -21,18 +21,41 @@ namespace BMWStore.Services
             this.cache = cache;
         }
 
+        public async Task AddTimedCacheAsync(object obj, string cacheKey, string cacheType, DateTime dateTime)
+        {
+            var options = new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = dateTime
+            };
+            var serielizedModelAsBytes = await this.SerializeModelAsync(options, obj, cacheKey, cacheType);
+
+            this.AddKey(cacheType, cacheKey);
+        }
+
         public async Task AddInfinityCacheAsync(object obj, string cacheKey, string cacheType)
+        {
+            var options = new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.MaxValue
+            };
+            var serielizedModelAsBytes = await this.SerializeModelAsync(options, obj, cacheKey, cacheType);
+
+            this.AddKey(cacheType, cacheKey);
+        }
+
+        private async Task<byte[]> SerializeModelAsync(
+            DistributedCacheEntryOptions options, 
+            object obj, 
+            string cacheKey, 
+            string cacheType)
         {
             DataValidator.ValidateNotNullOrEmpty(cacheKey, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
             DataValidator.ValidateNotNullOrEmpty(cacheType, new ArgumentException(ErrorConstants.CantBeNullOrEmpty));
 
             var serielizedModelAsBytes = JSonHelper.Serialize(obj);
-            var options = new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.MaxValue
-            };
             await this.cache.SetAsync(cacheKey, serielizedModelAsBytes, options);
-            this.AddKey(cacheType, cacheKey);
+
+            return serielizedModelAsBytes;
         }
 
         public async Task<TResult> GetOrDefaultAsync<TResult>(string cacheKey) where TResult : class
