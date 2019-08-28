@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BMWStore.Models.ModelTypeModels.BindingModels
 {
-    public class ModelTypeBindingModel : IMapFrom<ModelTypeServiceModel>
+    public class ModelTypeBindingModel : IMapFrom<ModelTypeServiceModel>, IMapTo<ModelTypeServiceModel>
     {
         public string Id { get; set; }
 

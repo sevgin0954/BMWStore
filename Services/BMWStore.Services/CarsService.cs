@@ -63,7 +63,7 @@ namespace BMWStore.Services
             IQueryable<BaseCar> cars,
             int pageNumber) where TModel : class
         {
-            var models = await this.carRepository.GetAll()
+            var models = await cars
                 .To<TModel>()
                 .GetFromPage(pageNumber)
                 .ToArrayAsync();

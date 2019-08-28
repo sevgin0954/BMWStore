@@ -79,7 +79,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNew()
         {
-            var optionTypeModels = await this.adminOptionsService.GetAll()
+            var optionTypeModels = await this.adminOptionTypesService.GetAll()
                 .To<SelectListItem>()
                 .ToArrayAsync();
             var model = new OptionBindingModel()

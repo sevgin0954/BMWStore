@@ -21,7 +21,7 @@ namespace BMWStore.Services.Models
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Option, SelectListItem>()
+            configuration.CreateMap<OptionServiceModel, SelectListItem>()
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id));
         }

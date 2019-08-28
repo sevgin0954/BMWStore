@@ -65,7 +65,7 @@
     <script>
         $(function () {
             const aft = '@Html.AntiForgeryToken()';
-            const aftValue = $(aftInput).val();
+            const aftValue = $(aft).val();
             removeElementOnButtonClick('data-delete-btn', 'data-id', '/Admin/FuelTypes/Delete', aftValue);
         })
     </script>

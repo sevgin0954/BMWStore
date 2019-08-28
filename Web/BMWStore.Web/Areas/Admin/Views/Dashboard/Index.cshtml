@@ -6,10 +6,10 @@
 <div class="container-item-white border-grey border-radius-smooth d-flex">
     <div class="mx-auto">
         Last updated: @Model.LastUpdate.ToString("HH:mm:ss")
-        <button class="btn border-blue-hover">
+        <a asp-area="Admin" asp-controller="Dashboard" asp-action="DeleteCache" class="btn border-blue-hover">
             <i class="fas fa-sync-alt"></i>
             Refresh
-        </button>
+        </a>
     </div>
 </div>
 

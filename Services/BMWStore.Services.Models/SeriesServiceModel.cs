@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 
 namespace BMWStore.Services.Models
 {
-    public class SeriesServiceModel : IMapFrom<Series>, IMapTo<Series>, IHaveCustomMappings
+    public class SeriesServiceModel : IMapTo<SelectListItem>, IMapFrom<Series>, IMapTo<Series>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -20,6 +21,10 @@ namespace BMWStore.Services.Models
 
             configuration.CreateMap<SeriesServiceModel, Series>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            configuration.CreateMap<SeriesServiceModel, SelectListItem>()
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

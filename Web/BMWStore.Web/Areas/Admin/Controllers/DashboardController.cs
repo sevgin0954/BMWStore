@@ -43,5 +43,13 @@ namespace BMWStore.Web.Areas.Admin.Controllers
 
             return View(viewModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCache()
+        {
+            await this.cacheService.RemoveAsync(WebConstants.CacheStatisticsType);
+
+            return RedirectToAction("Index");
+        }
     }
 }

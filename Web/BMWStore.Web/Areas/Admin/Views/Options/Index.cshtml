@@ -46,7 +46,7 @@
         <tbody>
             @foreach (var option in Model.Options)
             {
-                <tr data-optionId="@option.Id">
+                <tr data-option-id="@option.Id">
                     <td>@option.Name</td>
                     <td>@option.OptionTypeName</td>
                     <td>@option.Price</td>
@@ -94,8 +94,8 @@
     <script>
         $(function () {
             const aft = '@Html.AntiForgeryToken()';
-            const aftValue = $(aftInput).val();
-            removeElementOnButtonClick('data-delete-btn', 'data-optionId', '/Admin/Options/Delete', aftValue);
+            const aftValue = $(aft).val();
+            removeElementOnButtonClick('data-delete-btn', 'data-option-id', '/Admin/Options/Delete', aftValue);
         })
     </script>
 }
