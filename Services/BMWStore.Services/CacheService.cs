@@ -71,7 +71,7 @@ namespace BMWStore.Services
             this.ValidateCacheKey(cacheKey);
 
             var cachedResultAsBytes = await this.cache.GetAsync(cacheKey);
-            if (cachedResultAsBytes == null)
+            if (cachedResultAsBytes.Length == 0)
             {
                 return null;
             }

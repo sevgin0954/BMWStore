@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.CacheServiceTests
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public async void WithoutCacheKey_ShouldThrowExcpetion(string cacheKey)
+        public async void WithoutNullOrEmptyCacheKey_ShouldThrowExcpetion(string cacheKey)
         {
             var mockedCache = new Mock<IDistributedCache>();
             var service = this.GetService(mockedCache.Object);
