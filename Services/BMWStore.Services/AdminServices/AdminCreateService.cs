@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
 {
-    public class AdminCreateService : IAdminCreateService
+    public class AdminCommonCreateService : IAdminCommonCreateService
     {
         private readonly ApplicationDbContext dbContext;
 
-        public AdminCreateService(ApplicationDbContext dbContext)
+        public AdminCommonCreateService(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

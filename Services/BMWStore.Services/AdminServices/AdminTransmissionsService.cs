@@ -17,15 +17,15 @@ namespace BMWStore.Services.AdminServices
     public class AdminTransmissionsService : IAdminTransmissionsService
     {
         private readonly ITransmissionRepository transmissionRepository;
-        private readonly IAdminEditService adminEditService;
-        private readonly IAdminDeleteService adminDeleteService;
-        private readonly IAdminCreateService adminCreateService;
+        private readonly IAdminCommonEditService adminEditService;
+        private readonly IAdminCommonDeleteService adminDeleteService;
+        private readonly IAdminCommonCreateService adminCreateService;
 
         public AdminTransmissionsService(
             ITransmissionRepository transmissionRepository,
-            IAdminEditService adminEditService,
-            IAdminDeleteService adminDeleteService,
-            IAdminCreateService adminCreateService)
+            IAdminCommonEditService adminEditService,
+            IAdminCommonDeleteService adminDeleteService,
+            IAdminCommonCreateService adminCreateService)
         {
             this.transmissionRepository = transmissionRepository;
             this.adminEditService = adminEditService;

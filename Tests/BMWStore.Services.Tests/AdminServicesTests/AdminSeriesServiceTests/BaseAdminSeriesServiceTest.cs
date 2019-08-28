@@ -10,9 +10,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminSeriesServiceTests
         protected IAdminSeriesService GetService(ApplicationDbContext dbContext)
         {
             var seriesRepository = new SeriesRepository(dbContext);
-            var adminDeleteService = new AdminDeleteService(dbContext);
-            var adminEditService = new AdminEditService(dbContext);
-            var adminCreateService = new AdminCreateService(dbContext);
+            var adminDeleteService = new AdminCommonDeleteService(dbContext);
+            var adminEditService = new AdminCommonEditService(dbContext);
+            var adminCreateService = new AdminCommonCreateService(dbContext);
             var service = new AdminSeriesService(
                 seriesRepository,
                 adminDeleteService,

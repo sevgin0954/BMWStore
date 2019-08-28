@@ -18,15 +18,15 @@ namespace BMWStore.Services.AdminServices
     public class AdminOptionsService : IAdminOptionsService
     {
         private readonly IOptionRepository optionRepository;
-        private readonly IAdminDeleteService adminDeleteService;
-        private readonly IAdminEditService adminEditService;
-        private readonly IAdminCreateService adminCreateService;
+        private readonly IAdminCommonDeleteService adminDeleteService;
+        private readonly IAdminCommonEditService adminEditService;
+        private readonly IAdminCommonCreateService adminCreateService;
 
         public AdminOptionsService(
             IOptionRepository optionRepository, 
-            IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService,
-            IAdminCreateService adminCreateService)
+            IAdminCommonDeleteService adminDeleteService,
+            IAdminCommonEditService adminEditService,
+            IAdminCommonCreateService adminCreateService)
         {
             this.optionRepository = optionRepository;
             this.adminDeleteService = adminDeleteService;

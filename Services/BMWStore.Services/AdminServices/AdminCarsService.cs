@@ -17,13 +17,13 @@ namespace BMWStore.Services.AdminServices
         private readonly ICarRepository carRepository;
         private readonly ICarOptionRepository carOptionRepository;
         private readonly IPictureRepository pictureRepository;
-        private readonly IAdminDeleteService adminDeleteService;
+        private readonly IAdminCommonDeleteService adminDeleteService;
 
         public AdminCarsService(
             ICarRepository carRepository,
             ICarOptionRepository carOptionRepository,
             IPictureRepository pictureRepository,
-            IAdminDeleteService adminDeleteService)
+            IAdminCommonDeleteService adminDeleteService)
         {
             this.carRepository = carRepository;
             this.carOptionRepository = carOptionRepository;

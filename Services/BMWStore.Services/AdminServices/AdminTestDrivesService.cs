@@ -19,12 +19,12 @@ namespace BMWStore.Services.AdminServices
     {
         private readonly ITestDriveRepository testDriveRepository;
         private readonly IStatusRepository statusRepository;
-        private readonly IAdminDeleteService adminDeleteService;
+        private readonly IAdminCommonDeleteService adminDeleteService;
 
         public AdminTestDrivesService(
             ITestDriveRepository testDriveRepository, 
             IStatusRepository statusRepository,
-            IAdminDeleteService adminDeleteService)
+            IAdminCommonDeleteService adminDeleteService)
         {
             this.testDriveRepository = testDriveRepository;
             this.statusRepository = statusRepository;

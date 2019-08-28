@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
 {
-    public class AdminEditService : IAdminEditService
+    public class AdminCommonEditService : IAdminCommonEditService
     {
         private readonly ApplicationDbContext dbContext;
 
-        public AdminEditService(ApplicationDbContext dbContext)
+        public AdminCommonEditService(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

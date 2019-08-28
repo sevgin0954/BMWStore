@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Services.AdminServices
 {
-    public class AdminDeleteService : IAdminDeleteService
+    public class AdminCommonDeleteService : IAdminCommonDeleteService
     {
         private readonly ApplicationDbContext dbContext;
 
-        public AdminDeleteService(ApplicationDbContext dbContext)
+        public AdminCommonDeleteService(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

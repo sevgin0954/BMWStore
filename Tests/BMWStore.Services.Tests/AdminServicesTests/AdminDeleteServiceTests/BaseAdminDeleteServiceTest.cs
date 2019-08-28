@@ -6,9 +6,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminDeleteServiceTests
 {
     public abstract class BaseAdminDeleteServiceTest : BaseTest
     {
-        public IAdminDeleteService GetService(ApplicationDbContext dbContext)
+        public IAdminCommonDeleteService GetService(ApplicationDbContext dbContext)
         {
-            var service = new AdminDeleteService(dbContext);
+            var service = new AdminCommonDeleteService(dbContext);
 
             return service;
         }

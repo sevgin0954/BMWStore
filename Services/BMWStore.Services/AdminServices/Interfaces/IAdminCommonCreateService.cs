@@ -2,9 +2,9 @@
 
 namespace BMWStore.Services.AdminServices.Interfaces
 {
-    public interface IAdminEditService
+    public interface IAdminCommonCreateService
     {
-        Task EditAsync<TEntity, TModel>(TModel editingModel, string id)
+        Task CreateAsync<TEntity, TModel>(TModel creatingModel)
             where TEntity : class
             where TModel : class;
     }

@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminCarsServiceTests
         {
             var carRepository = new CarRepository(dbContext);
             var carOptionsRepository = new CarOptionRepository(dbContext);
-            var adminDeleteService = new AdminDeleteService(dbContext);
+            var adminDeleteService = new AdminCommonDeleteService(dbContext);
             var pictureRepository = new PictureRepository(dbContext);
             var service = new AdminCarsService(
                 carRepository, 

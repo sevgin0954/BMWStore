@@ -17,15 +17,15 @@ namespace BMWStore.Services.AdminServices
     public class AdminFuelTypesService : IAdminFuelTypesService
     {
         private readonly IFuelTypeRepository fuelTypeRepository;
-        private readonly IAdminDeleteService adminDeleteService;
-        private readonly IAdminEditService adminEditService;
-        private readonly IAdminCreateService adminCreateService;
+        private readonly IAdminCommonDeleteService adminDeleteService;
+        private readonly IAdminCommonEditService adminEditService;
+        private readonly IAdminCommonCreateService adminCreateService;
 
         public AdminFuelTypesService(
             IFuelTypeRepository fuelTypeRepository,
-            IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService,
-            IAdminCreateService adminCreateService)
+            IAdminCommonDeleteService adminDeleteService,
+            IAdminCommonEditService adminEditService,
+            IAdminCommonCreateService adminCreateService)
         {
             this.fuelTypeRepository = fuelTypeRepository;
             this.adminDeleteService = adminDeleteService;

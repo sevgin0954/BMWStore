@@ -10,9 +10,9 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTransmissionsServiceTe
         public IAdminTransmissionsService GetService(ApplicationDbContext dbContext)
         {
             var transmissionRepository = new TransmissionRepository(dbContext);
-            var adminEditService = new AdminEditService(dbContext);
-            var adminDeleteService = new AdminDeleteService(dbContext);
-            var adminCreateService = new AdminCreateService(dbContext);
+            var adminEditService = new AdminCommonEditService(dbContext);
+            var adminDeleteService = new AdminCommonDeleteService(dbContext);
+            var adminCreateService = new AdminCommonCreateService(dbContext);
             var service = new AdminTransmissionsService(
                 transmissionRepository,
                 adminEditService,

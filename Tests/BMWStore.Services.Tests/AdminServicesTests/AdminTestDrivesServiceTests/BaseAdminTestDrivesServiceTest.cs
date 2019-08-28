@@ -16,7 +16,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
             var statusRepository = new StatusRepository(dbContext);
             this.UpcomingStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
             this.PassedStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Passed);
-            var adminDeleteService = new AdminDeleteService(dbContext);
+            var adminDeleteService = new AdminCommonDeleteService(dbContext);
             var service = new AdminTestDrivesService(testDriveRepository, statusRepository, adminDeleteService);
 
             return service;

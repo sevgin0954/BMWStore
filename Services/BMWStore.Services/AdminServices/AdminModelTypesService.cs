@@ -16,15 +16,15 @@ namespace BMWStore.Services.AdminServices
     public class AdminModelTypesService : IAdminModelTypesService
     {
         private readonly IModelTypeRepository modelTypeRepository;
-        private readonly IAdminDeleteService adminDeleteService;
-        private readonly IAdminEditService adminEditService;
-        private readonly IAdminCreateService adminCreateService;
+        private readonly IAdminCommonDeleteService adminDeleteService;
+        private readonly IAdminCommonEditService adminEditService;
+        private readonly IAdminCommonCreateService adminCreateService;
 
         public AdminModelTypesService(
             IModelTypeRepository modelTypeRepository,
-            IAdminDeleteService adminDeleteService,
-            IAdminEditService adminEditService,
-            IAdminCreateService adminCreateService)
+            IAdminCommonDeleteService adminDeleteService,
+            IAdminCommonEditService adminEditService,
+            IAdminCommonCreateService adminCreateService)
         {
             this.modelTypeRepository = modelTypeRepository;
             this.adminDeleteService = adminDeleteService;

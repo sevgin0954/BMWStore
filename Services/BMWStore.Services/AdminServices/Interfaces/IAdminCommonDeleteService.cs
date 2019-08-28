@@ -2,7 +2,7 @@
 
 namespace BMWStore.Services.AdminServices.Interfaces
 {
-    public interface IAdminDeleteService
+    public interface IAdminCommonDeleteService
     {
         Task DeleteAsync<TEntity>(string id) where TEntity : class;
     }
