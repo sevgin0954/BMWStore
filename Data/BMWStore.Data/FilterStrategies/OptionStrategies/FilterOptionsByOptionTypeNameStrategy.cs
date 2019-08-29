@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using BMWStore.Common.Constants;
+using BMWStore.Common.Validation;
 using BMWStore.Data.FilterStrategies.OptionStrategies.Interfaces;
 using BMWStore.Entities;
 
@@ -10,6 +13,9 @@ namespace BMWStore.Data.FilterStrategies.OptionStrategies
 
         public FilterOptionsByOptionTypeNameStrategy(string optionTypeName)
         {
+            var exception = new ArgumentException(ErrorConstants.CantBeNullOrEmptyParameter, nameof(optionTypeName));
+            DataValidator.ValidateNotNullOrEmpty(optionTypeName, exception);
+
             this.optionTypeName = optionTypeName;
         }
 

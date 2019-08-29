@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using BMWStore.Common.Constants;
+using BMWStore.Common.Validation;
 using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Entities;
 
@@ -10,6 +13,9 @@ namespace BMWStore.Data.FilterStrategies.CarStrategies
 
         public FilterCarsByKeyWordStrategy(string keyWord)
         {
+            var exception = new ArgumentException(ErrorConstants.CantBeNullOrEmptyParameter, nameof(keyWord));
+            DataValidator.ValidateNotNullOrEmpty(keyWord, exception);
+
             this.keyWord = keyWord.ToLower();
         }
 
