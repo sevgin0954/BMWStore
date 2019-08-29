@@ -11,5 +11,7 @@ namespace BMWStore.Models.CarModels.ViewModels
         public Enum SortStrategyType { get; set; }
         public SortStrategyDirection SortStrategyDirection { get; set; }
         public IEnumerable<CarInventoryConciseViewModel> Cars { get; set; }
+
+        public string[] KeyWords { get; set; }
     }
 }

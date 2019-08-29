@@ -7,6 +7,7 @@
            asp-controller="Car"
            asp-action="Index"
            asp-route-carId="@car.Id">
+
             <partial name="_CarConcisePartial" model="@car" />
         </a>
         @if (car.IsTestDriveScheduled)

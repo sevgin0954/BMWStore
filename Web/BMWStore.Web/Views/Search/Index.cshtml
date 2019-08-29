@@ -3,10 +3,42 @@
     ViewData["Title"] = "Cars";
 }
 
+<div class="mt-4"></div>
+
 <partial name="_InventoryBaseCarsSortPartial" />
 
 <div class="container-light-blue border-grey border-radius-smooth mt-4">
-    <partial name="_InventoryCarsPartial" model="Model.Cars" />
+    @if (Model.Cars.Count() == 0)
+    {
+        <div class="text-center">
+            <h6 class="font-medium">
+                No matches found for keywords: 
+                <strong class="font-medium"><u>@string.Join(", ", Model.KeyWords)</u></strong>
+            </h6>
+        </div>
+    }
+    else
+    {
+        <partial name="_InventoryCarsPartial" model="Model.Cars" />
 
-    <partial name="_PaginationPartial" />
+        <partial name="_PaginationPartial" />
+    }
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            const keyWordsCombined = '@string.Join("", Model.KeyWords)';
+
+            const carSearchElements = $('[car-search]');
+            for (let i = 0; i < carSearchElements.length; i++) {
+                const currentElement = $(carSearchElements[i]);
+
+                const currentValue = currentElement.text().toLowerCase();
+                if (currentValue.includes(keyWordsCombined) === true) {
+                    currentElement.addClass('text-shadow-blue');
+                }
+            }
+        })
+    </script>
+}

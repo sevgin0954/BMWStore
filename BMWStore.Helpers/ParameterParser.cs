@@ -1,5 +1,6 @@
 ﻿using BMWStore.Common.Constants;
 using System;
+using System.Collections.Generic;
 
 namespace BMWStore.Helpers
 {
@@ -47,6 +48,31 @@ namespace BMWStore.Helpers
             {
                 return null;
             }
+        }
+
+        public static IEnumerable<string> ParseSearchKeyWordsParameter(string inputStr, int minKeyWordLength)
+        {
+            var parsedKeyWord = new List<string>();
+
+            var inputParts = inputStr.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < inputParts.Length; i++)
+            {
+                var currentKeyWord = inputParts[i].ToLower();
+                if (currentKeyWord == "series")
+                {
+                    if (i > 0)
+                    {
+                        var seriesKeyWord = $"{inputParts[i - 1]} {currentKeyWord}";
+                        parsedKeyWord.Add(seriesKeyWord);
+                    }
+                }
+                else if (currentKeyWord.Length >= minKeyWordLength)
+                {
+                    parsedKeyWord.Add(currentKeyWord);
+                }
+            }
+
+            return parsedKeyWord;
         }
     }
 }

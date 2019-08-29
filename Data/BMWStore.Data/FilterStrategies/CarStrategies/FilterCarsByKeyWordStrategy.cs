@@ -20,7 +20,7 @@ namespace BMWStore.Data.FilterStrategies.CarStrategies
                 ||
                 c.Series.Name.ToLower().Contains(this.keyWord)
                 ||
-                c.GetType().Name.ToLower() == this.keyWord
+                c.GetType().Name.ToLower().Contains(this.keyWord)
                 ||
                 c.ModelType.Name.ToLower().Contains(this.keyWord)
                 ||

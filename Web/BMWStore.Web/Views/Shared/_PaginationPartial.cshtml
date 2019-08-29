@@ -1,9 +1,21 @@
 ﻿@model BasePaginationModel
+@using BMWStore.Helpers
+
 <ul class="pagination">
     @for (int i = 1; i <= Model.TotalPagesCount; i++)
     {
+        var basePath = this.ViewContext.HttpContext.Request.Path;
+        var pageNumberQueryString = $"?pageNumber={i}";
+        var queryString = this.ViewContext.HttpContext.Request.QueryString;
+
+        var queryKey = "pageNumber";
+        var queryValue = i.ToString();
+        QueryStringHelper.SetQueryParameter(ref queryString, queryKey, queryValue);
+
+        var fullPath = basePath + queryString;
+
         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-            <a asp-action="Index" asp-route-pageNumber="@i" class="page-link">@i</a>
+            <a href="@fullPath" class="page-link">@i</a>
         </li>
     }
 </ul>

@@ -10,6 +10,7 @@ using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,23 +43,34 @@ namespace BMWStore.Web.Controllers
 
             var sortStrategy = BaseCarSortStrategyFactory
                 .GetStrategy<BaseCar>(sortType, sortDirection);
-            var filterStrategies = CarSearchFilterStrategyFactory.GetStrategies(keyWords.Split());
 
-            var filteredCars = this.carRepository.GetFiltered(filterStrategies.ToArray());
-            var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
+            var splitedKeyWords = ParameterParser
+                .ParseSearchKeyWordsParameter(keyWords, WebConstants.MinSearchKeyWordLength)
+                .ToArray();
+            var filterStrategies = CarSearchFilterStrategyFactory.GetStrategies(splitedKeyWords);
 
-            var carServiceModels = await this.carsService
-                .GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber);
-            var carViewModels = Mapper.Map<IEnumerable<CarInventoryConciseViewModel>>(carServiceModels);
+            IEnumerable<CarInventoryConciseViewModel> carViewModels = new List<CarInventoryConciseViewModel>();
+            int totalPagesCount = 0;
+            if (filterStrategies.Count > 0)
+            {
+                var filteredCars = this.carRepository.GetFiltered(filterStrategies.ToArray());
+                var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
-            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
+                var carServiceModels = await this.carsService
+                    .GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber);
+                carViewModels = Mapper.Map<IEnumerable<CarInventoryConciseViewModel>>(carServiceModels);
+
+                totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
+            }
+
             var model = new CarSearchViewModel()
             {
                 Cars = carViewModels,
                 SortStrategyDirection = sortDirection,
                 SortStrategyType = sortType,
                 CurrentPage = pageNumber,
-                TotalPagesCount = totalPagesCount
+                TotalPagesCount = totalPagesCount,
+                KeyWords = splitedKeyWords
             };
 
             return View(model);

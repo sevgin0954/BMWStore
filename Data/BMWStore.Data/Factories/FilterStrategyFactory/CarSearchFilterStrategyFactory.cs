@@ -7,7 +7,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
 {
     public static class CarSearchFilterStrategyFactory
     {
-        public static IEnumerable<ICarFilterStrategy> GetStrategies(string[] keyWords)
+        public static ICollection<ICarFilterStrategy> GetStrategies(string[] keyWords)
         {
             var strategies = new List<ICarFilterStrategy>();
 
@@ -15,7 +15,7 @@ namespace BMWStore.Data.Factories.FilterStrategyFactory
             {
                 foreach (var keyWord in keyWords)
                 {
-                    if (keyWord != null && keyWord.Length >= WebConstants.MinSearchKeyWordLength)
+                    if (string.IsNullOrEmpty(keyWord) == false)
                     {
                         var strategy = new FilterCarsByKeyWordStrategy(keyWord);
                         strategies.Add(strategy);
