@@ -1,6 +1,6 @@
-﻿@model CarsInventoryViewModel
+﻿@model IEnumerable<CarInventoryConciseViewModel>
 @inject Microsoft.AspNetCore.Identity.SignInManager<User> signInManager
-@foreach (var car in Model.Cars)
+@foreach (var car in Model)
 {
     <div data-carId="@car.Id" class="container-item-white border-radius-smooth border-grey">
         <a class="no-text-decorator color-black"

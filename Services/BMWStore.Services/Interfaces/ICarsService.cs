@@ -1,7 +1,6 @@
 ﻿using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
-using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace BMWStore.Services.Interfaces
 {
     public interface ICarsService
     {
-        IQueryable<CarConciseViewModel> GetCars(
+        IQueryable<BaseCarServiceModel> GetCars(
             ICarSortStrategy<BaseCar> sortStrategy,
             params ICarFilterStrategy[] filterStrategies);
         Task<CarServiceModel> GetByIdAsync(string carId);

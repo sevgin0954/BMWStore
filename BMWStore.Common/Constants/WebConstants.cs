@@ -37,6 +37,9 @@
         public const string CookieUserNewCarsSortDirectionKey = "___UserNewCarsSortDirection___";
         public const string CookieUserNewCarsSortTypeKey = "___UserNewCarsSortType___";
 
+        public const string CookieUserSearchCarsSortDirectionKey = "___UserSearchCarsSortDirection___";
+        public const string CookieUserSearchCarsSortTypeKey = "___UserSearchCarsSortType___";
+
         public const string CookieUserUsedCarsSortDirectionKey = "___UserUsedCarsSortDirection___";
         public const string CookieUserUsedCarsSortTypeKey = "___UserUsedCarsSortType___";
 
@@ -45,6 +48,8 @@
 
         public const string CookieAdminOptionsSortDirectionKey = "___AdminOptionsSortDirection___";
         public const string CookieAdminOptionsSortTypeKey = "___AdminOptionsSortType___";
+
+        public const int MinSearchKeyWordLength = 3;
 
         public const string StatusMessagePrefix = "___customStatusMessage";
         public const string MessageTypeDanger = "danger";

@@ -19,5 +19,7 @@ namespace BMWStore.Models.ViewComponentModels.ViewModels
         public string ReturnUrl { get; set; }
 
         public string ParameterName { get; set; }
+
+        public string MethodType { get; set; }
     }
 }

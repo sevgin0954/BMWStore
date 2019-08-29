@@ -75,7 +75,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortType = this.cookiesService.GetValueOrDefault<AdminBaseCarSortStrategyType>(cookies, sortTypeKey);
 
             var filterStrategy = AdminCarFilterStrategyFactory.GetStrategy(filter, name);
-            var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
+            var sortStrategy = AdminBaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
 
             var carServiceModels = this.carsService.GetCars(sortStrategy, filterStrategy);
             var carServiceModelsFromCurrentPage = carServiceModels.GetFromPage(pageNumber);

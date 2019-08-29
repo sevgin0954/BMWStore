@@ -1,7 +1,7 @@
-﻿<form class="form-inline" action="/" method="get">
+﻿<form class="form-inline" method="get" asp-controller="Search" asp-action="Index">
     <div class="background-white input-group border-radius-smooth">
         <div class="form-control no-border border-radius-smooth">
-            <input class="no-border no-outline" type="search" placeholder="Search..." />
+            <input name="keyWords" class="no-border no-outline" type="search" placeholder="Search..." />
         </div>
         <div class="input-group-append no-border">
             <button class="btn no-border no-outline">

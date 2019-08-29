@@ -52,7 +52,7 @@ namespace BMWStore.Web.Controllers
             var sortTypeKey = WebConstants.CookieUserNewCarsSortTypeKey;
             var sortType = this.cookiesService.GetValueOrDefault<BaseCarSortStrategyType>(cookie, sortTypeKey);
 
-            var sortStrategy = NewCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
+            var sortStrategy = BaseCarSortStrategyFactory.GetStrategy<NewCar>(sortType, sortDirection);
 
             var priceRanges = ParameterParser.ParsePriceRange(model.PriceRange);
             var filterStrategies = CarFilterStrategyFactory

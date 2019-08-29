@@ -4,10 +4,13 @@
         @Html.DisplayFor(m => m.FilterModel)
     </div>
     <div class="mt-4 col no-padding">
+        <div>
+            <h5>@Model.TotalCarsCount Vehicles matching</h5>
+        </div>
         <partial name="_InventoryUsedCarsSortPartial" />
 
         <div class="container-light-blue border-grey border-radius-smooth mt-4">
-            <partial name="_InventoryCarsPartial" />
+            <partial name="_InventoryCarsPartial" model="Model.Cars" />
         </div>
     </div>
 </div>

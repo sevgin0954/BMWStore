@@ -20,7 +20,8 @@ namespace BMWStore.Web.Views.Shared.Components
             string actionName,
             string routeParamName,
             string returnUrl,
-            string prependText = "")
+            string prependText = "",
+            string methodType = "post")
         {
             var enumType = Type.GetType(enumTypeName);
 
@@ -61,7 +62,8 @@ namespace BMWStore.Web.Views.Shared.Components
                 ActionName = actionName,
                 ReturnUrl = returnUrl,
                 ParameterName = routeParamName,
-                PrependText = prependText
+                PrependText = prependText,
+                MethodType = methodType
             };
 
             return View(model);

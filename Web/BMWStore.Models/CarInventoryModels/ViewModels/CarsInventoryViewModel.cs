@@ -1,4 +1,5 @@
 ﻿using BMWStore.Common.Enums.SortStrategies;
+using BMWStore.Models.CarModels.Interfaces;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Models.PaginationModels;
 using Newtonsoft.Json;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 
 namespace BMWStore.Models.CarInventoryModels.ViewModels
 {
-    public class CarsInventoryViewModel : BasePaginationModel
+    public class CarsInventoryViewModel : BasePaginationModel, ICarsInventorySortModel
     {
         [JsonProperty("SortStrategyType")]
         [JsonConverter(typeof(StringEnumConverter))]

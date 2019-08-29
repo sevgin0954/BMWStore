@@ -1,0 +1,10 @@
+﻿@model CarSearchViewModel
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<partial name="_InventoryBaseCarsSortPartial" />
+
+<div class="container-light-blue border-grey border-radius-smooth mt-4">
+    <partial name="_InventoryCarsPartial" model="Model.Cars" />
+</div>

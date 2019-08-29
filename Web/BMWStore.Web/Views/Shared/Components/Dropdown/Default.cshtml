@@ -19,7 +19,7 @@
             if (strategyTypeName != Model.SelectedSortName)
             {
                 parms[Model.ParameterName] = strategyTypeName;
-                <form method="post"
+                <form method="@Model.MethodType"
                       asp-area="@Model.AreaName"
                       asp-controller="@Model.ControllerName"
                       asp-action="@Model.ActionName"

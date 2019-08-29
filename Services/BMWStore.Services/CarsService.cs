@@ -6,7 +6,6 @@ using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
-using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
@@ -44,14 +43,14 @@ namespace BMWStore.Services
             return carModel;
         }
 
-        public IQueryable<CarConciseViewModel> GetCars(
+        public IQueryable<BaseCarServiceModel> GetCars(
             ICarSortStrategy<BaseCar> sortStrategy,
             params ICarFilterStrategy[] filterStrategies)
         {
             var filteredCars = this.carRepository.GetFiltered(filterStrategies);
             var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
-            var carModels = filteredAndSortedCars.To<CarConciseViewModel>();
+            var carModels = filteredAndSortedCars.To<BaseCarServiceModel>();
 
             return carModels;
         }
