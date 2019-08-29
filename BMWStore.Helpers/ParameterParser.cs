@@ -12,15 +12,41 @@ namespace BMWStore.Helpers
             if (priceRange != null && priceRange != WebConstants.AllFilterTypeModelValue)
             {
                 var priceParts = priceRange
-                    .Split(" -}".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    .Split(" -".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 if (priceParts.Length == 2)
                 {
-                    priceRanges[0] = decimal.Parse(priceParts[0]);
-                    priceRanges[1] = decimal.Parse(priceParts[1]);
+                    var priceRange1 = GetParseRangeOrDefault(priceParts[0]);
+                    if (priceRange1 == null)
+                    {
+                        return priceRanges;
+                    }
+
+                    var priceRange2 = GetParseRangeOrDefault(priceParts[1]);
+                    if (priceRange2 == null)
+                    {
+                        return priceRanges;
+                    }
+
+                    priceRanges[0] = priceRange1;
+                    priceRanges[1] = priceRange2;
                 }
             }
 
             return priceRanges;
+        }
+
+        private static decimal? GetParseRangeOrDefault(string priceRange)
+        {
+            decimal parseRange;
+            var isParseSuccessful = decimal.TryParse(priceRange, out parseRange);
+            if (isParseSuccessful)
+            {
+                return parseRange;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
