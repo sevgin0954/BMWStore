@@ -5,6 +5,7 @@ using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
+using BMWStore.Helpers;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
@@ -29,7 +30,7 @@ namespace BMWStore.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string keyWords, int pageNumber = 1)
+        public async Task<IActionResult> Index(string keyWords = "", int pageNumber = 1)
         {
             var cookie = this.HttpContext.Request.Cookies;
 
@@ -50,11 +51,14 @@ namespace BMWStore.Web.Controllers
                 .GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber);
             var carViewModels = Mapper.Map<IEnumerable<CarInventoryConciseViewModel>>(carServiceModels);
 
+            var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
             var model = new CarSearchViewModel()
             {
                 Cars = carViewModels,
                 SortStrategyDirection = sortDirection,
-                SortStrategyType = sortType
+                SortStrategyType = sortType,
+                CurrentPage = pageNumber,
+                TotalPagesCount = totalPagesCount
             };
 
             return View(model);
