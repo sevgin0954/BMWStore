@@ -14,7 +14,6 @@ using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,8 +49,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortType = this.cookiesService.GetValueOrDefault<EngineSortStrategy>(cookies, sortTypeKey);
             var sortDirection = this.cookiesService.GetValueOrDefault<SortStrategyDirection>(cookies, sortDirectionKey);
             var sortStrategy = EnginesSortStrategyFactory.GetStrategy(sortType, sortDirection);
-            var engineServiceModels = await this.enginesService.GetSorted(sortStrategy, pageNumber).ToArrayAsync();
-            var engineViewModels = Mapper.Map<IEnumerable<EngineViewModel>>(engineServiceModels);
+            var engineViewModels = await this.enginesService.GetSorted(sortStrategy, pageNumber)
+                .To<EngineViewModel>()
+                .ToArrayAsync();
 
             var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(this.engineRepository.GetAll());
             var model = new AdminEnginesViewModel()

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BMWStore.Models.OptionModels.ViewModels;
+using BMWStore.Models.OptionTypeModels.ViewModels;
 using BMWStore.Services.Models;
 using MappingRegistrar.Interfaces;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace BMWStore.Models.CarModels.ViewModels
 
         public string ModelTypeId { get; set; }
 
-        public IEnumerable<OptionConciseViewModel> Options { get; set; } = new List<OptionConciseViewModel>();
+        public IEnumerable<OptionTypeViewModel> OptionTypes { get; set; } = new List<OptionTypeViewModel>();
 
         public IEnumerable<string> PicturePublicIds { get; set; } = new List<string>();
 
@@ -48,7 +48,12 @@ namespace BMWStore.Models.CarModels.ViewModels
             configuration.CreateMap<CarServiceModel, CarViewModel>()
                 .ForMember(dest => dest.PicturePublicIds, opt => opt.MapFrom(src => src.Pictures.Select(p => p.PublicId).ToList()))
                 .ForMember(dest => dest.TransmissionName, opt => opt.MapFrom(src => src.Engine.Transmission.Name))
-                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.Options.Select(co => co.Option)));
+                .ForMember(dest => dest.OptionTypes, opt => opt.MapFrom(src => src.Options
+                    .GroupBy(o => o.Option.OptionType.Name).Select(group => new OptionTypeViewModel()
+                    {
+                        Name = group.Key,
+                        OptionNames = group.Select(o => o.Option.Name).ToList()
+                    })));
 
             base.CreateMappings(configuration);
         }

@@ -11,6 +11,7 @@ using BMWStore.Models.CarInventoryModels.ViewModels;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -65,9 +66,10 @@ namespace BMWStore.Web.Controllers
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
             var filteredByMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
 
-            var currentPageCarServiceModels = await this.carsService
-                .GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber);
-            var currentPageViewModels = Mapper.Map<IEnumerable<CarInventoryConciseViewModel>>(currentPageCarServiceModels);
+            var currentPageViewModels = await this.carsService
+                .GetCarTestDriveModel<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber)
+                .To<CarInventoryConciseViewModel>()
+                .ToArrayAsync();
 
             var key = KeyGenerator.Generate(
                 WebConstants.CacheUsedInventoryPrepend,

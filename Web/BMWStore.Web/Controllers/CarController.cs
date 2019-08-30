@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using BMWStore.Models.CarInventoryModels.ViewModels;
+using BMWStore.Common.Constants;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
@@ -11,28 +12,27 @@ namespace BMWStore.Web.Controllers
     public class CarController : Controller
     {
         private readonly ICarsService carsService;
-        private readonly IOptionTypeService optionTypeService;
 
-        public CarController(ICarsService carsService, IOptionTypeService optionTypeService)
+        public CarController(ICarsService carsService)
         {
             this.carsService = carsService;
-            this.optionTypeService = optionTypeService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
-            var carServiceModel = await this.carsService.GetCarTestDriveModelById<CarServiceModel>(carId, this.User);
-            var carViewModel = Mapper.Map<CarViewModel>(carServiceModel);
-            var optionTypeModels = this.optionTypeService.GetViewModels(carViewModel.Options);
-
-            var model = new CarInventoryViewModel()
+            try
             {
-                Car = carViewModel,
-                OptionTypes = optionTypeModels
-            };
+                var carServiceModel = await this.carsService.GetCarTestDriveModelById<CarServiceModel>(carId, this.User);
+                var carViewModel = Mapper.Map<CarViewModel>(carServiceModel);
 
-            return View(model);
+                return View(carViewModel);
+            }
+            catch (ArgumentException)
+            {
+                this.TempData[WebConstants.StatusMessagePrefix] = ErrorConstants.IncorrectId;
+                return Redirect("/");
+            }
         }
     }
 }

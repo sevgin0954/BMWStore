@@ -1,11 +1,13 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
 using BMWStore.Models.FilterModels.BindingModels;
+using BMWStore.Services.Models;
+using MappingRegistrar.Interfaces;
 using System.Collections.Generic;
 
 namespace BMWStore.Models.HomeModels.BindingModel
 {
-    public class HomeSearchBindingModel
+    public class HomeSearchBindingModel : IMapFrom<HomeSearchServiceModel>
     {
         public CarType SelectedCarType { get; set; } = CarType.NewCar;
         public IEnumerable<FilterTypeBindingModel> CarTypes { get; set; } = new List<FilterTypeBindingModel>();

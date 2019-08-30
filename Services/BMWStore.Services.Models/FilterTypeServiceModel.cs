@@ -1,4 +1,6 @@
-﻿namespace BMWStore.Services.Models
+﻿using BMWStore.Common.Interfaces;
+
+namespace BMWStore.Services.Models
 {
     public class FilterTypeServiceModel
     {

@@ -1,6 +1,6 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Interfaces;
 using BMWStore.Common.Validation;
-using BMWStore.Models.FilterModels.BindingModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace BMWStore.Helpers
 {
     public static class FilterTypeHelper
     {
-        public static void SelectFilterTypes(IEnumerable<FilterTypeBindingModel> filterTypes, params string[] values)
+        public static void SelectFilterTypes(IEnumerable<ISelectable> filterTypes, params string[] values)
         {
             DataValidator.ValidateNotNull(filterTypes, new ArgumentException(ErrorConstants.CantBeNullParameter));
 

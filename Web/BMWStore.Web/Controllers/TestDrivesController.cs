@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using BMWStore.Common.Constants;
 using BMWStore.Models.TestDriveModels.BindingModels;
 using BMWStore.Models.TestDriveModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace BMWStore.Web.Controllers
@@ -23,8 +25,8 @@ namespace BMWStore.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var serviceModels = await this.testDriveService.GetAll(this.User).ToArrayAsync();
-            var viewModels = Mapper.Map<IEnumerable<TestDriveViewModel>>(serviceModels);
+            var serviceModels = this.testDriveService.GetAll(this.User);
+            var viewModels = await serviceModels.To<TestDriveViewModel>().ToArrayAsync();
 
             return View(viewModels);
         }
@@ -32,10 +34,19 @@ namespace BMWStore.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Drive(string testDriveId)
         {
-            var serviceModel = await this.testDriveService.GetByIdAsync(testDriveId, this.User);
-            var viewModel = Mapper.Map<TestDriveViewModel>(serviceModel);
+            try
+            {
+                var serviceModel = await this.testDriveService.GetByIdAsync(testDriveId, this.User);
+                var viewModel = Mapper.Map<TestDriveViewModel>(serviceModel);
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            catch (ArgumentException)
+            {
+                this.TempData[WebConstants.StatusMessagePrefix] = ErrorConstants.IncorrectId;
+
+                return Redirect("/");
+            }
         }
 
         [HttpPost]

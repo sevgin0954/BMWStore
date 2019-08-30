@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BMWStore.Common.Constants;
+﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Data.Factories.SortStrategyFactories;
@@ -9,7 +8,9 @@ using BMWStore.Helpers;
 using BMWStore.Models.CarModels.ViewModels;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
+using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,9 +57,10 @@ namespace BMWStore.Web.Controllers
                 var filteredCars = this.carRepository.GetFiltered(filterStrategies.ToArray());
                 var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
-                var carServiceModels = await this.carsService
-                    .GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber);
-                carViewModels = Mapper.Map<IEnumerable<CarInventoryConciseViewModel>>(carServiceModels);
+                carViewModels = await this.carsService
+                    .GetCarTestDriveModel<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber)
+                    .To<CarInventoryConciseViewModel>()
+                    .ToArrayAsync();
 
                 totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
             }

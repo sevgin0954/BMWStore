@@ -12,7 +12,7 @@
     {
         <div class="text-center">
             <h6 class="font-medium">
-                No matches found for keywords: 
+                No matches found for keywords:
                 <strong class="font-medium"><u>@string.Join(", ", Model.KeyWords)</u></strong>
             </h6>
         </div>
@@ -26,6 +26,8 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/datetimePickerPick.js"></script>
+    <script src="~/js/showModal.js"></script>
     <script>
         $(function () {
             const keyWords = '@string.Join(",", Model.KeyWords)'.toLowerCase().split(',');

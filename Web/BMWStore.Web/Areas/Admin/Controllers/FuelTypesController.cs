@@ -28,7 +28,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int pageNumber = 1)
         {
             var serviceModels = this.fuelTypesService.GetAll(pageNumber);
-            var fuelTypeModels = await serviceModels.To<FuelTypeViewModel>().ToArrayAsync();
+            var fuelTypeModels = await serviceModels
+                .To<FuelTypeViewModel>()
+                .ToArrayAsync();
             var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(this.fuelTypeRepository.GetAll());
             var model = new AdminFuelTypesViewModel()
             {

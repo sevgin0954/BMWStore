@@ -23,9 +23,9 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var serviceModels = await this.seriesService.GetAll()
+            var viewModels = await this.seriesService.GetAll()
+                .To<SeriesViewModel>()
                 .ToArrayAsync();
-            var viewModels = Mapper.Map<IEnumerable<SeriesViewModel>>(serviceModels);
 
             return View(viewModels);
         }

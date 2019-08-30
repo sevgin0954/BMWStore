@@ -59,6 +59,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var allOptions = this.optionRepository.GetAll();
             var filteredOptions = filterStrategy.Filter(allOptions);
 
+            // TODO: Make use of projectTo
             var optionServiceModels = await this.adminOptionsService
                 .GetAllSorted(filteredOptions, sortStrategy, pageNumber)
                 .ToArrayAsync();

@@ -12,11 +12,15 @@ using BMWStore.Models.HomeModels.BindingModel;
 using BMWStore.Data.Factories.FilterStrategyFactory;
 using BMWStore.Helpers;
 using BMWStore.Common.Constants;
+using AutoMapper;
 
 namespace BMWStore.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private const string MainPhotoTargetUrl = "/Car?carId=34afd512-e702-4eb5-bb64-a1ac7dd3863e";
+        private const string MainPhotoPublicId = "nsgkdld26bxsjsdg2cpv";
+
         private readonly IHomeService homeService;
         private readonly ICarRepository carRepository;
         private readonly ICacheService cacheService;
@@ -36,12 +40,15 @@ namespace BMWStore.Web.Controllers
         {
             var allCars = this.carRepository.GetAll();
 
-            var searchModel = await this.homeService.GetSearchModelAsync(allCars, CarType.NewCar);
+            var searchServiceModel = await this.homeService.GetSearchModelAsync(allCars, CarType.NewCar);
+            var searchBindingModel = Mapper.Map<HomeSearchBindingModel>(searchServiceModel);
+            FilterTypeHelper.SelectFilterTypes(searchBindingModel.CarTypes, CarType.NewCar.ToString());
+
             var model = new HomeViewModel();
-            model.SearchModel = searchModel;
+            model.SearchModel = searchBindingModel;
             model.TargetUrlsPublicIds.Add(
-                "/Car?carId=34afd512-e702-4eb5-bb64-a1ac7dd3863e",
-                "nsgkdld26bxsjsdg2cpv");
+                MainPhotoTargetUrl,
+                MainPhotoPublicId);
 
             return View(model);
         }

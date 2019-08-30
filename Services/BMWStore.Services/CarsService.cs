@@ -12,7 +12,6 @@ using MappingRegistrar;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -61,24 +60,22 @@ namespace BMWStore.Services
         {
             var car = this.carRepository
                 .Find(c => c.Id == id);
-            var models = await this.GetCarTestDriveModelAsync<TModel>(car, user, 1);
-            var carModel = models.FirstOrDefault();
+            var carModel = await this.GetCarTestDriveModel<TModel>(car, user, 1).FirstOrDefaultAsync();
             DataValidator.ValidateNotNull(carModel, new ArgumentException(ErrorConstants.IncorrectId));
 
             return carModel;
         }
 
-        public async Task<IEnumerable<TModel>> GetCarTestDriveModelAsync<TModel>(
+        public IQueryable<TModel> GetCarTestDriveModel<TModel>(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber) where TModel : BaseCarTestDriveServiceModel
         {
             var isUserSignedIn = this.signInManager.IsSignedIn(user);
 
-            var models = await cars
+            var models = cars
                 .GetFromPage(pageNumber)
-                .To<TModel>(new { isUserSignedIn })
-                .ToArrayAsync();
+                .To<TModel>(new { isUserSignedIn });
 
             return models;
         }

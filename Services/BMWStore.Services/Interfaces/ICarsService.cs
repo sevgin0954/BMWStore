@@ -2,7 +2,6 @@
 using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Models;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace BMWStore.Services.Interfaces
         Task<CarServiceModel> GetByIdAsync(string carId);
         Task<TModel> GetCarTestDriveModelById<TModel>(string id, ClaimsPrincipal user)
              where TModel : BaseCarTestDriveServiceModel;
-        Task<IEnumerable<TModel>> GetCarTestDriveModelAsync<TModel>(
+        IQueryable<TModel> GetCarTestDriveModel<TModel>(
             IQueryable<BaseCar> cars,
             ClaimsPrincipal user,
             int pageNumber) where TModel : BaseCarTestDriveServiceModel;

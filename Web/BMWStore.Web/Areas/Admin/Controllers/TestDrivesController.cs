@@ -54,9 +54,10 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var allTestDrives = this.testDriveRepository.GetAll();
             var filteredTestDrives = filterStrategy.Filter(allTestDrives);
 
-            var testDriveServiceModels = await this.adminTestDrivesService
-                .GetAllSorted(filteredTestDrives, sortStrategy, pageNumber).ToArrayAsync();
-            var testDriveViewModels = Mapper.Map<IEnumerable<TestDriveViewModel>> (testDriveServiceModels);
+            var testDriveViewModels = await this.adminTestDrivesService
+                .GetAllSorted(filteredTestDrives, sortStrategy, pageNumber)
+                .To<TestDriveViewModel>()
+                .ToArrayAsync();
             var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredTestDrives);
             var model = new AdminTestDrivesViewModel()
             {

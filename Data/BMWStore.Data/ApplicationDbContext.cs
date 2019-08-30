@@ -1,5 +1,4 @@
 ﻿using BMWStore.Entities;
-using BMWStore.Models.FilterModels.BindingModels;
 using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
