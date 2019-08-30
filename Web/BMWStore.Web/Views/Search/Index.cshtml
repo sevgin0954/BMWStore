@@ -28,15 +28,19 @@
 @section Scripts {
     <script>
         $(function () {
-            const keyWordsCombined = '@string.Join("", Model.KeyWords)';
+            const keyWords = '@string.Join(",", Model.KeyWords)'.toLowerCase().split(',');
 
             const carSearchElements = $('[car-search]');
             for (let i = 0; i < carSearchElements.length; i++) {
                 const currentElement = $(carSearchElements[i]);
 
                 const currentValue = currentElement.text().toLowerCase();
-                if (currentValue.includes(keyWordsCombined) === true) {
-                    currentElement.addClass('text-shadow-blue');
+
+                for (let i = 0; i < keyWords.length; i++) {
+                    const currentKeyWord = keyWords[i];
+                    if (currentValue.includes(currentKeyWord)) {
+                        currentElement.addClass('text-shadow-blue');
+                    }
                 }
             }
         })

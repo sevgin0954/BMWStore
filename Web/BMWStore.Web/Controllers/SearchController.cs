@@ -45,6 +45,7 @@ namespace BMWStore.Web.Controllers
 
             var splitedKeyWords = ParameterParser
                 .ParseSearchKeyWordsParameter(keyWords, WebConstants.MinSearchKeyWordLength)
+                .Distinct()
                 .ToArray();
             var filterStrategies = CarSearchFilterStrategyFactory.GetStrategies(splitedKeyWords);
 

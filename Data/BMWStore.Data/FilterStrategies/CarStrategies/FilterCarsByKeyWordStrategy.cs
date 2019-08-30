@@ -24,7 +24,7 @@ namespace BMWStore.Data.FilterStrategies.CarStrategies
             var filteredCars = cars.Where(c =>
                 c.Name.ToLower().Contains(this.keyWord)
                 ||
-                c.Series.Name.ToLower().Contains(this.keyWord)
+                c.Series.Name.ToLower() == this.keyWord
                 ||
                 c.GetType().Name.ToLower().Contains(this.keyWord)
                 ||
