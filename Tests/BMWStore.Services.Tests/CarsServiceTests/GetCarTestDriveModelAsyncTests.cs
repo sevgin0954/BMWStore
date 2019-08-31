@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace BMWStore.Services.Tests.CarsServiceTests
@@ -18,68 +17,68 @@ namespace BMWStore.Services.Tests.CarsServiceTests
     public class GetCarTestDriveModelAsyncTests : BaseCarsServiceTest, IClassFixture<MapperFixture>
     {
         [Fact]
-        public async void WithoutSignInUserAndCar_ShouldReturnModelWithFalseIsTestDriveScheduled()
+        public void WithoutSignInUserAndCar_ShouldReturnModelWithFalseIsTestDriveScheduled()
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
+            var models = this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.IsTestDriveScheduled == false));
         }
 
         [Fact]
-        public async void WithoutSignInUserAndCar_ShouldReturnModelWithNullTestDriveId()
+        public void WithoutSignInUserAndCar_ShouldReturnModelWithNullTestDriveId()
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
+            var models = this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.TestDriveId == null));
         }
 
         [Fact]
-        public async void WithSignInUserAndWithoutScheduleTestDrive_ShouldReturnModelWithFalseIsTestDriveScheduled()
+        public void WithSignInUserAndWithoutScheduleTestDrive_ShouldReturnModelWithFalseIsTestDriveScheduled()
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
+            var models = this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.IsTestDriveScheduled == false));
         }
 
         [Fact]
-        public async void WithSignInUserAndWithoutScheduleTestDrive_ShouldReturnModelWithNullTestDriveId()
+        public void WithSignInUserAndWithoutScheduleTestDrive_ShouldReturnModelWithNullTestDriveId()
         {
             var dbContext = this.GetDbContext();
 
-            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
+            var models = this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.TestDriveId == null));
         }
 
         [Fact]
-        public async void WithSignInUserAndScheduleTestDrive_ShouldReturnModelWithTrueIsTestDriveScheduled()
+        public void WithSignInUserAndScheduleTestDrive_ShouldReturnModelWithTrueIsTestDriveScheduled()
         {
             var dbContext = this.GetDbContext();
             this.ScheduleTestDrive(dbContext);
 
-            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
+            var models = this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.IsTestDriveScheduled));
         }
 
         [Fact]
-        public async void WithSignInUserAndScheduleTestDrive_ShouldReturnModelWithCorrectTestDriveId()
+        public void WithSignInUserAndScheduleTestDrive_ShouldReturnModelWithCorrectTestDriveId()
         {
             var dbContext = this.GetDbContext();
             var dbTestDrive = this.ScheduleTestDrive(dbContext);
 
-            var models = await this.CallGetCarsInventoryViewModelAsync(dbContext, true);
+            var models = this.CallGetCarsInventoryViewModelAsync(dbContext, true);
 
             Assert.True(models.All(m => m.TestDriveId == dbTestDrive.Id));
         }
 
-        private async Task<IEnumerable<CarServiceModel>> CallGetCarsInventoryViewModelAsync(
+        private IEnumerable<CarServiceModel> CallGetCarsInventoryViewModelAsync(
             ApplicationDbContext dbContext,
             bool isUserSignIn,
             int pageNumber = 1)
@@ -88,7 +87,7 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             var service = this.GetService(signInManager, dbContext);
             var user = new Mock<ClaimsPrincipal>().Object;
 
-            var models = await service.GetCarTestDriveModel<CarServiceModel>(dbContext.BaseCars, user, pageNumber);
+            var models = service.GetCarTestDriveModel<CarServiceModel>(dbContext.BaseCars, user, pageNumber);
 
             return models;
         }

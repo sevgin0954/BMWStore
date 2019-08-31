@@ -54,7 +54,7 @@ namespace BMWStore.Services.AdminServices
         public IQueryable<EngineServiceModel> GetSorted(IEngineSortStrategy sortStrategy, int pageNumber)
         {
             var sortedEngines = sortStrategy.Sort(this.engineRepository.GetAll());
-            var enginesFromPage = sortedEngines.GetFromPage(pageNumber);
+            var enginesFromPage = sortedEngines.GetFromPage(pageNumber, WebConstants.PageSize);
             var engineModels = enginesFromPage.To<EngineServiceModel>();
 
             return engineModels;

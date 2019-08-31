@@ -1,5 +1,4 @@
 ﻿using BMWStore.Data;
-using BMWStore.Data.Repositories;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Tests.Common;
 using BMWStore.Tests.Common.MockTestMethods;
@@ -12,14 +11,12 @@ namespace BMWStore.Services.Tests.HomeServiceTests
 
         public IHomeService GetService(ApplicationDbContext dbContext)
         {
-            var carRepository = new CarRepository(dbContext);
             var carInventoriesService = new CarInventoriesService();
             var carYearService = new CarYearService();
             var carModelTypeService = new CarModelTypeService();
             var mockedCarPriceService = new Mock<ICarPriceService>();
             CommonMockServicesMethods.SetupCarPriceService(mockedCarPriceService);
             var service = new HomeService(
-                carRepository, 
                 carInventoriesService, 
                 carYearService, 
                 carModelTypeService, 

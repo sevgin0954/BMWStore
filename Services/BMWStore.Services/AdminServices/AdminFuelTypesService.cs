@@ -56,7 +56,7 @@ namespace BMWStore.Services.AdminServices
         {
             var models = this.fuelTypeRepository
                 .GetAll()
-                .GetFromPage(pageNumber)
+                .GetFromPage(pageNumber, WebConstants.PageSize)
                 .To<FuelTypeServiceModel>();
 
             return models;

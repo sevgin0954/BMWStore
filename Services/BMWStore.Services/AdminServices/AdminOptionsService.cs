@@ -60,7 +60,7 @@ namespace BMWStore.Services.AdminServices
             var sortedAndFilteredOptions = sortStrategy.Sort(options);
             var currentPageOptionModels = sortedAndFilteredOptions
                 .To<OptionServiceModel>()
-                .GetFromPage(pageNumber);
+                .GetFromPage(pageNumber, WebConstants.PageSize);
 
             return currentPageOptionModels;
         }

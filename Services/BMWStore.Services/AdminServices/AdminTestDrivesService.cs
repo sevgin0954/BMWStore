@@ -60,7 +60,7 @@ namespace BMWStore.Services.AdminServices
             var sortedTestDrives = sortStrategy.Sort(testDrives);
 
             var testDriveModels = sortedTestDrives
-                .GetFromPage(pageNumber)
+                .GetFromPage(pageNumber, WebConstants.PageSize)
                 .To<TestDriveServiceModel>();
 
             return testDriveModels;

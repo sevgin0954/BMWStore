@@ -78,7 +78,7 @@ namespace BMWStore.Web.Areas.Admin.Controllers
             var sortStrategy = AdminBaseCarSortStrategyFactory.GetStrategy<BaseCar>(sortType, sortDirection);
 
             var carServiceModels = this.carsService.GetCars(sortStrategy, filterStrategy);
-            var carServiceModelsFromCurrentPage = carServiceModels.GetFromPage(pageNumber);
+            var carServiceModelsFromCurrentPage = carServiceModels.GetFromPage(pageNumber, WebConstants.PageSize);
             var carViewModels = await carServiceModelsFromCurrentPage.To<CarConciseViewModel>().ToArrayAsync();
 
             var totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(carServiceModels);

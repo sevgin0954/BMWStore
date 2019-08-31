@@ -74,7 +74,7 @@ namespace BMWStore.Services
             var isUserSignedIn = this.signInManager.IsSignedIn(user);
 
             var models = cars
-                .GetFromPage(pageNumber)
+                .GetFromPage(pageNumber, WebConstants.PageSize)
                 .To<TModel>(new { isUserSignedIn });
 
             return models;

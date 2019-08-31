@@ -16,14 +16,18 @@ namespace BMWStore.Helpers
             return (int)totalPagesCount;
         }
 
-        public static IQueryable<TEntity> GetFromPage<TEntity>(this IQueryable<TEntity> entities, int pageNumber)
+        public static IQueryable<TEntity> GetFromPage<TEntity>(
+            this IQueryable<TEntity> entities,
+            int pageNumber,
+            int pageSize)
             where TEntity : class
         {
             pageNumber = Math.Max(1, pageNumber);
+            pageSize = Math.Max(1, pageSize);
 
             return entities
-                .Skip((pageNumber - 1) * WebConstants.PageSize)
-                .Take(WebConstants.PageSize);
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
         }
     }
 }

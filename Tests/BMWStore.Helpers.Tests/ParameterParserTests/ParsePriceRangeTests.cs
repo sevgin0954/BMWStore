@@ -13,6 +13,7 @@ namespace BMWStore.Helpers.Tests.ParameterParserTests
         [InlineData("5")]
         [InlineData("-5")]
         [InlineData("a-5")]
+        [InlineData("5-a")]
         public void WithIncorrectPriceRange_ShouldReturnNullPriceRange(string priceRange)
         {
             var result = ParameterParser.ParsePriceRange(priceRange);

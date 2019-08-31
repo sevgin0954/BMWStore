@@ -50,7 +50,7 @@ namespace BMWStore.Helpers
             }
         }
 
-        public static IEnumerable<string> ParseSearchKeyWordsParameter(string inputStr, int minKeyWordLength)
+        public static IEnumerable<string> ParseSearchKeyWordsParameter(string inputStr, int minKeywordLength)
         {
             var parsedKeyWord = new List<string>();
 
@@ -66,7 +66,7 @@ namespace BMWStore.Helpers
                         parsedKeyWord.Add(seriesKeyWord);
                     }
                 }
-                else if (currentKeyWord.Length >= minKeyWordLength)
+                else if (currentKeyWord.Length >= minKeywordLength)
                 {
                     parsedKeyWord.Add(currentKeyWord);
                 }

@@ -66,7 +66,7 @@ namespace BMWStore.Services.AdminServices
                 .GetIdByNameAsync(WebConstants.UserRoleName);
 
             var sortedUserModels = this.userRepository.GetSortedWithRole(sortStrategy, dbUserRoleId)
-                .GetFromPage(pageNumber)
+                .GetFromPage(pageNumber, WebConstants.PageSize)
                 .To<UserServiceModel>();
 
             return sortedUserModels;

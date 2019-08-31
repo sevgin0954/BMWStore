@@ -22,20 +22,6 @@ namespace BMWStore.Services.Tests.HomeServiceTests
         }
 
         [Fact]
-        public async void WithCarsAndNewCarType_ShouldReturnCarTypesWithSelectedNewCar()
-        {
-            var dbContext = this.GetDbContext();
-            SeedCarsMethods.SeedCar<NewCar>(dbContext);
-            SeedCarsMethods.SeedCar<UsedCar>(dbContext);
-            var service = this.GetService(dbContext);
-
-            var model = await service.GetSearchModelAsync(dbContext.BaseCars, CarType.NewCar);
-
-            Assert.Single(model.CarTypes, ct => ct.Value == CarType.NewCar.ToString() && ct.IsSelected == true);
-            Assert.Single(model.CarTypes, ct => ct.Value == CarType.UsedCar.ToString() && ct.IsSelected == false);
-        }
-
-        [Fact]
         public async void WithCarsAndNewCarType_ShouldFilterYearsByNewCars()
         {
             var dbContext = this.GetDbContext();
