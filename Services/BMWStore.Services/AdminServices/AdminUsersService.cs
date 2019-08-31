@@ -2,7 +2,7 @@
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
-using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.AdminServices.Interfaces;
@@ -65,7 +65,9 @@ namespace BMWStore.Services.AdminServices
             var dbUserRoleId = await this.roleRepository
                 .GetIdByNameAsync(WebConstants.UserRoleName);
 
-            var sortedUserModels = this.userRepository.GetSortedWithRole(sortStrategy, dbUserRoleId)
+            var dbUsers = this.userRepository.Find(u => u.Roles.Any(r => r.RoleId == dbUserRoleId));
+
+            var sortedUserModels = sortStrategy.Sort(dbUsers)
                 .GetFromPage(pageNumber, WebConstants.PageSize)
                 .To<UserServiceModel>();
 

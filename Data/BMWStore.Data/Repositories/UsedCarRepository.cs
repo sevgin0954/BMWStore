@@ -4,7 +4,7 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.Repositories
 {
-    public class UsedCarRepository : BaseCarRepository<UsedCar>, IUsedCarRepository
+    public class UsedCarRepository : BaseRepository<UsedCar>, IUsedCarRepository
     {
         public UsedCarRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }

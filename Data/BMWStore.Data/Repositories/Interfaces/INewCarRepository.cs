@@ -3,7 +3,7 @@ using BMWStore.Entities;
 
 namespace BMWStore.Data.Repositories.Interfaces
 {
-    public interface INewCarRepository : IRepository<NewCar>, IBaseCarRepository<NewCar>
+    public interface INewCarRepository : IRepository<NewCar>
     {
     }
 }

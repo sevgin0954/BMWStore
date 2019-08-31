@@ -10,7 +10,7 @@ using System.Linq;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
-using BMWStore.Data.SortStrategies.TestDriveStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.TestDriveStrategies.Interfaces;
 using BMWStore.Services.Models;
 
 namespace BMWStore.Services.AdminServices

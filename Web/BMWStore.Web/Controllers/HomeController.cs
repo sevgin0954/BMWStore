@@ -9,10 +9,11 @@ using System.Linq;
 using BMWStore.Common.Enums;
 using BMWStore.Models.CarInventoryModels.BindingModels;
 using BMWStore.Models.HomeModels.BindingModel;
-using BMWStore.Data.Factories.FilterStrategyFactory;
+using BMWStore.Web.Factories.FilterStrategyFactory;
 using BMWStore.Helpers;
 using BMWStore.Common.Constants;
 using AutoMapper;
+using BMWStore.Entities;
 
 namespace BMWStore.Web.Controllers
 {
@@ -22,15 +23,18 @@ namespace BMWStore.Web.Controllers
         private const string MainPhotoPublicId = "nsgkdld26bxsjsdg2cpv";
 
         private readonly IHomeService homeService;
+        private readonly ICarsService carsService;
         private readonly ICarRepository carRepository;
         private readonly ICacheService cacheService;
 
         public HomeController(
             IHomeService homeService, 
+            ICarsService carsService,
             ICarRepository carRepository,
             ICacheService cacheService)
         {
             this.homeService = homeService;
+            this.carsService = carsService;
             this.carRepository = carRepository;
             this.cacheService = cacheService;
         }
@@ -74,7 +78,7 @@ namespace BMWStore.Web.Controllers
                 .GetStrategies(model.SelectedYear, priceRanges[0], priceRanges[1], WebConstants.AllFilterTypeModelValue);
             var mutipleFilterStrategy = CarMultipleFilterStrategyFactory.GetStrategy(new string[] { model.SelectedModelType });
 
-            var filteredCars = this.carRepository.GetFiltered(filterStrategies.ToArray());
+            var filteredCars = this.carsService.GetFiltered<BaseCar>(filterStrategies.ToArray());
             filteredCars = mutipleFilterStrategy.Filter(filteredCars);
 
             var searchModel = await this.homeService.GetSearchModelAsync(filteredCars, model.SelectedCarType);

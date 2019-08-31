@@ -1,4 +1,4 @@
-﻿using BMWStore.Data.SortStrategies.OptionStrategies.Interfaces;
+﻿using BMWStore.Services.SortStrategies.OptionStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Models;
 using System.Linq;

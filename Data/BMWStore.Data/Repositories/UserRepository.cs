@@ -1,6 +1,5 @@
 ﻿using BMWStore.Data.Repositories.Generic;
 using BMWStore.Data.Repositories.Interfaces;
-using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -23,16 +22,12 @@ namespace BMWStore.Data.Repositories
         }
 
         // TODO: Refactor - method does two things
-        public IQueryable<User> GetSortedWithRole(
-            IUserSortStrategy sortStrategy,
-            string roleId)
+        public IQueryable<User> GetWithRole(string roleId)
         {
             var filteredUsers = this.GetAll()
                 .Include(u => u.Roles)
                 .Where(u => u.Roles.Any(r => r.RoleId == roleId));
-            var sortedUsers = sortStrategy
-                .Sort(filteredUsers);
-            return sortedUsers;
+            return filteredUsers;
         }
 
         public async Task<User> GetByIdWithRolesAsync(string userId)

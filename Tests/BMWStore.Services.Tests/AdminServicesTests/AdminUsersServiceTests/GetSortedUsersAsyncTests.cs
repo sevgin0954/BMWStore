@@ -1,5 +1,5 @@
 ﻿using BMWStore.Data;
-using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Services.Models;
 using BMWStore.Tests.Common.MockMethods;
 using BMWStore.Tests.Common.SeedTestMethods;

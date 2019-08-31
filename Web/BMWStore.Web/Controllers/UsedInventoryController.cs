@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
-using BMWStore.Data.Factories.FilterStrategyFactory;
-using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Web.Factories.FilterStrategyFactory;
+using BMWStore.Web.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
@@ -59,8 +59,8 @@ namespace BMWStore.Web.Controllers
             var filterStrategies = CarFilterStrategyFactory
                 .GetStrategies(model.Year, priceRanges[0], priceRanges[1], model.Series);
 
-            var filteredCars = this.usedCarRepository
-                .GetFiltered(filterStrategies.ToArray());
+            var filteredCars = this.carsService
+                .GetFiltered<UsedCar>(filterStrategies.ToArray());
             var sortedAndFilteredCars = sortStrategy.Sort(filteredCars);
 
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);

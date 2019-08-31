@@ -2,7 +2,7 @@
 using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
-using BMWStore.Data.SortStrategies.OptionStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.OptionStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.AdminServices.Interfaces;

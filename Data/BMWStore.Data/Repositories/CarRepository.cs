@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories
 {
-    public class CarRepository : BaseCarRepository<BaseCar>, ICarRepository
+    public class CarRepository : BaseRepository<BaseCar>, ICarRepository
     {
         private readonly DbContext dbContext;
 

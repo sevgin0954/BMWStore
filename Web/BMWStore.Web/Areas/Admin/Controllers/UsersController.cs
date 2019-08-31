@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
-using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Web.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Helpers;
 using BMWStore.Models.AdminModels.ViewModels;

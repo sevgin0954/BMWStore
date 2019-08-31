@@ -1,5 +1,5 @@
-﻿using BMWStore.Data.SortStrategies.TestDriveStrategies.Interfaces;
-using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
+﻿using BMWStore.Services.SortStrategies.TestDriveStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using Microsoft.AspNetCore.Http;

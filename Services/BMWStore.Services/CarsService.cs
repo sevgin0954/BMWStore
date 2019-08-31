@@ -1,9 +1,9 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Validation;
-using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
+using BMWStore.Services.FilterStrategies.CarStrategies.Interfaces;
 using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
-using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
 using BMWStore.Services.Interfaces;
@@ -42,11 +42,24 @@ namespace BMWStore.Services
             return carModel;
         }
 
+        public IQueryable<TCar> GetFiltered<TCar>(params ICarFilterStrategy[] filterStrategies)
+            where TCar : BaseCar
+        {
+            var filteredCars = this.carRepository.Find(c => c is TCar).OfType<TCar>();
+
+            foreach (var strategy in filterStrategies)
+            {
+                filteredCars = strategy.Filter(filteredCars).OfType<TCar>();
+            }
+
+            return filteredCars;
+        }
+
         public IQueryable<BaseCarServiceModel> GetCars(
             ICarSortStrategy<BaseCar> sortStrategy,
             params ICarFilterStrategy[] filterStrategies)
         {
-            var filteredCars = this.carRepository.GetFiltered(filterStrategies);
+            var filteredCars = this.GetFiltered<BaseCar>(filterStrategies);
             var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
             var carModels = filteredAndSortedCars.To<BaseCarServiceModel>();

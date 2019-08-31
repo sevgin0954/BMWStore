@@ -1,7 +1,7 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums.SortStrategies;
-using BMWStore.Data.Factories.FilterStrategyFactory;
-using BMWStore.Data.Factories.SortStrategyFactories;
+using BMWStore.Web.Factories.FilterStrategyFactory;
+using BMWStore.Web.Factories.SortStrategyFactories;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Helpers;
@@ -54,7 +54,7 @@ namespace BMWStore.Web.Controllers
             int totalPagesCount = 0;
             if (filterStrategies.Count > 0)
             {
-                var filteredCars = this.carRepository.GetFiltered(filterStrategies.ToArray());
+                var filteredCars = this.carsService.GetFiltered<BaseCar>(filterStrategies.ToArray());
                 var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
                 carViewModels = await this.carsService

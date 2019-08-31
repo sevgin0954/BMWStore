@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BMWStore.Data.Repositories.Interfaces
 {
-    public interface ICarRepository : IRepository<BaseCar>, IBaseCarRepository<BaseCar>
+    public interface ICarRepository : IRepository<BaseCar>
     {
         Task<bool> IsType(Type type, string carId);
         DbSet<TCar> Set<TCar>() where TCar : BaseCar;

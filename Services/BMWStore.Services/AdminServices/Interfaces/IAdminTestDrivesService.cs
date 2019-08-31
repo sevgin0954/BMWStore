@@ -1,4 +1,4 @@
-﻿using BMWStore.Data.SortStrategies.TestDriveStrategies.Interfaces;
+﻿using BMWStore.Services.SortStrategies.TestDriveStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Models;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using BMWStore.Data.SortStrategies.UserStrategies.Interfaces;
+﻿using BMWStore.Services.SortStrategies.UserStrategies.Interfaces;
 using BMWStore.Services.Models;
 using System.Linq;
 using System.Threading.Tasks;

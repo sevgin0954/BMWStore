@@ -1,5 +1,5 @@
-﻿using BMWStore.Data.FilterStrategies.CarStrategies.Interfaces;
-using BMWStore.Data.SortStrategies.CarsStrategies.Interfaces;
+﻿using BMWStore.Services.FilterStrategies.CarStrategies.Interfaces;
+using BMWStore.Services.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Models;
 using System.Linq;
@@ -14,6 +14,8 @@ namespace BMWStore.Services.Interfaces
             ICarSortStrategy<BaseCar> sortStrategy,
             params ICarFilterStrategy[] filterStrategies);
         Task<CarServiceModel> GetByIdAsync(string carId);
+        IQueryable<TCar> GetFiltered<TCar>(params ICarFilterStrategy[] filterStrategies)
+            where TCar : BaseCar;
         Task<TModel> GetCarTestDriveModelById<TModel>(string id, ClaimsPrincipal user)
              where TModel : BaseCarTestDriveServiceModel;
         IQueryable<TModel> GetCarTestDriveModel<TModel>(
