@@ -56,19 +56,40 @@ namespace BMWStore.Services.Tests.CarsServiceTests
             Assert.True(model.IsTestDriveScheduled);
         }
 
-        [Fact]
+		[Fact]
+		public async void WithUsersWithTestDrives_ShouldReturnCorrectIsTestDriveScheduledForTheCurrentUser()
+		{
+			var dbContext = this.GetDbContext();
+
+			var dbSignInUser = SeedUsersMethods.SeedUser(dbContext);
+			var dbNotSignInUser = SeedUsersMethods.SeedUser(dbContext);
+
+			var dbStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+			var dbCar = SeedCarsMethods.SeedCarWithTestDrive<NewCar>(dbContext, "", dbStatus);
+
+			SeedTestDrivesMethods.SeedTestDrive(dbContext, dbSignInUser.Id, dbStatus);
+
+			var mockedSignInManager = CommonMockMethods.GetMockedSignInManager();
+			CommonMockMethods.SetupMockedSignInManager(mockedSignInManager, true);
+
+			var model = await this.CallGetCarViewModelAsync(dbContext, mockedSignInManager.Object, dbCar.Id);
+
+			Assert.False(model.IsTestDriveScheduled);
+		}
+
+		[Fact]
         public async void WithSignInUserWithTestDrive_ShouldReturnCorrectTestDriveId()
         {
-            var dbContext = this.GetDbContext();
-            var dbStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
-            var dbCar = SeedCarsMethods.SeedCarWithTestDrive<NewCar>(dbContext, "", dbStatus);
-            var mockedSignInManager = CommonMockMethods.GetMockedSignInManager();
-            CommonMockMethods.SetupMockedSignInManager(mockedSignInManager, true);
+			var dbContext = this.GetDbContext();
+			var dbStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+			var dbCar = SeedCarsMethods.SeedCarWithTestDrive<NewCar>(dbContext, "", dbStatus);
+			var mockedSignInManager = CommonMockMethods.GetMockedSignInManager();
+			CommonMockMethods.SetupMockedSignInManager(mockedSignInManager, true);
 
-            var model = await this.CallGetCarViewModelAsync(dbContext, mockedSignInManager.Object, dbCar.Id);
+			var model = await this.CallGetCarViewModelAsync(dbContext, mockedSignInManager.Object, dbCar.Id);
 
-            Assert.Equal(dbCar.TestDrives.First().Id, model.TestDriveId);
-        }
+			Assert.Equal(dbCar.TestDrives.First().Id, model.TestDriveId);
+		}
 
         private async Task<CarServiceModel> CallGetCarViewModelAsync(
             ApplicationDbContext dbContext, 
