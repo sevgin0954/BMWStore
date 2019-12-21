@@ -14,6 +14,7 @@ using BMWStore.Helpers;
 using BMWStore.Common.Constants;
 using AutoMapper;
 using BMWStore.Entities;
+using CloudinaryDotNet;
 
 namespace BMWStore.Web.Controllers
 {
