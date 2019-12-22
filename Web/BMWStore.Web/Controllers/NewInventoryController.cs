@@ -27,20 +27,23 @@ namespace BMWStore.Web.Controllers
         private readonly ICarsService carsService;
         private readonly ICarsFilterTypesService carsFilterTypesService;
         private readonly ICacheService cacheService;
+		private readonly ICarTestDriveService carTestDriveService;
 
-        public NewInventoryController(
+		public NewInventoryController(
             ICookiesService cookiesService,
             INewCarRepository newCarRepository,
             ICarsService carsService,
             ICarsFilterTypesService carsFilterTypesService,
-            ICacheService cacheService)
+            ICacheService cacheService,
+			ICarTestDriveService carTestDriveService)
         {
             this.cookiesService = cookiesService;
             this.newCarRepository = newCarRepository;
             this.carsService = carsService;
             this.carsFilterTypesService = carsFilterTypesService;
             this.cacheService = cacheService;
-        }
+			this.carTestDriveService = carTestDriveService;
+		}
 
         [HttpGet]
         public async Task<IActionResult> Index(CarsInventoryBindingModel model)
@@ -65,8 +68,8 @@ namespace BMWStore.Web.Controllers
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
             var filteredByMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
 
-            var currentPageCarViewModels = await this.carsService
-                .GetCarTestDriveModel<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber)
+            var currentPageCarViewModels = await (await this.carTestDriveService
+				.GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber))
                 .To<CarInventoryConciseViewModel>()
                 .ToArrayAsync();
 

@@ -23,7 +23,20 @@ namespace BMWStore.Tests.Common.SeedTestMethods
             return dbTestDrive;
         }
 
-        public static TestDrive SeedTestDrive(ApplicationDbContext dbContext, BaseCar baseCar)
+		public static TestDrive SeedUpcomingTestDrive(ApplicationDbContext dbContext, BaseCar baseCar, string userId)
+		{
+			var dbTestDrive = SeedTestDrive(dbContext, baseCar);
+			dbTestDrive.UserId = userId;
+
+			var dbStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Upcoming);
+			dbTestDrive.Status = dbStatus;
+
+			dbContext.SaveChanges();
+
+			return dbTestDrive;
+		}
+
+		public static TestDrive SeedTestDrive(ApplicationDbContext dbContext, BaseCar baseCar)
         {
             var dbTestDrive = new TestDrive()
             {
@@ -35,7 +48,8 @@ namespace BMWStore.Tests.Common.SeedTestMethods
             return dbTestDrive;
         }
 
-        public static TestDrive SeedTestDriveWithStatus(
+
+		public static TestDrive SeedTestDriveWithStatus(
             ApplicationDbContext dbContext,
             TestDriveStatus status = TestDriveStatus.Upcoming)
         {

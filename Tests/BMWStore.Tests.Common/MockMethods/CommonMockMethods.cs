@@ -30,17 +30,11 @@ namespace BMWStore.Tests.Common.MockMethods
                 .Returns(userId);
         }
 
-        public static void SetupMockedSignInManager(Mock<SignInManager<User>> mock, bool isSignIn)
+        public static void SetupMockedSignInManagerIsSignIn(Mock<SignInManager<User>> mock, bool isSignIn)
         {
             mock.Setup(sm => sm.IsSignedIn(It.IsAny<ClaimsPrincipal>()))
                 .Returns(isSignIn);
         }
-
-		public static void SetupMockedSignInManager(Mock<SignInManager<User>> mock, ClaimsPrincipal signInUser)
-		{
-			mock.Setup(sm => sm.IsSignedIn(signInUser))
-				.Returns(true);
-		}
 
         public static void SetupMockedUserManagerIsInRoleAsync(Mock<UserManager<User>> mock,  bool returns)
         {

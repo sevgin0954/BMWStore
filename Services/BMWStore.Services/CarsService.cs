@@ -5,31 +5,24 @@ using BMWStore.Data.Repositories.Extensions;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Services.SortStrategies.CarsStrategies.Interfaces;
 using BMWStore.Entities;
-using BMWStore.Helpers;
 using BMWStore.Services.Interfaces;
 using BMWStore.Services.Models;
 using MappingRegistrar;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BMWStore.Services
 {
     public class CarsService : ICarsService
     {
-        private readonly SignInManager<User> signInManager;
-        private readonly ICarRepository carRepository;
+		private readonly ICarRepository carRepository;
 
-        public CarsService(
-            SignInManager<User> signInManager, 
-            ICarRepository carRepository)
+		public CarsService(ICarRepository carRepository)
         {
-            this.signInManager = signInManager;
-            this.carRepository = carRepository;
-        }
+			this.carRepository = carRepository;
+		}
 
         public async Task<CarServiceModel> GetByIdAsync(string carId)
         {
@@ -65,32 +58,6 @@ namespace BMWStore.Services
             var carModels = filteredAndSortedCars.To<BaseCarServiceModel>();
 
             return carModels;
-        }
-
-
-        public async Task<TModel> GetCarTestDriveModelById<TModel>(string id, ClaimsPrincipal user)
-             where TModel : BaseCarTestDriveServiceModel
-        {
-            var car = this.carRepository
-                .Find(c => c.Id == id);
-            var carModel = await this.GetCarTestDriveModel<TModel>(car, user, 1).FirstOrDefaultAsync();
-            DataValidator.ValidateNotNull(carModel, new ArgumentException(ErrorConstants.IncorrectId));
-
-            return carModel;
-        }
-
-        public IQueryable<TModel> GetCarTestDriveModel<TModel>(
-            IQueryable<BaseCar> cars,
-            ClaimsPrincipal user,
-            int pageNumber) where TModel : BaseCarTestDriveServiceModel
-        {
-            var isUserSignedIn = this.signInManager.IsSignedIn(user);
-
-            var models = cars
-                .GetFromPage(pageNumber, WebConstants.PageSize)
-                .To<TModel>(new { isUserSignedIn });
-
-            return models;
         }
     }
 }

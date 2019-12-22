@@ -11,19 +11,20 @@ namespace BMWStore.Web.Controllers
 {
     public class CarController : Controller
     {
-        private readonly ICarsService carsService;
+		private readonly ICarTestDriveService carTestDriveService;
 
-        public CarController(ICarsService carsService)
+		public CarController(ICarTestDriveService carTestDriveService)
         {
-            this.carsService = carsService;
-        }
+			this.carTestDriveService = carTestDriveService;
+		}
 
         [HttpGet]
         public async Task<IActionResult> Index(string carId)
         {
             try
             {
-                var carServiceModel = await this.carsService.GetCarTestDriveModelById<CarServiceModel>(carId, this.User);
+                var carServiceModel = await this.carTestDriveService
+					.GetCarTestDriveModelById<CarServiceModel>(carId, this.User);
                 var carViewModel = Mapper.Map<CarViewModel>(carServiceModel);
 
                 return View(carViewModel);

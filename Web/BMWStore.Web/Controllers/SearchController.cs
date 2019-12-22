@@ -22,13 +22,19 @@ namespace BMWStore.Web.Controllers
         private readonly ICarsService carsService;
         private readonly ICarRepository carRepository;
         private readonly ICookiesService cookiesService;
+		private readonly ICarTestDriveService carTestDriveService;
 
-        public SearchController(ICarsService carsService, ICarRepository carRepository, ICookiesService cookiesService)
+		public SearchController(
+			ICarsService carsService, 
+			ICarRepository carRepository, 
+			ICookiesService cookiesService,
+			ICarTestDriveService carTestDriveService)
         {
             this.carsService = carsService;
             this.carRepository = carRepository;
             this.cookiesService = cookiesService;
-        }
+			this.carTestDriveService = carTestDriveService;
+		}
 
         [HttpGet]
         public async Task<IActionResult> Index(string keyWords = "", int pageNumber = 1)
@@ -57,8 +63,8 @@ namespace BMWStore.Web.Controllers
                 var filteredCars = this.carsService.GetFiltered<BaseCar>(filterStrategies.ToArray());
                 var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
-                carViewModels = await this.carsService
-                    .GetCarTestDriveModel<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber)
+                carViewModels = await (await this.carTestDriveService
+					.GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber))
                     .To<CarInventoryConciseViewModel>()
                     .ToArrayAsync();
 

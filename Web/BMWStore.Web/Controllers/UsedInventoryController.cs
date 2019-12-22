@@ -14,7 +14,6 @@ using BMWStore.Services.Models;
 using MappingRegistrar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,20 +26,23 @@ namespace BMWStore.Web.Controllers
         private readonly ICarsService carsService;
         private readonly ICarsFilterTypesService carsFilterTypesService;
         private readonly ICacheService cacheService;
+		private readonly ICarTestDriveService carTestDriveService;
 
-        public UsedInventoryController(
+		public UsedInventoryController(
             ICookiesService cookiesService,
             IUsedCarRepository usedCarRepository,
             ICarsService carsService,
             ICarsFilterTypesService carsFilterTypesService,
-            ICacheService cacheService)
+            ICacheService cacheService,
+			ICarTestDriveService carTestDriveService)
         {
             this.cookiesService = cookiesService;
             this.usedCarRepository = usedCarRepository;
             this.carsService = carsService;
             this.carsFilterTypesService = carsFilterTypesService;
             this.cacheService = cacheService;
-        }
+			this.carTestDriveService = carTestDriveService;
+		}
 
         [HttpGet]
         public async Task<IActionResult> Index(CarsInventoryBindingModel model)
@@ -66,8 +68,8 @@ namespace BMWStore.Web.Controllers
             var filterMultipleStrategy = CarMultipleFilterStrategyFactory.GetStrategy(model.ModelTypes);
             var filteredByMultipleCars = filterMultipleStrategy.Filter(sortedAndFilteredCars);
 
-            var currentPageViewModels = await this.carsService
-                .GetCarTestDriveModel<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber)
+            var currentPageViewModels = await (await this.carTestDriveService
+				.GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredByMultipleCars, this.User, model.PageNumber))
                 .To<CarInventoryConciseViewModel>()
                 .ToArrayAsync();
 
