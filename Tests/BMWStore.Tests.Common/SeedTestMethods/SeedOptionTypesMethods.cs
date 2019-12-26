@@ -6,7 +6,6 @@ namespace BMWStore.Tests.Common.SeedTestMethods
 {
     public static class SeedOptionTypesMethods
     {
-        // TODO: Add validation to dbContext.SaveChanges
         public static OptionType SeedOptionType(ApplicationDbContext dbContext)
         {
             var dbOptionType = new OptionType()

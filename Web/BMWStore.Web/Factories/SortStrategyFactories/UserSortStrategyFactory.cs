@@ -5,7 +5,6 @@ using System.ComponentModel;
 
 namespace BMWStore.Web.Factories.SortStrategyFactories
 {
-    // TODO: MOVE TO Services Or Controllers
     public class UserSortStrategyFactory
     {
         public static IUserSortStrategy GetStrategy(UserSortStrategyType sortStrategy, SortStrategyDirection sortDirection)

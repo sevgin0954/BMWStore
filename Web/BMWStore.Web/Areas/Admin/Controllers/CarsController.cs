@@ -147,7 +147,6 @@ namespace BMWStore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            // TODO: Cache that
             var engines = await this.adminEnginesService.GetAll().To<SelectListItem>().ToArrayAsync();
             var fuelTypes = await this.adminFuelTypesService.GetAll().To<SelectListItem>().ToArrayAsync();
             var modelTypes = await this.adminModelTypesService.GetAll().To<SelectListItem>().ToArrayAsync();

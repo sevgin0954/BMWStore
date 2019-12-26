@@ -21,15 +21,6 @@ namespace BMWStore.Data.Repositories
             return user;
         }
 
-        // TODO: Refactor - method does two things
-        public IQueryable<User> GetWithRole(string roleId)
-        {
-            var filteredUsers = this.GetAll()
-                .Include(u => u.Roles)
-                .Where(u => u.Roles.Any(r => r.RoleId == roleId));
-            return filteredUsers;
-        }
-
         public async Task<User> GetByIdWithRolesAsync(string userId)
         {
             var dbUser = await this.GetAll()
