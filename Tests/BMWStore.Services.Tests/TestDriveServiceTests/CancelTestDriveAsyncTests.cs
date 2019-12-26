@@ -94,8 +94,8 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
         private ITestDriveService GetService(ApplicationDbContext dbContext, string userId)
         {
             this.CanceledStatus = SeedStatusesMethods.SeedStatus(dbContext, TestDriveStatus.Canceled);
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerGetUserId(mockedUserManager, userId);
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
+			CommonSetupMockMethods.SetupMockedUserManagerGetUserId(mockedUserManager, userId);
             var service = this.GetService(dbContext, mockedUserManager.Object);
 
             return service;

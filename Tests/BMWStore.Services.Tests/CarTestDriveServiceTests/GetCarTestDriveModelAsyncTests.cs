@@ -2,6 +2,7 @@
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Services.Models;
+using BMWStore.Tests.Common.MockMethods;
 using BMWStore.Tests.Common.SeedTestMethods;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -89,8 +90,8 @@ namespace BMWStore.Services.Tests.CarTestDriveServiceTests
 			string userId,
 			int pageNumber = 1)
 		{
-			var signInManager = this.GetSetupedSignInManager(isUserSignIn);
-			var userManager = this.GetSetupedUserManager(isUserSignIn ? userId : null);
+			var signInManager = CommonGetMockMethods.GetSetupedSignInManager(isUserSignIn).Object;
+			var userManager = CommonGetMockMethods.GetSetupedUserManager(isUserSignIn ? userId : null);
 			var service = this.GetService(dbContext, signInManager, userManager);
 			var user = new Mock<ClaimsPrincipal>().Object;
 

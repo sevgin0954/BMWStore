@@ -15,7 +15,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
     {
         protected IAdminUsersService GetService(ApplicationDbContext dbContext)
         {
-            var userManager = CommonMockMethods.GetMockedUserManager().Object;
+            var userManager = CommonGetMockMethods.GetUserManager().Object;
             var service = this.GetService(dbContext, userManager);
 
             return service;

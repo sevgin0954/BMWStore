@@ -14,7 +14,7 @@ namespace BMWStore.Services.Tests.SeedDbUsersServiceTests
         public async void WithAlreadyExistingEmail_ShouldNotCreateNewUser()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
             var dbRole = SeedRolesMethods.SeedAdminRole(dbContext);
             var dbUser = SeedUsersMethods.SeedUser(dbContext, Guid.NewGuid().ToString());
             var service = this.GetService(dbContext, mockedUserManager.Object);
@@ -28,7 +28,7 @@ namespace BMWStore.Services.Tests.SeedDbUsersServiceTests
         public async void WithNonExistingRole_ShouldThrowExceptino()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
             var dbUser = SeedUsersMethods.SeedUser(dbContext, Guid.NewGuid().ToString());
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var nonExistingRoleName = Guid.NewGuid().ToString();
@@ -42,7 +42,7 @@ namespace BMWStore.Services.Tests.SeedDbUsersServiceTests
         public async void WithCorrectParameters_ShouldCreateNewUser()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
             var dbRole = SeedRolesMethods.SeedUserRole(dbContext);
             var service = this.GetService(dbContext, mockedUserManager.Object);
 
@@ -55,7 +55,7 @@ namespace BMWStore.Services.Tests.SeedDbUsersServiceTests
         public async void WithCorrectParameters_ShouldAddNewUserToRole()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
             var dbRole = SeedRolesMethods.SeedUserRole(dbContext);
             var service = this.GetService(dbContext, mockedUserManager.Object);
 

@@ -62,7 +62,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         {
             var service = this.GetService(dbContext);
             var mockedSortStrategy = new Mock<IUserSortStrategy>();
-            CommonMockMethods.SetupMockedUserSortStrategy(mockedSortStrategy);
+			CommonSetupMockMethods.SetupMockedUserSortStrategy(mockedSortStrategy);
             var model = await service.GetSortedUsersAsync(mockedSortStrategy.Object, pageNumber);
 
             return model;

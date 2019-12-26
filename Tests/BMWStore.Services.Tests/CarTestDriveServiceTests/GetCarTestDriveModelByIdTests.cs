@@ -3,6 +3,7 @@ using BMWStore.Common.Enums;
 using BMWStore.Data;
 using BMWStore.Entities;
 using BMWStore.Services.Models;
+using BMWStore.Tests.Common.MockMethods;
 using BMWStore.Tests.Common.SeedTestMethods;
 using Moq;
 using System;
@@ -107,8 +108,8 @@ namespace BMWStore.Services.Tests.CarTestDriveServiceTests
 				 bool isUserSignIn,
 				 string userId)
 		{
-			var signInManager = this.GetSetupedSignInManager(isUserSignIn);
-			var userManager = this.GetSetupedUserManager(userId);
+			var signInManager = CommonGetMockMethods.GetSetupedSignInManager(isUserSignIn).Object;
+			var userManager = CommonGetMockMethods.GetSetupedUserManager(userId);
 			var service = this.GetService(dbContext, signInManager, userManager);
 			var user = new Mock<ClaimsPrincipal>().Object;
 			var model = await service.GetCarTestDriveModelById<CarServiceModel>(carId, user);

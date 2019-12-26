@@ -24,8 +24,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithAdmin_ShouldThrowException()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, false);
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
+			CommonSetupMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, false);
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
             SeedRolesMethods.SeedUserRole(dbContext);
@@ -38,8 +38,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithBannedUser_ShouldThrowException()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
+			CommonSetupMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
             this.BanUser(dbContext, dbUser);
@@ -52,8 +52,8 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithNotBanned_ShouldBanUser()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
+			CommonSetupMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
             var service = this.GetService(dbContext, mockedUserManager.Object);
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 

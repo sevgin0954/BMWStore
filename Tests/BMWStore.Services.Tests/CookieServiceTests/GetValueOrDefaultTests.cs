@@ -31,7 +31,7 @@ namespace BMWStore.Services.Tests.CookieServiceTests
             var mockedRequestCookies = new Mock<IRequestCookieCollection>();
             var key = Guid.NewGuid().ToString();
             var value = Test.Value2;
-            CommonMockMethods.SutupMockedRequestCookieCollection(mockedRequestCookies, key, value.ToString());
+            CommonGetMockMethods.SutupMockedRequestCookieCollection(mockedRequestCookies, key, value.ToString());
 
             var enumResult = service.GetValueOrDefault<Test>(mockedRequestCookies.Object, key);
 

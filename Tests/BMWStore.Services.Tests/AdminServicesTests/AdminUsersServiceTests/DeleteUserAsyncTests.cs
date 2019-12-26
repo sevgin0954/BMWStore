@@ -25,9 +25,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithAdmin_ShouldThrowException()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, false);
-            var service = this.GetService(dbContext, mockedUserManager.Object);
+
+			var userManager = CommonGetMockMethods.GetSetupedUserManager(false).Object;
+			var service = this.GetService(dbContext, userManager);
+
             var dbAdmin = SeedUsersMethods.SeedAdminWithRole(dbContext);
             SeedRolesMethods.SeedUserRole(dbContext);
 
@@ -40,9 +41,10 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
         public async void WithUser_ShoudDeleteUser()
         {
             var dbContext = this.GetDbContext();
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerIsInRoleAsync(mockedUserManager, true);
-            var service = this.GetService(dbContext, mockedUserManager.Object);
+
+			var userManager = CommonGetMockMethods.GetSetupedUserManager(true).Object;
+            var service = this.GetService(dbContext, userManager);
+
             var dbUser = SeedUsersMethods.SeedUserWithRole(dbContext);
 
             await service.DeleteAsync(dbUser.Id);

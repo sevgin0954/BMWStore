@@ -48,7 +48,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminTestDrivesServiceTests
         {
             var service = this.GetService(dbContext);
             var mockedSortStrategy = new Mock<ITestDriveSortStrategy>();
-            CommonMockMethods.SetupTestDriveSortStrategy(mockedSortStrategy);
+			CommonSetupMockMethods.SetupTestDriveSortStrategy(mockedSortStrategy);
             var models = service.GetAllSorted(dbContext.TestDrives, mockedSortStrategy.Object, pageNumber);
 
             return models;

@@ -48,8 +48,8 @@ namespace BMWStore.Services.Tests.TestDriveServiceTests
             ApplicationDbContext dbContext, 
             string userId)
         {
-            var mockedUserManager = CommonMockMethods.GetMockedUserManager();
-            CommonMockMethods.SetupMockedUserManagerGetUserId(mockedUserManager, userId);
+            var mockedUserManager = CommonGetMockMethods.GetUserManager();
+			CommonSetupMockMethods.SetupMockedUserManagerGetUserId(mockedUserManager, userId);
             var service = this.GetService(dbContext, mockedUserManager.Object);
 
             return service;
