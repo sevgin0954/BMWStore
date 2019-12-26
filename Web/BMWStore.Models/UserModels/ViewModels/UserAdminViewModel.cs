@@ -5,7 +5,7 @@ using System;
 
 namespace BMWStore.Models.UserModels.ViewModels
 {
-    public class UserAdminViewModel : IMapFrom<UserServiceModel>, IHaveCustomMappings
+    public class UserAdminViewModel : IMapFrom<UserConciseServiceModel>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -21,7 +21,7 @@ namespace BMWStore.Models.UserModels.ViewModels
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<UserServiceModel, UserAdminViewModel>()
+            configuration.CreateMap<UserConciseServiceModel, UserAdminViewModel>()
                 .ForMember(dest => dest.TestDrivesCount, opt => opt.MapFrom(src => src.TestDrivesCount))
                 .ForMember(dest => dest.IsBanned, opt => opt.MapFrom(src => src.LockoutEnd > DateTime.UtcNow));
         }

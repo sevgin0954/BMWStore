@@ -58,7 +58,7 @@ namespace BMWStore.Services.Tests.AdminServicesTests.AdminUsersServiceTests
             Assert.Single(model);
         }
 
-        private async Task<IQueryable<UserServiceModel>> CallGetSortedUsersAsync(ApplicationDbContext dbContext, int pageNumber = 1)
+        private async Task<IQueryable<UserConciseServiceModel>> CallGetSortedUsersAsync(ApplicationDbContext dbContext, int pageNumber = 1)
         {
             var service = this.GetService(dbContext);
             var mockedSortStrategy = new Mock<IUserSortStrategy>();

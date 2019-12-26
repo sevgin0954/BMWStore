@@ -1,6 +1,8 @@
 ﻿using BMWStore.Common.Constants;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace BMWStore.Common.Validation
@@ -82,6 +84,27 @@ namespace BMWStore.Common.Validation
             {
                 throw new Exception(ErrorConstants.IncorrectPriceRange);
             }
+        }
+
+        public static void ValidateIdentityResult(IdentityResult identityResult)
+        {
+            if (identityResult.Succeeded)
+            {
+                return;
+            }
+
+            var exceptions = new List<Exception>();
+
+            foreach (var identityError in identityResult.Errors)
+            {
+                var currentExceptionMessage = $"${identityError.Description}. Error code: { identityError.Code}";
+                var currentException = new InvalidOperationException(currentExceptionMessage);
+
+                exceptions.Add(currentException);
+            }
+
+            var exceptionsAggregate = new AggregateException(exceptions);
+            throw exceptionsAggregate;
         }
     }
 }

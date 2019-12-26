@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using BMWStore.Services.Models;
+using System.Threading.Tasks;
 
 namespace BMWStore.Services.Interfaces
 {
     public interface ISeedDbUsersService
     {
-        Task SeedUserAsync(string password, string email, string roleName);
+        Task SeedUserAsync(UserServiceModel model, string password, string roleName);
     }
 }

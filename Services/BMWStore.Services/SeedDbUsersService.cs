@@ -1,7 +1,9 @@
 ﻿using BMWStore.Common.Constants;
+using BMWStore.Common.Validation;
 using BMWStore.Data.Repositories.Interfaces;
 using BMWStore.Entities;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
@@ -24,9 +26,9 @@ namespace BMWStore.Services
             this.userManager = userManager;
         }
 
-        public async Task SeedUserAsync(string password, string email, string roleName)
+        public async Task SeedUserAsync(UserServiceModel model, string password, string roleName)
         {
-            if (await this.IsUserExist(email))
+            if (await this.IsUserExist(model.Email))
             {
                 return;
             }
@@ -35,9 +37,12 @@ namespace BMWStore.Services
                 throw new ArgumentException(ErrorConstants.RoleNotFound);
             }
 
-            var dbUser = await this.CreateUserAsync(password, email);
-            await this.userManager.AddToRoleAsync(dbUser, roleName.ToString());
-            await this.userRepository.CompleteAsync();
+            var dbUser = await this.CreateUserAsync(model, password);
+            var result = await this.userManager.AddToRoleAsync(dbUser, roleName);
+            DataValidator.ValidateIdentityResult(result);
+
+            var rowsAffected = await this.userRepository.CompleteAsync();
+            RepositoryValidator.ValidateCompleteChanges(rowsAffected);
         }
 
         private Task<bool> IsUserExist(string email)
@@ -54,14 +59,17 @@ namespace BMWStore.Services
             return isExist;
         }
 
-        private async Task<User> CreateUserAsync(string password, string email)
+        private async Task<User> CreateUserAsync(UserServiceModel model, string password)
         {
             var dbUser = new User()
             {
-                UserName = email,
-                Email = email
+                Email = model.Email,
+                UserName = model.UserName,
+                LastName = model.LastName,
+                FirstName = model.FirstName
             };
-            await this.userManager.CreateAsync(dbUser, password);
+            var result = await this.userManager.CreateAsync(dbUser, password);
+            DataValidator.ValidateIdentityResult(result);
 
             return dbUser;
         }

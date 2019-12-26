@@ -1,23 +1,16 @@
-﻿using AutoMapper;
-using BMWStore.Entities;
+﻿using BMWStore.Entities;
 using MappingRegistrar.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
 
 namespace BMWStore.Services.Models
 {
-    public class UserServiceModel : IdentityUser, IMapFrom<User>, IHaveCustomMappings
-    {
-        public string FirstName { get; set; }
+	public class UserServiceModel : IMapTo<User>
+	{
+		public string FirstName { get; set; }
 
-        public string LastName { get; set; }
+		public string LastName { get; set; }
 
-        public int TestDrivesCount { get; set; }
+		public string Email { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<User, UserServiceModel>()
-                .ForMember(dest => dest.TestDrivesCount, opt => opt.MapFrom(src => src.TestDrives.Count()));
-        }
-    }
+		public string UserName { get; set; }
+	}
 }

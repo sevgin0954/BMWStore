@@ -58,7 +58,7 @@ namespace BMWStore.Services.AdminServices
             RepositoryValidator.ValidateCompleteChanges(rowsAffected);
         }
 
-        public async Task<IQueryable<UserServiceModel>> GetSortedUsersAsync(
+        public async Task<IQueryable<UserConciseServiceModel>> GetSortedUsersAsync(
             IUserSortStrategy sortStrategy,
             int pageNumber)
         {
@@ -69,16 +69,16 @@ namespace BMWStore.Services.AdminServices
 
             var sortedUserModels = sortStrategy.Sort(dbUsers)
                 .GetFromPage(pageNumber, WebConstants.PageSize)
-                .To<UserServiceModel>();
+                .To<UserConciseServiceModel>();
 
             return sortedUserModels;
         }
 
-        public async Task<UserServiceModel> GetUserByIdAsync(string id)
+        public async Task<UserConciseServiceModel> GetUserByIdAsync(string id)
         {
             var model = await this.userRepository
                 .FindAll(id)
-                .To<UserServiceModel>()
+                .To<UserConciseServiceModel>()
                 .FirstOrDefaultAsync();
             DataValidator.ValidateNotNull(model, new ArgumentException(ErrorConstants.IncorrectId));
 

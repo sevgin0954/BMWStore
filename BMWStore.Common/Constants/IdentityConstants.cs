@@ -2,7 +2,7 @@
 {
     public class IdentityConstants
     {
-        public const string AdminEmail = "Admin@abv.bg";
-        public const string AdminPassword = "Admin123";
+        public const string AdminEmail = "admin@abv.bg";
+        public const string AdminPassword = "Welcome123";
     }
 }

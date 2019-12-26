@@ -1,6 +1,7 @@
 ﻿using BMWStore.Common.Constants;
 using BMWStore.Common.Enums;
 using BMWStore.Services.Interfaces;
+using BMWStore.Services.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,10 +39,19 @@ namespace BMWStore.Web
                         .SeedRolesAsync(WebConstants.AdminRoleName, WebConstants.UserRoleName, WebConstants.SupportRoleName)
                         .GetAwaiter()
                         .GetResult();
+
+                    var userModel = new UserServiceModel()
+                    {
+                        Email = IdentityConstants.AdminEmail,
+                        FirstName = IdentityConstants.AdminEmail,
+                        LastName = IdentityConstants.AdminEmail,
+                        UserName = IdentityConstants.AdminEmail
+                    };
                     seedDbUsersService
-                        .SeedUserAsync(IdentityConstants.AdminPassword, IdentityConstants.AdminEmail, WebConstants.AdminRoleName)
+                        .SeedUserAsync(userModel, IdentityConstants.AdminPassword, WebConstants.AdminRoleName)
                         .GetAwaiter()
                         .GetResult();
+
                     seedDbStatusesService
                         .SeedTestDriveStatusesAsync(Enum.GetNames(typeof(TestDriveStatus)))
                         .GetAwaiter()

@@ -12,7 +12,7 @@ namespace BMWStore.Services.Models
         public BaseCarServiceModel Car { get; set; }
 
         public string UserId { get; set; }
-        public UserServiceModel User { get; set; }
+        public UserConciseServiceModel User { get; set; }
 
         public string StatusId { get; set; }
         public StatusServiceModel Status { get; set; }

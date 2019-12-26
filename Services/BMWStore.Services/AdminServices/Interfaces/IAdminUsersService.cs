@@ -9,10 +9,10 @@ namespace BMWStore.Services.AdminServices.Interfaces
     {
         Task BanUserAsync(string userId);
         Task DeleteAsync(string userId);
-        Task<IQueryable<UserServiceModel>> GetSortedUsersAsync(
+        Task<IQueryable<UserConciseServiceModel>> GetSortedUsersAsync(
             IUserSortStrategy sortStrategy,
             int pageNumber);
-        Task<UserServiceModel> GetUserByIdAsync(string id);
+        Task<UserConciseServiceModel> GetUserByIdAsync(string id);
         Task UnbanUserAsync(string userId);
     }
 }
