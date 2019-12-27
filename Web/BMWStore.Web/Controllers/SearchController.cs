@@ -14,30 +14,34 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BMWStore.Models.SearchModels.BindingModels;
 
 namespace BMWStore.Web.Controllers
 {
     public class SearchController : Controller
     {
         private readonly ICarsService carsService;
-        private readonly ICarRepository carRepository;
         private readonly ICookiesService cookiesService;
 		private readonly ICarTestDriveService carTestDriveService;
 
 		public SearchController(
-			ICarsService carsService, 
-			ICarRepository carRepository, 
+			ICarsService carsService,
 			ICookiesService cookiesService,
 			ICarTestDriveService carTestDriveService)
         {
             this.carsService = carsService;
-            this.carRepository = carRepository;
             this.cookiesService = cookiesService;
 			this.carTestDriveService = carTestDriveService;
 		}
 
         [HttpGet]
-        public async Task<IActionResult> Index(string keyWords = "", int pageNumber = 1)
+        public IActionResult Index()
+        {
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(SearchBindingModel model)
         {
             var cookie = this.HttpContext.Request.Cookies;
 
@@ -51,7 +55,7 @@ namespace BMWStore.Web.Controllers
                 .GetStrategy<BaseCar>(sortType, sortDirection);
 
             var splitedKeyWords = ParameterParser
-                .ParseSearchKeyWordsParameter(keyWords, WebConstants.MinSearchKeyWordLength)
+                .ParseSearchKeyWordsParameter(model.KeyWords, WebConstants.MinSearchKeyWordLength)
                 .Distinct()
                 .ToArray();
             var filterStrategies = CarSearchFilterStrategyFactory.GetStrategies(splitedKeyWords);
@@ -64,24 +68,24 @@ namespace BMWStore.Web.Controllers
                 var filteredAndSortedCars = sortStrategy.Sort(filteredCars);
 
                 carViewModels = await (await this.carTestDriveService
-					.GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, pageNumber))
+					.GetCarTestDriveModelAsync<CarConciseTestDriveServiceModel>(filteredAndSortedCars, this.User, model.PageNumber))
                     .To<CarInventoryConciseViewModel>()
                     .ToArrayAsync();
 
                 totalPagesCount = await PaginationHelper.CountTotalPagesCountAsync(filteredCars);
             }
 
-            var model = new CarSearchViewModel()
+            var searchModel = new CarSearchViewModel()
             {
                 Cars = carViewModels,
                 SortStrategyDirection = sortDirection,
                 SortStrategyType = sortType,
-                CurrentPage = pageNumber,
+                CurrentPage = model.PageNumber,
                 TotalPagesCount = totalPagesCount,
                 KeyWords = splitedKeyWords
             };
 
-            return View(model);
+            return View(searchModel);
         }
 
         [HttpPost]

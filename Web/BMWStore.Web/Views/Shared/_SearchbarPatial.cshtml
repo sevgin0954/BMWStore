@@ -1,7 +1,13 @@
-﻿<form class="form-inline" method="get" asp-controller="Search" asp-action="Index">
+﻿@{ 
+	var minLength = EntitiesConstants.SearchKeyWordsMinLength;
+    var maxLength = EntitiesConstants.SearchKeyWordsMaxLength;
+}
+
+<form class="form-inline" method="post" asp-controller="Search" asp-action="Index">
     <div class="background-white input-group border-radius-smooth">
         <div class="form-control no-border border-radius-smooth">
-            <input name="keyWords" class="no-border no-outline" type="search" placeholder="Search..." />
+            <input required name="keyWords" class="no-border no-outline" type="search" placeholder="Search..." 
+                   minLength="@minLength" maxlength="@maxLength" />
         </div>
         <div class="input-group-append no-border">
             <button class="btn no-border no-outline">
