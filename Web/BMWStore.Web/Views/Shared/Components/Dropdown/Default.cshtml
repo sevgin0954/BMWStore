@@ -18,13 +18,14 @@
         {
             if (strategyTypeName != Model.SelectedSortName)
             {
+                var inputId = Guid.NewGuid();
                 parms[Model.ParameterName] = strategyTypeName;
                 <form method="@Model.MethodType"
                       asp-area="@Model.AreaName"
                       asp-controller="@Model.ControllerName"
                       asp-action="@Model.ActionName"
                       asp-all-route-data="@parms">
-                    <input asp-for="ReturnUrl" hidden />
+                    <input id="@inputId" asp-for="ReturnUrl" hidden />
                     <button type="submit" class="dropdown-item">
                         @Html.Raw(IconLinks.SortTypeIconLink[strategyTypeName])
                         @strategyTypeName

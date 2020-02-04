@@ -60,5 +60,7 @@
         public const string ReturnActionName = "returnAction";
 
         public const int UserBanDays = 356;
+
+        public const string XFrameOptionsHeader = "X-Frame-Options";
     }
 }

@@ -20,6 +20,7 @@ using BMWStore.Services.AdminServices;
 using BMWStore.Services.Interfaces;
 using BMWStore.Web.Filters;
 using BMWStore.Services.Models;
+using BMWStore.Web.Middlewares;
 
 namespace BMWStore.Web
 {
@@ -102,6 +103,8 @@ namespace BMWStore.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseResponseXFrame();
 
             app.UseAuthentication();
 
