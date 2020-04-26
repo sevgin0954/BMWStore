@@ -2,7 +2,7 @@
 
 
 <section>
-  <h2>Login credential</h2>
+  <h3>Login credential</h3>
   
   Admin Email: admin@abv.bg
   Admin Password: Welcome123
