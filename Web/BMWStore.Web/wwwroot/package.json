@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "cloudinary-core": "^2.8.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   }
 }
